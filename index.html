@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thai Typing Master - Modern & Clean</title>
+    <title>Thai Typing Master - Full Features</title>
     <link rel="icon" type="image/png" href="https://img2.pic.in.th/imageae5557eb3dd57c75.png">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -27,350 +27,319 @@
             color: var(--text-dark);
         }
 
-        .main-container {
-            width: 95%;
-            max-width: 1100px;
-            text-align: center;
-        }
+        .main-container { width: 95%; max-width: 1100px; text-align: center; display: none; position: relative; }
 
-        h1 {
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 30px;
-            letter-spacing: -1px;
-        }
+        .top-actions { position: absolute; top: -50px; right: 0; display: flex; gap: 10px; }
+        .btn-top { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; }
 
-        /* กล่องพื้นที่พิมพ์ */
+        h1 { font-weight: 700; color: var(--primary); margin-bottom: 30px; letter-spacing: -1px; }
+
         .typing-card {
-            background: var(--card);
-            padding: 50px;
-            border-radius: 24px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04);
-            border: 1px solid rgba(0,0,0,0.05);
-            margin-bottom: 30px;
-            position: relative;
+            background: var(--card); padding: 50px; border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); margin-bottom: 30px; position: relative;
         }
 
-        .display-window {
-            height: 140px;
-            overflow: hidden;
-            position: relative;
-            margin-bottom: 40px;
-        }
-
+        .display-window { height: 140px; overflow: hidden; position: relative; margin-bottom: 40px; }
+        
         #wordContainer {
-            position: absolute;
-            top: 0; left: 0; width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: left;
+            position: absolute; top: 0; left: 0; width: 100%; display: flex; flex-wrap: wrap;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: left;
         }
 
-        .word {
-            font-size: 44px;
-            line-height: 75px;
-            margin-right: 18px;
-            color: var(--text-light);
-            padding: 0 12px;
-            border-radius: 8px;
-            transition: all 0.2s;
-        }
-
-        /* ไฮไลท์คำปัจจุบัน */
-        .word.current {
-            background-color: var(--highlight);
-            color: #000;
-            font-weight: 600;
-            box-shadow: 0 4px 12px rgba(255, 212, 59, 0.4);
-        }
-
-        .word.correct { color: #10b981; }
+        .word { font-size: 44px; line-height: 75px; margin-right: 18px; color: var(--text-light); padding: 0 12px; border-radius: 8px; transition: all 0.2s; }
+        .word.current { background-color: var(--highlight); color: #000; font-weight: 600; box-shadow: 0 4px 12px rgba(255, 212, 59, 0.4); }
+        .word.correct { color: white; }
         .word.wrong { color: #ef4444; text-decoration: line-through; }
 
-        /* ส่วนควบคุม */
-        .controls-row {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
+        .controls-row { display: flex; gap: 20px; align-items: center; }
         #userInput {
-            flex: 1;
-            font-family: 'Sarabun', sans-serif;
-            font-size: 28px;
-            padding: 18px 25px;
-            border: 2px solid #e2e8f0;
-            border-radius: 16px;
-            outline: none;
-            transition: all 0.2s;
-            background: #f1f5f9;
+            flex: 1; font-family: 'Sarabun', sans-serif; font-size: 28px; padding: 18px 25px;
+            border: 2px solid #e2e8f0; border-radius: 16px; outline: none; background: #f1f5f9;
         }
 
-        #userInput:focus {
-            border-color: var(--primary);
-            background: #fff;
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
-        }
+        .timer-badge { background: var(--primary); color: white; padding: 15px 35px; border-radius: 16px; font-size: 32px; font-weight: 700; min-width: 70px; }
+        .btn-refresh { background: #fff; border: 2px solid #e2e8f0; width: 70px; height: 70px; border-radius: 16px; cursor: pointer; font-size: 28px; color: var(--text-light); }
 
-        .timer-badge {
-            background: var(--text-dark);
-            color: white;
-            padding: 15px 35px;
-            border-radius: 16px;
-            font-size: 32px;
-            font-weight: 700;
-            min-width: 70px;
-        }
-
-        .btn-refresh {
-            background: #fff;
-            border: 2px solid #e2e8f0;
-            width: 70px; height: 70px;
-            border-radius: 16px;
-            cursor: pointer;
-            font-size: 28px;
-            transition: all 0.2s;
-            color: var(--text-light);
-        }
-        .btn-refresh:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: #f5f3ff;
-        }
-
-        /* --- POPUP MODAL (ดีไซน์เดิมที่คุณต้องการแต่สวยขึ้น) --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(8px);
-            display: none;
-            justify-content: center; align-items: center;
-            z-index: 1000;
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px);
+            display: none; justify-content: center; align-items: center; z-index: 1000;
         }
 
         .modal-card {
-            background: white;
-            width: 90%; max-width: 480px;
-            padding: 40px;
-            border-radius: 30px;
-            text-align: center;
-            animation: slideUp 0.4s ease-out;
+            background: white; width: 90%; max-width: 550px; padding: 40px;
+            border-radius: 30px; text-align: center; max-height: 85vh; overflow-y: auto;
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        .stat-box { background: #f8fafc; padding: 12px; border-radius: 15px; border: 1px solid #eee; }
+        .stat-val { font-size: 28px; font-weight: 700; color: var(--primary); }
+        .stat-label { font-size: 13px; color: #64748b; }
 
-        .modal-card h2 { font-size: 28px; margin-top: 0; }
+        .rank-badge { background: #ffd43b; color: #000; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 18px; margin-bottom: 10px; display: inline-block; }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 30px 0;
-        }
-        .stat-box { background: #f8fafc; padding: 20px; border-radius: 20px; }
-        .stat-label { font-size: 14px; color: var(--text-light); text-transform: uppercase; }
-        .stat-val { font-size: 42px; font-weight: 700; color: var(--primary); }
+        .rank-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; text-align: left; }
+        .rank-table tr { border-bottom: 1px solid #eee; }
+        .rank-table td, .rank-table th { padding: 10px; }
+        .active-rank { background: #fff1f2; font-weight: bold; }
 
-        .rank-badge {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 20px;
-            margin-bottom: 25px;
-            display: inline-block;
-        }
-
-        .rank-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-            font-size: 15px;
-        }
-        .rank-table tr { border-bottom: 1px solid #f1f5f9; }
-        .rank-table td { padding: 10px; text-align: left; color: var(--text-light); }
-        .rank-table tr.active { background: #f5f3ff; color: var(--primary); font-weight: 700; }
-        .rank-table tr.active td { color: var(--primary); }
-
-        .btn-restart-big {
-            background: var(--primary);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 18px;
-            border-radius: 15px;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-restart-big:hover { background: #4338ca; }
-
+        #authSection { background: #000; padding: 40px; border-radius: 24px; width: 320px; text-align: center; color: white; }
+        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #111; color: white; box-sizing: border-box; }
+        .btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        
+        .sync-status { font-size: 12px; color: #666; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-<div class="main-container">
-    <h1>ที่หัดพิมพ์สำหรับคนโก้งๆ By.HY</h1>
+<div id="authSection">
+    <h2 style="color:red">⌨️ เข้าสู่ระบบการพิมพ์โก้งๆ</h2>
+    <input type="text" id="usernameInput" class="auth-input" placeholder="ใส่ชื่อของมึงกูจะบันทึก">
+    <input type="password" id="passwordInput" class="auth-input" placeholder="รหัสผ่านของมึง จำให้ได้ด้วยล่ะ">
+    <button class="btn-main" onclick="handleAuth()">เริ่มฝึกพิมพ์โก้งๆเลยๆ</button>
+</div>
+
+<div class="main-container" id="gameMain">
+    <div class="top-actions">
+        <button class="btn-top" onclick="showRanking()">🏆 อันดับรวมขอพวกมึง</button>
+        <button class="btn-top" onclick="handleLogout()">🚪 ออกจากระบบ</button>
+    </div>
+    
+    <div style="display:flex; justify-content: space-between; margin-bottom: 10px; color: white; font-size: 14px;">
+        <span>👤 ผู้เล่นโก้งๆ: <b id="displayUser" style="color:var(--highlight)"></b></span>
+        <span>🏆 สูงสุดของมึง: <b id="bestWPM" style="color:var(--highlight)">0</b> WPM</span>
+    </div>
+
+    <h1>ที่หัดพิมพ์สำหรับคนโก้งๆ ว่างๆ</h1>
 
     <div class="typing-card">
         <div class="display-window">
             <div id="wordContainer"></div>
         </div>
-
         <div class="controls-row">
-            <input type="text" id="userInput" placeholder="รีบพิมพ์ อย่าแอ็ค" autocomplete="off" autofocus>
+            <input type="text" id="userInput" placeholder="รีบพิมพ์ อย่าแอ็ค" autocomplete="off">
             <div class="timer-badge" id="timer">60</div>
             <button class="btn-refresh" onclick="resetGame()">↻</button>
         </div>
     </div>
 </div>
 
-<div class="modal-overlay" id="modal">
+<div class="modal-overlay" id="resultModal">
     <div class="modal-card">
         <h2>สรุปคะแนนของมึง</h2>
+        <div class="rank-badge" id="resRankBadge">ระดับ</div>
         
-        <div class="rank-badge" id="resRankBadge">มือใหม่กากๆ</div>
-
         <div class="stats-grid">
-            <div class="stat-box">
-                <div class="stat-label">WPM</div>
-                <div class="stat-val" id="resWpm">0</div>
-            </div>
-            <div class="stat-box">
-                <div class="stat-label">แม่นยำ</div>
-                <div class="stat-val" id="resAcc">0%</div>
-            </div>
+            <div class="stat-box"><div class="stat-label">WPM</div><div class="stat-val" id="resWpm">0</div></div>
+            <div class="stat-box"><div class="stat-label">ความแม่นยำเหยดๆ</div><div class="stat-val" id="resAcc">0%</div></div>
+            <div class="stat-box"><div class="stat-label">พิมพ์ถูกเทพ (คำ)</div><div class="stat-val" style="color:#10b981" id="resCorrect">0</div></div>
+            <div class="stat-box"><div class="stat-label">พิมพ์ผิดกาก (คำ)</div><div class="stat-val" style="color:#ef4444" id="resWrong">0</div></div>
+            <div class="stat-box" style="grid-column: span 2;"><div class="stat-label">พิมพ์คำโก้งๆไป (ครั้ง)</div><div class="stat-val" style="color:#3b82f6" id="resAttempts">0</div></div>
         </div>
 
-        <table class="rank-table" id="rankTable">
-            <tr data-min="0" data-max="25"><td>< 25 WPM</td><td>🐢 พิมพ์เป็นไหม กากว่ะ</td></tr>
-            <tr data-min="26" data-max="40"><td>26 - 40</td><td>🐣 กำลังหัดพิมพ์ติ</td></tr>
-            <tr data-min="41" data-max="55"><td>41 - 55</td><td>🐎 เริ่มสิเก่งละๆ</td></tr>
-            <tr data-min="56" data-max="75"><td>56 - 75</td><td>🐆 มึงกะเก่งโพด</td></tr>
-            <tr data-min="76" data-max="100"><td>76 - 100</td><td>🚀 มึงกะสุดเกินๆ</td></tr>
-            <tr data-min="101" data-max="999"><td>100+</td><td>👽 มหาเทพละๆ</td></tr>
-        </table>
+        <div id="syncStatus" class="sync-status">กำลังส่งข้อมูลไปบันทึกนะไอ้สัส</div>
+        <button class="btn-main" onclick="resetGame()">เล่นใหม่อีกครั้งดิ</button>
+    </div>
+</div>
 
-        <button class="btn-restart-big" onclick="resetGame()">เล่นใหม่อีกครั้ง</button>
+<div class="modal-overlay" id="rankingModal">
+    <div class="modal-card">
+        <h2>📊 อันดับความโก้งของเว็บกู</h2>
+        <table class="rank-table">
+            <thead><tr><th>#</th><th>ชื่อ</th><th>WPM</th><th>ระดับ</th></tr></thead>
+            <tbody id="lbBody"></tbody>
+        </table>
+        <button class="btn-main" style="background:#666; margin-top:20px;" onclick="closeModal('rankingModal')">ปิด</button>
     </div>
 </div>
 
 <script>
-    const fullWordList = ["ท่อ", "ชวน", "ทวี", "ตัดสิน", "ชอบ", "โคม", "กรุงเทพฯ", "เฉพาะ", "ข้าราชการ", "งาน", "ตรง", "ตุลาคม", "ขึ้น", "ขวาง", "เกณฑ์", "ช้า", "คูณ", "ดง", "กระดูก", "เท้า", "ซิ", "เทียบ", "ชีพ", "ชิง", "นั่น", "จับ", "ชั่ว", "ทาน", "ใกล้", "ด้วย", "ตรวจ", "ทำไม", "กล้า", "ชัวร์", "เทียม", "คู", "ฉัน", "คลาย", "ธรรม", "กลาง", "ตัด", "นั่ง", "จำนวน", "จำพวก", "จริต", "จ้าง", "ชายหาด", "ทั้ง", "ท้อง", "ใต้", "ทูน", "เดือด", "ข้อ", "เตรียม", "ที่", "จำ", "แดด", "กระทำ", "ทั้งปวง", "ตาม", "จึง", "ต้น", "ช้าง", "ทัน", "เชื้อ", "เดี๋ยว", "คับ", "กล่าว", "เที่ยง", "นักปราชญ์", "โต๊ะ", "คลุม", "ตรา", "ไต่", "ค่า", "ทหาร", "กฎหมาย", "แจ้ง", "ขัง", "ขาด", "เจริญ", "ข้าง", "กว้าง", "ดับ", "ชาติ", "กันยายน", "ไกล", "เคลื่อน", "แกะ", "ต่อ", "เดี๋ยวนี้", "ครั้ง", "ดวง", "ขอบ", "เกือบ", "กับ", "ถูก", "แถว", "งาม", "ทาบ", "ขา", "ใคร", "ตน", "ค่ำ", "ชา", "เตียง", "กะ", "แจง", "ดำ", "ทิ้ง", "ขยาย", "จัก", "ด้าน", "ถวาย", "คอ", "การ", "กร", "กำหนด", "จัด", "เกี่ยว", "ธง", "ช่อง", "เกิน", "ดื่ม", "ติด", "ต้อง", "ตัวอย่าง", "ทั้งหลาย", "ช่าง", "ทองคำ", "กาง", "จบ", "คณะ", "ทิศ", "กระดาษ", "เขา", "จด", "ตู้", "เคย", "คะ", "ธรรม", "เกี่ยวข้อง", "กระดาน", "ทรัพย์", "ต้าน", "ธรรมดา", "ถนน", "ซีก", "แขก", "ควร", "ไข้", "กิน", "กี่", "ขัด", "กว่า", "ช่วย", "ท้าว", "ซ้ำ", "เท่าไร", "เคียง", "นอน", "ชนวน", "ดิน", "ครั้น", "จง", "โจทย์", "กาย", "กรุง", "ครอง", "ควาย", "โกรธ", "ซึ่ง", "เท็จ", "นักเรียน", "โชค", "ขด", "เด็ก", "เช่น", "ซื่อ", "ขี่", "จริง", "คอย", "ขน", "คดี", "ไข", "โดย", "ขัน", "ชลประทาน", "จาก", "แทน", "กา", "ที", "แท้", "ทาย", "เกลา", "ถ้อย", "จิต", "คราว", "เครื่อง", "ข้าม", "เข้าหู", "เกาะ", "แจ่ม", "จม", "ครอบครัว", "เดือน", "ซ้าย", "เงิน", "ข้าพเจ้า", "คน", "ดำเนิน", "ตำ", "กู้", "ท้าย", "จักร", "ชน", "ก่อ", "ตระกูล", "เขียน", "เขียว", "นอกจาก", "เธอ", "แข่ง", "ดี", "เตือน", "เงียบ", "เขต", "กรรมการ", "ค่ะ", "ฉะนั้น", "โทษ", "ความ", "ข้าว", "กุมาร", "ชัก", "จัง", "ขณะ", "กัน", "จันทร์", "ขวด", "เที่ยว", "จีน", "ฉะนี้", "จะ", "ข้าศึก", "ใช่", "ทอด", "ตั้ง", "ธรรมเนียม", "ครู", "กาชาด", "ตัว", "ทูต", "ตก", "ดุจ", "ถอย", "เช้า", "นม", "ก็", "ดาว", "ทรง", "ทราบ", "กระจาย", "ทำลาย", "ทา", "ธาตุ", "ทดลอง", "ทับ", "ชนะ", "ตะวัน", "ก้อน", "กระนั้น", "โง่", "ใด", "แก้", "คำ", "ตาย", "กิริยา", "นัก", "ค้า", "ชี้", "คืน", "ชั่วโมง", "แตก", "ได้", "ต่ำ", "ฉลาด", "ไก่", "งอก", "จ่าย", "ค้น", "ไถ", "ค่อย", "ขาย", "ขีด", "ฉบับ", "กลม", "ชัด", "ธันวาคม", "ตะเกียง", "เดิน", "ญี่ปุ่น", "ไทย", "คือ", "ชีวิต", "ข่าว", "ญาติ", "ทุกข์", "ชนิด", "ทีเดียว", "ทัพ", "จน", "ทะเล", "เชื่อ", "เท", "ครบ", "ใช้", "เกิด", "กระด้าง", "ขนาด", "กรรม", "ถ้า", "เดิม", "เทวดา", "กรกฎาคม", "เก้าอี้", "ก่อน", "ชื่อ", "กุมาร", "แต่ง", "ตรัส", "จูบ", "ทุ่ง", "ทุก", "ตำแหน่ง", "ชั้น", "เคือง", "ซ่อน", "ง่าย", "ขับ", "ตลอด", "เกล้า", "นอก", "ทั่ว", "ตลาด", "จังหวัด", "ถาม", "ตา", "ขอรับ", "เถิด", "เถียง", "แก้ว", "เจ็ด", "กำลัง", "เจ้า", "กรม", "ถั่ว", "กลับ", "แดง"];
+    // อัปเดต URL ตามที่คุณให้มา
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw0JR-Rrt05HcgmGuOSbHB0GC4eeMCt4TQwWvAdbv6bHuOxmejpAnh2vSNl1Jdv6VEv/exec";
+    
+    const fullWordList = ["ท่อ", "ชวน", "ทวี", "ตัดสิน", "ชอบ", "โคม", "เฉพาะ", "งาน", "ตรง", "ตุลาคม", "ขึ้น", "ขวาง", "เกณฑ์", "ช้า", "คูณ", "ดง", "กระดูก", "เท้า", "ซิ", "เทียบ", "ชีพ", "ชิง", "จับ", "ชั่ว", "ใกล้", "ด้วย", "ตรวจ", "ทำไม", "กล้า", "ชัวร์", "ฉัน", "คลาย", "ธรรม", "กลาง", "ตัด", "นั่ง", "จำนวน", "จริต", "ทั้ง", "ท้อง", "ใต้", "เดือด", "จำ", "แดด", "ตาม", "จึง", "ต้น", "ช้าง", "ทัน", "เชื้อ", "เดี๋ยว", "คับ", "กล่าว", "เที่ยง", "โต๊ะ", "คลุม", "ตรา", "ค่า", "ทหาร", "แจ้ง", "ขัง", "ขาด", "เจริญ", "ข้าง", "กว้าง", "ดับ", "ชาติ", "ไกล", "แกะ", "ต่อ", "ดวง", "ขอบ", "ถูก", "แถว", "งาม", "ขา", "ใคร", "ตน", "ค่ำ", "ชา", "เตียง", "แจง", "ดำ", "ทิ้ง", "ขยาย", "จัก", "ด้าน", "ถวาย", "คอ", "การ", "ธง", "ช่อง", "เกิน", "ดื่ม", "ติด", "ต้อง", "ช่าง", "ทองคำ", "จบ", "คณะ", "ทิศ", "เขา", "จด", "ตู้", "เคย", "คะ", "ถนน", "ควร", "กิน", "กี่", "ขัด", "กว่า", "ช่วย", "ซ้ำ", "นอน", "ดิน", "จง", "กาย", "กรุง", "ครอง", "ซึ่ง", "โชค", "เด็ก", "เช่น", "ซื่อ", "ขี่", "จริง", "คอย", "ขน", "คดี", "ไข", "โดย", "ขัน", "จาก", "แทน", "กา", "ที", "แท้", "ทาย", "จิต", "เครื่อง", "ข้าม", "เกาะ", "จม", "เดือน", "ซ้าย", "เงิน", "คน", "ตำ", "กู้", "ท้าย", "ชน", "ก่อ", "ดี", "เตือน", "เงียบ", "เขต", "โทษ", "ความ", "ข้าว", "ชัก", "จัง", "ขณะ", "กัน", "จันทร์", "ขวด", "เที่ยว", "จีน", "จะ", "ใช่", "ทอด", "ตั้ง", "ครู", "ตัว", "ตก", "ถอย", "เช้า", "นม", "ก็", "ดาว", "ทรง", "ทราบ", "ทา", "ธาตุ", "ชนะ", "ก้อน", "โง่", "แก้", "คำ", "ตาย", "นัก", "ค้า", "ชี้", "คืน", "แตก", "ได้", "ต่ำ", "ไก่", "งอก", "จ่าย", "ค้น", "ค่อย", "ขาย", "ขีด", "กลม", "ชัด", "เดิน", "ไทย", "คือ", "ชีวิต", "ข่าว", "ญาติ", "ทุกข์", "ชนิด", "จน", "ทะเล", "เชื่อ", "เท", "ใช้", "เกิด", "ขนาด", "กรรม", "ถ้า", "เดิม", "ชื่อ", "แต่ง", "ทุ่ง", "ทุก", "ชั้น", "ง่าย", "ขับ", "ตลอด", "นอก", "ตลาด", "จังหวัด", "ถาม", "ตา", "เถียง", "แก้ว", "เจ็ด", "เจ้า", "กรม", "ถั่ว", "กลับ", "แดง"];
 
     let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
-    let correctCount = 0, totalChars = 0, correctChars = 0;
+    let correctCount = 0, wrongCount = 0, totalTypeAttempts = 0, totalChars = 0, correctChars = 0, currentUser = "";
 
-    const container = document.getElementById('wordContainer');
-    const input = document.getElementById('userInput');
-    const timerDisplay = document.getElementById('timer');
-    const modal = document.getElementById('modal');
+    window.onload = function() {
+        const savedUser = localStorage.getItem('isLoggedIn');
+        if (savedUser) {
+            currentUser = savedUser;
+            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+            showGame(savedUser, db[savedUser] ? db[savedUser].best : 0);
+        }
+    };
+
+    function getRank(wpm) {
+        if (wpm < 25) return "🐢 อันนี้พิมพ์เป็นไหมวะ กากว่ะ";
+        if (wpm <= 40) return "🐣 โหนี่มึงหัดพิมพ์หรอ?";
+        if (wpm <= 55) return "🐎 เหยดๆ เริ่มเก่งละว่ะ";
+        if (wpm <= 75) return "🚀 โหดจัดรัสเซีย แม่เย็ด";
+        if (wpm <= 100) return "👽 สุดเกินว่ะใครจะแข่งกับมึง";
+        return "👽 มนุษย์ต่างดาว";
+    }
+
+    function handleAuth() {
+        const user = document.getElementById('usernameInput').value.trim();
+        const pass = document.getElementById('passwordInput').value.trim();
+        if(!user || !pass) return alert("กรอกข้อมูลให้ครบ!");
+        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+        if(db[user] && db[user].pass !== pass) return alert("รหัสผ่านผิด!");
+        if(!db[user]) db[user] = { pass: pass, best: 0 };
+        localStorage.setItem('typingDB_Final', JSON.stringify(db));
+        localStorage.setItem('isLoggedIn', user);
+        currentUser = user;
+        showGame(user, db[user].best);
+    }
+
+    function showGame(user, best) {
+        document.getElementById('displayUser').innerText = user;
+        document.getElementById('bestWPM').innerText = best;
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('gameMain').style.display = 'block';
+        init();
+    }
+
+    function handleLogout() {
+        localStorage.removeItem('isLoggedIn');
+        location.reload();
+    }
+
+    function showRanking() {
+        document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>กำลังดึงข้อมูล...</td></tr>";
+        document.getElementById('rankingModal').style.display = 'flex';
+
+        fetch(SCRIPT_URL)
+        .then(res => res.json())
+        .then(data => {
+            data.sort((a, b) => b.wpm - a.wpm);
+            let html = "";
+            data.slice(0, 50).forEach((row, i) => {
+                html += `<tr class="${row.username === currentUser ? 'active-rank' : ''}">
+                    <td>${i+1}</td>
+                    <td>${row.username}</td>
+                    <td>${row.wpm}</td>
+                    <td>${getRank(row.wpm)}</td>
+                </tr>`;
+            });
+            document.getElementById('lbBody').innerHTML = html || "<tr><td colspan='4'>ไม่มีข้อมูล</td></tr>";
+        })
+        .catch(() => {
+            document.getElementById('lbBody').innerHTML = "<tr><td colspan='4'>โหลดข้อมูลไม่สำเร็จ</td></tr>";
+        });
+    }
+
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
     function init() {
         words = [...fullWordList].sort(() => Math.random() - 0.5);
-        container.innerHTML = words.map((w, i) => `<span class="word" id="w-${i}">${w}</span>`).join('');
-        currentIdx = 0;
-        timeLeft = 60;
-        isStarted = false;
-        correctCount = 0;
-        totalChars = 0;
-        correctChars = 0;
-        input.value = '';
-        input.disabled = false;
-        timerDisplay.innerText = 60;
-        modal.style.display = 'none';
-        container.style.transform = `translateY(0)`;
+        document.getElementById('wordContainer').innerHTML = words.map((w, i) => `<span class="word" id="w-${i}">${w}</span>`).join('');
+        currentIdx = 0; timeLeft = 60; isStarted = false; 
+        correctCount = 0; wrongCount = 0; totalTypeAttempts = 0; totalChars = 0; correctChars = 0;
+        document.getElementById('userInput').value = '';
+        document.getElementById('userInput').disabled = false;
+        document.getElementById('timer').innerText = 60;
+        document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
+        document.getElementById('wordContainer').style.transform = `translateY(0)`;
         updateFocus();
     }
 
     function updateFocus() {
         document.querySelectorAll('.word.current').forEach(el => el.classList.remove('current'));
         const active = document.getElementById(`w-${currentIdx}`);
-        if (active) {
+        if(active) {
             active.classList.add('current');
-            if (active.offsetTop > 20) {
-                container.style.transform = `translateY(-${active.offsetTop}px)`;
-            } else {
-                container.style.transform = `translateY(0)`;
-            }
+            if(active.offsetTop > 40) document.getElementById('wordContainer').style.transform = `translateY(-${active.offsetTop - 10}px)`;
         }
     }
 
-    input.addEventListener('input', () => {
-        if (!isStarted && input.value.trim().length > 0) {
+    document.getElementById('userInput').addEventListener('input', () => {
+        if(!isStarted && document.getElementById('userInput').value.length > 0) {
             isStarted = true;
             timer = setInterval(() => {
                 timeLeft--;
-                timerDisplay.innerText = timeLeft;
-                if (timeLeft <= 0) endGame();
+                document.getElementById('timer').innerText = timeLeft;
+                if(timeLeft <= 0) endGame();
             }, 1000);
         }
     });
 
-    input.addEventListener('keydown', (e) => {
-        if (e.key === ' ' || e.key === 'Enter') {
+    document.getElementById('userInput').addEventListener('keydown', (e) => {
+        if(e.key === ' ' || e.key === 'Enter') {
             e.preventDefault();
-            const val = input.value.trim();
-            if (!val) return;
-
+            const val = document.getElementById('userInput').value.trim();
+            if(!val) return;
+            
+            totalTypeAttempts++; // นับครั้งที่กดส่ง
             const target = words[currentIdx];
-            const el = document.getElementById(`w-${currentIdx}`);
-
             totalChars += target.length;
-            if (val === target) {
-                el.classList.add('correct');
-                correctCount++;
-                correctChars += target.length;
-            } else {
-                el.classList.add('wrong');
+            
+            if(val === target) { 
+                document.getElementById(`w-${currentIdx}`).classList.add('correct'); 
+                correctCount++; 
+                correctChars += target.length; 
+            } else { 
+                document.getElementById(`w-${currentIdx}`).classList.add('wrong'); 
+                wrongCount++;
             }
-
-            currentIdx++;
-            input.value = '';
+            currentIdx++; document.getElementById('userInput').value = '';
             updateFocus();
         }
     });
 
     function endGame() {
         clearInterval(timer);
-        input.disabled = true;
+        document.getElementById('userInput').disabled = true;
+        const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0;
+        const rankMessage = getRank(correctCount);
         
-        const wpm = correctCount;
-        const acc = totalChars > 0 ? Math.round((correctChars / totalChars) * 100) : 0;
+        // บันทึก Best ในเครื่อง
+        let db = JSON.parse(localStorage.getItem('typingDB_Final'));
+        if(correctCount > db[currentUser].best) {
+            db[currentUser].best = correctCount;
+            localStorage.setItem('typingDB_Final', JSON.stringify(db));
+            document.getElementById('bestWPM').innerText = correctCount;
+        }
 
-        document.getElementById('resWpm').innerText = wpm;
-        document.getElementById('resAcc').innerText = acc + '%';
+        // แสดงผลลัพธ์ใน Modal
+        document.getElementById('resWpm').innerText = correctCount;
+        document.getElementById('resAcc').innerText = finalAcc + "%";
+        document.getElementById('resCorrect').innerText = correctCount;
+        document.getElementById('resWrong').innerText = wrongCount;
+        document.getElementById('resAttempts').innerText = totalTypeAttempts;
+        document.getElementById('resRankBadge').innerText = rankMessage;
+        document.getElementById('resultModal').style.display = 'flex';
+        document.getElementById('syncStatus').innerText = "กำลังส่งข้อมูลไปบันทึกนะไอ้สัส";
 
-        let rankText = "";
-        const rows = document.querySelectorAll('#rankTable tr');
-        rows.forEach(row => {
-            row.classList.remove('active');
-            const min = +row.dataset.min;
-            const max = +row.dataset.max;
-            if (wpm >= min && wpm <= max) {
-                row.classList.add('active');
-                rankText = row.cells[1].innerText;
-            }
+        // ส่งข้อมูล Payload แบบละเอียด
+        const payload = {
+            username: currentUser,
+            wpm: correctCount,
+            accuracy: finalAcc,
+            correctWords: correctCount,
+            wrongWords: wrongCount,
+            totalAttempts: totalTypeAttempts,
+            rank: rankMessage
+        };
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
+            document.getElementById('syncStatus').innerText = "✅ บันทึกเรียบร้อย แม่เย็ด";
+        })
+        .catch(() => {
+            document.getElementById('syncStatus').innerText = "❌ บันทึกไม่สำเร็จไอควาย " + rankMessage;
         });
-        
-        document.getElementById('resRankBadge').innerText = rankText;
-        modal.style.display = 'flex';
     }
 
-    function resetGame() {
-        clearInterval(timer);
-        init();
-        input.focus();
+    function resetGame() { 
+        clearInterval(timer); 
+        init(); 
+        setTimeout(() => document.getElementById('userInput').focus(), 100); 
     }
-
-    init();
 </script>
-
 </body>
 </html>
