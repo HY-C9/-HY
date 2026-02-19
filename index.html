@@ -253,7 +253,7 @@ const fullWordList = [
         .then(data => {
             data.sort((a, b) => b.wpm - a.wpm);
             let html = "";
-            data.slice(0, 50).forEach((row, i) => {
+            data.slice(0, 100).forEach((row, i) => {
                 html += `<tr class="${row.username === currentUser ? 'active-rank' : ''}">
                     <td>${i+1}</td>
                     <td>${row.username}</td>
