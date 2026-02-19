@@ -109,7 +109,7 @@
     
     <div style="display:flex; justify-content: space-between; margin-bottom: 10px; color: white; font-size: 14px;">
         <span>👤 ผู้เล่นโก้งๆ: <b id="displayUser" style="color:var(--highlight)"></b></span>
-        <span>🏆 สูงสุดที่มึงสามารถทำได้: <b id="bestWPM" style="color:var(--highlight)">0</b> WPM</span>
+        <span>🏆 คะแนนล่าสุดของมึง: <b id="bestWPM" style="color:var(--highlight)">0</b> WPM</span>
     </div>
 
     <h1>ที่หัดพิมพ์สำหรับคนโก้งๆ ว่างๆ</h1>
@@ -120,7 +120,7 @@
             <div id="wordContainer"></div>
         </div>
         <div class="controls-row">
-            <input type="text" id="userInput" placeholder="รีบพิมพ์ อย่าแอ็ค" autocomplete="off">
+            <input type="text" id="userInput" placeholder="รีบพิมพ์ อย่าแอ็คเกิน" autocomplete="off">
             <div class="timer-badge" id="timer">60</div>
             <button class="btn-refresh" onclick="resetGame()">↻</button>
         </div>
@@ -135,13 +135,13 @@
         <div class="stats-grid">
             <div class="stat-box"><div class="stat-label">WPM</div><div class="stat-val" id="resWpm">0</div></div>
             <div class="stat-box"><div class="stat-label">ความแม่นยำเหยดๆ</div><div class="stat-val" id="resAcc">0%</div></div>
-            <div class="stat-box"><div class="stat-label">พิมพ์ถูกเทพว่ะ (คำ)</div><div class="stat-val" style="color:#10b981" id="resCorrect">0</div></div>
-            <div class="stat-box"><div class="stat-label">พิมพ์ผิดกากสัส (คำ)</div><div class="stat-val" style="color:#ef4444" id="resWrong">0</div></div>
-            <div class="stat-box" style="grid-column: span 2;"><div class="stat-label">พิมพ์คำโก้งๆไป (ครั้ง)</div><div class="stat-val" style="color:#3b82f6" id="resAttempts">0</div></div>
+            <div class="stat-box"><div class="stat-label">พิมพ์ถูกเทพว่ะ</div><div class="stat-val" style="color:#10b981" id="resCorrect">0</div></div>
+            <div class="stat-box"><div class="stat-label">พิมพ์ผิดกากสัส</div><div class="stat-val" style="color:#ef4444" id="resWrong">0</div></div>
+            <div class="stat-box" style="grid-column: span 2;"><div class="stat-label">พิมพ์คำโก้งๆไป</div><div class="stat-val" style="color:#3b82f6" id="resAttempts">0</div></div>
         </div>
 
         <div id="syncStatus" class="sync-status">กำลังส่งข้อมูลไปบันทึกนะไอ้สัส</div>
-        <button class="btn-main" onclick="resetGame()">ก็เล่นใหม่ดิวะ</button>
+        <button class="btn-main" onclick="resetGame()">ก็เล่นใหม่ดิวะ พอใจแล้วหรอแค่นี้</button>
     </div>
 </div>
 
@@ -188,9 +188,9 @@
     function handleAuth() {
         const user = document.getElementById('usernameInput').value.trim();
         const pass = document.getElementById('passwordInput').value.trim();
-        if(!user || !pass) return alert("กรอกข้อมูลให้ครบ!");
+        if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-        if(db[user] && db[user].pass !== pass) return alert("รหัสผ่านผิด!");
+        if(db[user] && db[user].pass !== pass) return alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!");
         if(!db[user]) db[user] = { pass: pass, best: 0 };
         localStorage.setItem('typingDB_Final', JSON.stringify(db));
         localStorage.setItem('isLoggedIn', user);
