@@ -26,31 +26,19 @@
             align-items: center;
             min-height: 100vh;
             color: var(--text-dark);
-            padding-top: 40px; /* เว้นที่ให้แถบเลื่อนข้างบน */
+            padding-top: 40px; 
         }
 
         /* แถบเลื่อน Ticker ข้างบน */
         .ticker-wrap {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 65px;
-            background-color: #000000e6;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            z-index: 9999;
+            position: fixed; top: 0; left: 0; width: 100%; height: 65px;
+            background-color: #000000e6; color: #fff; display: flex;
+            align-items: center; overflow: hidden; z-index: 9999;
             border-bottom: 2px solid var(--primary);
         }
         .ticker-content {
-            white-space: nowrap;
-            padding-left: 100%;
-            display: inline-block;
-            animation: ticker 13s linear infinite;
-            font-size: 20px;
-            font-weight: 600;
+            white-space: nowrap; padding-left: 100%; display: inline-block;
+            animation: ticker 13s linear infinite; font-size: 20px; font-weight: 600;
         }
         @keyframes ticker {
             0% { transform: translateX(0); }
@@ -59,7 +47,7 @@
 
         .main-container { width: 95%; max-width: 1100px; text-align: center; display: none; position: relative; }
 
-        .top-actions { position: absolute; top: -60px; right: 0; display: flex; gap: 10px; }
+        .top-actions { position: absolute; top: -60px; right: 0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
         .btn-top { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s;}
         .btn-top:hover { background: #555; }
         .btn-danger { background: #ef4444; }
@@ -82,13 +70,13 @@
 
         .word { font-size: 44px; line-height: 75px; margin-right: 18px; color: var(--text-light); padding: 0 12px; border-radius: 8px; transition: all 0.2s; }
         .word.current { background-color: var(--highlight); color: #000; font-weight: 600; box-shadow: 0 4px 12px rgba(255, 212, 59, 0.4); }
-        .word.correct { color: white; }
-        .word.wrong { color: #ef4444; text-decoration: line-through; }
+        .word.correct { color: green; }
+        .word.wrong { color: red; text-decoration: line-through; }
 
         .controls-row { display: flex; gap: 20px; align-items: center; }
         #userInput {
             flex: 1; font-family: 'Sarabun', sans-serif; font-size: 28px; padding: 18px 25px;
-            border: 2px solid #e2e8f0; border-radius: 16px; outline: none; background: #f1f5f9;
+            border: 2px solid #e2e8f0; border-radius: 16px; outline: none; background: #f1f5f9; color: var(--text-dark); transition: color 0.2s;
         }
 
         .timer-badge { background: var(--primary); color: white; padding: 15px 35px; border-radius: 16px; font-size: 32px; font-weight: 700; min-width: 70px; }
@@ -96,7 +84,7 @@
 
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px);
+            background: rgba(10, 10, 15, 0.9); backdrop-filter: blur(8px);
             display: none; justify-content: center; align-items: center; z-index: 10000;
         }
 
@@ -104,6 +92,27 @@
             background: white; width: 90%; max-width: 550px; padding: 40px;
             border-radius: 30px; text-align: center; max-height: 85vh; overflow-y: auto;
         }
+
+        /* ----- สไตล์ Dark Minimal Popup (อันนี้ของใหม่มึง) ----- */
+        .dark-modal {
+            background: #121212; border: 1px solid #333; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            border-radius: 20px; color: #fff; width: 90%; max-width: 400px; padding: 30px;
+        }
+        .dark-modal h2 { color: #fff; letter-spacing: 0; margin-top: 0; font-size: 24px; border-bottom: 1px solid #222; padding-bottom: 15px;}
+        .dark-modal p { color: #aaa; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
+        .dark-input {
+            width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #333;
+            color: var(--primary); border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s;
+        }
+        .dark-input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(59, 177, 84, 0.2); }
+        .dark-btn-group { display: flex; gap: 10px; }
+        .dark-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 15px; }
+        .dark-btn.confirm { background: var(--primary); color: #000; }
+        .dark-btn.confirm:hover { background: #2f8d43; }
+        .dark-btn.cancel { background: #333; color: #fff; }
+        .dark-btn.cancel:hover { background: #444; }
+        .dark-btn.danger { background: #dc2626; color: #fff; }
+        .dark-btn.danger:hover { background: #b91c1c; }
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
         .stat-box { background: #f8fafc; padding: 12px; border-radius: 15px; border: 1px solid #eee; }
@@ -114,7 +123,7 @@
 
         .rank-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; text-align: left; }
         .rank-table tr { border-bottom: 1px solid #eee; }
-        .rank-table td, .rank-table th { padding: 10px; }
+        .rank-table td, .rank-table th { padding: 10px; color:#333; }
         .active-rank { background: #fff1f2; font-weight: bold; }
 
         #authSection { background: #000; padding: 40px; border-radius: 24px; width: 320px; text-align: center; color: white; }
@@ -139,8 +148,9 @@
 
 <div class="main-container" id="gameMain">
     <div class="top-actions">
-        <button class="btn-top" onclick="editName()">✏️ แก้ไขชื่อ</button>
-        <button class="btn-top btn-danger" onclick="deleteAccount()">🗑️ ลบบัญชี</button>
+        <button class="btn-top" onclick="showEditName()">✏️ แก้ไขชื่อ</button>
+        <button class="btn-top" onclick="showChangePassword()">🔑 เปลี่ยนรหัส</button>
+        <button class="btn-top btn-danger" onclick="showDeleteAccount()">🗑️ ลบบัญชี</button>
         <button class="btn-top" onclick="showRanking()">🏆 อันดับรวมของพวกกากๆ</button>
         <button class="btn-top" onclick="handleLogout()">🚪 ออกจากระบบ</button>
     </div>
@@ -194,6 +204,21 @@
     </div>
 </div>
 
+<div class="modal-overlay" id="darkActionModal">
+    <div class="modal-card dark-modal">
+        <h2 id="darkTitle">หัวข้อ</h2>
+        <p id="darkDesc">รายละเอียด</p>
+        
+        <input type="text" id="darkInput1" class="dark-input" style="display:none;">
+        <input type="password" id="darkInput2" class="dark-input" style="display:none;">
+        
+        <div class="dark-btn-group">
+            <button class="dark-btn cancel" id="darkCancelBtn" onclick="closeModal('darkActionModal')">ช่างแม่ง</button>
+            <button class="dark-btn confirm" id="darkConfirmBtn">จัดไป</button>
+        </div>
+    </div>
+</div>
+
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw0JR-Rrt05HcgmGuOSbHB0GC4eeMCt4TQwWvAdbv6bHuOxmejpAnh2vSNl1Jdv6VEv/exec";
     
@@ -240,8 +265,8 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
             let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
             showGame(savedUser, db[savedUser] ? db[savedUser].best : 0);
         }
-        loadTickerData(); // โหลดข้อมูลมาใส่ Ticker
-        setInterval(loadTickerData, 30000); // อัปเดต Ticker ทุกๆ 30 วินาที
+        loadTickerData(); 
+        setInterval(loadTickerData, 30000); 
     };
 
     function loadTickerData() {
@@ -249,10 +274,7 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
         .then(res => res.json())
         .then(data => {
             if(data && data.length > 0) {
-                // ดึง 2 คนล่าสุด (เอา 2 ตัวท้ายของอาเรย์มากลับด้านให้คนใหม่สุดอยู่หน้า)
                 let latestTwo = data.slice(-2).reverse(); 
-                
-                // สร้างข้อความจากรายชื่อทั้ง 2 คน
                 let tickerHtml = latestTwo.map(item => 
                     `💥 <b>${item.username}</b> เพิ่งพิมพ์กากๆไป <b>${item.wpm} WPM</b> (${getRank(item.wpm)})`
                 ).join(' &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ');
@@ -283,6 +305,24 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
         const pass = document.getElementById('passwordInput').value.trim();
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+        
+        // --- แจ้งเตือนเมื่อรหัสกับพาสตรงกัน ---
+        if (user === pass) {
+            setupDarkModal("🚨 เตือนสติหน่อยไอ้เวร!", "มึงอย่าใส่ชื่อกับรหัสเหมือนกันดิฟระ!<br>เดี๋ยวมีคนไปลบแอ็คเคาท์ของมึง กูไม่รู้ด้วยนะ!!<br>(แต่เดี๋ยวจะให้เข้าก่อนละกัน ทนกากไปก่อน)", "รับทราบแล้วไอ้สัส!", () => {
+                proceedLogin(user, pass, db);
+                closeModal('darkActionModal');
+            }, "ซ่อน");
+            
+            // เปลี่ยนปุ่มเป็นสีแดงให้ดูดุดัน
+            document.getElementById('darkConfirmBtn').className = "dark-btn danger";
+            document.getElementById('darkCancelBtn').style.display = "none";
+            return;
+        }
+
+        proceedLogin(user, pass, db);
+    }
+
+    function proceedLogin(user, pass, db) {
         if(db[user] && db[user].pass !== pass) return alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!");
         if(!db[user]) db[user] = { pass: pass, best: 0 };
         localStorage.setItem('typingDB_Final', JSON.stringify(db));
@@ -291,47 +331,111 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
         showGame(user, db[user].best);
     }
 
-    function editName() {
-        const newName = prompt("ใส่ชื่อใหม่ของมึงมาเลยไอ้สัส:", currentUser);
-        if(!newName || newName.trim() === "" || newName === currentUser) return;
+    // ฟังก์ชันจัดการหน้าต่าง Dark Modal (ใช้ร่วมกัน)
+    function setupDarkModal(title, desc, confirmText, confirmAction, cancelText = "ยกเลิก") {
+        document.getElementById('darkTitle').innerHTML = title;
+        document.getElementById('darkDesc').innerHTML = desc;
+        document.getElementById('darkInput1').style.display = 'none';
+        document.getElementById('darkInput1').value = '';
+        document.getElementById('darkInput2').style.display = 'none';
+        document.getElementById('darkInput2').value = '';
         
-        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-        if(db[newName]) return alert("ชื่อนี้มีคนใช้แล้ว เปลี่ยนใหม่ดิวะ!");
-
-        const oldName = currentUser; // เก็บชื่อเก่าไว้ส่งไปเทียบในชีต
-
-        // ย้ายข้อมูลเก่าไปชื่อใหม่ในเครื่อง
-        db[newName] = db[oldName];
-        delete db[oldName];
+        let confirmBtn = document.getElementById('darkConfirmBtn');
+        let cancelBtn = document.getElementById('darkCancelBtn');
         
-        localStorage.setItem('typingDB_Final', JSON.stringify(db));
-        localStorage.setItem('isLoggedIn', newName);
-        currentUser = newName;
+        confirmBtn.innerHTML = confirmText;
+        confirmBtn.className = "dark-btn confirm"; // reset class
+        confirmBtn.onclick = confirmAction;
         
-        document.getElementById('displayUser').innerText = newName;
-        alert("เปลี่ยนชื่อเป็น '" + newName + "' เรียบร้อย กำลังอัปเดตในระบบ...");
-
-        // ส่งคำสั่งไปแก้ชื่อใน Google Sheet
-        fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-                action: 'editName',
-                oldName: oldName,
-                newName: newName
-            })
-        })
-        .then(() => console.log("แก้ชื่อในชีตเรียบร้อย"))
-        .catch(() => alert("⚠️ เปลี่ยนชื่อในเครื่องแล้ว แต่เน็ตเน่าส่งไปแก้ในชีตไม่สำเร็จ"));
+        cancelBtn.innerHTML = cancelText;
+        cancelBtn.style.display = "block"; // reset display
+        
+        document.getElementById('darkActionModal').style.display = 'flex';
     }
 
-    function deleteAccount() {
-        if(confirm("มึงแน่ใจนะว่าจะลบบัญชี? ลบแล้วข้อมูลหายหมดเกลี้ยงเลยนะเว้ย!")) {
+    function showEditName() {
+        setupDarkModal("✏️ แก้ไขชื่อของมึง", "ใส่ชื่อใหม่ที่ดูดีกว่าเดิมมาเลยไอ้สัส", "เปลี่ยนชื่อ", () => {
+            const newName = document.getElementById('darkInput1').value.trim();
+            if(!newName || newName === currentUser) return;
+            
+            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+            if(db[newName]) {
+                document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อนี้มีคนใช้แล้ว เปลี่ยนใหม่ดิวะ!</span>";
+                return;
+            }
+
+            const oldName = currentUser;
+            db[newName] = db[oldName];
+            delete db[oldName];
+            
+            localStorage.setItem('typingDB_Final', JSON.stringify(db));
+            localStorage.setItem('isLoggedIn', newName);
+            currentUser = newName;
+            
+            document.getElementById('displayUser').innerText = newName;
+            closeModal('darkActionModal');
+            
+            // แจ้งเตือนแบบเนียนๆ
+            setupDarkModal("✅ เรียบร้อย", "เปลี่ยนชื่อเป็น '" + newName + "' เรียบร้อย<br>กำลังอัปเดตไปที่ฐานข้อมูลหลัก...", "ปิด", () => closeModal('darkActionModal'));
+            document.getElementById('darkCancelBtn').style.display = "none";
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'editName', oldName: oldName, newName: newName })
+            }).catch(() => console.log("แจ้ง: ส่งชื่อใหม่ไปไม่ผ่านเพราะเน็ตเน่า"));
+        });
+        
+        document.getElementById('darkInput1').style.display = 'block';
+        document.getElementById('darkInput1').placeholder = "ชื่อใหม่ของมึง...";
+        document.getElementById('darkInput1').value = currentUser;
+        setTimeout(() => document.getElementById('darkInput1').focus(), 100);
+    }
+
+    function showChangePassword() {
+        setupDarkModal("🔑 เปลี่ยนรหัสกากๆของมึง", "พิมพ์รหัสเดิม และรหัสใหม่มาให้ครบ กูจะได้จำให้", "เปลี่ยนรหัส", () => {
+            const oldPass = document.getElementById('darkInput1').value.trim();
+            const newPass = document.getElementById('darkInput2').value.trim();
+            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+            
+            if(!oldPass || !newPass) return;
+            if(db[currentUser].pass !== oldPass) {
+                document.getElementById('darkDesc').innerHTML = "<span style='color:red'>รหัสเดิมมึงยังผิดเลย ไอ้ควาย!</span>";
+                return;
+            }
+            if(currentUser === newPass) {
+                document.getElementById('darkDesc').innerHTML = "<span style='color:red'>กูเพิ่งด่าไปหยกๆ ว่าอย่าตั้งรหัสเหมือนชื่อ!!</span>";
+                return;
+            }
+            
+            db[currentUser].pass = newPass;
+            localStorage.setItem('typingDB_Final', JSON.stringify(db));
+            closeModal('darkActionModal');
+            
+            setupDarkModal("✅ เปลี่ยนแล้ว", "รหัสของมึงเปลี่ยนใหม่แล้ว จำไว้ให้ดีด้วยล่ะไอ้เวร", "ปิด", () => closeModal('darkActionModal'));
+            document.getElementById('darkCancelBtn').style.display = "none";
+        });
+        
+        document.getElementById('darkInput1').style.display = 'block';
+        document.getElementById('darkInput1').type = 'password';
+        document.getElementById('darkInput1').placeholder = "รหัสเก่าของมึง...";
+        
+        document.getElementById('darkInput2').style.display = 'block';
+        document.getElementById('darkInput2').placeholder = "รหัสใหม่แบบไม่กาก...";
+        setTimeout(() => document.getElementById('darkInput1').focus(), 100);
+    }
+
+    function showDeleteAccount() {
+        setupDarkModal("🗑️ ยืนยันจะลบทิ้ง?", "มึงแน่ใจนะว่าจะลบบัญชี? <br><span style='color:#ef4444'>ลบแล้วข้อมูลหายหมดเกลี้ยงเลยนะเว้ย ไม่ได้ผุดไม่ได้เกิด!</span>", "ลบแม่งเลย!", () => {
             let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
             delete db[currentUser];
             localStorage.setItem('typingDB_Final', JSON.stringify(db));
+            closeModal('darkActionModal');
             alert("ลบบัญชีทิ้งเรียบร้อย ไสหัวไปได้ละ");
             handleLogout();
-        }
+        }, "เปลี่ยนใจแล้ว");
+        
+        // ทำให้ปุ่มกดยืนยันเป็นสีแดงน่ากลัวๆ
+        document.getElementById('darkConfirmBtn').className = "dark-btn danger";
     }
 
     function showGame(user, best) {
@@ -354,7 +458,6 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
         fetch(SCRIPT_URL)
         .then(res => res.json())
         .then(data => {
-            // กรองให้เหลือแค่คะแนนที่ดีที่สุดของแต่ละคน (แก้ปัญหาชื่อซ้ำ)
             const bestScoresMap = {};
             data.forEach(item => {
                 if (!bestScoresMap[item.username] || item.wpm > bestScoresMap[item.username].wpm) {
@@ -362,8 +465,6 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
                 }
             });
             const leaderboard = Object.values(bestScoresMap);
-            
-            // เรียงลำดับจากคะแนนสูงสุด
             leaderboard.sort((a, b) => b.wpm - a.wpm);
 
             let html = "";
@@ -390,6 +491,7 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
         currentIdx = 0; timeLeft = 60; isStarted = false; 
         correctCount = 0; wrongCount = 0; totalTypeAttempts = 0; totalChars = 0; correctChars = 0;
         document.getElementById('userInput').value = '';
+        document.getElementById('userInput').style.color = 'var(--text-dark)'; // รีเซ็ตสีตอนเริ่ม
         document.getElementById('userInput').disabled = false;
         document.getElementById('timer').innerText = 60;
         document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
@@ -406,14 +508,27 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
         }
     }
 
-    document.getElementById('userInput').addEventListener('input', () => {
-        if(!isStarted && document.getElementById('userInput').value.length > 0) {
+    document.getElementById('userInput').addEventListener('input', (e) => {
+        if(!isStarted && e.target.value.length > 0) {
             isStarted = true;
             timer = setInterval(() => {
                 timeLeft--;
                 document.getElementById('timer').innerText = timeLeft;
                 if(timeLeft <= 0) endGame();
             }, 1000);
+        }
+        
+        // ระบบเช็คสีแบบ Real-time ตามคำขอ (พิมพ์ถูกขึ้นสีเขียว พิมพ์ผิดขึ้นสีแดง)
+        const val = e.target.value;
+        const target = words[currentIdx];
+        if (val.length > 0) {
+            if (target.startsWith(val)) {
+                e.target.style.color = '#10b981'; // เขียวสวยๆ
+            } else {
+                e.target.style.color = '#ef4444'; // แดงเตือนใจ
+            }
+        } else {
+            e.target.style.color = 'var(--text-dark)';
         }
     });
 
@@ -435,7 +550,9 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
                 document.getElementById(`w-${currentIdx}`).classList.add('wrong'); 
                 wrongCount++;
             }
-            currentIdx++; document.getElementById('userInput').value = '';
+            currentIdx++; 
+            document.getElementById('userInput').value = '';
+            document.getElementById('userInput').style.color = 'var(--text-dark)'; // ล้างช่องต้องกลับมาสีดำ
             updateFocus();
         }
     });
@@ -478,7 +595,7 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
         })
         .then(() => {
             document.getElementById('syncStatus').innerText = "✅ บันทึกเรียบร้อย แม่เย็ด";
-            loadTickerData(); // อัปเดต Ticker ทันทีที่มีคนส่งคะแนนใหม่
+            loadTickerData(); 
         })
         .catch(() => {
             document.getElementById('syncStatus').innerText = "❌ บันทึกไม่สำเร็จไอควาย " + rankMessage;
