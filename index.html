@@ -269,36 +269,38 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
         setInterval(loadTickerData, 30000); 
     };
 
-    function loadTickerData() {
-        fetch(SCRIPT_URL)
-        .then(res => res.json())
-        .then(data => {
-            if(data && data.length > 0) {
-                let latestTwo = data.slice(-2).reverse(); 
-                let tickerHtml = latestTwo.map(item => 
-                    `💥 <b>${item.username}</b> เพิ่งพิมพ์กากๆไป <b>${item.wpm} WPM</b> (${getRank(item.wpm)})`
-                ).join(' &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ');
+function loadTickerData() {
+    fetch(SCRIPT_URL)
+    .then(res => res.json())
+    .then(data => {
+        if(data && data.length > 0) {
+            let latestTwo = data.slice(-2).reverse(); 
+            let tickerHtml = latestTwo.map(item => 
+                // เปลี่ยน 💥 เป็นแท็ก <img> ตรงนี้ครับ
+                `<img src="https://img2.pic.in.th/image4a54c6aceb3df441.md.png" style="height: 45px; vertical-align: middle; margin-right: 5px;"> <b>${item.username}</b> เพิ่งพิมพ์กากๆไป <b>${item.wpm} WPM</b> (${getRank(item.wpm)})`
+            ).join(' &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ');
 
-                document.getElementById('tickerContent').innerHTML = `📢 ล่าสุดสดๆ ร้อนๆ: &nbsp;&nbsp;&nbsp; ${tickerHtml}`;
-            }
-        })
-        .catch(() => {
-            document.getElementById('tickerContent').innerHTML = "📢 โหลดข้อมูล Ticker ไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน";
-        });
-    }
+            document.getElementById('tickerContent').innerHTML = `📢 แง๊นๆๆ โหลเทสๆ: &nbsp;&nbsp;&nbsp; ${tickerHtml}`;
+        }
+    })
+    .catch(() => {
+        document.getElementById('tickerContent').innerHTML = "📢 โหลดข้อมูล Ticker ไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน";
+    });
+}
 
     function getRank(wpm) {
-        if (wpm <= 30) return "💩 พิมพ์เป็นไหมวะ กากว่ะ";
-        if (wpm <= 45) return "🐔 มึงกำลังหัดพิมพ์หรอ? ";
-        if (wpm <= 58) return "👹 เหยดๆ เริ่มเก่งละว่ะ";
-        if (wpm <= 65) return "🤖 โหดสัสรัสเซีย แม่เย็ด";
-        if (wpm <= 76) return "👽 สุดจัด มึงก็พิมพ์ไวอยู่นะ";
-        if (wpm <= 85) return "☠ เอาเถอะ มึงก็เก่งเกินสัสเอ้ย";
-        if (wpm <= 99)return "🐱‍👤 มนุษย์กากใครจะไหววะ";
-        if (wpm <= 120)return "🐉 โคตรพ่อโคตรแม่ไวจัด MVP";
-        if (wpm <= 130)return "☢ เร็วสัสใครจะสู้มึงได้วะแม่เย็ด";
-        return"👤 ตัวตึงหนึ่งเดียวในบริษัท";
-    }
+        if (wpm <= 30) return `<img src="https://img5.pic.in.th/file/secure-sv1/imagecfaa905716e8f8ca.md.png" width="25" style="vertical-align:middle;"> พิมพ์เป็นไหมวะ กากว่ะ`;
+        if (wpm <= 40) return `<img src="https://img5.pic.in.th/file/secure-sv1/imagee7b335b8644c6a0f.md.png" width="25" style="vertical-align:middle;"> ไปฝึกเยอะๆ ยังอ่อนอยู่`;
+        if (wpm <= 50) return `<img src="https://img2.pic.in.th/image2fdd9d164361e281.md.png" width="25" style="vertical-align:middle;"> มึงกำลังหัดพิมพ์หรอ? `;
+        if (wpm <= 60) return `<img src="https://img5.pic.in.th/file/secure-sv1/image290900a076ee86fd.md.png" width="25" style="vertical-align:middle;"> เหยดๆ เริ่มเก่งละว่ะ`;
+        if (wpm <= 66) return `<img src="https://img5.pic.in.th/file/secure-sv1/imageb2c8dd5a97fcbbd6.md.png" width="25" style="vertical-align:middle;"> โหดสัสรัสเซีย แม่เย็ด`;
+        if (wpm <= 76) return `<img src="https://img5.pic.in.th/file/secure-sv1/image4104bcba1c517794.md.png" width="25" style="vertical-align:middle;"> สุดจัด มึงก็พิมพ์ไวไป`;
+        if (wpm <= 85) return `<img src="https://img2.pic.in.th/image52451a7b24c0129a.md.png" width="25" style="vertical-align:middle;"> ไอ้เหี้ย เหมือนจะสุดเกินไปละๆ`;
+        if (wpm <= 99)return `<img src="https://img2.pic.in.th/image70ac1e10293d80dd.md.png" width="25" style="vertical-align:middle;"> มึงจะไวเกินไปละไอ้เวร`;
+        if (wpm <= 120)return `<img src="https://img2.pic.in.th/image7879c2ee29d6d391.md.png" width="25" style="vertical-align:middle;"> โคตรพ่อโคตรแม่ไวจัด`;
+        if (wpm <= 130) return `<img src="https://img2.pic.in.th/image0d2874d58475dbc7.md.png" width="25" style="vertical-align:middle;"> เร็วสัสๆ ใครจะสู้มึงได้วะแม่เย็ด`;
+        return `<img src="https://playserver.in.th/user_image/server_icon/13889_131811298.jpg" width="25" style="vertical-align:middle;"> ตัวตึงหนึ่งเดียวในบริษัท`;
+}
 
     function handleAuth() {
         const user = document.getElementById('usernameInput').value.trim();
@@ -308,7 +310,7 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
         
         // --- แจ้งเตือนเมื่อรหัสกับพาสตรงกัน ---
         if (user === pass) {
-            setupDarkModal("🚨 เตือนสติหน่อยไอ้เวร!", "มึงอย่าใส่ชื่อกับรหัสผ่านเหมือนกันดิวะ!<br>รหัสหายกูไม่รู้ด้วยนะ!!<br>(อย่าพูดไม่ฟังนะไอ้อม่เย็ด)", "รับทราบแล้วไอ้สัส!", () => {
+            setupDarkModal("🚨 เตือนสติหน่อยไอ้เวร!", "มึงอย่าใส่ชื่อกับรหัสเหมือนกันดิฟระ!<br>เดี๋ยวมีคนไปลบแอ็คเคาท์ของมึง กูไม่รู้ด้วยนะ!!<br>(แต่เดี๋ยวจะให้เข้าก่อนละกัน ทนกากไปก่อน)", "รับทราบแล้วไอ้สัส!", () => {
                 proceedLogin(user, pass, db);
                 closeModal('darkActionModal');
             }, "ซ่อน");
@@ -575,7 +577,7 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
         document.getElementById('resCorrect').innerText = correctCount;
         document.getElementById('resWrong').innerText = wrongCount;
         document.getElementById('resAttempts').innerText = totalTypeAttempts;
-        document.getElementById('resRankBadge').innerText = rankMessage;
+        document.getElementById('resRankBadge').innerHTML = rankMessage;
         document.getElementById('resultModal').style.display = 'flex';
         document.getElementById('syncStatus').innerText = "กำลังส่งข้อมูลไปบันทึกนะไอ้สัส";
 
