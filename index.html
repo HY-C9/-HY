@@ -61,7 +61,14 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); margin-bottom: 30px; position: relative;
         }
 
-        .display-window { height: 140px; overflow: hidden; position: relative; margin-bottom: 40px; }
+        .display-window { 
+            height: 160px; /* ขยายความสูงให้เห็นครบ 2 บรรทัดเต็มๆ */
+            overflow: hidden; 
+            position: relative; 
+            margin-bottom: 20px; 
+            border: 1px solid #000000; /* กรอบสีฟ้าตามภาพ */
+            box-sizing: border-box; /* กันกรอบดัน Layout เพี้ยน */
+        }
         
         #wordContainer {
             position: absolute; top: 0; left: 0; width: 100%; display: flex; flex-wrap: wrap;
@@ -157,7 +164,7 @@
     
     <div style="display:flex; justify-content: space-between; margin-bottom: 10px; color: white; font-size: 14px;">
         <span>👤 ผู้เล่นกากๆ: <b id="displayUser" style="color:var(--highlight)"></b></span>
-        <span>🏆 คะแนนที่มึงทำได้ล่าสุด: <b id="bestWPM" style="color:var(--highlight)">0</b> WPM</span>
+        <span>🏆 คะแนนที่มึงทำได้สูงสุด: <b id="bestWPM" style="color:var(--highlight)">0</b> WPM</span>
     </div>
 
     <h1>ที่หัดพิมพ์สำหรับคนกากๆ ว่างๆ</h1>
@@ -254,7 +261,7 @@ const fullWordList = [
   "ชาว", "กระด้าง", "ไข้", "ชนวน", "จำพวก", "ใด", "จูบ", "ไต่", "ต้าน", "กิริยา", "โกร่ง", "เทียม", "ขอรับ", "ไฉน", "ตระกูล", 
   "ดัง", "ชาย", "ก่อน", "ทำลาย", "ธรรมเนียม", "เทวดา", "ดู", "ตรัส", "คลอง", "ตะวัน", "ท่าน", "ถ้อย", "กระทำ", 
   "แก่", "ข้าราชการ", "ทวีป", "เกล้า", "ตอบ", "เจ็บ", "ร้อง", "ต่อย", "พลาน", "ถ้วย", "หอย", "บี้", "ขยี้", "บด"
-];
+ ];
 let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
     let correctCount = 0, wrongCount = 0, totalTypeAttempts = 0, totalChars = 0, correctChars = 0, currentUser = "";
 
