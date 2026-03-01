@@ -274,9 +274,20 @@ function loadTickerData() {
     .then(res => res.json())
     .then(data => {
         if(data && data.length > 0) {
-            let latestTwo = data.slice(-2).reverse(); 
-            let tickerHtml = latestTwo.map(item => 
-                // เปลี่ยน 💥 เป็นแท็ก <img> ตรงนี้ครับ
+            let uniqueLatest = [];
+            let seenNames = new Set();
+            
+            // วนลูปจากข้อมูลตัวล่าสุดถอยหลังไป
+            for (let i = data.length - 1; i >= 0; i--) {
+                if (!seenNames.has(data[i].username)) {
+                    uniqueLatest.push(data[i]);
+                    seenNames.add(data[i].username);
+                    if (uniqueLatest.length >= 2) break; // เอาแค่ 2 ชื่อที่ไม่ซ้ำกัน
+                }
+            }
+
+            let tickerHtml = uniqueLatest.map(item => 
+                // รูปมึง กูปล่อยไว้เหมือนเดิม
                 `<img src="https://img2.pic.in.th/image4a54c6aceb3df441.md.png" style="height: 45px; vertical-align: middle; margin-right: 5px;"> <b>${item.username}</b> เพิ่งพิมพ์กากๆไป <b>${item.wpm} WPM</b> (${getRank(item.wpm)})`
             ).join(' &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ');
 
