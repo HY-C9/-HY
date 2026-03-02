@@ -118,7 +118,7 @@
         }
 
         .modal-card {
-            background: white; width: 90%; max-width: 550px; padding: 40px;
+            background: white; width: 90%; max-width: 450px; padding: 40px;
             border-radius: 30px; text-align: center; max-height: 85vh; overflow-y: auto;
         }
 
@@ -179,17 +179,16 @@
         <button class="btn-top" onclick="showEditName()">✏️ เปลี่ยนชื่อ(รวมเข้าระบบด้วย)</button>
         <button class="btn-top" onclick="showChangePassword()">🔑 เปลี่ยนรหัสผ่าน</button>
         <button class="btn-top btn-danger" onclick="showDeleteAccount()">🗑️ ลบบัญชี</button>
-        <button class="btn-top" onclick="showRanking()">🏆 อันดับรวมของพวกกากๆ</button>
+        <button class="btn-top" onclick="showRanking()"><img src="https://img2.pic.in.th/image441518007c22e3ef.md.png" style="height: 30px; vertical-align: middle; margin-right: 5px;"> อันดับรวมของพวกกากๆ</button>
         <button class="btn-top" onclick="handleLogout()">🚪 ออกจากระบบ</button>
     </div>
     
     <div style="display:flex; justify-content: space-between; margin-bottom: 10px; color: white; font-size: 14px;">
-        <span>👤 ผู้เล่นกากๆ: <b id="displayUser" style="color:var(--highlight)"></b></span>
-        <span>🏆 คะแนนที่มึงทำได้สูงสุด: <b id="bestWPM" style="color:var(--highlight)">0</b> WPM</span>
+<span><img src="https://img5.pic.in.th/file/secure-sv1/imagea7debf762c63d200.png" style="height: 60px; vertical-align: middle; margin-right: 5px;"> ผู้เล่นกากๆ: <b id="displayUser" style="color:var(--highlight)"></b></span>        <span> คะแนนที่มึงทำได้สูงสุด: <b id="bestWPM" style="color:var(--highlight)">0</b> WPM</span>
     </div>
 
-    <h1>ที่หัดพิมพ์สำหรับคนกากๆ ว่างๆ</h1>
-    <h2> HYแผนก 2 </h2>
+    <h1>ฝึกพิมพ์ สำหรับคนว่างๆ ไม่มีลูกค้า</h1>
+    <h2> H Y แ ผน ก 2 </h2>
 
     <div class="typing-card">
         <div class="display-window">
@@ -198,7 +197,7 @@
         <div class="controls-row">
             <input type="text" id="userInput" placeholder=" ไม่มีลูกค้าก็อย่ามานั่งแอ็ค พิมพ์ซะ" autocomplete="off">
             <div class="timer-badge" id="timer">60</div>
-            <button class="btn-refresh" onclick="resetGame()">↻</button>
+            <button class="btn-refresh" onclick="resetGame()">🔄</button>
         </div>
     </div>
 </div>
@@ -223,7 +222,7 @@
 
 <div class="modal-overlay" id="rankingModal">
     <div class="modal-card">
-        <h2>📊 อันดับการพิมพ์กากๆ ของพวกมึง</h2>
+        <h2><img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 50px; vertical-align: middle; margin-right: 5px;"> อั น ดั บ ก า ร พิ ม พ์ ก า ก ๆ ข อ ง พ ว ก มึ ง</h2>
         <table class="rank-table">
             <thead><tr><th>#</th><th>ชื่อ</th><th>WPM</th><th>ระดับ</th></tr></thead>
             <tbody id="lbBody"></tbody>
@@ -313,10 +312,10 @@ function loadTickerData() {
             }
 
             let tickerHtml = uniqueLatest.map(item => 
-                `<img src="https://img2.pic.in.th/image4a54c6aceb3df441.md.png" style="height: 45px; vertical-align: middle; margin-right: 5px;"> <b>${item.username}</b> เพิ่งพิมพ์กากๆไป <b>${item.wpm} WPM</b> (${getRank(item.wpm).replace(/<img[^>]*>/g, "")})`
+                `<img src="https://img2.pic.in.th/image4a54c6aceb3df441.md.png" style="height: 45px; vertical-align: middle; margin-right: 5px;"> <b>${item.username}</b> พิมพ์ไป <b>${item.wpm} WPM</b> (${getRank(item.wpm).replace(/<img[^>]*>/g, "")})`
             ).join(' &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ');
 
-            document.getElementById('tickerContent').innerHTML = `📢 แง๊นๆๆ โหลเทสๆ: &nbsp;&nbsp;&nbsp; ${tickerHtml}`;
+            document.getElementById('tickerContent').innerHTML = `📢 แง๊นๆๆ โหลเทสๆ &nbsp;&nbsp;&nbsp; ${tickerHtml}`;
         }
     })
     .catch(() => {
@@ -326,7 +325,6 @@ function loadTickerData() {
 
     function getRank(wpm) {
         if (wpm <= 30) return `<img src="https://img5.pic.in.th/file/secure-sv1/imagecfaa905716e8f8ca.md.png" width="25" style="vertical-align:middle;"> พิมพ์เป็นไหมวะ กากว่ะ`;
-        if (wpm <= 40) return `<img src="https://img5.pic.in.th/file/secure-sv1/imagee7b335b8644c6a0f.md.png" width="25" style="vertical-align:middle;"> ไปฝึกเยอะๆ ยังอ่อนอยู่`;
         if (wpm <= 50) return `<img src="https://img2.pic.in.th/image2fdd9d164361e281.md.png" width="25" style="vertical-align:middle;"> มึงกำลังหัดพิมพ์หรอ? `;
         if (wpm <= 60) return `<img src="https://img5.pic.in.th/file/secure-sv1/image290900a076ee86fd.md.png" width="25" style="vertical-align:middle;"> เหยดๆ เริ่มเก่งละว่ะ`;
         if (wpm <= 66) return `<img src="https://img5.pic.in.th/file/secure-sv1/imageb2c8dd5a97fcbbd6.md.png" width="25" style="vertical-align:middle;"> โหดสัสรัสเซีย แม่เย็ด`;
