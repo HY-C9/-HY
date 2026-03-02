@@ -118,8 +118,14 @@
         }
 
         .modal-card {
-            background: white; width: 90%; max-width: 450px; padding: 40px;
-            border-radius: 30px; text-align: center; max-height: 85vh; overflow-y: auto;
+            background: white; 
+            width: 95%;           /* ปรับให้เกือบเต็มหน้าจอเวลาเปิดในมือถือ */
+            max-width: 750px;     /* (หรือ 1000px ถ้าอยากให้กว้างสุดๆ) */
+            padding: 40px;
+            border-radius: 30px; 
+            text-align: center; 
+            max-height: 85vh; 
+            overflow-y: auto;
         }
 
         .dark-modal {
@@ -200,7 +206,7 @@
         <button class="btn-top" onclick="showChangePassword()">🔑 เปลี่ยนรหัสผ่าน</button>
         <button class="btn-top btn-danger" onclick="showDeleteAccount()">🗑️ ลบบัญชี</button>
         <button class="btn-top" onclick="showRanking()"><img src="https://img2.pic.in.th/image441518007c22e3ef.md.png" style="height: 30px; vertical-align: middle; margin-right: 5px;"> อันดับรวมของพวกกากๆ</button>
-        <button class="btn-top" onclick="handleLogout()">🚪 ออกจากระบบ</button>
+        <button class="btn-top" onclick="showLogoutConfirm()">🚪 ออกจากระบบ</button>
     </div>
     
     <div style="display:flex; justify-content: space-between; margin-bottom: 10px; color: white; font-size: 14px;">
@@ -617,6 +623,47 @@ function loadTickerData() {
     }
 
     function resetGame() { clearInterval(timer); init(); setTimeout(() => document.getElementById('userInput').focus(), 100); }
+            // 1. ฟังก์ชันเปิดป๊อปอัพกวนตีน
+        function showLogoutConfirm() {
+            const modal = document.getElementById('logoutModal');
+            if (modal) {
+                modal.style.display = 'flex';
+            }
+        }
+
+        // 2. ฟังก์ชันยืนยันการออก (พอกด "เออ ออกเลย!")
+        function confirmLogout() {
+            alert("เออ โชคดี อย่าลืมรหัสล่ะไอ้สอง!");
+            
+            // ถ้ามึงมีฟังก์ชัน handleLogout เดิมอยู่แล้ว ให้มันทำงานต่อ
+            if (typeof handleLogout === "function") {
+                handleLogout();
+            } else {
+                // ถ้าไม่มีฟังก์ชันอะไรเลย ก็ให้รีโหลดหน้าเพื่อล้างสถานะ
+                location.reload();
+            }
+        }
+
+        // 3. ฟังก์ชันปิดป๊อปอัพ (ใช้ร่วมกับกากบาทและปุ่มยกเลิก)
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
 </script>
-</body>
-</html>
+<div class="modal-overlay" id="logoutModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
+    <div class="modal-card" style="background: #1a1a1a; width: 95%; max-width: 420px; padding: 45px; border-radius: 35px; text-align: center; position: relative; border: 2px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+        
+        <span style="position: absolute; top: 20px; right: 25px; font-size: 35px; cursor: pointer; color: #fff; line-height: 1; transition: 0.3s;" onclick="closeModal('logoutModal')" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#fff'">&times;</span>
+        
+        <h2 style="color: #ff4d4d; margin-bottom: 15px; font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,77,77,0.3);">มึ ง จ ะ อ อ ก จ ริ ง ๆ ห ร อ ?</h2>
+        
+        <p style="margin-bottom: 30px; color: #ffffff; font-size: 1.1rem; opacity: 0.9;">แล้วจะจำรหัสได้ไหม? คิดดีๆ นะไอ้กาก!</p>
+        
+        <div style="display: flex; gap: 15px;">
+            <button class="btn-main" style="background: #ef4444; color: white; border: none; padding: 12px 20px; border-radius: 15px; flex: 1; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s;" onclick="confirmLogout()" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">เออ ออกเลย!</button>
+            <button class="btn-main" style="background: #444; color: white; border: none; padding: 12px 20px; border-radius: 15px; flex: 1; cursor: pointer; font-size: 1rem; transition: 0.2s;" onclick="closeModal('logoutModal')" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'">ไม่เอา ล้อเล่น</button>
+        </div>
+    </div>
+</div>
