@@ -13,10 +13,10 @@
             --bg: #060a2ccb;
             --card: #000000;
             --text-dark: #1e293b;
-            --text-light: hsl(0, 45%, 90%);
+            --text-light: hsl(0, 0%, 100%);
             --highlight: #ffc800ec;
             --correct-live: #1d964f; /* สีเขียวตอนพิมพ์ถูก */
-            --wrong-live: #b33628;    /* สีแดงตอนพิมพ์ผิด */
+            --wrong-live: #b33628; /* สีแดงตอนพิมพ์ผิด */
         }
 
         body {
@@ -28,18 +28,22 @@
             align-items: center;
             min-height: 100vh;
             color: var(--text-dark);
-            padding-top: 40px; 
+            padding-top: 40px;
+            transition: background-color 0.3s, color 0.3s; /* เพิ่มความสมูทตอนสลับสี */
         }
 
         /* แถบเลื่อน Ticker ข้างบน */
         .ticker-wrap {
-            position: fixed; top: 0; left: 0; width: 100%; height: 65px;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 65px;
             background-color: #000000e6; color: #ffffff; display: flex;
             align-items: center; overflow: hidden; z-index: 9999;
             border-bottom: 2px solid var(--primary);
+            transition: background-color 0.3s, color 0.3s;
         }
         .ticker-content {
-            white-space: nowrap; padding-left: 100%; display: inline-block;
+            white-space: nowrap;
+            padding-left: 100%; display: inline-block;
             animation: ticker 13s linear infinite; font-size: 20px; font-weight: 600;
         }
         @keyframes ticker {
@@ -59,17 +63,19 @@
         h2 { font-weight: 900; color: var(--primary1); margin-bottom: 10px; letter-spacing: -3px; }
 
         .typing-card {
-            background: var(--card); padding: 50px; border-radius: 24px;
+            background: var(--card);
+            padding: 50px; border-radius: 24px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); margin-bottom: 30px; position: relative;
+            transition: background-color 0.3s, box-shadow 0.3s;
         }
 
         .display-window { 
-            height: 160px; 
-            overflow: hidden; 
+            height: 150px; overflow: hidden; 
             position: relative; 
-            margin-bottom: 20px; 
+            margin-bottom: 45px; 
             border: 1px solid #000000; 
-            box-sizing: border-box; 
+            box-sizing: border-box;
+            transition: border-color 0.3s, background-color 0.3s;
         }
         
         #wordContainer {
@@ -77,25 +83,22 @@
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: left;
         }
 
-        .word { font-size: 46px; line-height: 75px; margin-right: 18px; color: var(--text-light); padding: 0 12px; border-radius: 8px; transition: all 0.2s; }
+        .word { font-size: 40px; line-height: 75px; margin-right: 5px; color: var(--text-light); padding: 0 12px; border-radius: 8px; transition: all 0.2s; }
         
         /* Highlight ปกติ (สีเหลือง) */
         .word.current { 
-            background-color: var(--highlight); 
-            color: #000000; 
+            background-color: var(--highlight); color: #000000; 
             font-weight: 600; 
-            box-shadow: 0 4px 12px rgba(255, 212, 59, 0.4); 
+            box-shadow: 0 4px 12px rgba(255, 212, 59, 0.4);
         }
 
         /* --- ใหม่: Highlight ตามการพิมพ์สดๆ --- */
         .word.current.is-correct {
-            background-color: var(--correct-live) !important;
-            color: white !important;
+            background-color: var(--correct-live) !important; color: white !important;
             box-shadow: 0 4px 12px rgba(46, 204, 113, 0.5);
         }
         .word.current.is-wrong {
-            background-color: var(--wrong-live) !important;
-            color: white !important;
+            background-color: var(--wrong-live) !important; color: white !important;
             box-shadow: 0 4px 12px rgba(231, 76, 60, 0.5);
         }
 
@@ -105,11 +108,12 @@
         .controls-row { display: flex; gap: 20px; align-items: center; }
         #userInput {
             flex: 1; font-family: 'Sarabun', sans-serif; font-size: 28px; padding: 18px 25px;
-            border: 2px solid #e2e8f0; border-radius: 16px; outline: none; background: #f1f5f9; color: var(--text-dark); transition: color 0.2s;
+            border: 2px solid #e2e8f0; border-radius: 16px; outline: none; background: #f1f5f9; color: var(--text-dark);
+            transition: color 0.2s, background-color 0.3s, border-color 0.3s;
         }
 
         .timer-badge { background: var(--primary); color: white; padding: 15px 35px; border-radius: 16px; font-size: 32px; font-weight: 700; min-width: 70px; }
-        .btn-refresh { background: #fff; border: 2px solid #e2e8f0; width: 70px; height: 70px; border-radius: 16px; cursor: pointer; font-size: 28px; color: #333; }
+        .btn-refresh { background: #fff; border: 2px solid #e2e8f0; width: 70px; height: 70px; border-radius: 16px; cursor: pointer; font-size: 28px; color: #333; transition: 0.3s; }
         
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -118,19 +122,15 @@
         }
 
         .modal-card {
-            background: white; 
-            width: 95%;           /* ปรับให้เกือบเต็มหน้าจอเวลาเปิดในมือถือ */
-            max-width: 750px;     /* (หรือ 1000px ถ้าอยากให้กว้างสุดๆ) */
-            padding: 40px;
-            border-radius: 30px; 
-            text-align: center; 
-            max-height: 85vh; 
-            overflow-y: auto;
+            background: white; width: 95%; max-width: 750px; padding: 40px;
+            border-radius: 30px; text-align: center; max-height: 85vh; overflow-y: auto;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         .dark-modal {
             background: #121212; border: 1px solid #333; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
             border-radius: 20px; color: #fff; width: 90%; max-width: 400px; padding: 30px;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
         }
         .dark-modal h2 { color: #fff; letter-spacing: 0; margin-top: 0; font-size: 24px; border-bottom: 1px solid #222; padding-bottom: 15px;}
         .dark-modal p { color: #aaa; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
@@ -149,7 +149,7 @@
         .dark-btn.danger:hover { background: #b91c1c; }
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        .stat-box { background: #f8fafc; padding: 12px; border-radius: 15px; border: 1px solid #eee; }
+        .stat-box { background: #f8fafc; padding: 12px; border-radius: 15px; border: 1px solid #eee; transition: 0.3s; }
         .stat-val { font-size: 28px; font-weight: 700; color: var(--primary); }
         .stat-label { font-size: 13px; color: #64748b; }
 
@@ -160,34 +160,96 @@
         .rank-table td, .rank-table th { padding: 10px; color:#333; }
         .active-rank { background: #fff1f2; font-weight: bold; }
 
-        #authSection { background: #000; padding: 40px; border-radius: 24px; width: 320px; text-align: center; color: white; }
-        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #111; color: white; box-sizing: border-box; }
+        #authSection { background: #000; padding: 40px; border-radius: 24px; width: 320px; text-align: center; color: white; transition: background-color 0.3s, color 0.3s; }
+        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #111; color: white; box-sizing: border-box; transition: 0.3s; }
         .btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         
         .sync-status { font-size: 12px; color: #666; margin-top: 10px; }
 
-                /* สไตล์ของปุ่มกากบาท */
+        /* สไตล์ของปุ่มกากบาท */
         .close-modal-x {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 52px;
-            font-weight: bold;
-            color: #999;
-            cursor: pointer;
-            line-height: 1;
-            transition: 0.2s;
-            user-select: none;
-            z-index: 10;
+            position: absolute; top: 15px; right: 20px; font-size: 52px; font-weight: bold;
+            color: #999; cursor: pointer; line-height: 1; transition: 0.2s; user-select: none; z-index: 10;
         }
+        .close-modal-x:hover { color: #ef4444; transform: scale(1.1); }
 
-        .close-modal-x:hover {
-            color: #ef4444; /* ชี้แล้วเปลี่ยนเป็นสีแดงให้ดูเหมือนปุ่มปิด */
-            transform: scale(1.1);
+        /* ========================================================= */
+        /* --- ระบบ Light Mode (โทนสว่างทันสมัย) ---                 */
+        /* ========================================================= */
+        body.light-mode {
+            --bg: #f0f4f8; /* พื้นหลังสว่างสบายตา */
+            --card: #ffffff; /* การ์ดสีขาว */
+            --text-dark: #0f172a; /* ข้อความหลักสีเข้ม */
+            --text-light: #475569; /* คำบนกระดานสีเทา */
+            --primary1: #1e40af; /* ปรับสี H2 ให้เป็นน้ำเงินเข้มเข้ากับโทนสว่าง */
+            --highlight: #fde047;
         }
+        
+        body.light-mode .ticker-wrap { background-color: #ffffffed; color: #1e293b; border-bottom: 2px solid var(--primary); }
+        body.light-mode .typing-card { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; }
+        body.light-mode .display-window { border-color: #cbd5e1; background-color: #f8fafc; }
+        body.light-mode .word.current { color: #000; box-shadow: 0 4px 12px rgba(253, 224, 71, 0.7); }
+        
+        /* แก้สีหน้า Login */
+        body.light-mode #authSection { background: #ffffff; color: #1e293b; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        body.light-mode .auth-input { background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; }
+        
+        /* แก้สี Dark Modal ต่างๆ */
+        body.light-mode .dark-modal { background: #ffffff; border: 1px solid #e2e8f0; color: #1e293b; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+        body.light-mode .dark-modal h2 { color: #1e293b; border-bottom: 1px solid #e2e8f0; }
+        body.light-mode .dark-modal p { color: #64748b; }
+        body.light-mode .dark-input { background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; }
+        body.light-mode .dark-btn.cancel { background: #e2e8f0; color: #475569; }
+        body.light-mode .dark-btn.cancel:hover { background: #cbd5e1; }
+
+        /* แก้สี Modal แจ้งเตือนการออกจากระบบ (ที่โค้ดเดิมฝัง Inline ไว้) */
+        body.light-mode #logoutModal > div { background: #ffffff !important; border: 1px solid #e2e8f0 !important; box-shadow: 0 20px 50px rgba(0,0,0,0.1) !important; }
+        body.light-mode #logoutModal h2 { text-shadow: none !important; }
+        body.light-mode #logoutModal p { color: #475569 !important; }
+        body.light-mode #logoutModal span[onclick] { color: #94a3b8 !important; }
+        body.light-mode #logoutModal span[onclick]:hover { color: #ef4444 !important; }
+        body.light-mode #logoutModal button[onclick*="closeModal"] { background: #e2e8f0 !important; color: #475569 !important; }
+        body.light-mode #logoutModal button[onclick*="closeModal"]:hover { background: #cbd5e1 !important; }
+
+        /* ปุ่มเครื่องมือด้านบน */
+        body.light-mode .btn-top { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+        body.light-mode .btn-top:hover { background: #e2e8f0; color: #1e293b; }
+        body.light-mode .btn-danger { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
+        body.light-mode .btn-danger:hover { background: #fecaca; }
+
+        /* กล่องสถิติ */
+        body.light-mode .stat-box { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+
+        /* --- ปุ่มสลับโหมดลอยตัว --- */
+        #themeToggleBtn {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 99999;
+            background: var(--card);
+            border: 2px solid var(--primary);
+            color: var(--text-dark);
+            padding: 12px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: 'Sarabun', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        #themeToggleBtn:hover { transform: scale(1.05); }
+        body.light-mode #themeToggleBtn { background: #ffffff; color: #1e293b; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-color: #cbd5e1; }
     </style>
 </head>
 <body>
+
+<button id="themeToggleBtn" onclick="toggleTheme()">
+    ☀️ สลับโหมดสว่าง
+</button>
 
 <div class="ticker-wrap" id="tickerWrap">
     <div class="ticker-content" id="tickerContent">📢 แป๊บไอ้สัสนรก</div>
@@ -195,7 +257,7 @@
 
 <div id="authSection">
     <h2 style="color:red">⌨️ เข้าสู่ระบบการพิมพ์กากๆ</h2>
-    <input type="text" id="usernameInput" class="auth-input" placeholder="ใส่ชื่อของมึงกูจะบันทึก">
+    <input type="text" id="usernameInput" class="auth-input" placeholder="ใส่ชื่อของมึงกูจะบันทึก" maxlength="30">
     <input type="password" id="passwordInput" class="auth-input" placeholder="รหัสผ่านของมึง จำให้ได้ด้วยล่ะ">
     <button class="btn-main" onclick="handleAuth()">เริ่มฝึกพิมพ์กากๆของมึงได้เลย</button>
 </div>
@@ -205,11 +267,12 @@
         <button class="btn-top" onclick="showEditName()">✏️ เปลี่ยนชื่อ(รวมเข้าระบบด้วย)</button>
         <button class="btn-top" onclick="showChangePassword()">🔑 เปลี่ยนรหัสผ่าน</button>
         <button class="btn-top btn-danger" onclick="showDeleteAccount()">🗑️ ลบบัญชี</button>
+       
         <button class="btn-top" onclick="showRanking()"><img src="https://img2.pic.in.th/image441518007c22e3ef.md.png" style="height: 30px; vertical-align: middle; margin-right: 5px;"> อันดับรวมของพวกกากๆ</button>
         <button class="btn-top" onclick="showLogoutConfirm()">🚪 ออกจากระบบ</button>
     </div>
     
-    <div style="display:flex; justify-content: space-between; margin-bottom: 10px; color: white; font-size: 14px;">
+    <div style="display:flex; justify-content: space-between; margin-bottom: 10px; color: var(--text-dark); font-size: 14px; transition: color 0.3s;">
 <span><img src="https://img5.pic.in.th/file/secure-sv1/imagea7debf762c63d200.png" style="height: 60px; vertical-align: middle; margin-right: 5px;"> ผู้เล่นกากๆ: <b id="displayUser" style="color:var(--highlight)"></b></span>        <span> คะแนนที่มึงทำได้สูงสุด: <b id="bestWPM" style="color:var(--highlight)">0</b> WPM</span>
     </div>
 
@@ -221,7 +284,7 @@
             <div id="wordContainer"></div>
         </div>
         <div class="controls-row">
-            <input type="text" id="userInput" placeholder=" ไม่มีลูกค้าก็อย่ามานั่งแอ็ค พิมพ์ซะ" autocomplete="off">
+            <input type="text" id="userInput" placeholder=" ยอดไม่มี ลูกค้าไม่เข้า ก็อย่ามานั่งเน่า พิมพ์ซะ!" autocomplete="off">
             <div class="timer-badge" id="timer">60</div>
             <button class="btn-refresh" onclick="resetGame()">🔄</button>
         </div>
@@ -235,6 +298,7 @@
         
         <div class="stats-grid">
             <div class="stat-box"><div class="stat-label">WPM</div><div class="stat-val" id="resWpm">0</div></div>
+ 
             <div class="stat-box"><div class="stat-label">ความแม่นยำเหยดๆ</div><div class="stat-val" id="resAcc">0%</div></div>
             <div class="stat-box"><div class="stat-label">พิมพ์ถูกเทพว่ะ</div><div class="stat-val" style="color:#10b981" id="resCorrect">0</div></div>
             <div class="stat-box"><div class="stat-label">พิมพ์ผิดกากสัส</div><div class="stat-val" style="color:#ef4444" id="resWrong">0</div></div>
@@ -243,6 +307,7 @@
 
         <div id="syncStatus" class="sync-status">กำลังส่งข้อมูลไปบันทึกนะไอ้สัส</div>
         <button class="btn-main" onclick="resetGame()">ก็เล่นใหม่ดิวะ พอใจแล้วหรอแค่นี้</button>
+  
     </div>
 </div>
 
@@ -258,12 +323,14 @@
         <table class="rank-table">
             <thead>
                 <tr>
+                  
                     <th>#</th>
                     <th>ชื่อ</th>
                     <th>WPM</th>
                     <th>ระดับ</th>
                 </tr>
             </thead>
+          
             <tbody id="lbBody"></tbody>
         </table>
         
@@ -275,9 +342,10 @@
         <h2 id="darkTitle">หัวข้อ</h2>
         <p id="darkDesc">รายละเอียด</p>
         
-        <input type="text" id="darkInput1" class="dark-input" style="display:none;">
+        <input type="text" id="darkInput1" class="dark-input" style="display:none;" maxlength="30">
         <input type="password" id="darkInput2" class="dark-input" style="display:none;">
         
+       
         <div class="dark-btn-group">
             <button class="dark-btn cancel" id="darkCancelBtn" onclick="closeModal('darkActionModal')">ช่างแม่ง</button>
             <button class="dark-btn confirm" id="darkConfirmBtn">จัดไป</button>
@@ -287,44 +355,57 @@
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw0JR-Rrt05HcgmGuOSbHB0GC4eeMCt4TQwWvAdbv6bHuOxmejpAnh2vSNl1Jdv6VEv/exec";
-    
-const fullWordList = [
-  "พี่", "เพื่อน", "ดาว", "บิน", "โสม", "แสง", "โต", "ใหญ่", "น้อย", "แผนก","ห้อง","ใจ","กลุ้ม","กลุ่ม","กาก","ร้าน","ซ่อม","ผอม", "อ้วน", "อ้อน", "แดง", "เพลง", "หอม", 
-  "ต่อ", "เติม", "ห้าม", "เช็ค", "เชือด", "แอดมิน", "สมาชิก", "พร้อม", "สำราญ", "ไม่ถูก", "ไม่ผิด", "ถูก", "ผิด", "ขอโทษ", 
-  "พ่อ", "เครียด", "ป่วย", "หวย", "หมา", "เวียน", "มังกร", "งับ", "มอง", "ดาว", "แฉ", "ไพลิน", "ปอย", "มด", "พยายาม", 
-  "ใจ", "หัว", "กำ", "หมัด", "ชก", "เหี้ย", "เสือก", "วันนี้", "จน", "นรก", "มาร", "ดอก", "กบ", "แมว", "ก้อย", "กล้าม", 
-  "โกง", "หมี", "หมวย", "สาว", "หนุ่ม", "พูด", "ลาบ", "แตก", "หน่อ", "หล่อ", "ทราบ", "ทราย", "บาง", "ไก่", "ปลา", "ต้ม", 
-  "งง", "ปลอม", "แท้", "จริง", "สิว", "ลิง", "สิบ", "เก้า", "หก", "ห้า", "สี่", "สาม", "สอง", "สิง", "ควาย", "จ้า", "ข้า", 
-  "ฟาร์ม", "ยา", "กัน", "เนื้อ", "ลำ", "ทอง", "ส้ม", "เหลือง", "เขียว", "เดย์", "พิมพ์", "ท้อง", "เกม", "จำ", "จำนำ", "พระ", 
-  "ฉัน", "เธอ", "เวร", "เพื่อ", "สัส", "ควย", "สี", "อ้อ", "หมอ", "หม้อ", "พอ", "ท่อ", "ชวน", "ทวี", "ตัดสิน", "ชอบ", "โคม", 
-  "เฉพาะ", "งาน", "ตรง", "ตุลาคม", "ขึ้น", "ขวาง", "ย้อย", "ช้า", "คูณ", "ดง", "กระดูก", "เท้า", "ซิ", "เทียบ", "ชีพ", "ชิง", 
-  "จับ", "ชั่ว", "ใกล้", "ด้วย", "ตรวจ", "ทำไม", "กล้า", "ชัวร์", "คลาย", "ธรรม", "กลาง", "ตัด", "นั่ง", "จำนวน", "จริต", "ทั้ง", 
-  "ใต้", "เดือด", "แดด", "ตาม", "จึง", "ต้น", "ช้าง", "ทัน", "เชื้อ", "เดี๋ยว", "คับ", "กล่าว", "เที่ยง", "โต๊ะ", "คลุม", "ตรา", 
-  "ค่า", "ทหาร", "แจ้ง", "ขัง", "ขาด", "เจริญ", "ข้าง", "กว้าง", "ดับ", "ชาติ", "ไกล", "แกะ", "ดวง", "ขอบ", "แถว", "งาม", "ขา", 
-  "ใคร", "ตน", "ค่ำ", "ชา", "เตียง", "แจง", "ดำ", "ทิ้ง", "ขยาย", "จัก", "ด้าน", "ถวาย", "คอ", "การ", "ธง", "ช่อง", "เกิน", 
-  "ดื่ม", "ติด", "ต้อง", "ช่าง", "ทองคำ", "จบ", "คณะ", "ทิศ", "เขา", "จด", "ตู้", "เคย", "คะ", "ถนน", "ควร", "กิน", "กี่", 
-  "ขัด", "กว่า", "ช่วย", "ซ้ำ", "นอน", "ดิน", "จง", "กาย", "กรุง", "ครอง","เหยด", "เห่า", "ไหล", "ล้าน", "เหมียว", "บอก", "หยอก", "เนย", "อ้วก", "แลก", "ซึ่ง", "โชค", "เด็ก", "เช่น", "ขี่", "คอย", 
-  "ขน", "คดี", "ไข", "โดย", "ขัน", "จาก", "แทน", "กา", "ที", "ทาย", "จิต", "เครื่อง", "ข้าม", "เกาะ", "จม", "เดือน", "ซ้าย", 
-  "เงิน", "คน", "ตำ", "กู้", "ท้าย", "ชน", "ก่อ", "ดี", "เตือน", "เงียบ", "เขต", "โทษ", "ความ", "ข้าว", "ชัก", "จัง", "ขณะ", 
-  "จันทร์", "ขวด", "เที่ยว", "จีน", "จะ", "ใช่", "ทอด", "ตั้ง", "ครู", "ตัว", "ตก", "ถอย", "เช้า", "นม", "ก็", "ทรง", "ทา", 
-  "ธาตุ", "ชนะ", "ก้อน", "โง่", "แก้", "คำ", "ตาย", "นัก", "ค้า", "ชี้", "คืน", "แตก", "ได้", "ต่ำ", "งอก", "จ่าย", "ค้น", 
-  "ค่อย", "ขาย", "ขีด", "กลม", "ชัด", "เดิน", "ไทย", "คือ", "ชีวิต", "ข่าว", "ญาติ", "ทุกข์", "ชนิด", "ทะเล", "เชื่อ", "เท", 
-  "ใช้", "เกิด", "ขนาด", "กรรม", "ถ้า", "เดิม", "ชื่อ", "แต่ง", "ทุ่ง", "ทุก", "ชั้น", "ง่าย", "ขับ", "ตลอด", "นอก", "ตลาด", 
-  "จังหวัด", "ถาม", "ตา", "เถียง", "แก้ว", "เจ็ด", "เจ้า", "กรม", "ถั่ว", "กลับ", "เท็จ", "กะ", "เคียง", "ไถ", "ใคร่", "จัด", 
-  "กาชาด", "ตอน", "กาง", "ทูต", "กำไร", "ดุจ", "แจ่ม", "เก้าอี้", "ฉบับ", "เข้า", "จดหมาย", "กระจาย", "ซ่อน", "ทั้งปวง", "ทัพ", "โกรธ", "เท่า", "เกี่ยวข้อง", "ต้อน", "เก่า", "เดี่ยว", "โจทย์", "ของ", "ครอบครัว", "ชั่วโมง", "กลัว", "เต็ม", 
-  "กิน", "ทรัพย์", "กระทรวง", "จักร", "กฎหมาย", "ขอ", "ญี่ปุ่น", "เคลื่อน", "ดำเนิน", "นคร", "ครั้ง", "แข็ง", "ซื้อ", "เกรง", 
-  "คู", "ทับ", "ชำนาญ", "ทาน", "ไข่", "คุณ", "ทีเดียว", "ข้าศึก", "ฉะนั้น", "แต่", "ชม", "กำหนด", "ค่ะ", "ตะเกียง", "ตำแหน่ง", 
-  "เกียจ", "ทั่ว", "ทาง", "กสิกรรม", "ธุระ", "กร", "ฉะนี้", "เขียน", "เถิด", "เกี่ยว", "คิด", "นก", "กรรมการ", "ขด", "ดำริ", 
-  "ขาว", "ธรรมดา", "งู", "กระนั้น", "กระดาน", "เก็บ", "แขก", "จ้าง",  "ชายหาด", "ตึก", "น้อง", "เข้าหู", 
-  "เกือบ", "ทน", "กุมาร", "ทดลอง", "ทาบ", "เจาะ", "แก", "ข้าพเจ้า", "ทูน", "ครึ่ง", "ทำ", "กอบ", "นอกจาก", "เท่าไร", 
-  "ชาว", "กระด้าง", "ไข้", "ชนวน", "จำพวก", "ใด", "จูบ", "ไต่", "ต้าน", "กิริยา", "โกร่ง", "เทียม", "ขอรับ", "ไฉน", "ตระกูล", 
-  "ดัง", "ชาย", "ก่อน", "ทำลาย", "ธรรมเนียม", "เทวดา", "ดู", "ตรัส", "คลอง", "ตะวัน", "ท่าน", "ถ้อย", "กระทำ", 
-  "แก่", "ข้าราชการ", "ทวีป", "เกล้า", "ตอบ", "เจ็บ", "ร้อง", "ต่อย", "พลาน", "ถ้วย", "หอย", "บี้", "ขยี้", "บด"
- ];
-let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
+    const fullWordList = [
+      "พี่", "เพื่อน", "ดาว", "บิน", "โสม", "แสง", "โต", "ใหญ่", "น้อย", "แผนก","ห้อง","ใจ","ลอย","กลุ่ม","กาก","ร้าน","ซ่อม","ผอม", "อ้วน", "อ้อน", "แดง", "เพลง", "หอม", 
+      "ต่อ", "เติม", "ห้าม", "เช็ค", "เชือด", "แอดมิน", "สมาชิก", "พร้อม", "สำราญ", "ไม่ถูก", "ไม่ผิด", "ถูก", "ผิด", "ขอโทษ", 
+      "พ่อ", "เครียด", "ป่วย", "หวย", "หมา", "เวียน", "มังกร", "งับ", "มอง", "ดาว", "แฉ", "ไพลิน", "ปอย", "มด", "พยายาม", 
+      "ใจ", "หัว", "กำ", "หมัด", "ชก", "เหี้ย", "เสือก", "วันนี้", "จน", "นรก", "มาร", "ดอก", "กบ", "แมว", "ก้อย", "กล้าม", 
+      "โกง", "หมี", "หมวย", "สาว", "หนุ่ม", "พูด", "ลาบ", 
+      "แตก", "หน่อ", "หล่อ", "ทราบ", "ทราย", "บาง", "ไก่", "ปลา", "ต้ม", 
+      "งง", "ปลอม", "แท้", "จริง", "สิว", "ลิง", "สิบ", "เก้า", "หก", "บอง","โอน","จ่าย","สาย","โดน","ปรับ","หลับ","เงิน","ทอน",
+      "ห้า", "สี่", "สาม", "สอง", "สิง", "ควาย", "จ้า", "ข้า", 
+      "ฟาร์ม", "ยา", "กัน", "เนื้อ", "ลำ", "ทอง", "ส้ม", "เหลือง", "เขียว", "เดย์", "พิมพ์", "ท้อง", "เกม", "จำ", "จำนำ", "พระ", 
+      "ฉัน", "เธอ", "เวร", "เพื่อ", "สัส", "ควย", "สี", "อ้อ", "หมอ", "หม้อ", "พอ", "ท่อ", "ชวน", "ทวี", "ตัดสิน", "ชอบ", "โคม", 
+      "เฉพาะ", "งาน", "ตรง", "ตุลาคม", "ขึ้น", "ขวาง", "ย้อย", "ช้า", "คูณ", "ดง", "กระดูก", 
+      "เท้า", "ซิ", "เทียบ", "ชีพ", "ชิง", 
+      "จับ", "ชั่ว", "ใกล้", "ด้วย", "ตรวจ", "ทำไม", "กล้า", "ชัวร์", "คลาย", "ธรรม", "กลาง", "ตัด", "นั่ง", "จำนวน", "จริต", "ทั้ง", 
+      "ใต้", "เดือด", "แดด", "ตาม", "จึง", "ต้น", "ช้าง", "ทัน", "เชื้อ", "เดี๋ยว", "คับ", "กล่าว", "เที่ยง", "โต๊ะ", "คลุม", "ตรา", 
+      "ค่า", "ทหาร", "แจ้ง", "ขัง", "ขาด", "เจริญ", "ข้าง", "กว้าง", "ดับ", "ชาติ", "ไกล", "แกะ", "ดวง", "ขอบ", "แถว", "งาม", "ขา", 
+      "ใคร", "ตน", "ค่ำ", "ชา", "เตียง", "แจง", "ดำ", "ทิ้ง", "ขยาย", "จัก", "ด้าน", "ถวาย", "คอ", "การ", "ธง", "ช่อง", "เกิน", 
+     
+      "ดื่ม", "ติด", "ต้อง", "ช่าง", "ทองคำ", "จบ", "คณะ", "ทิศ", "เขา", "จด", "ตู้", "เคย", "คะ", "ถนน", "ควร", "กิน", "กี่", 
+      "ขัด", "กว่า", "ช่วย", "ซ้ำ", "นอน", "ดิน", "จง", "กาย", "กรุง", "ครอง","เหยด", "เห่า", "ไหล", "ล้าน", "เหมียว", "บอก", "หยอก", "เนย", "อ้วก", "แลก", "ซึ่ง", "โชค", "เด็ก", "เช่น", "ขี่", "คอย", 
+      "ขน", "คดี", "ไข", "โดย", "ขัน", "จาก", "แทน", "กา", "ที", "ทาย", "จิต", "เครื่อง", "ข้าม", "เกาะ", "จม", 
+      "เดือน", "ซ้าย", 
+      "เงิน", "คน", "ตำ", "กู้", "ท้าย", "ชน", "ก่อ", "ดี", "เตือน", "เงียบ", "เขต", "โทษ", "ความ", "ข้าว", "ชัก", "จัง", 
+      "ขณะ", 
+      "จันทร์", "ขวด", "เที่ยว", "จีน", "จะ", "ใช่", "ทอด", "ตั้ง", "ครู", "ตัว", "ตก", "ถอย", "เช้า", "นม", "ก็", "ทรง", "ทา", 
+      "ธาตุ", "ชนะ", "ก้อน", "โง่", "แก้", "คำ", "ตาย", "นัก", "ค้า", "ชี้", "คืน", "แตก", "ได้", "ต่ำ", "งอก", "จ่าย", "ค้น", 
+      "ค่อย", "ขาย", "ขีด", "กลม", "ชัด", "เดิน", "ไทย", "คือ", "ชีวิต", "ข่าว", "ญาติ", "ทุกข์", "ชนิด", "ทะเล", "เชื่อ", "เท", 
+      "ใช้", "เกิด", "ขนาด", "กรรม", "ถ้า", "เดิม", "ชื่อ", "แต่ง", "ทุ่ง", "ทุก", "ชั้น", "ง่าย", "ขับ", "ตลอด", "นอก", "ตลาด", 
+      "จังหวัด", "ถาม", "ตา", 
+      "เถียง", "แก้ว", "เจ็ด", "เจ้า", "กรม", "ถั่ว", "กลับ", "เท็จ", "กะ", "เคียง", "ไถ", "ใคร่", "จัด", 
+      "กาชาด", "ตอน", "กาง", "ทูต", "กำไร", "ดุจ", "แจ่ม", "เก้าอี้", "ฉบับ", "เข้า", "จดหมาย", "กระจาย", "ซ่อน", "ทั้งปวง", "ทัพ", "โกรธ", "เท่า", "เกี่ยวข้อง", "ต้อน", "เก่า", "เดี่ยว", "โจทย์", "ของ", "ครอบครัว", "ชั่วโมง", "กลัว", "เต็ม", 
+      "กิน", "ทรัพย์", "กระทรวง", "จักร", "กฎหมาย", "ขอ", "ญี่ปุ่น", "เคลื่อน", "ดำเนิน", "นคร", "ครั้ง", "แข็ง", "ซื้อ", "เกรง", 
+      "คู", "ทับ", "ชำนาญ", "ทาน", "ไข่", "คุณ", "ทีเดียว", "ข้าศึก", "ฉะนั้น", "แต่", "ชม", "กำหนด", "ค่ะ", "ตะเกียง", "ตำแหน่ง", 
+      "เกียจ", 
+      "ทั่ว", "ทาง", "กสิกรรม", "ธุระ", "กร", "ฉะนี้", "เขียน", "เถิด", "เกี่ยว", "คิด", "นก", "กรรมการ", "ขด", "ดำริ", 
+      "ขาว", "ธรรมดา", "งู", "กระนั้น", "กระดาน", "เก็บ", 
+      "แขก", "จ้าง",  "ชายหาด", "ตึก", "น้อง", "เข้าหู", 
+      "เกือบ", "ทน", "กุมาร", "ทดลอง", "ทาบ", "เจาะ", "แก", "ข้าพเจ้า", "ทูน", "ครึ่ง", "ทำ", "กอบ", "นอกจาก", "เท่าไร", 
+      "ชาว", "กระด้าง", "ไข้", "ชนวน", "จำพวก", "ใด", "จูบ", "ไต่", "ต้าน", "กิริยา", "โกร่ง", "เทียม", "ขอรับ", "ไฉน", "ตระกูล", 
+      "ดัง", "ชาย", "ก่อน", "ทำลาย", "ธรรมเนียม", "เทวดา", "ดู", "ตรัส", "คลอง", "ตะวัน", "ท่าน", "ถ้อย", "กระทำ", 
+      "แก่", "ข้าราชการ", "ทวีป", "เกล้า", "ตอบ", "เจ็บ", "ร้อง", "ต่อย", "พลาน", "ถ้วย", "หอย", "บี้", "ขยี้", "บด"
+     ];
+    let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
     let correctCount = 0, wrongCount = 0, totalTypeAttempts = 0, totalChars = 0, correctChars = 0, currentUser = "";
-
+    // โหลดธีมที่เคยตั้งไว้
     window.onload = function() {
+        if (localStorage.getItem('theme_preference') === 'light') {
+            document.body.classList.add('light-mode');
+            document.getElementById('themeToggleBtn').innerHTML = '🌙 สลับโหมดมืด';
+        }
+        
         const savedUser = localStorage.getItem('isLoggedIn');
         if (savedUser) {
             currentUser = savedUser;
@@ -332,34 +413,59 @@ let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
             showGame(savedUser, db[savedUser] ? db[savedUser].best : 0);
         }
         loadTickerData(); 
-        setInterval(loadTickerData, 30000); 
+        setInterval(loadTickerData, 30000);
+        // ขั้นตอนที่ 1: ตั้งค่าให้ Focus ช่องพิมพ์ทันทีที่เปิดหน้าเว็บ
+        const inputField = document.getElementById('userInput');
+        if (inputField) {
+            inputField.focus();
+            setTimeout(() => inputField.focus(), 100);
+        }
     };
 
-function loadTickerData() {
-    fetch(SCRIPT_URL)
-    .then(res => res.json())
-    .then(data => {
-        if(data && data.length > 0) {
-            let uniqueLatest = [];
-            let seenNames = new Set();
-            for (let i = data.length - 1; i >= 0; i--) {
-                if (!seenNames.has(data[i].username)) {
-                    uniqueLatest.push(data[i]);
-                    seenNames.add(data[i].username);
-                    if (uniqueLatest.length >= 2) break;
-                }
-            }
-
-            let tickerHtml = uniqueLatest.map(item => 
-                `<img src="https://img2.pic.in.th/image4a54c6aceb3df441.md.png" style="height: 45px; vertical-align: middle; margin-right: 5px;"> <b>${item.username}</b> พิมพ์ไป <b>${item.wpm} WPM</b> (${getRank(item.wpm).replace(/<img[^>]*>/g, "")})`
-            ).join(' &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ');
-
-            document.getElementById('tickerContent').innerHTML = `📢 แง๊นๆๆ โหลเทสๆ &nbsp;&nbsp;&nbsp; ${tickerHtml}`;
+    // ฟังก์ชันสลับโหมดสี
+    function toggleTheme() {
+        const body = document.body;
+        body.classList.toggle('light-mode');
+        const btn = document.getElementById('themeToggleBtn');
+        
+        if (body.classList.contains('light-mode')) {
+            btn.innerHTML = '🌙 สลับโหมดมืด';
+            localStorage.setItem('theme_preference', 'light');
+        } else {
+            btn.innerHTML = '☀️ สลับโหมดสว่าง';
+            localStorage.setItem('theme_preference', 'dark');
         }
-    })
-    .catch(() => {
-        document.getElementById('tickerContent').innerHTML = "📢 โหลดข้อมูล Ticker ไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน";
-    });
+    }
+
+    function loadTickerData() {
+        fetch(SCRIPT_URL)
+        .then(res => res.json())
+        .then(data => {
+            if(data && data.length > 0) {
+                let uniqueLatest = [];
+                let seenNames = new Set();
+    
+                for (let i = data.length - 1; i >= 0; i--) {
+                    if (!seenNames.has(data[i].username)) {
+                        uniqueLatest.push(data[i]);
+                        seenNames.add(data[i].username);
+       
+                         if (uniqueLatest.length >= 2) break;
+                    }
+                }
+
+                let tickerHtml = uniqueLatest.map(item => 
+                    `<img src="https://img2.pic.in.th/image4a54c6aceb3df441.md.png" 
+style="height: 45px; vertical-align: middle; margin-right: 5px;"> <b>${item.username}</b> พิมพ์ไป <b>${item.wpm} WPM</b> (${getRank(item.wpm).replace(/<img[^>]*>/g, "")})`
+                ).join(' &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ');
+
+                document.getElementById('tickerContent').innerHTML = `📢 แง๊นๆๆ โหลเทสๆ &nbsp;&nbsp;&nbsp;
+${tickerHtml}`;
+            }
+        })
+        .catch(() => {
+            document.getElementById('tickerContent').innerHTML = "📢 โหลดข้อมูล Ticker ไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน";
+        });
 }
 
     function getRank(wpm) {
@@ -374,26 +480,28 @@ function loadTickerData() {
         if (wpm <= 120)return `<img src="https://img2.pic.in.th/image7879c2ee29d6d391.md.png" width="25" style="vertical-align:middle;"> โคตรพ่อโคตรแม่ไวจัด`;
         if (wpm <= 130) return `<img src="https://img2.pic.in.th/image0d2874d58475dbc7.md.png" width="25" style="vertical-align:middle;"> เร็วสัส ใครจะสู้ได้วะแม่เย็ด`;
         return `<img src="https://playserver.in.th/user_image/server_icon/13889_131811298.jpg" width="25" style="vertical-align:middle;"> ตัวตึงหนึ่งเดียวในบริษัท`;
-}
+    }
 
     function handleAuth() {
         const user = document.getElementById('usernameInput').value.trim();
         const pass = document.getElementById('passwordInput').value.trim();
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
-        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         
+        // ดักจับชื่อยาวเกิน 30 ตัวอักษรตอนสมัคร
+        if(user.length > 30) return alert("ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!");
+        
+        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         if (user === pass) {
             setupDarkModal("🚨 เตือนสติหน่อยไอ้เวร!", "มึงอย่าใส่ชื่อกับรหัสเหมือนกันดิฟระ!<br>เดี๋ยวมีคนไปลบแอ็คเคาท์ของมึง กูไม่รู้ด้วยนะ!!<br>(แต่เดี๋ยวจะให้เข้าก่อนละกัน ทนกากไปก่อน)", "รับทราบแล้วไอ้สัส!", () => {
                 proceedLogin(user, pass, db);
                 closeModal('darkActionModal');
             }, "ซ่อน");
-            
             document.getElementById('darkConfirmBtn').className = "dark-btn danger";
             document.getElementById('darkCancelBtn').style.display = "none";
             return;
         }
         proceedLogin(user, pass, db);
-    }
+}
 
     function proceedLogin(user, pass, db) {
         if(db[user] && db[user].pass !== pass) return alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!");
@@ -402,7 +510,7 @@ function loadTickerData() {
         localStorage.setItem('isLoggedIn', user);
         currentUser = user;
         showGame(user, db[user].best);
-    }
+}
 
     function setupDarkModal(title, desc, confirmText, confirmAction, cancelText = "ยกเลิก") {
         document.getElementById('darkTitle').innerHTML = title;
@@ -420,8 +528,7 @@ function loadTickerData() {
         confirmBtn.onclick = confirmAction;
         
         cancelBtn.innerHTML = cancelText;
-        cancelBtn.style.display = "block"; 
-        
+        cancelBtn.style.display = "block";
         document.getElementById('darkActionModal').style.display = 'flex';
     }
 
@@ -429,15 +536,24 @@ function loadTickerData() {
         setupDarkModal("✏️ แก้ไขชื่อของมึง", "ใส่ชื่อใหม่ที่ดูดีกว่าเดิมมาเลยไอ้สัส", "เปลี่ยนชื่อ", () => {
             const newName = document.getElementById('darkInput1').value.trim();
             if(!newName || newName === currentUser) return;
+            
+            // ดักจับชื่อยาวเกิน 30 ตัวอักษรตอนเปลี่ยนชื่อ
+            if(newName.length > 30) {
+                document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!</span>";
+                return;
+            }
+
             let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
             if(db[newName]) {
-                document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อนี้มีคนใช้แล้ว เปลี่ยนใหม่ดิวะ!</span>";
+               
+                 document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อนี้มีคนใช้แล้ว เปลี่ยนใหม่ดิวะ!</span>";
                 return;
             }
             const oldName = currentUser;
             db[newName] = db[oldName];
             delete db[oldName];
             localStorage.setItem('typingDB_Final', JSON.stringify(db));
+            
             localStorage.setItem('isLoggedIn', newName);
             currentUser = newName;
             document.getElementById('displayUser').innerText = newName;
@@ -449,7 +565,7 @@ function loadTickerData() {
         document.getElementById('darkInput1').style.display = 'block';
         document.getElementById('darkInput1').value = currentUser;
         setTimeout(() => document.getElementById('darkInput1').focus(), 100);
-    }
+}
 
     function showChangePassword() {
         setupDarkModal("🔑 เปลี่ยนรหัสกากๆของมึง", "พิมพ์รหัสเดิม และรหัสใหม่มาให้ครบ กูจะได้จำให้", "เปลี่ยนรหัส", () => {
@@ -458,13 +574,15 @@ function loadTickerData() {
             let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
             if(!oldPass || !newPass) return;
             if(db[currentUser].pass !== oldPass) {
+ 
                 document.getElementById('darkDesc').innerHTML = "<span style='color:red'>รหัสเดิมมึงยังผิดเลย ไอ้ควาย!</span>";
                 return;
             }
             db[currentUser].pass = newPass;
             localStorage.setItem('typingDB_Final', JSON.stringify(db));
             closeModal('darkActionModal');
-            setupDarkModal("✅ เปลี่ยนแล้ว", "รหัสของมึงเปลี่ยนใหม่แล้ว", "ปิด", () => closeModal('darkActionModal'));
+            setupDarkModal("✅ เปลี่ยนแล้ว", 
+"รหัสของมึงเปลี่ยนใหม่แล้ว", "ปิด", () => closeModal('darkActionModal'));
             document.getElementById('darkCancelBtn').style.display = "none";
         });
         document.getElementById('darkInput1').style.display = 'block';
@@ -473,7 +591,7 @@ function loadTickerData() {
         document.getElementById('darkInput2').style.display = 'block';
         document.getElementById('darkInput2').placeholder = "รหัสใหม่...";
         setTimeout(() => document.getElementById('darkInput1').focus(), 100);
-    }
+}
 
     function showDeleteAccount() {
         setupDarkModal("🗑️ ยืนยันจะลบทิ้ง?", "มึงแน่ใจนะว่าจะลบบัญชี? <br><span style='color:#ef4444'>ลบแล้วข้อมูลหายหมดเกลี้ยง!</span>", "ลบแม่งเลย!", () => {
@@ -492,15 +610,15 @@ function loadTickerData() {
         document.getElementById('authSection').style.display = 'none';
         document.getElementById('gameMain').style.display = 'block';
         init();
-    }
+}
 
     function handleLogout() {
         localStorage.removeItem('isLoggedIn');
         location.reload();
-    }
+}
 
     function showRanking() {
-        document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>กำลังดึงข้อมูล...</td></tr>";
+        document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>รอกูแป๊ปไอ้สัส</td></tr>";
         document.getElementById('rankingModal').style.display = 'flex';
         fetch(SCRIPT_URL).then(res => res.json()).then(data => {
             const bestScoresMap = {};
@@ -508,19 +626,23 @@ function loadTickerData() {
             const leaderboard = Object.values(bestScoresMap).sort((a, b) => b.wpm - a.wpm);
             let html = "";
             leaderboard.slice(0, 120).forEach((row, i) => {
-                html += `<tr class="${row.username === currentUser ? 'active-rank' : ''}"><td>${i+1}</td><td>${row.username}</td><td>${row.wpm}</td><td>${getRank(row.wpm)}</td></tr>`;
+   
+             html += `<tr class="${row.username === currentUser ? 'active-rank' : ''}"><td>${i+1}</td><td>${row.username}</td><td>${row.wpm}</td><td>${getRank(row.wpm)}</td></tr>`;
             });
             document.getElementById('lbBody').innerHTML = html || "<tr><td colspan='4'>ไม่มีข้อมูล</td></tr>";
         }).catch(() => { document.getElementById('lbBody').innerHTML = "<tr><td colspan='4'>โหลดข้อมูลไม่สำเร็จ</td></tr>"; });
-    }
+}
 
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function closeModal(id) { 
+        document.getElementById(id).style.display = 'none';
+}
 
     function init() {
         words = [...fullWordList].sort(() => Math.random() - 0.5);
         document.getElementById('wordContainer').innerHTML = words.map((w, i) => `<span class="word" id="w-${i}">${w}</span>`).join('');
         currentIdx = 0; timeLeft = 60; isStarted = false; 
-        correctCount = 0; wrongCount = 0; totalTypeAttempts = 0; totalChars = 0; correctChars = 0;
+        correctCount = 0;
+        wrongCount = 0; totalTypeAttempts = 0; totalChars = 0; correctChars = 0;
         document.getElementById('userInput').value = '';
         document.getElementById('userInput').style.color = 'var(--text-dark)';
         document.getElementById('userInput').disabled = false;
@@ -528,7 +650,7 @@ function loadTickerData() {
         document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
         document.getElementById('wordContainer').style.transform = `translateY(0)`;
         updateFocus();
-    }
+}
 
     function updateFocus() {
         document.querySelectorAll('.word.current').forEach(el => el.classList.remove('current', 'is-correct', 'is-wrong'));
@@ -545,7 +667,8 @@ function loadTickerData() {
             timer = setInterval(() => {
                 timeLeft--;
                 document.getElementById('timer').innerText = timeLeft;
-                if(timeLeft <= 0) endGame();
+    
+             if(timeLeft <= 0) endGame();
             }, 1000);
         }
         
@@ -554,23 +677,25 @@ function loadTickerData() {
         const activeWord = document.getElementById(`w-${currentIdx}`);
 
         if (activeWord) {
-            if (val.length > 0) {
+            if 
+(val.length > 0) {
                 if (target.startsWith(val)) {
                     e.target.style.color = '#10b981'; // ตัวหนังสือใน input สีเขียว
                     activeWord.classList.add('is-correct'); // พื้นหลังคำข้างบนสีเขียว
                     activeWord.classList.remove('is-wrong');
-                } else {
+           
+     } else {
                     e.target.style.color = '#ef4444'; // ตัวหนังสือใน input สีแดง
-                    activeWord.classList.add('is-wrong'); // พื้นหลังคำข้างบนสีแดง
+                    activeWord.classList.add('is-wrong');
+// พื้นหลังคำข้างบนสีแดง
                     activeWord.classList.remove('is-correct');
-                }
+}
             } else {
                 e.target.style.color = 'var(--text-dark)';
                 activeWord.classList.remove('is-correct', 'is-wrong');
             }
         }
     });
-
     document.getElementById('userInput').addEventListener('keydown', (e) => {
         if(e.key === ' ' || e.key === 'Enter') {
             e.preventDefault();
@@ -579,22 +704,25 @@ function loadTickerData() {
             
             totalTypeAttempts++; 
             const target = words[currentIdx];
-            totalChars += target.length;
+ 
+           totalChars += target.length;
             const activeWord = document.getElementById(`w-${currentIdx}`);
             
             activeWord.classList.remove('is-correct', 'is-wrong'); // ล้างสถานะพิมพ์สด
 
             if(val === target) { 
                 activeWord.classList.add('correct'); 
-                correctCount++; 
+            
+    correctCount++; 
                 correctChars += target.length; 
             } else { 
                 activeWord.classList.add('wrong'); 
                 wrongCount++;
             }
             currentIdx++; 
-            document.getElementById('userInput').value = '';
-            document.getElementById('userInput').style.color = 'var(--text-dark)'; 
+   
+         document.getElementById('userInput').value = '';
+            document.getElementById('userInput').style.color = 'var(--text-dark)';
             updateFocus();
         }
     });
@@ -620,61 +748,52 @@ function loadTickerData() {
         fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ username: currentUser, wpm: correctCount, accuracy: finalAcc }) })
         .then(() => { document.getElementById('syncStatus').innerText = "✅ บันทึกเรียบร้อย แม่เย็ด"; loadTickerData(); })
         .catch(() => { document.getElementById('syncStatus').innerText = "❌ บันทึกไม่สำเร็จ " + rankMessage; });
-    }
-
-    function resetGame() { clearInterval(timer); init(); 
-    setTimeout(() => document.getElementById('userInput').focus(), 100); 
 }
-            // 1. ฟังก์ชันเปิดป๊อปอัพกวนตีน
-        function showLogoutConfirm() {
-            const modal = document.getElementById('logoutModal');
-            if (modal) {
-                modal.style.display = 'flex';
-            }
-        }
 
-        // 2. ฟังก์ชันยืนยันการออก (พอกด "เออ ออกเลย!")
-        function confirmLogout() {
-            alert("เออ โชคดี อย่าลืมรหัสล่ะไอ้สอง!");
-            
-            // ถ้ามึงมีฟังก์ชัน handleLogout เดิมอยู่แล้ว ให้มันทำงานต่อ
-            if (typeof handleLogout === "function") {
-                handleLogout();
-            } else {
-                // ถ้าไม่มีฟังก์ชันอะไรเลย ก็ให้รีโหลดหน้าเพื่อล้างสถานะ
-                location.reload();
-            }
-        }
-
-        // 3. ฟังก์ชันปิดป๊อปอัพ (ใช้ร่วมกับกากบาทและปุ่มยกเลิก)
-        function closeModal(id) {
-            const modal = document.getElementById(id);
-            if (modal) {
-                modal.style.display = 'none';
-            }
-        }
-        // ขั้นตอนที่ 1: ตั้งค่าให้ Focus ช่องพิมพ์ทันทีที่เปิดหน้าเว็บ
-window.addEventListener('load', function() {
-    const inputField = document.getElementById('userInput');
-    if (inputField) {
-        inputField.focus();
-        // เผื่อเหนียวสำหรับบาง Browser ที่โหลดช้า
-        setTimeout(() => inputField.focus(), 100);
+    function resetGame() { 
+        clearInterval(timer); init();
+        setTimeout(() => document.getElementById('userInput').focus(), 100);
     }
-});
+
+    // 1. ฟังก์ชันเปิดป๊อปอัพกวนตีน
+    function showLogoutConfirm() {
+        const modal = document.getElementById('logoutModal');
+        if (modal) {
+            modal.style.display = 'flex';
+        }
+    }
+
+    // 2. ฟังก์ชันยืนยันการออก (พอกด "เออ ออกเลย!")
+    function confirmLogout() {
+        alert("เออ โชคดี อย่าลืมรหัสล่ะไอ้สอง!");
+        // ถ้ามึงมีฟังก์ชัน handleLogout เดิมอยู่แล้ว ให้มันทำงานต่อ
+        if (typeof handleLogout === "function") {
+            handleLogout();
+        } else {
+            // ถ้าไม่มีฟังก์ชันอะไรเลย ก็ให้รีโหลดหน้าเพื่อล้างสถานะ
+            location.reload();
+        }
+    }
 </script>
+
 <div class="modal-overlay" id="logoutModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
     <div class="modal-card" style="background: #1a1a1a; width: 95%; max-width: 420px; padding: 45px; border-radius: 35px; text-align: center; position: relative; border: 2px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
         
-        <span style="position: absolute; top: 20px; right: 25px; font-size: 35px; cursor: pointer; color: #fff; line-height: 1; transition: 0.3s;" onclick="closeModal('logoutModal')" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#fff'">&times;</span>
+        <span style="position: absolute; top: 20px; right: 25px; font-size: 35px; cursor: pointer; color: #fff; line-height: 1; transition: 0.3s;"
+        onclick="closeModal('logoutModal')" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#fff'">&times;</span>
         
         <h2 style="color: #ff4d4d; margin-bottom: 15px; font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,77,77,0.3);">มึ ง จ ะ อ อ ก จ ริ ง ๆ ห ร อ ?</h2>
         
-        <p style="margin-bottom: 30px; color: #ffffff; font-size: 1.1rem; opacity: 0.9;">แล้วจะจำรหัสได้ไหม? คิดดีๆ นะไอ้กาก!</p>
+        <p style="margin-bottom: 30px; color: #ffffff; font-size: 1.1rem; opacity: 0.9;">แล้วจะจำรหัสได้ไหม?
+        คิดดีๆ นะไอ้กาก!</p>
         
         <div style="display: flex; gap: 15px;">
-            <button class="btn-main" style="background: #ef4444; color: white; border: none; padding: 12px 20px; border-radius: 15px; flex: 1; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s;" onclick="confirmLogout()" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">เออ ออกเลย!</button>
-            <button class="btn-main" style="background: #444; color: white; border: none; padding: 12px 20px; border-radius: 15px; flex: 1; cursor: pointer; font-size: 1rem; transition: 0.2s;" onclick="closeModal('logoutModal')" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'">ไม่เอา ล้อเล่น</button>
+            <button class="btn-main" style="background: #ef4444; color: white; border: none; padding: 12px 20px; border-radius: 15px; flex: 1; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s;"
+            onclick="confirmLogout()" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">เออ ออกเลย!</button>
+            <button class="btn-main" style="background: #444; color: white; border: none; padding: 12px 20px; border-radius: 15px; flex: 1; cursor: pointer; font-size: 1rem; transition: 0.2s;"
+            onclick="closeModal('logoutModal')" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'">ไม่เอา ล้อเล่น</button>
         </div>
     </div>
 </div>
+</body>
+</html>
