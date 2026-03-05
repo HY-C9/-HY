@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>คนกากๆฝึกพิมพ์ - ว่างใช่ไหมถึงพิมพ์</title>
     <link rel="icon" type="image/png" href="https://img5.pic.in.th/file/secure-sv1/imagef6f91e1cf62ed483.md.png">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #3bb154;
@@ -136,17 +136,66 @@
         .timer-badge { background: var(--primary); color: white; padding: 15px 35px; border-radius: 16px; font-size: 32px; font-weight: 700; min-width: 70px; }
         .btn-refresh { background: #fff; border: 2px solid #e2e8f0; width: 70px; height: 70px; border-radius: 16px; cursor: pointer; font-size: 28px; color: #333; transition: 0.3s; }
         
+        /* Modal Base */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(10, 10, 15, 0.9); backdrop-filter: blur(8px);
             display: none; justify-content: center; align-items: center; z-index: 10000;
         }
 
-        .modal-card {
-            background: white; width: 95%; max-width: 750px; padding: 40px;
-            border-radius: 30px; text-align: center; max-height: 85vh; overflow-y: auto; transition: background-color 0.3s, color 0.3s;
+        .modal-overlay[style*="display: flex"] .modal-card {
+            animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.95) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-card {
+            background: var(--card); color: var(--text-light); width: 95%; max-width: 750px; padding: 40px;
+            border-radius: 28px; text-align: center; max-height: 85vh; overflow-y: auto; 
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Result Modal Specific UI */
+        .result-title { font-size: 32px; font-weight: 800; margin-bottom: 5px; color: var(--text-light); }
+        .result-subtitle { font-size: 16px; color: #64748b; margin-top: 0; margin-bottom: 25px; font-weight: 400; }
+
+        .rank-badge { 
+            background: linear-gradient(135deg, #ffd43b, #f59e0b); color: #000; 
+            padding: 12px 35px; border-radius: 50px; font-weight: 800; font-size: 22px; 
+            margin-bottom: 25px; display: inline-flex; align-items: center; gap: 8px;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3); border: 2px solid #fff;
+        }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
+        .stat-box { 
+            background: #111827; padding: 25px 20px; border-radius: 20px; 
+            border: 1px solid #1f2937; transition: 0.3s ease;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .stat-box:hover { transform: translateY(-3px); border-color: #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .stat-box.highlight { grid-column: span 2; background: linear-gradient(145deg, rgba(59,177,84,0.1), rgba(0,0,0,0)); border-color: rgba(59,177,84,0.3); }
+        .stat-box.highlight:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(59,177,84,0.15); }
+        
+        .stat-val { font-size: 38px; font-weight: 800; line-height: 1.1; margin-top: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .stat-val.huge { font-size: 56px; color: var(--primary); }
+        .stat-label { font-size: 14px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .btn-main { 
+            background: var(--primary); color: white; border: none; width: 100%; padding: 18px; 
+            border-radius: 16px; font-weight: 800; font-size: 18px; cursor: pointer; margin-top: 10px; 
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 25px rgba(59, 177, 84, 0.3);
+            font-family: 'Sarabun', sans-serif;
+        }
+        .btn-main:hover { background: #2f8d43; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(59, 177, 84, 0.4); }
+        .btn-main:active { transform: translateY(1px); box-shadow: 0 4px 15px rgba(59, 177, 84, 0.3); }
+        
+        .sync-status { font-size: 14px; color: #94a3b8; margin-top: 15px; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 5px; }
+
+        /* Dark Modal Details */
         .dark-modal {
             background: #121212; border: 1px solid #333; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
             border-radius: 20px; color: #fff; width: 90%; max-width: 400px; padding: 30px; transition: background-color 0.3s, border-color 0.3s, color 0.3s;
@@ -164,13 +213,6 @@
         .dark-btn.danger { background: #dc2626; color: #fff; }
         .dark-btn.danger:hover { background: #b91c1c; }
 
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        .stat-box { background: #f8fafc; padding: 12px; border-radius: 15px; border: 1px solid #eee; transition: 0.3s; }
-        .stat-val { font-size: 28px; font-weight: 700; color: var(--primary); }
-        .stat-label { font-size: 13px; color: #64748b; }
-
-        .rank-badge { background: #ffd43b; color: #000; padding: 10px 25px; border-radius: 50px; font-weight: 700; font-size: 18px; margin-bottom: 10px; display: inline-block; }
-
         .rank-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; text-align: left; }
         .rank-table tr { border-bottom: 1px solid #eee; }
         .rank-table td, .rank-table th { padding: 10px; color:#333; }
@@ -178,15 +220,12 @@
 
         #authContainer { background: #000; padding: 40px; border-radius: 24px; width: 340px; text-align: center; color: white; transition: background-color 0.3s, color 0.3s; }
         .auth-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #111; color: white; box-sizing: border-box; transition: 0.3s; }
-        .btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 15px; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.2s;}
-        .btn-main:hover { background: #2f8d43; }
-        
-        .sync-status { font-size: 12px; color: #666; margin-top: 10px; }
 
         .close-modal-x { position: absolute; top: 15px; right: 20px; font-size: 52px; font-weight: bold; color: #999; cursor: pointer; line-height: 1; transition: 0.2s; user-select: none; z-index: 10; }
         .close-modal-x:hover { color: #ef4444; transform: scale(1.1); }
 
-        body.light-mode { --bg: #e1eff5; --card: #ffffff; --text-dark: #0f172a; --text-light: #000000; --primary1: #c5cbdf; --highlight: #fde047; }
+        /* --- LIGHT MODE OVERRIDES --- */
+        body.light-mode { --bg: #e1eff5; --card: #ffffff; --text-dark: #0f172a; --text-light: #0f172a; --primary1: #c5cbdf; --highlight: #fde047; }
         body.light-mode .ticker-wrap { background-color: #e1eff5; color: #1e293b; border-bottom: 2px solid var(--primary); }
         body.light-mode .typing-card { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; }
         body.light-mode .display-window { border-color: #cbd5e1; background-color: #f8fafc; }
@@ -199,6 +238,15 @@
         body.light-mode .dark-input { background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; }
         body.light-mode .dark-btn.cancel { background: #e2e8f0; color: #475569; }
         body.light-mode .dark-btn.cancel:hover { background: #cbd5e1; }
+        
+        body.light-mode .modal-card { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); }
+        body.light-mode .result-title { color: #0f172a; }
+        body.light-mode .stat-box { background: #f8fafc; border-color: #e2e8f0; }
+        body.light-mode .stat-box:hover { border-color: #cbd5e1; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        body.light-mode .stat-box.highlight { background: linear-gradient(145deg, rgba(59,177,84,0.05), #ffffff); border-color: rgba(59,177,84,0.2); }
+        body.light-mode .stat-box.highlight:hover { border-color: rgba(59,177,84,0.4); box-shadow: 0 10px 30px rgba(59,177,84,0.1); }
+        body.light-mode .stat-label { color: #64748b; }
+        
         body.light-mode #logoutModal > div { background: #ffffff !important; border: 1px solid #e2e8f0 !important; box-shadow: 0 20px 50px rgba(0,0,0,0.1) !important; }
         body.light-mode #logoutModal h2 { text-shadow: none !important; }
         body.light-mode #logoutModal p { color: #475569 !important; }
@@ -210,9 +258,7 @@
         body.light-mode .btn-top:hover { background: #e2e8f0; color: #1e293b; }
         body.light-mode .btn-danger { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
         body.light-mode .btn-danger:hover { background: #fecaca; }
-        body.light-mode .stat-box { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
         
-        /* สลับสีเมนู 3 ขีดเวลา Light Mode */
         body.light-mode .hamburger-btn { background: #ffffff; color: #1e293b; border-color: #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         body.light-mode .hamburger-btn:hover { background: #f8fafc; }
         body.light-mode .dropdown-menu { background: #ffffff; border-color: #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
@@ -267,6 +313,7 @@
         <button class="btn-main" onclick="handleRegister()" style="background:#ef4444;">สมัครแล้วไปพิมพ์ซะ</button>
     </div>
 </div>
+
 <div class="main-container" id="gameMain">
     
     <div class="top-actions">
@@ -295,7 +342,7 @@
     </div>
 
     <h1>ฝึกพิมพ์ สำหรับคนว่างๆ ไม่มีลูกค้า</h1>
-    <h2> H Y แ ผน ก 2 </h2>
+    <h2> H Y แ ผ น ก  2 </h2>
 
     <div class="typing-card">
         <div class="display-window">
@@ -311,19 +358,36 @@
 </div>
 
 <div class="modal-overlay" id="resultModal">
-    <div class="modal-card">
-        <h2>สรุปคะแนนของมึง</h2>
+    <div class="modal-card result-card">
+        <h2 class="result-title">ส รุ ป คื อ อ้ า ย เ จ็ บ พ๊ า ม !!</h2>
+        <p class="result-subtitle">ผลประกอบการความว่างของมึงในรอบนี้</p>
+        
         <div class="rank-badge" id="resRankBadge">ระดับ</div>
-      
+       
         <div class="stats-grid">
-            <div class="stat-box"><div class="stat-label">WPM</div><div class="stat-val" id="resWpm">0</div></div>
-            <div class="stat-box"><div class="stat-label">ความแม่นยำเหยดๆ</div><div class="stat-val" id="resAcc">0%</div></div>
-            <div class="stat-box"><div class="stat-label">พิมพ์ถูกเทพว่ะ</div><div class="stat-val" style="color:#10b981" id="resCorrect">0</div></div>
-            <div class="stat-box"><div class="stat-label">พิมพ์ผิดกากสัส</div><div class="stat-val" style="color:#ef4444" id="resWrong">0</div></div>
-            <div class="stat-box" style="grid-column: span 2;"><div class="stat-label">พิมพ์คำกากๆไป</div><div class="stat-val" style="color:#3b82f6" id="resAttempts">0</div></div>
+            <div class="stat-box highlight">
+                <div class="stat-label">🔥 ความเร็ว (WPM)</div>
+                <div class="stat-val huge" id="resWpm">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">🎯 ความแม่นยำเหยดๆ</div>
+                <div class="stat-val" style="color: #38bdf8;" id="resAcc">0%</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">✔️ พิมพ์ถูกเทพว่ะ</div>
+                <div class="stat-val" style="color: #10b981;" id="resCorrect">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">❌ พิมพ์ผิดกากสัส</div>
+                <div class="stat-val" style="color: #ef4444;" id="resWrong">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">⌨️ พิมพ์คำกากๆไป</div>
+                <div class="stat-val" style="color: #a855f7;" id="resAttempts">0</div>
+            </div>
         </div>
 
-        <div id="syncStatus" class="sync-status">กำลังส่งข้อมูลไปบันทึกนะไอ้สัส</div>
+        <div id="syncStatus" class="sync-status">⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส...</div>
         <button class="btn-main" onclick="resetGame()">ก็เล่นใหม่ดิวะ พอใจแล้วหรอแค่นี้</button>
     </div>
 </div>
@@ -494,7 +558,6 @@
         }
     };
 
-    // --- ฟังก์ชันเปิด/ปิดเมนู Hamburger ---
     function toggleActionMenu(e) {
         if(e) e.stopPropagation();
         document.getElementById('actionMenu').classList.toggle('show');
@@ -503,7 +566,6 @@
         const menu = document.getElementById('actionMenu');
         if(menu) menu.classList.remove('show');
     }
-    // คลิกที่อื่นให้เมนูปิดเอง
     window.addEventListener('click', function(e) {
         const menu = document.getElementById('actionMenu');
         const btn = document.querySelector('.hamburger-btn');
@@ -730,7 +792,7 @@
 
         const btn = document.querySelector('#loginForm .btn-main');
         const originalText = btn.innerText;
-        btn.innerText = "กำลังตรวจสอบ รอแปปไอ้สัส...";
+        btn.innerText = "รอแปปนะไอ้สัส.....";
         btn.disabled = true;
 
         try {
@@ -1146,6 +1208,8 @@
         document.getElementById('resWrong').innerText = wrongCount;
         document.getElementById('resAttempts').innerText = totalTypeAttempts;
         document.getElementById('resRankBadge').innerHTML = rankMessage;
+        
+        document.getElementById('syncStatus').innerText = "⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส...";
         document.getElementById('resultModal').style.display = 'flex';
         
         fetch(SCRIPT_URL, { 
@@ -1158,10 +1222,10 @@
             }) 
         })
         .then(() => { 
-            document.getElementById('syncStatus').innerText = "✅ บันทึกเรียบร้อย"; 
+            document.getElementById('syncStatus').innerText = "✅ ส่งขึ้นคลาวด์เรียบร้อยแล้วเว้ย"; 
             loadTickerData(); 
         })
-        .catch(() => { document.getElementById('syncStatus').innerText = "❌ บันทึกไม่สำเร็จ " + rankMessage; });
+        .catch(() => { document.getElementById('syncStatus').innerText = "❌ เซฟไม่ลงฐานข้อมูลว่ะ ช่างแม่งไปก่อน"; });
     }
 
     function resetGame() { 
