@@ -9,7 +9,7 @@
     <style>
         :root {
             --primary: #3bb154;
-            --primary1: #523f74;
+            --primary1: #29344e;
             --bg: rgb(15, 23, 42);
             --card: #000000;
             --text-dark: #1e293b;
@@ -52,11 +52,51 @@
 
         .main-container { width: 95%; max-width: 1100px; text-align: center; display: none; position: relative; }
 
-        .top-actions { position: absolute; top: -60px; right: 0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
+        .top-actions { position: absolute; top: -60px; right: 0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
         .btn-top { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s;}
         .btn-top:hover { background: #555; }
         .btn-danger { background: #ef4444; }
         .btn-danger:hover { background: #dc2626; }
+
+        /* --- สไตล์ของเมนู 3 ขีด (Hamburger Menu) --- */
+        .hamburger-btn {
+            background: var(--card);
+            color: var(--text-light);
+            border: 2px solid #333;
+            border-radius: 8px;
+            width: 44px; height: 44px;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            transition: 0.2s;
+            padding: 0;
+        }
+        .hamburger-btn:hover { background: #333; transform: scale(1.05); }
+        .menu-container { position: relative; }
+        .dropdown-menu {
+            position: absolute;
+            top: 55px; right: 0;
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            display: none;
+            flex-direction: column;
+            min-width: 240px;
+            z-index: 1000;
+            overflow: hidden;
+        }
+        .dropdown-menu.show { display: flex; animation: fadeIn 0.2s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .dropdown-item {
+            background: transparent; color: #fff; border: none; padding: 15px 20px; text-align: left;
+            font-family: 'Sarabun', sans-serif; font-size: 15px; cursor: pointer; transition: 0.2s;
+            border-bottom: 1px solid #222; display: flex; align-items: center; gap: 8px;
+        }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background: #222; padding-left: 25px; }
+        .dropdown-danger { color: #ef4444; }
+        .dropdown-danger:hover { background: #3f1515; color: #fca5a5; }
 
         h1 { font-weight: 700; color: var(--primary); margin-bottom: 30px; letter-spacing: -1px; }
         h2 { font-weight: 900; color: var(--primary1); margin-bottom: 10px; letter-spacing: -3px; }
@@ -146,8 +186,8 @@
         .close-modal-x { position: absolute; top: 15px; right: 20px; font-size: 52px; font-weight: bold; color: #999; cursor: pointer; line-height: 1; transition: 0.2s; user-select: none; z-index: 10; }
         .close-modal-x:hover { color: #ef4444; transform: scale(1.1); }
 
-        body.light-mode { --bg: #f0f4f8; --card: #ffffff; --text-dark: #0f172a; --text-light: #000000; --primary1: #1e40af; --highlight: #fde047; }
-        body.light-mode .ticker-wrap { background-color: #ffffffed; color: #1e293b; border-bottom: 2px solid var(--primary); }
+        body.light-mode { --bg: #e1eff5; --card: #ffffff; --text-dark: #0f172a; --text-light: #000000; --primary1: #c5cbdf; --highlight: #fde047; }
+        body.light-mode .ticker-wrap { background-color: #e1eff5; color: #1e293b; border-bottom: 2px solid var(--primary); }
         body.light-mode .typing-card { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; }
         body.light-mode .display-window { border-color: #cbd5e1; background-color: #f8fafc; }
         body.light-mode .word.current { color: #000; box-shadow: 0 4px 12px rgba(253, 224, 71, 0.7); }
@@ -171,6 +211,15 @@
         body.light-mode .btn-danger { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
         body.light-mode .btn-danger:hover { background: #fecaca; }
         body.light-mode .stat-box { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+        
+        /* สลับสีเมนู 3 ขีดเวลา Light Mode */
+        body.light-mode .hamburger-btn { background: #ffffff; color: #1e293b; border-color: #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        body.light-mode .hamburger-btn:hover { background: #f8fafc; }
+        body.light-mode .dropdown-menu { background: #ffffff; border-color: #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        body.light-mode .dropdown-item { color: #1e293b; border-bottom-color: #f1f5f9; }
+        body.light-mode .dropdown-item:hover { background: #f8fafc; }
+        body.light-mode .dropdown-danger { color: #ef4444; }
+        body.light-mode .dropdown-danger:hover { background: #fee2e2; }
 
         #themeToggleBtn {
             position: fixed; bottom: 25px; right: 25px; z-index: 99999;
@@ -182,7 +231,6 @@
         #themeToggleBtn:hover { transform: scale(1.05); }
         body.light-mode #themeToggleBtn { background: #ffffff; color: #1e293b; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-color: #cbd5e1; }
         
-        /* สไตล์ปุ่ม Action ของ Admin */
         .admin-btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; font-family: 'Sarabun'; }
         .admin-btn-edit { background: #3b82f6; color: white; }
         .admin-btn-edit:hover { background: #2563eb; }
@@ -220,13 +268,22 @@
     </div>
 </div>
 <div class="main-container" id="gameMain">
+    
     <div class="top-actions">
-        <button class="btn-top" onclick="showEditName()">✏️ เปลี่ยนชื่อ(รวมเข้าระบบด้วย)</button>
-        <button class="btn-top" onclick="showChangePassword()">🔑 เปลี่ยนรหัสผ่าน</button>
-        <button class="btn-top btn-danger" onclick="showDeleteAccount()">🗑️ ลบบัญชี</button>
-        <button class="btn-top" style="background:#3b82f6; color:#fff; border: 1px solid #2563eb;" onclick="showHistory()">📜 ประวัติการพิมพ์กากๆ</button>
-        <button class="btn-top" onclick="showRanking()"><img src="https://img2.pic.in.th/image441518007c22e3ef.md.png" style="height: 30px; vertical-align: middle; margin-right: 5px;"> อันดับรวมของพวกกากๆ</button>
-        <button class="btn-top" onclick="showLogoutConfirm()">🚪 ออกจากระบบ</button>
+        <button class="btn-top" onclick="showRanking()" style="padding: 10px 15px; font-weight: bold;">
+            <img src="https://img2.pic.in.th/image441518007c22e3ef.md.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> อันดับรวมของพวกกากๆ
+        </button>
+        
+        <div class="menu-container">
+            <button class="hamburger-btn" onclick="toggleActionMenu(event)">☰</button>
+            <div class="dropdown-menu" id="actionMenu">
+                <button class="dropdown-item" onclick="closeActionMenu(); showEditName();">✏️ เปลี่ยนชื่อ(รวมเข้าระบบด้วย)</button>
+                <button class="dropdown-item" onclick="closeActionMenu(); showChangePassword();">🔑 เปลี่ยนรหัสผ่าน</button>
+                <button class="dropdown-item" style="color:#38bdf8;" onclick="closeActionMenu(); showHistory();">📜 ประวัติการพิมพ์กากๆ</button>
+                <button class="dropdown-item dropdown-danger" onclick="closeActionMenu(); showDeleteAccount();">🗑️ ลบบัญชี</button>
+                <button class="dropdown-item" onclick="closeActionMenu(); showLogoutConfirm();">🚪 ออกจากระบบ</button>
+            </div>
+        </div>
     </div>
     
     <div style="display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; color: var(--text-light); font-size: 14px; transition: color 0.3s;">
@@ -362,7 +419,6 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCSrDKagG7zbroZ5g57YWDeRtypNg2r3qDI3zXwN8L-33rySbq7ZXVjjoietR4aeck/exec";
     
-    // ประกาศตัวแปรเก็บข้อมูลรายชื่อทั้งหมดสำหรับใช้ในหน้าแอดมิน
     window.adminUsersList = {};
 
     const fullWordList = [
@@ -437,6 +493,24 @@
             setTimeout(() => inputField.focus(), 100);
         }
     };
+
+    // --- ฟังก์ชันเปิด/ปิดเมนู Hamburger ---
+    function toggleActionMenu(e) {
+        if(e) e.stopPropagation();
+        document.getElementById('actionMenu').classList.toggle('show');
+    }
+    function closeActionMenu() {
+        const menu = document.getElementById('actionMenu');
+        if(menu) menu.classList.remove('show');
+    }
+    // คลิกที่อื่นให้เมนูปิดเอง
+    window.addEventListener('click', function(e) {
+        const menu = document.getElementById('actionMenu');
+        const btn = document.querySelector('.hamburger-btn');
+        if (menu && menu.classList.contains('show') && e.target !== btn && !menu.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
 
     function toggleTheme() {
         const body = document.body;
@@ -530,16 +604,15 @@
         }
     }
 
-    // ✅ อัปเกรดหน้า Admin: ดึงข้อมูลและสร้างระบบค้นหา
     function showAdminPanel() {
-        document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>⏳ กำลังโหลดรอแป๊ปไอ้สัส</td></tr>";
+        document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>⏳ กำลังเชื่อมต่อและดึงข้อมูลจาก Cloud... กรุณารอสักครู่</td></tr>";
         document.getElementById('adminSearch').value = '';
         document.getElementById('adminModal').style.display = 'flex';
 
         fetch(SCRIPT_URL)
         .then(res => res.json())
         .then(data => {
-            window.adminUsersList = {}; // ล้างข้อมูลเก่าก่อน
+            window.adminUsersList = {}; 
             
             data.forEach(item => {
                 if (!window.adminUsersList[item.username]) {
@@ -554,14 +627,13 @@
                 }
             });
 
-            filterAdminTable(); // เรียกฟังก์ชันวาดตาราง
+            filterAdminTable(); 
         })
         .catch(() => {
             document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#ef4444; padding: 30px;'>❌ เกิดข้อผิดพลาดในการโหลดข้อมูล โปรดตรวจสอบอินเทอร์เน็ต</td></tr>";
         });
     }
 
-    // ✅ ฟังก์ชันค้นหาและวาดตารางแอดมินใหม่
     function filterAdminTable() {
         let searchText = document.getElementById('adminSearch').value.toLowerCase();
         let html = "";
@@ -573,7 +645,6 @@
             let pass = window.adminUsersList[user].password || "ไม่มีรหัส";
             let best = window.adminUsersList[user].wpm || 0;
 
-            // ระบบกรองค้นหา (หาจากชื่อ หรือ รหัสผ่าน)
             if (user.toLowerCase().includes(searchText) || pass.toLowerCase().includes(searchText)) {
                 html += `<tr style="border-bottom: 1px solid #1e293b; transition: 0.2s;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='transparent'">
                     <td style="padding: 12px 15px; color: #64748b;">${count}</td>
@@ -595,15 +666,12 @@
         document.getElementById('adminBody').innerHTML = html;
     }
 
-    // ✅ ฟังก์ชันแอดมินลบผู้ใช้
     function adminDeleteUser(user) {
         if(confirm(`⚠️ คำเตือน!\nคุณแน่ใจหรือไม่ที่จะลบข้อมูลของ '${user}' ออกจากระบบทั้งหมด?\n(ข้อมูลจะถูกลบทั้งในเว็บและใน Google Sheet)`)) {
             
-            // ลบออกจากหน้าจอก่อนเพื่อความไว (Optimistic UI)
             delete window.adminUsersList[user];
             filterAdminTable();
 
-            // ส่งคำสั่งลบไปที่ Google Sheet
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify({ action: 'deleteUser', username: user })
@@ -611,7 +679,6 @@
         }
     }
 
-    // ✅ ฟังก์ชันแอดมินแก้ไขผู้ใช้
     function showAdminEditUser(user, currentPass) {
         setupDarkModal("🔧 จัดการบัญชีสมาชิก", `กำลังแก้ไขข้อมูลของ: <b style="color:var(--primary)">${user}</b><br>เปลี่ยนชื่อหรือรหัสผ่านได้เลย`, "บันทึกการแก้ไข", () => {
             const newName = document.getElementById('darkInput1').value.trim();
@@ -619,7 +686,6 @@
             
             if(!newName || !newPass) return alert("กรุณาใส่ชื่อและรหัสให้ครบ!");
             
-            // อัปเดตข้อมูลบนหน้าจอก่อน
             let wpm = window.adminUsersList[user].wpm;
             delete window.adminUsersList[user];
             window.adminUsersList[newName] = { wpm: wpm, password: newPass };
@@ -627,7 +693,6 @@
             closeModal('darkActionModal');
             filterAdminTable();
 
-            // ส่งคำสั่งแก้ไขไปที่ Google Sheet
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify({ action: 'adminEditUser', oldName: user, newName: newName, newPass: newPass })
@@ -639,7 +704,7 @@
         document.getElementById('darkInput1').placeholder = "ตั้งชื่อใหม่...";
         
         document.getElementById('darkInput2').style.display = 'block';
-        document.getElementById('darkInput2').type = 'text'; // โชว์เป็น Text ให้แอดมินเห็นง่ายๆ
+        document.getElementById('darkInput2').type = 'text'; 
         document.getElementById('darkInput2').value = currentPass !== "ไม่มีรหัส" ? currentPass : "";
         document.getElementById('darkInput2').placeholder = "ตั้งรหัสผ่านใหม่...";
     }
@@ -665,7 +730,7 @@
 
         const btn = document.querySelector('#loginForm .btn-main');
         const originalText = btn.innerText;
-        btn.innerText = "แปปไอ้สัส...";
+        btn.innerText = "กำลังตรวจสอบฐานข้อมูลคลาวด์...";
         btn.disabled = true;
 
         try {
@@ -727,7 +792,6 @@
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
         if(user.length > 30) return alert("ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!");
         
-        // ✅ บังคับรหัส 4 ตัวขึ้นไป
         if(pass.length < 4) {
             return setupDarkModal("🚨 รหัสสั้นไปไอ้กาก!", "มึงจะตั้งรหัสสั้นๆ ให้เด็กอนุบาลมันแฮกหรอ?<br>ไปตั้งมาใหม่ เอาให้ถึง 4 ตัวอักษรขึ้นไป!", "รับทราบ", () => { closeModal('darkActionModal'); }, "ซ่อน");
         }
@@ -822,7 +886,6 @@
                 return;
             }
             
-            // ✅ เช็ครหัสผ่านตอนเปลี่ยนรหัสด้วย
             if(newPass.length < 4) {
                 document.getElementById('darkDesc').innerHTML = "<span style='color:red'>รหัสใหม่สั้นไป! ต้อง 4 ตัวขึ้นไป</span>";
                 return;
@@ -857,7 +920,6 @@
             closeModal('darkActionModal');
             handleLogout();
             
-            // แถมฟังก์ชันลบตัวเองจากฐานข้อมูล
             fetch(SCRIPT_URL, {
                 method: 'POST',
                 body: JSON.stringify({ action: 'deleteUser', username: currentUser })
@@ -882,7 +944,6 @@
         location.reload();
     }
 
-    // ✅ อัปเกรดหน้า Ranking ให้เป็นสไตล์ Dashboard หรูหรา
     function showRanking() {
         document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลเทพๆ จากสวรรค์ชั้น 7...</td></tr>";
         document.getElementById('rankingModal').style.display = 'flex';
@@ -890,13 +951,11 @@
             const bestScoresMap = {};
             data.forEach(item => { if (!bestScoresMap[item.username] || item.wpm > bestScoresMap[item.username].wpm) bestScoresMap[item.username] = item; });
             
-            // เรียงลำดับจากมากไปน้อย
             const leaderboard = Object.values(bestScoresMap).sort((a, b) => b.wpm - a.wpm);
             let html = "";
             
             leaderboard.slice(0, 150).forEach((row, i) => {
-                // เซ็ตสีไฮไลท์สำหรับ ท็อป 3
-                let rankColor = "#64748b"; // สีธรรมดา
+                let rankColor = "#64748b"; 
                 let rankTrophy = i + 1;
                 let bgStyle = "transparent";
 
@@ -904,7 +963,6 @@
                 else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
                 else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
                 
-                // แถบสว่างถ้าเป็นตัวเอง
                 if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
 
                 html += `<tr style="border-bottom: 1px solid #1e293b; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='${bgStyle}'">
@@ -1100,7 +1158,7 @@
             }) 
         })
         .then(() => { 
-            document.getElementById('syncStatus').innerText = "✅ บันทึกลง Sheet เรียบร้อย"; 
+            document.getElementById('syncStatus').innerText = "✅ บันทึกเรียบร้อย"; 
             loadTickerData(); 
         })
         .catch(() => { document.getElementById('syncStatus').innerText = "❌ บันทึกไม่สำเร็จ " + rankMessage; });
