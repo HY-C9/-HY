@@ -9,8 +9,8 @@
     <style>
         :root {
             --primary: #3bb154;
-            --primary1: #201a33;
-            --bg: #060a2ccb;
+            --primary1: #523f74;
+            --bg: rgb(15, 23, 42);
             --card: #000000;
             --text-dark: #1e293b;
             --text-light: hsl(0, 0%, 100%);
@@ -181,6 +181,13 @@
         }
         #themeToggleBtn:hover { transform: scale(1.05); }
         body.light-mode #themeToggleBtn { background: #ffffff; color: #1e293b; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-color: #cbd5e1; }
+        
+        /* สไตล์ปุ่ม Action ของ Admin */
+        .admin-btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; font-family: 'Sarabun'; }
+        .admin-btn-edit { background: #3b82f6; color: white; }
+        .admin-btn-edit:hover { background: #2563eb; }
+        .admin-btn-del { background: #ef4444; color: white; margin-left: 5px; }
+        .admin-btn-del:hover { background: #dc2626; }
     </style>
 </head>
 <body>
@@ -207,7 +214,7 @@
     <div id="registerForm" style="display:none;">
         <h2 style="color:red; font-size: 22px; margin-top:0;">📝 ส มั ค ร ส ม า ชิ ก ใ ห ม่</h2>
         <input type="text" id="regUser" class="auth-input" placeholder="ใส่ชื่อของมึง (ช่องบน)" maxlength="30">
-        <input type="password" id="regPass" class="auth-input" placeholder="ตั้งรหัสผ่าน (ช่องล่าง)">
+        <input type="password" id="regPass" class="auth-input" placeholder="ตั้งรหัสผ่าน 4 ตัวขึ้นไป (ช่องล่าง)">
         <p style="font-size: 11px; color: #999; margin-top: 5px; line-height: 1.4;">*ช่องบน (ชื่อ) กับช่องล่าง (รหัส) ห้ามตรงกันนะไอ้เวร!<br>ถ้าพิมพ์เหมือนกันกูไม่ให้ผ่าน!</p>
         <button class="btn-main" onclick="handleRegister()" style="background:#ef4444;">สมัครแล้วไปพิมพ์ซะ</button>
     </div>
@@ -265,15 +272,28 @@
 </div>
 
 <div class="modal-overlay" id="rankingModal">
-    <div class="modal-card">
-        <span class="close-modal-x" onclick="closeModal('rankingModal')">&times;</span>
-        <h2><img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 50px; vertical-align: middle; margin-right: 5px;"> อั น ดั บ ก า ร พิ ม พ์ ก า ก ๆ ข อ ง พ ว ก มึ ง</h2>
-        <table class="rank-table">
-            <thead>
-                <tr><th>#</th><th>ชื่อ</th><th>WPM</th><th>ระดับ</th></tr>
-            </thead>
-            <tbody id="lbBody"></tbody>
-        </table>
+    <div class="modal-card" style="max-width: 900px; background: #0f172a; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-radius: 16px; padding: 30px;">
+        <span class="close-modal-x" onclick="closeModal('rankingModal')" style="color: #64748b; top: 15px; right: 20px;">&times;</span>
+        <div style="text-align: left; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 15px;">
+            <h2 style="color: #fbbf24; margin: 0; font-size: 26px; display: flex; align-items: center; gap: 10px; letter-spacing: 0;">
+                <img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 45px;"> อั น ดั บ ก า ร พิ ม พ์ ก า ก ๆ ข อ ง พ ว ก มึ ง
+            </h2>
+            <p style="color: #94a3b8; font-size: 14px; margin: 5px 0 0 0;">ตารางจัดอันดับความไวของพวกตัวตึงในบริษัท</p>
+        </div>
+        
+        <div style="max-height: 450px; overflow-y: auto; border-radius: 8px; border: 1px solid #1e293b; background: #0b1120;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; color: #cbd5e1;">
+                <thead style="position: sticky; top: 0; background: #1e293b; color: #f8fafc; font-size: 13px; letter-spacing: 0.5px; z-index: 10;">
+                    <tr>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;"># อันดับ</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;">👤 ชื่อ (Name)</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;">⚡ WPM</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;">🎖️ ระดับของมึง</th>
+                    </tr>
+                </thead>
+                <tbody id="lbBody"></tbody>
+            </table>
+        </div>
     </div>
 </div>
 
@@ -308,19 +328,29 @@
 </div>
 
 <div class="modal-overlay" id="adminModal">
-    <div class="modal-card" style="max-width: 800px; background: #111; border: 2px solid #ef4444;">
-        <span class="close-modal-x" onclick="closeModal('adminModal')">&times;</span>
-        <h2 style="color: #ef4444; letter-spacing: 2px;">🛠️ ร ะ บ บ ห ลั ง บ้ า น (แอดมิน)</h2>
-        <p style="color: #aaa; font-size: 14px; margin-bottom: 20px;">ดูชื่อและรหัสผ่านของสมาชิกทั้งหมดที่บันทึกไว้ในเว็บนี้ (ดึงจาก Sheet)</p>
+    <div class="modal-card" style="max-width: 950px; background: #0f172a; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-radius: 16px; padding: 30px;">
+        <span class="close-modal-x" onclick="closeModal('adminModal')" style="color: #64748b; top: 15px; right: 20px;">&times;</span>
+        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+            <div>
+                <h2 style="color: #38bdf8; margin: 0; font-size: 24px; display: flex; align-items: center; gap: 10px; letter-spacing: 0;">
+                    🛠️ Admin Control Panel
+                </h2>
+                <p style="color: #94a3b8; font-size: 13px; margin: 5px 0 0 0;">จัดการข้อมูล ลบ หรือแก้ไขรหัสผ่านของสมาชิก</p>
+            </div>
+            <div>
+                <input type="text" id="adminSearch" placeholder="🔍 ค้นหาชื่อหรือรหัส..." onkeyup="filterAdminTable()" style="padding: 10px 15px; width: 250px; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; outline: none; font-family: 'Sarabun';">
+            </div>
+        </div>
         
-        <div style="max-height: 400px; overflow-y: auto;">
-            <table class="rank-table" style="background: white; border-radius: 10px; overflow: hidden;">
-                <thead>
-                    <tr style="background: #ef4444; color: white;">
-                        <th>#</th>
-                        <th>ชื่อผู้ใช้ (Username)</th>
-                        <th>รหัสผ่าน (Password)</th>
-                        <th>WPM สูงสุด</th>
+        <div style="max-height: 450px; overflow-y: auto; border-radius: 8px; border: 1px solid #1e293b; background: #0b1120;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; color: #cbd5e1;">
+                <thead style="position: sticky; top: 0; background: #1e293b; color: #f8fafc; font-size: 13px; letter-spacing: 0.5px; z-index: 10;">
+                    <tr>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;">#</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;">👤 ชื่อผู้ใช้ (Username)</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;">🔑 รหัสผ่าน (Password)</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;">⚡ WPM สูงสุด</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155; text-align: center;">⚙️ จัดการ</th>
                     </tr>
                 </thead>
                 <tbody id="adminBody"></tbody>
@@ -332,6 +362,9 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCSrDKagG7zbroZ5g57YWDeRtypNg2r3qDI3zXwN8L-33rySbq7ZXVjjoietR4aeck/exec";
     
+    // ประกาศตัวแปรเก็บข้อมูลรายชื่อทั้งหมดสำหรับใช้ในหน้าแอดมิน
+    window.adminUsersList = {};
+
     const fullWordList = [
       "พี่", "เพื่อน", "ดาว", "บิน", "โสม", "แสง", "โต", "ใหญ่", "น้อย", "แผนก","ห้อง","ใจ","ลอย","กลุ่ม","กาก","ร้าน","ซ่อม","ผอม", "อ้วน", "อ้อน", "แดง", "เพลง", "หอม", 
       "ต่อ", "เติม", "ห้าม", "เช็ค", "เชือด", "แอดมิน", "สมาชิก", "พร้อม", "สำราญ", "ไม่ถูก", "ไม่ผิด", "ถูก", "ผิด", "ขอโทษ", 
@@ -341,7 +374,7 @@
       "แตก", "หน่อ", "หล่อ", "ทราบ", "ทราย", "บาง", "ไก่", "ปลา", "ต้ม", 
       "งง", "ปลอม", "แท้", "จริง", "สิว", "ลิง", "สิบ", "เก้า", "หก", "บอง","โอน","จ่าย","สาย","โดน","ปรับ","หลับ","เงิน","ทอน",
       "ห้า", "สี่", "สาม", "สอง", "สิง", "ควาย", "จ้า", "ข้า", 
-      "ฟาร์ม", "ยา", "กัน", "เนื้อ", "ลำ", "ทอง", "ส้ม", "เหลือง", "เขียว", "เดย์", "พิมพ์", "ท้อง", "เกม", "จำ", "จำนำ", "พระ", 
+      "พอต", "ยา", "กัน", "เนื้อ", "ลำ", "ทอง", "ส้ม", "เหลือง", "เขียว", "เดย์", "พิมพ์", "ท้อง", "เกม", "จำ", "จำนำ", "พระ", 
       "ฉัน", "เธอ", "เวร", "เพื่อ", "สัส", "ควย", "สี", "อ้อ", "หมอ", "หม้อ", "พอ", "ท่อ", "ชวน", "ทวี", "ตัดสิน", "ชอบ", "โคม", 
       "เฉพาะ", "งาน", "ตรง", "ตุลาคม", "ขึ้น", 
       "ขวาง", "ย้อย", "ช้า", "คูณ", "ดง", "กระดูก", 
@@ -365,7 +398,7 @@
       "ขนาด", "กรรม", "ถ้า", "เดิม", "ชื่อ", "แต่ง", "ทุ่ง", "ทุก", "ชั้น", "ง่าย", "ขับ", "ตลอด", "นอก", "ตลาด", 
       "จังหวัด", "ถาม", "ตา", 
       "เถียง", "แก้ว", "เจ็ด", "เจ้า", "กรม", "ถั่ว", "กลับ", "เท็จ", "กะ", "เคียง", "ไถ", "ใคร่", "จัด", 
-      "กาชาด", "ตอน", "กาง", "ทูต", "กำไร", "ดุจ", "แจ่ม", "เก้าอี้", "ฉบับ", "เข้า", "จดหมาย", "กระจาย", "ซ่อน", "ทั้งปวง", "ทัพ", "โกรธ", "เท่า", "เกี่ยวข้อง", "ต้อน", "เก่า", "เดี่ยว", "โจทย์", "ของ", "ครอบครัว", "ชั่วโมง", "กลัว", "เต็ม", 
+      "กาชาด", "ตอน", "กาง", "ทูต", "กำไร", "ดุจ", "แจ่ม", "เก้าอี้", "ฉบับ", "เข้า", "จดหมาย", "กระจาย", "ซ่อน", "ทั้งปวง", "ทัพ", "โกรธ", "เท่า", "เกี่ยว", "ต้อน", "เก่า", "เดี่ยว", "โจทย์", "ของ", "ครอบครัว", "ชั่วโมง", "กลัว", "เต็ม", 
       "กิน", "ทรัพย์", "กระทรวง", "จักร", "กฎหมาย", "ขอ", 
       "ญี่ปุ่น", "เคลื่อน", "ดำเนิน", "นคร", "ครั้ง", "แข็ง", "ซื้อ", "เกรง", 
       "คู", "ทับ", "ชำนาญ", "ทาน", "ไข่", "คุณ", "ทีเดียว", "ข้าศึก", "ฉะนั้น", "แต่", "ชม", "กำหนด", "ค่ะ", "ตะเกียง", "ตำแหน่ง", 
@@ -426,18 +459,17 @@
             if(data && data.length > 0) {
                 if(currentUser) {
                     let myData = data.filter(item => item.username === currentUser);
-                    let myMax = myData.length > 0 ? Math.max(...myData.map(item => Number(item.wpm) || 0)) : 0;
-                    let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-                   
-                    let localMax = db[currentUser] ? db[currentUser].best : 0;
-                    let trueMax = Math.max(myMax, localMax);
-                    
-                    document.getElementById('bestWPM').innerText = trueMax;
-                    document.getElementById('topRankDisplay').innerHTML = getRank(trueMax);
-                    
-                    if(db[currentUser] && trueMax > db[currentUser].best) {
-                        db[currentUser].best = trueMax;
-                        localStorage.setItem('typingDB_Final', JSON.stringify(db));
+                    if (myData.length > 0) {
+                        let sheetMax = Math.max(...myData.map(item => Number(item.wpm) || 0));
+                        
+                        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+                        if(db[currentUser]) {
+                            db[currentUser].best = sheetMax; 
+                            localStorage.setItem('typingDB_Final', JSON.stringify(db));
+                        }
+                        
+                        document.getElementById('bestWPM').innerText = sheetMax;
+                        document.getElementById('topRankDisplay').innerHTML = getRank(sheetMax);
                     }
                 }
 
@@ -498,61 +530,126 @@
         }
     }
 
+    // ✅ อัปเกรดหน้า Admin: ดึงข้อมูลและสร้างระบบค้นหา
     function showAdminPanel() {
-        document.getElementById('adminBody').innerHTML = "<tr><td colspan='4' style='text-align:center; color:#333; padding: 20px;'>กำลังดูดข้อมูลจาก Sheet... รอกูแป๊บ!</td></tr>";
+        document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>⏳ กำลังโหลดรอแป๊ปไอ้สัส</td></tr>";
+        document.getElementById('adminSearch').value = '';
         document.getElementById('adminModal').style.display = 'flex';
 
         fetch(SCRIPT_URL)
         .then(res => res.json())
         .then(data => {
-            let html = "";
-            let count = 1;
-            let usersMap = {};
+            window.adminUsersList = {}; // ล้างข้อมูลเก่าก่อน
             
             data.forEach(item => {
-                if (!usersMap[item.username]) {
-                    usersMap[item.username] = { wpm: item.wpm, password: item.password };
+                if (!window.adminUsersList[item.username]) {
+                    window.adminUsersList[item.username] = { wpm: item.wpm, password: item.password };
                 } else {
-                    if (item.wpm > usersMap[item.username].wpm) {
-                        usersMap[item.username].wpm = item.wpm;
+                    if (item.wpm > window.adminUsersList[item.username].wpm) {
+                        window.adminUsersList[item.username].wpm = item.wpm;
                     }
-                    if (item.password && item.password !== "ไม่มีรหัส" && item.password !== "") {
-                        usersMap[item.username].password = item.password;
+                    if (item.password !== undefined && item.password !== null && item.password !== "ไม่มีรหัส" && item.password !== "") {
+                        window.adminUsersList[item.username].password = String(item.password).trim();
                     }
                 }
             });
 
-            for (let user in usersMap) {
-                if(!user || user === "undefined") continue; 
-                let pass = usersMap[user].password || "ไม่มีรหัส";
-                let best = usersMap[user].wpm || 0;
-                
-                html += `<tr>
-                    <td style="color:#333; font-weight:bold;">${count}</td>
-                    <td style="color:var(--primary1); font-weight:bold; font-size:16px;">${user}</td>
-                    <td style="color:#ef4444; font-weight:bold; font-size:16px;">${pass}</td>
-                    <td style="color:#333; font-weight:bold;">${best}</td>
-                </tr>`;
-                count++;
-            }
-
-            if(html === "") {
-                html = "<tr><td colspan='4' style='text-align:center; color:#333; padding: 20px;'>ยังไม่มีใครมาพิมพ์เลยว่ะ</td></tr>";
-            }
-            document.getElementById('adminBody').innerHTML = html;
+            filterAdminTable(); // เรียกฟังก์ชันวาดตาราง
         })
         .catch(() => {
-            document.getElementById('adminBody').innerHTML = "<tr><td colspan='4' style='text-align:center; color:red; padding: 20px;'>โหลดไม่สำเร็จ! มึงเช็คเน็ตหรือรอแป๊บ</td></tr>";
+            document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#ef4444; padding: 30px;'>❌ เกิดข้อผิดพลาดในการโหลดข้อมูล โปรดตรวจสอบอินเทอร์เน็ต</td></tr>";
         });
     }
 
-    // ✅ ฟังก์ชัน Login อัปเกรดใหม่ (กู้คืนบัญชีเก่าที่ไม่มีรหัสผ่านในคลาวด์ได้)
+    // ✅ ฟังก์ชันค้นหาและวาดตารางแอดมินใหม่
+    function filterAdminTable() {
+        let searchText = document.getElementById('adminSearch').value.toLowerCase();
+        let html = "";
+        let count = 1;
+
+        for (let user in window.adminUsersList) {
+            if(!user || user === "undefined") continue; 
+            
+            let pass = window.adminUsersList[user].password || "ไม่มีรหัส";
+            let best = window.adminUsersList[user].wpm || 0;
+
+            // ระบบกรองค้นหา (หาจากชื่อ หรือ รหัสผ่าน)
+            if (user.toLowerCase().includes(searchText) || pass.toLowerCase().includes(searchText)) {
+                html += `<tr style="border-bottom: 1px solid #1e293b; transition: 0.2s;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='transparent'">
+                    <td style="padding: 12px 15px; color: #64748b;">${count}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: #e2e8f0;">${user}</td>
+                    <td style="padding: 12px 15px; color: #fbbf24; font-family: monospace; font-size: 15px;">${pass}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: #34d399;">${best}</td>
+                    <td style="padding: 12px 15px; text-align: center;">
+                        <button class="admin-btn admin-btn-edit" onclick="showAdminEditUser('${user}', '${pass}')">✏️ แก้ไข</button>
+                        <button class="admin-btn admin-btn-del" onclick="adminDeleteUser('${user}')">🗑️ ลบ</button>
+                    </td>
+                </tr>`;
+                count++;
+            }
+        }
+
+        if(html === "") {
+            html = `<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>ไม่พบข้อมูลสมาชิกที่ค้นหา</td></tr>`;
+        }
+        document.getElementById('adminBody').innerHTML = html;
+    }
+
+    // ✅ ฟังก์ชันแอดมินลบผู้ใช้
+    function adminDeleteUser(user) {
+        if(confirm(`⚠️ คำเตือน!\nคุณแน่ใจหรือไม่ที่จะลบข้อมูลของ '${user}' ออกจากระบบทั้งหมด?\n(ข้อมูลจะถูกลบทั้งในเว็บและใน Google Sheet)`)) {
+            
+            // ลบออกจากหน้าจอก่อนเพื่อความไว (Optimistic UI)
+            delete window.adminUsersList[user];
+            filterAdminTable();
+
+            // ส่งคำสั่งลบไปที่ Google Sheet
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'deleteUser', username: user })
+            }).catch(()=>alert("ลบในฐานข้อมูลไม่สำเร็จ กรุณาเช็คอินเทอร์เน็ต"));
+        }
+    }
+
+    // ✅ ฟังก์ชันแอดมินแก้ไขผู้ใช้
+    function showAdminEditUser(user, currentPass) {
+        setupDarkModal("🔧 จัดการบัญชีสมาชิก", `กำลังแก้ไขข้อมูลของ: <b style="color:var(--primary)">${user}</b><br>เปลี่ยนชื่อหรือรหัสผ่านได้เลย`, "บันทึกการแก้ไข", () => {
+            const newName = document.getElementById('darkInput1').value.trim();
+            const newPass = document.getElementById('darkInput2').value.trim();
+            
+            if(!newName || !newPass) return alert("กรุณาใส่ชื่อและรหัสให้ครบ!");
+            
+            // อัปเดตข้อมูลบนหน้าจอก่อน
+            let wpm = window.adminUsersList[user].wpm;
+            delete window.adminUsersList[user];
+            window.adminUsersList[newName] = { wpm: wpm, password: newPass };
+            
+            closeModal('darkActionModal');
+            filterAdminTable();
+
+            // ส่งคำสั่งแก้ไขไปที่ Google Sheet
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'adminEditUser', oldName: user, newName: newName, newPass: newPass })
+            }).catch(()=>alert("บันทึกลงฐานข้อมูลไม่สำเร็จ"));
+        }, "ยกเลิก");
+        
+        document.getElementById('darkInput1').style.display = 'block';
+        document.getElementById('darkInput1').value = user;
+        document.getElementById('darkInput1').placeholder = "ตั้งชื่อใหม่...";
+        
+        document.getElementById('darkInput2').style.display = 'block';
+        document.getElementById('darkInput2').type = 'text'; // โชว์เป็น Text ให้แอดมินเห็นง่ายๆ
+        document.getElementById('darkInput2').value = currentPass !== "ไม่มีรหัส" ? currentPass : "";
+        document.getElementById('darkInput2').placeholder = "ตั้งรหัสผ่านใหม่...";
+    }
+
     async function handleLogin() {
         const user = document.getElementById('loginUser').value.trim();
         const pass = document.getElementById('loginPass').value.trim();
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
         
-        if(user.toLowerCase() === "admin" && pass === "HY304152") {
+        if(user.toLowerCase() === "304152" && pass === "304152") {
             showAdminPanel();
             document.getElementById('loginUser').value = '';
             document.getElementById('loginPass').value = '';
@@ -561,17 +658,14 @@
 
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         
-        // 1. ลองเช็คในเครื่องนี้ก่อน
-        if(db[user]) {
-            if(db[user].pass !== pass) return alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!");
+        if(db[user] && db[user].pass === pass) {
             proceedLogin(user, pass, db);
             return;
         }
 
-        // 2. ถ้าเปลี่ยนเครื่องเล่น ให้วิ่งไปค้นหาใน Google Sheet
         const btn = document.querySelector('#loginForm .btn-main');
         const originalText = btn.innerText;
-        btn.innerText = "กำลังหาข้อมูลบัญชีมึงแป๊บ...";
+        btn.innerText = "กำลังตรวจสอบฐานข้อมูลคลาวด์...";
         btn.disabled = true;
 
         try {
@@ -584,10 +678,9 @@
                 let latestPass = "";
                 let bestWPM = 0;
                 
-                // เอารหัสและคะแนนล่าสุดของบัญชีนี้
                 for(let r of userRecords) {
-                    if(r.password && r.password !== "ไม่มีรหัส" && r.password !== "") {
-                        latestPass = r.password;
+                    if(r.password !== undefined && r.password !== null && r.password !== "ไม่มีรหัส" && r.password !== "") {
+                        latestPass = String(r.password).trim(); 
                     }
                     if(Number(r.wpm) > bestWPM) {
                         bestWPM = Number(r.wpm);
@@ -595,19 +688,19 @@
                 }
 
                 if (latestPass !== "") {
-                    // กรณีมีรหัสใน Sheet แล้ว เช็คให้ตรงกัน
                     if(latestPass === pass) {
-                        db[user] = { pass: pass, best: bestWPM, history: [] };
+                        if (!db[user]) db[user] = { history: [] };
+                        db[user].pass = pass;
+                        db[user].best = bestWPM;
                         proceedLogin(user, pass, db);
                     } else {
                         alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!");
                     }
                 } else {
-                    // *** ทีเด็ดอยู่ตรงนี้: กรณียังไม่มีรหัสผ่านใน Sheet (บัญชีเก่า) ***
-                    // อนุญาตให้ใช้รหัสที่เพิ่งพิมพ์เข้ามา เป็นรหัสใหม่เลย
-                    db[user] = { pass: pass, best: bestWPM, history: [] };
+                    if (!db[user]) db[user] = { history: [] };
+                    db[user].pass = pass;
+                    db[user].best = bestWPM;
                     
-                    // สั่งให้เซิร์ฟเวอร์จำรหัสนี้ไว้ด้วย
                     fetch(SCRIPT_URL, { 
                         method: 'POST', 
                         body: JSON.stringify({ action: 'changePassword', username: user, password: pass }) 
@@ -633,6 +726,12 @@
         
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
         if(user.length > 30) return alert("ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!");
+        
+        // ✅ บังคับรหัส 4 ตัวขึ้นไป
+        if(pass.length < 4) {
+            return setupDarkModal("🚨 รหัสสั้นไปไอ้กาก!", "มึงจะตั้งรหัสสั้นๆ ให้เด็กอนุบาลมันแฮกหรอ?<br>ไปตั้งมาใหม่ เอาให้ถึง 4 ตัวอักษรขึ้นไป!", "รับทราบ", () => { closeModal('darkActionModal'); }, "ซ่อน");
+        }
+
         if(user === pass) {
             return setupDarkModal("🚨 เตือนสติหน่อยไอ้เวร!", "ช่องบน (ชื่อ) กับช่องล่าง (รหัส) ห้ามเหมือนกันเว้ย!!<br>มึงจะตั้งชื่อกับรหัสเหมือนกันไม่ได้ ไปแก้ให้มันต่างกันเดี๋ยวนี้ไอ้กาก!", "รับทราบแล้วไอ้สัส!", () => { closeModal('darkActionModal'); }, "ซ่อน");
         }
@@ -656,6 +755,7 @@
         localStorage.setItem('isLoggedIn', user);
         currentUser = user;
         showGame(user, db[user].best);
+        loadTickerData(); 
     }
 
     function setupDarkModal(title, desc, confirmText, confirmAction, cancelText = "ยกเลิก") {
@@ -684,8 +784,7 @@
             if(!newName || newName === currentUser) return;
             
             if(newName.length > 30) {
-                 document.getElementById('darkDesc').innerHTML 
-                = "<span style='color:red'>ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!</span>";
+                 document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!</span>";
                 return;
             }
 
@@ -722,6 +821,13 @@
                 document.getElementById('darkDesc').innerHTML = "<span style='color:red'>รหัสเดิมมึงยังผิดเลย ไอ้ควาย!</span>";
                 return;
             }
+            
+            // ✅ เช็ครหัสผ่านตอนเปลี่ยนรหัสด้วย
+            if(newPass.length < 4) {
+                document.getElementById('darkDesc').innerHTML = "<span style='color:red'>รหัสใหม่สั้นไป! ต้อง 4 ตัวขึ้นไป</span>";
+                return;
+            }
+
             db[currentUser].pass = newPass;
             localStorage.setItem('typingDB_Final', JSON.stringify(db));
             closeModal('darkActionModal');
@@ -739,7 +845,7 @@
         document.getElementById('darkInput1').type = 'password';
         document.getElementById('darkInput1').placeholder = "รหัสเก่า...";
         document.getElementById('darkInput2').style.display = 'block';
-        document.getElementById('darkInput2').placeholder = "รหัสใหม่...";
+        document.getElementById('darkInput2').placeholder = "รหัสใหม่ 4 ตัวขึ้นไป...";
         setTimeout(() => document.getElementById('darkInput1').focus(), 100);
     }
 
@@ -750,6 +856,13 @@
             localStorage.setItem('typingDB_Final', JSON.stringify(db));
             closeModal('darkActionModal');
             handleLogout();
+            
+            // แถมฟังก์ชันลบตัวเองจากฐานข้อมูล
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'deleteUser', username: currentUser })
+            }).catch(()=>{});
+
         }, "เปลี่ยนใจแล้ว");
         document.getElementById('darkConfirmBtn').className = "dark-btn danger";
     }
@@ -769,19 +882,40 @@
         location.reload();
     }
 
+    // ✅ อัปเกรดหน้า Ranking ให้เป็นสไตล์ Dashboard หรูหรา
     function showRanking() {
-        document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>รอกูแป๊ปไอ้สัส</td></tr>";
+        document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลเทพๆ จากสวรรค์ชั้น 7...</td></tr>";
         document.getElementById('rankingModal').style.display = 'flex';
         fetch(SCRIPT_URL).then(res => res.json()).then(data => {
             const bestScoresMap = {};
             data.forEach(item => { if (!bestScoresMap[item.username] || item.wpm > bestScoresMap[item.username].wpm) bestScoresMap[item.username] = item; });
+            
+            // เรียงลำดับจากมากไปน้อย
             const leaderboard = Object.values(bestScoresMap).sort((a, b) => b.wpm - a.wpm);
             let html = "";
+            
             leaderboard.slice(0, 150).forEach((row, i) => {
-                html += `<tr class="${row.username === currentUser ? 'active-rank' : ''}"><td>${i+1}</td><td>${row.username}</td><td>${row.wpm}</td><td>${getRank(row.wpm)}</td></tr>`;
+                // เซ็ตสีไฮไลท์สำหรับ ท็อป 3
+                let rankColor = "#64748b"; // สีธรรมดา
+                let rankTrophy = i + 1;
+                let bgStyle = "transparent";
+
+                if (i === 0) { rankColor = "#fbbf24"; rankTrophy = "🥇 1"; bgStyle = "rgba(251, 191, 36, 0.05)"; }
+                else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
+                else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
+                
+                // แถบสว่างถ้าเป็นตัวเอง
+                if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
+
+                html += `<tr style="border-bottom: 1px solid #1e293b; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='${bgStyle}'">
+                    <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: #e2e8f0; font-size: 15px;">${row.username}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: #34d399; font-size: 17px;">${row.wpm}</td>
+                    <td style="padding: 12px 15px;">${getRank(row.wpm)}</td>
+                </tr>`;
             });
-            document.getElementById('lbBody').innerHTML = html || "<tr><td colspan='4'>ไม่มีข้อมูล</td></tr>";
-        }).catch(() => { document.getElementById('lbBody').innerHTML = "<tr><td colspan='4'>โหลดข้อมูลไม่สำเร็จ</td></tr>"; });
+            document.getElementById('lbBody').innerHTML = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนกากคนไหนมาพิมพ์</td></tr>";
+        }).catch(() => { document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตด่วน!</td></tr>"; });
     }
 
     function showHistory() {
@@ -965,7 +1099,10 @@
                 password: db[currentUser].pass
             }) 
         })
-        .then(() => { document.getElementById('syncStatus').innerText = "✅ บันทึกเรียบร้อย แม่เย็ด"; loadTickerData(); })
+        .then(() => { 
+            document.getElementById('syncStatus').innerText = "✅ บันทึกลง Sheet เรียบร้อย"; 
+            loadTickerData(); 
+        })
         .catch(() => { document.getElementById('syncStatus').innerText = "❌ บันทึกไม่สำเร็จ " + rankMessage; });
     }
 
