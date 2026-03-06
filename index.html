@@ -350,7 +350,7 @@
         </div>
         
         <div class="controls-row">
-            <input type="text" id="userInput" placeholder=" ยอดไม่มี ลูกค้าไม่เข้า ก็อย่ามานั่งเน่า พิมพ์ซะ!" autocomplete="off">
+            <input type="text" id="userInput" placeholder=" ฝึกพิมพ์ด่าลูกค้านะ ไอ้เวร" autocomplete="off">
             <div class="timer-badge" id="timer">60</div>
             <button class="btn-refresh" onclick="resetGame()">🔄</button>
         </div>
@@ -419,9 +419,11 @@
 </div>
 
 <div class="modal-overlay" id="historyModal">
-    <div class="modal-card" style="max-width: 800px; background: #9fd8da; border: 1px solid #334155;">
+    <div class="modal-card" style="max-width: 800px; background: #EAF4F4; border: 1px solid #334155;">
         <span class="close-modal-x" onclick="closeModal('historyModal')">&times;</span>
-        <h2>📜 ป ร ะ วั ติ ก า ร พิ ม พ์ ก า ก ๆ</h2>
+        
+        <h2 style="color: #000000;">📜 ป ร ะ วั ติ ก า ร พิ ม พ์ ก า ก ๆ</h2>
+        
         <div style="max-height: 400px; overflow-y: auto;">
             <table class="rank-table">
                 <thead>
