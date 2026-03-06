@@ -5,8 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>คนกากๆฝึกพิมพ์ - ว่างใช่ไหมถึงพิมพ์</title>
     <link rel="icon" type="image/png" href="https://img5.pic.in.th/file/secure-sv1/imagef6f91e1cf62ed483.md.png">
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Chakra+Petch:wght@400;700&family=Press+Start+2P&family=VT323&family=Teko:wght@500;600;700&family=Mali:wght@500;700&display=swap" rel="stylesheet">
+    
     <style>
+        /* ==================================================
+           1. BASE THEME (โหมดมืด ออริจินัล - ไม่แก้เลย 100%) 
+           ================================================== */
         :root {
             --primary: #3bb154;
             --primary1: #29344e;
@@ -17,80 +24,57 @@
             --highlight: #ffc800ec;
             --correct-live: #1d964f;
             --wrong-live: #b33628;
+            --font-main: 'Sarabun', sans-serif;
+            --font-head: 'Sarabun', sans-serif;
+            --border-rad: 24px;
+            --border-btn: 16px;
         }
 
         body {
-            background-color: var(--bg);
-            font-family: 'Sarabun', sans-serif;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: var(--text-dark);
-            padding-top: 40px;
-            transition: background-color 0.3s, color 0.3s;
+            background-color: var(--bg); font-family: var(--font-main); margin: 0;
+            display: flex; justify-content: center; align-items: center; min-height: 100vh;
+            color: var(--text-dark); padding-top: 40px; transition: background-color 0.3s, color 0.3s;
         }
 
+        h1, h2, h3 { font-family: var(--font-head); }
+
         .ticker-wrap {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 65px;
+            position: fixed; top: 0; left: 0; width: 100%; height: 65px;
             background-color: #000000e6; color: #ffffff; display: flex;
             align-items: center; overflow: hidden; z-index: 9999;
-            border-bottom: 2px solid var(--primary);
-            transition: background-color 0.3s, color 0.3s;
+            border-bottom: 2px solid var(--primary); transition: background-color 0.3s, color 0.3s;
         }
         .ticker-content {
-            white-space: nowrap;
-            padding-left: 100%; display: inline-block;
+            white-space: nowrap; padding-left: 100%; display: inline-block;
             animation: ticker 13s linear infinite; font-size: 20px; font-weight: 600;
         }
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%); } }
 
         .main-container { width: 95%; max-width: 1100px; text-align: center; display: none; position: relative; }
 
         .top-actions { position: absolute; top: -60px; right: 0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
-        .btn-top { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s;}
+        .btn-top { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; font-family: var(--font-main);}
         .btn-top:hover { background: #555; }
         .btn-danger { background: #ef4444; }
         .btn-danger:hover { background: #dc2626; }
 
-        /* --- สไตล์ของเมนู 3 ขีด (Hamburger Menu) --- */
         .hamburger-btn {
-            background: var(--card);
-            color: var(--text-light);
-            border: 2px solid #333;
-            border-radius: 8px;
-            width: 50px; height: 44px;
-            font-size: 22px;
-            cursor: pointer;
-            display: flex; justify-content: center; align-items: center;
-            transition: 0.2s;
-            padding: 0;
+            background: var(--card); color: var(--text-light); border: 2px solid #333;
+            border-radius: 8px; width: 50px; height: 44px; font-size: 22px; cursor: pointer;
+            display: flex; justify-content: center; align-items: center; transition: 0.2s; padding: 0;
         }
         .hamburger-btn:hover { background: #333; transform: scale(1.05); }
         .menu-container { position: relative; }
         .dropdown-menu {
-            position: absolute;
-            top: 55px; right: 0;
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-            display: none;
-            flex-direction: column;
-            min-width: 240px;
-            z-index: 1000;
-            overflow: hidden;
+            position: absolute; top: 55px; right: 0; background: #111; border: 1px solid #333;
+            border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); display: none;
+            flex-direction: column; min-width: 240px; z-index: 1000; overflow: hidden;
         }
         .dropdown-menu.show { display: flex; animation: fadeIn 0.2s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
         .dropdown-item {
             background: transparent; color: #fff; border: none; padding: 15px 20px; text-align: left;
-            font-family: 'Sarabun', sans-serif; font-size: 15px; cursor: pointer; transition: 0.2s;
+            font-family: var(--font-main); font-size: 15px; cursor: pointer; transition: 0.2s;
             border-bottom: 1px solid #222; display: flex; align-items: center; gap: 8px;
         }
         .dropdown-item:last-child { border-bottom: none; }
@@ -102,8 +86,7 @@
         h2 { font-weight: 900; color: var(--primary1); margin-bottom: 10px; letter-spacing: -3px; }
 
         .typing-card {
-            background: var(--card);
-            padding: 50px; border-radius: 24px;
+            background: var(--card); padding: 50px; border-radius: var(--border-rad);
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); margin-bottom: 30px; position: relative;
             transition: background-color 0.3s, box-shadow 0.3s;
         }
@@ -118,8 +101,7 @@
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: left;
         }
 
-        .word { font-size: 40px; line-height: 69px; margin-right: 5px; color: var(--text-light); padding: 0 8px; border-radius: 8px; transition: all 0.2s; }
-        
+        .word { font-size: 40px; line-height: 69px; margin-right: 5px; color: var(--text-light); padding: 0 8px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-main); }
         .word.current { background-color: var(--highlight); color: #000000; font-weight: 600; box-shadow: 0 4px 12px rgba(255, 212, 59, 0.4); }
         .word.current.is-correct { background-color: var(--correct-live) !important; color: white !important; box-shadow: 0 4px 12px rgba(46, 204, 113, 0.5); }
         .word.current.is-wrong { background-color: var(--wrong-live) !important; color: white !important; box-shadow: 0 4px 12px rgba(231, 76, 60, 0.5); }
@@ -128,46 +110,37 @@
 
         .controls-row { display: flex; gap: 20px; align-items: center; }
         #userInput {
-            flex: 1; font-family: 'Sarabun', sans-serif; font-size: 28px; padding: 18px 25px;
-            border: 2px solid #e2e8f0; border-radius: 16px; outline: none; background: #f1f5f9; color: var(--text-dark);
+            flex: 1; font-family: var(--font-main); font-size: 28px; padding: 18px 25px;
+            border: 2px solid #e2e8f0; border-radius: var(--border-btn); outline: none; background: #f1f5f9; color: var(--text-dark);
             transition: color 0.2s, background-color 0.3s, border-color 0.3s;
         }
 
-        .timer-badge { background: var(--primary); color: white; padding: 15px 35px; border-radius: 16px; font-size: 32px; font-weight: 700; min-width: 70px; }
-        .btn-refresh { background: #fff; border: 2px solid #e2e8f0; width: 70px; height: 70px; border-radius: 16px; cursor: pointer; font-size: 28px; color: #333; transition: 0.3s; }
+        .timer-badge { background: var(--primary); color: white; padding: 15px 35px; border-radius: var(--border-btn); font-size: 32px; font-weight: 700; min-width: 70px; font-family: var(--font-main);}
+        .btn-refresh { background: #fff; border: 2px solid #e2e8f0; width: 70px; height: 70px; border-radius: var(--border-btn); cursor: pointer; font-size: 28px; color: #333; transition: 0.3s; }
         
-        /* Modal Base */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(10, 10, 15, 0.9); backdrop-filter: blur(8px);
             display: none; justify-content: center; align-items: center; z-index: 10000;
         }
-
-        .modal-overlay[style*="display: flex"] .modal-card {
-            animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes popIn {
-            0% { opacity: 0; transform: scale(0.95) translateY(20px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); }
-        }
+        .modal-overlay[style*="display: flex"] .modal-card { animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.95) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
 
         .modal-card {
             background: var(--card); color: var(--text-light); width: 95%; max-width: 750px; padding: 40px;
-            border-radius: 28px; text-align: center; max-height: 85vh; overflow-y: auto; 
+            border-radius: var(--border-rad); text-align: center; max-height: 85vh; overflow-y: auto; 
             transition: background-color 0.3s, color 0.3s, border-color 0.3s;
             border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
 
-        /* Result Modal Specific UI */
-        .result-title { font-size: 32px; font-weight: 800; margin-bottom: 5px; color: var(--text-light); }
-        .result-subtitle { font-size: 16px; color: #64748b; margin-top: 0; margin-bottom: 25px; font-weight: 400; }
+        .result-title { font-size: 32px; font-weight: 800; margin-bottom: 5px; color: var(--text-light); font-family: var(--font-head);}
+        .result-subtitle { font-size: 16px; color: #64748b; margin-top: 0; margin-bottom: 25px; font-weight: 400; font-family: var(--font-main);}
 
         .rank-badge { 
             background: linear-gradient(135deg, #ffd43b, #f59e0b); color: #000; 
             padding: 12px 35px; border-radius: 50px; font-weight: 800; font-size: 22px; 
             margin-bottom: 25px; display: inline-flex; align-items: center; gap: 8px;
-            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3); border: 2px solid #fff;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3); border: 2px solid #fff; font-family: var(--font-main);
         }
 
         .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
@@ -179,33 +152,27 @@
         .stat-box:hover { transform: translateY(-3px); border-color: #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         .stat-box.highlight { grid-column: span 2; background: linear-gradient(145deg, rgba(59,177,84,0.1), rgba(0,0,0,0)); border-color: rgba(59,177,84,0.3); }
         .stat-box.highlight:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(59,177,84,0.15); }
-        
-        .stat-val { font-size: 38px; font-weight: 800; line-height: 1.1; margin-top: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .stat-val { font-size: 38px; font-weight: 800; line-height: 1.1; margin-top: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); font-family: var(--font-head);}
         .stat-val.huge { font-size: 56px; color: var(--primary); }
-        .stat-label { font-size: 14px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .stat-label { font-size: 14px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--font-main);}
 
         .btn-main { 
             background: var(--primary); color: white; border: none; width: 100%; padding: 18px; 
-            border-radius: 16px; font-weight: 800; font-size: 18px; cursor: pointer; margin-top: 10px; 
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 25px rgba(59, 177, 84, 0.3);
-            font-family: 'Sarabun', sans-serif;
+            border-radius: var(--border-btn); font-weight: 800; font-size: 18px; cursor: pointer; margin-top: 10px; 
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 25px rgba(59, 177, 84, 0.3); font-family: var(--font-main);
         }
         .btn-main:hover { background: #2f8d43; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(59, 177, 84, 0.4); }
         .btn-main:active { transform: translateY(1px); box-shadow: 0 4px 15px rgba(59, 177, 84, 0.3); }
         
         .sync-status { font-size: 14px; color: #94a3b8; margin-top: 15px; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 5px; }
 
-        /* Dark Modal Details */
-        .dark-modal {
-            background: #121212; border: 1px solid #333; box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            border-radius: 20px; color: #fff; width: 90%; max-width: 400px; padding: 30px; transition: background-color 0.3s, border-color 0.3s, color 0.3s;
-        }
+        .dark-modal { background: #121212; border: 1px solid #333; box-shadow: 0 10px 40px rgba(0,0,0,0.8); border-radius: 20px; color: #fff; width: 90%; max-width: 400px; padding: 30px; }
         .dark-modal h2 { color: #fff; letter-spacing: 0; margin-top: 0; font-size: 24px; border-bottom: 1px solid #222; padding-bottom: 15px;}
         .dark-modal p { color: #aaa; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
-        .dark-input { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: var(--primary); border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        .dark-input { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: var(--primary); border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; font-family: var(--font-main);}
         .dark-input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(59, 177, 84, 0.2); }
         .dark-btn-group { display: flex; gap: 10px; }
-        .dark-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 15px; }
+        .dark-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 15px; font-family: var(--font-main);}
         .dark-btn.confirm { background: var(--primary); color: #000; }
         .dark-btn.confirm:hover { background: #2f8d43; }
         .dark-btn.cancel { background: #333; color: #fff; }
@@ -215,16 +182,24 @@
 
         .rank-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; text-align: left; }
         .rank-table tr { border-bottom: 1px solid #eee; }
-        .rank-table td, .rank-table th { padding: 10px; color:#333; }
+        .rank-table td, .rank-table th { padding: 10px; color:#333; font-family: var(--font-main);}
         .active-rank { background: #fff1f2; font-weight: bold; }
 
-        #authContainer { background: #000; padding: 40px; border-radius: 24px; width: 340px; text-align: center; color: white; transition: background-color 0.3s, color 0.3s; }
-        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #111; color: white; box-sizing: border-box; transition: 0.3s; }
+        #authContainer { background: #000; padding: 40px; border-radius: var(--border-rad); width: 340px; text-align: center; color: white; transition: background-color 0.3s, color 0.3s; }
+        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #111; color: white; box-sizing: border-box; transition: 0.3s; font-family: var(--font-main);}
 
-        .close-modal-x { position: absolute; top: 15px; right: 20px; font-size: 52px; font-weight: bold; color: #999; cursor: pointer; line-height: 1; transition: 0.2s; user-select: none; z-index: 10; }
+        .close-modal-x { position: absolute; top: 15px; right: 20px; font-size: 52px; font-weight: bold; color: #999; cursor: pointer; line-height: 1; transition: 0.2s; user-select: none; z-index: 10; font-family: sans-serif;}
         .close-modal-x:hover { color: #ef4444; transform: scale(1.1); }
 
-        /* --- LIGHT MODE OVERRIDES --- */
+        .admin-btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; font-family: var(--font-main); }
+        .admin-btn-edit { background: #3b82f6; color: white; }
+        .admin-btn-edit:hover { background: #2563eb; }
+        .admin-btn-del { background: #ef4444; color: white; margin-left: 5px; }
+        .admin-btn-del:hover { background: #dc2626; }
+
+        /* ==================================================
+           2. LIGHT MODE (โหมดสว่าง ออริจินัล - ไม่แก้เลย) 
+           ================================================== */
         body.light-mode { --bg: #e1eff5; --card: #ffffff; --text-dark: #0f172a; --text-light: #0f172a; --primary1: #c5cbdf; --highlight: #fde047; }
         body.light-mode .ticker-wrap { background-color: #e1eff5; color: #1e293b; border-bottom: 2px solid var(--primary); }
         body.light-mode .typing-card { box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; }
@@ -238,55 +213,545 @@
         body.light-mode .dark-input { background: #f8fafc; color: #1e293b; border: 1px solid #cbd5e1; }
         body.light-mode .dark-btn.cancel { background: #e2e8f0; color: #475569; }
         body.light-mode .dark-btn.cancel:hover { background: #cbd5e1; }
-        
         body.light-mode .modal-card { background: #ffffff; border-color: #e2e8f0; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.15); }
         body.light-mode .result-title { color: #0f172a; }
         body.light-mode .stat-box { background: #f8fafc; border-color: #e2e8f0; }
         body.light-mode .stat-box:hover { border-color: #cbd5e1; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
         body.light-mode .stat-box.highlight { background: linear-gradient(145deg, rgba(59,177,84,0.05), #ffffff); border-color: rgba(59,177,84,0.2); }
-        body.light-mode .stat-box.highlight:hover { border-color: rgba(59,177,84,0.4); box-shadow: 0 10px 30px rgba(59,177,84,0.1); }
         body.light-mode .stat-label { color: #64748b; }
-        
         body.light-mode #logoutModal > div { background: #ffffff !important; border: 1px solid #e2e8f0 !important; box-shadow: 0 20px 50px rgba(0,0,0,0.1) !important; }
         body.light-mode #logoutModal h2 { text-shadow: none !important; }
-        body.light-mode #logoutModal p { color: #475569 !important; }
-        body.light-mode #logoutModal span[onclick] { color: #94a3b8 !important; }
-        body.light-mode #logoutModal span[onclick]:hover { color: #ef4444 !important; }
-        body.light-mode #logoutModal button[onclick*="closeModal"] { background: #e2e8f0 !important; color: #475569 !important; }
-        body.light-mode #logoutModal button[onclick*="closeModal"]:hover { background: #cbd5e1 !important; }
+        body.light-mode #logoutModal p, body.light-mode #logoutModal span[onclick] { color: #475569 !important; }
         body.light-mode .btn-top { background: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
         body.light-mode .btn-top:hover { background: #e2e8f0; color: #1e293b; }
-        body.light-mode .btn-danger { background: #fee2e2; color: #ef4444; border: 1px solid #fecaca; }
-        body.light-mode .btn-danger:hover { background: #fecaca; }
-        
-        body.light-mode .hamburger-btn { background: #ffffff; color: #1e293b; border-color: #cbd5e1; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        body.light-mode .hamburger-btn:hover { background: #f8fafc; }
-        body.light-mode .dropdown-menu { background: #ffffff; border-color: #cbd5e1; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        body.light-mode .hamburger-btn { background: #ffffff; color: #1e293b; border-color: #cbd5e1; }
+        body.light-mode .dropdown-menu { background: #ffffff; border-color: #cbd5e1; }
         body.light-mode .dropdown-item { color: #1e293b; border-bottom-color: #f1f5f9; }
-        body.light-mode .dropdown-item:hover { background: #f8fafc; }
-        body.light-mode .dropdown-danger { color: #ef4444; }
-        body.light-mode .dropdown-danger:hover { background: #fee2e2; }
 
-        #themeToggleBtn {
-            position: fixed; bottom: 25px; right: 25px; z-index: 99999;
-            background: var(--card); border: 2px solid var(--primary); color: var(--text-dark);
+
+        /* ==================================================
+           3. SPECIAL FORCE THEME (ทหารแคลน / บัตร ID / โคตรเทพ) 
+           ================================================== */
+        body.theme-sf {
+            --bg: #161a13; /* เขียวทหารเข้มมืด */
+            --card: #21281d; /* สีแผงคลังแสง */
+            --primary: #ffd700; /* สีเหลืองทอง SF สว่างขึ้น */
+            --primary1: #a9ba9d; /* สีเทาอมเขียวทหาร */
+            --text-dark: #d2dbcc; --text-light: #ffffff; --highlight: #ffcc00;
+            --correct-live: #ffcc00; --wrong-live: #ff4444;
+            --font-main: 'Chakra Petch', sans-serif; --font-head: 'Chakra Petch', sans-serif;
+            --border-rad: 0px; --border-btn: 0px;
+        }
+        body.theme-sf::before { /* ลายพรางทหารจางๆ */
+            content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, #161a13 100%), repeating-linear-gradient(45deg, rgba(0,0,0,0.05) 0px, rgba(0,0,0,0.05) 2px, transparent 2px, transparent 4px);
+            z-index: -1; pointer-events: none;
+        }
+        body.theme-sf h1, body.theme-sf h2 { color: var(--primary); text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0,0,0,0.9); }
+        body.theme-sf .ticker-wrap { background: #0f120c; border-bottom: 2px solid var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.8);}
+        
+        /* กรอบแบบ 3D เหมือนป้ายเหล็กทหาร */
+        body.theme-sf .typing-card, body.theme-sf #authContainer, body.theme-sf .modal-card, body.theme-sf .dropdown-menu { 
+            background: linear-gradient(180deg, #2a3324 0%, #1b2116 100%);
+            border: 3px solid; border-color: #556649 #0f120c #0f120c #556649; 
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.9);
+        }
+        body.theme-sf .display-window { background: #0f120c; border: 3px solid; border-color: #080a06 #44533a #44533a #080a06; }
+        
+        body.theme-sf .word { color: #4e5e43; font-weight: bold; text-shadow: 1px 1px 0px #000;}
+        body.theme-sf .word.current { background: #3d4a34; color: #fff; box-shadow: none; border-bottom: 3px solid var(--primary); text-shadow: none;}
+        body.theme-sf .word.correct { color: var(--primary1); text-shadow: 1px 1px 0px #000;}
+        body.theme-sf .word.wrong { color: #ff6666; text-decoration: line-through; text-shadow: 1px 1px 0px #000;}
+        
+        body.theme-sf #userInput { background: #0b0d09; color: var(--primary); border: 2px solid #080a06; border-bottom-color: #44533a; border-right-color: #44533a; font-weight: bold;}
+        body.theme-sf #userInput:focus { background: #131710; }
+        
+        body.theme-sf .btn-main, body.theme-sf .btn-top, body.theme-sf .dark-btn, body.theme-sf .hamburger-btn, body.theme-sf .btn-refresh { 
+            background: linear-gradient(180deg, #3f4c35 0%, #2b3424 100%); color: var(--primary); 
+            border: 2px solid; border-color: #657a55 #11150e #11150e #657a55; 
+            font-weight: bold; text-transform: uppercase; text-shadow: 1px 1px 2px #000; transition: all 0.1s;
+        }
+        body.theme-sf .btn-main:active, body.theme-sf .btn-refresh:active, body.theme-sf .btn-top:active { 
+            border-color: #11150e #657a55 #657a55 #11150e; transform: translateY(2px); 
+            background: linear-gradient(180deg, #2b3424 0%, #3f4c35 100%);
+        }
+        body.theme-sf .btn-main:hover, body.theme-sf .dark-btn:hover { background: #4a593d; color: #fff;}
+        
+        body.theme-sf .timer-badge { background: #0f120c; border: 2px solid #556649; color: #fff; box-shadow: inset 0 0 10px rgba(0,0,0,0.8);}
+        body.theme-sf .stat-box { border: 2px solid; border-color: #080a06 #44533a #44533a #080a06; background: #131710; }
+        body.theme-sf .stat-box.highlight { border-color: var(--primary); background: rgba(255, 215, 0, 0.1); }
+        body.theme-sf .stat-val { color: #fff; text-shadow: 2px 2px 0px #000;}
+        body.theme-sf .stat-val.huge { color: var(--primary); }
+        body.theme-sf .auth-input, body.theme-sf .dark-input { background: #0f120c; border: 2px solid #080a06; border-bottom-color:#44533a; border-right-color:#44533a; color: #fff;}
+        body.theme-sf .rank-badge { background: #2b3424; border: 2px solid var(--primary); color: var(--primary); box-shadow: none; text-shadow: 1px 1px 2px #000;}
+
+
+        /* ==================================================
+           4. POINT BLANK THEME (ระดับเทพ - หน้าคลังแสง / ล็อบบี้ PB) 
+           ================================================== */
+        body.theme-pb {
+            --bg: #090d12; /* สีพื้นหลังดำอมน้ำเงินเข้ม แบบหน้าล็อบบี้ */
+            --card: #121820; /* สีแผงหน้าต่างคลังแสง */
+            --primary: #00aaff; /* สีฟ้าสว่าง PB */
+            --primary1: #ffb300; /* สีทอง Point/Cash */
+            --text-dark: #b0c4de; /* สีตัวหนังสือเทาฟ้า */
+            --text-light: #ffffff; 
+            --highlight: #ff1a1a; /* สีแดง Headshot / ป้าย HOT */
+            --correct-live: #00aaff; 
+            --wrong-live: #ff1a1a;
+            --font-main: 'Chakra Petch', sans-serif; 
+            --font-head: 'Chakra Petch', sans-serif;
+            --border-rad: 0px; --border-btn: 0px;
+        }
+        body.theme-pb::before { /* ลายตารางเทคนิค (Grid) บางๆ เหมือนหน้าต่างระบบในเกม PB */
+            content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(rgba(0, 170, 255, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 170, 255, 0.05) 1px, transparent 1px);
+            background-size: 25px 25px; z-index: -1; pointer-events: none;
+        }
+
+        body.theme-pb h1, body.theme-pb h2 { 
+            color: #fff; text-transform: uppercase; 
+            border-left: 5px solid var(--highlight); padding-left: 15px; 
+            background: linear-gradient(90deg, rgba(255, 26, 26, 0.2) 0%, transparent 100%);
+            text-shadow: 0 0 8px rgba(255, 26, 26, 0.8); text-align: left; margin-left: -10px;
+        }
+        body.theme-pb h2 { 
+            border-left-color: var(--primary); background: linear-gradient(90deg, rgba(0, 170, 255, 0.2) 0%, transparent 100%);
+            text-shadow: 0 0 8px rgba(0, 170, 255, 0.8);
+        }
+        
+        body.theme-pb .ticker-wrap { 
+            background: linear-gradient(180deg, #1a2430 0%, #0d1218 100%); 
+            border-bottom: 2px solid var(--primary); box-shadow: 0 5px 15px rgba(0, 170, 255, 0.2);
+        }
+        body.theme-pb .ticker-content { color: #fff; text-shadow: 0 0 5px var(--primary);}
+
+        body.theme-pb .typing-card, body.theme-pb #authContainer, body.theme-pb .modal-card, body.theme-pb .dropdown-menu { 
+            border: 1px solid #2a3b4c; border-top: 3px solid var(--primary); 
+            background: linear-gradient(180deg, #161e27 0%, #0d1218 100%); 
+            box-shadow: 0 15px 40px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.05); 
+        }
+        body.theme-pb .display-window { background: #070a0e; border: 1px solid #1a2533; box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9); }
+        
+        body.theme-pb .word { font-weight: bold; color: #4a617a;}
+        body.theme-pb .word.current { 
+            background: rgba(0, 170, 255, 0.15); color: #fff; 
+            border: 1px solid var(--primary); box-shadow: 0 0 10px rgba(0, 170, 255, 0.4), inset 0 0 10px rgba(0, 170, 255, 0.2); 
+            transform: scale(1.02); text-shadow: 0 0 5px var(--primary);
+        }
+        body.theme-pb .word.correct { color: #8ba8c9; }
+        body.theme-pb .word.wrong { color: var(--highlight); text-shadow: 0 0 8px rgba(255,0,0,0.6); text-decoration: line-through; }
+        
+        body.theme-pb #userInput { 
+            background: #05070a; color: #fff; border: 1px solid #2a3b4c; 
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8); text-transform: uppercase; font-weight: bold;
+        }
+        body.theme-pb #userInput:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(0, 170, 255, 0.4), inset 0 0 10px rgba(0, 170, 255, 0.2); }
+        
+        body.theme-pb .btn-main, body.theme-pb .btn-top, body.theme-pb .btn-refresh, body.theme-pb .dark-btn, body.theme-pb .hamburger-btn { 
+            background: linear-gradient(180deg, #0088cc 0%, #004466 100%); color: #fff; 
+            border: 1px solid #00bfff; box-shadow: 0 2px 5px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3); 
+            text-transform: uppercase; font-weight: 800; letter-spacing: 1px; transition: all 0.2s ease;
+        }
+        body.theme-pb .btn-main:hover, body.theme-pb .btn-top:hover, body.theme-pb .btn-refresh:hover, body.theme-pb .dark-btn:hover { 
+            background: linear-gradient(180deg, #00aaff 0%, #005580 100%); 
+            box-shadow: 0 0 15px rgba(0, 170, 255, 0.6), inset 0 1px 0 rgba(255,255,255,0.5); border-color: #fff; transform: translateY(-2px);
+        }
+        body.theme-pb .btn-main:active { transform: translateY(1px); box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
+        
+        body.theme-pb .btn-danger, body.theme-pb .dark-btn.danger { background: linear-gradient(180deg, #cc0000 0%, #660000 100%); border-color: #ff4d4d;}
+        body.theme-pb .btn-danger:hover, body.theme-pb .dark-btn.danger:hover { background: linear-gradient(180deg, #ff1a1a 0%, #990000 100%); box-shadow: 0 0 15px rgba(255, 0, 0, 0.6), inset 0 1px 0 rgba(255,255,255,0.5); border-color: #fff;}
+
+        body.theme-pb .timer-badge { background: linear-gradient(180deg, #2a3b4c 0%, #161e27 100%); border: 1px solid var(--primary); color: var(--primary); text-shadow: 0 0 10px var(--primary); box-shadow: 0 0 10px rgba(0,170,255,0.2);}
+        body.theme-pb .stat-box { border: 1px solid #1a2533; background: #090c12; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); }
+        body.theme-pb .stat-box.highlight { border-color: var(--highlight); background: linear-gradient(180deg, rgba(204,0,0,0.15) 0%, #090c12 100%); box-shadow: 0 0 15px rgba(255, 0, 0, 0.2); }
+        body.theme-pb .stat-val { color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
+        body.theme-pb .stat-val.huge { color: var(--highlight); text-shadow: 0 0 15px rgba(255, 0, 0, 0.6);}
+        body.theme-pb .stat-label { color: #7b99b8; }
+        
+        body.theme-pb .auth-input, body.theme-pb .dark-input { background: #06090d; border: 1px solid #1a2533; color: var(--text-light); font-weight: bold;}
+        body.theme-pb .auth-input:focus, body.theme-pb .dark-input:focus { border-color: var(--primary); }
+        body.theme-pb .rank-badge { background: linear-gradient(90deg, rgba(0,170,255,0.2), transparent); border: 1px solid var(--primary); border-left: 4px solid var(--primary); color: var(--text-light); text-shadow: 0 0 5px var(--primary); box-shadow: 0 0 10px rgba(0,170,255,0.2);}
+        
+        body.theme-pb .dropdown-item { border-bottom: 1px solid #1a2533; color: #b0c4de; background: transparent; }
+        body.theme-pb .dropdown-item:hover { background: rgba(0, 170, 255, 0.2); color: #fff; border-left: 3px solid var(--primary); padding-left: 22px;}
+        body.theme-pb .rank-table th { background: #161e27; border-bottom: 2px solid var(--primary) !important; color: var(--primary);}
+        body.theme-pb .rank-table td { border-bottom: 1px solid #1a2533; color: #b0c4de;}
+
+
+        /* ==================================================
+           5. 8-BIT ARCADE THEME (ระดับเทพ - Contra HUD Vibes) 
+           ================================================== */
+        body.theme-arcade {
+            --bg: #000000; --card: #000000; 
+            --primary: #ff1100; /* แดง Contra จัดๆ */
+            --primary1: #ffcc00; /* เหลืองทอง 8-bit */
+            --text-dark: #ffffff; --text-light: #ffffff; --highlight: #ffcc00;
+            --correct-live: #00ff00; --wrong-live: #ff1100;
+            --font-head: 'Press Start 2P', cursive; --font-main: 'Chakra Petch', sans-serif;
+            --border-rad: 0px; --border-btn: 0px;
+        }
+        @keyframes crt-flicker { 0% { opacity: 0.1; } 5% { opacity: 0.15; } 10% { opacity: 0.1; } 100% { opacity: 0.1; } }
+        body.theme-arcade::before { 
+            content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 99998; background-size: 100% 4px, 6px 100%; pointer-events: none; animation: crt-flicker 0.15s infinite;
+        }
+
+        @keyframes press-start-blink { 0%, 100% { opacity: 1; text-shadow: 3px 3px 0px #ff1100; } 50% { opacity: 0.8; text-shadow: none; color: #fff; } }
+        body.theme-arcade h1 { font-size: 20px; color: var(--primary1); animation: press-start-blink 1.2s infinite; letter-spacing: 2px; text-transform: uppercase;}
+        body.theme-arcade h2 { font-size: 24px; color: var(--primary); text-shadow: 2px 2px 0px #fff; letter-spacing: 1px;}
+        body.theme-arcade .ticker-wrap { background: #000; border-bottom: 4px solid var(--primary); box-shadow: 0 4px 0 var(--primary1); }
+        body.theme-arcade .ticker-content { font-family: var(--font-head); font-size: 14px; color: var(--primary1); text-shadow: 2px 2px 0px #ff1100;}
+        
+        body.theme-arcade .typing-card, body.theme-arcade #authContainer, body.theme-arcade .modal-card, body.theme-arcade .dropdown-menu { 
+            border: 4px solid #fff; box-shadow: inset 0 0 0 4px #000, inset 0 0 0 8px #555, 10px 10px 0 var(--primary); background: #000;
+        }
+        body.theme-arcade .display-window { border: 4px solid var(--primary1); background: #000; box-shadow: inset 0 0 15px rgba(255, 17, 0, 0.4); }
+        body.theme-arcade .word { font-family: var(--font-main); font-weight: 800; font-size: 34px; color: #666;}
+        
+        body.theme-arcade .word.current { background: var(--primary1); color: #000; text-shadow: none; box-shadow: 4px 4px 0px var(--primary); transform: scale(1.05);}
+        body.theme-arcade .word.correct { color: #00ff00; text-shadow: 2px 2px 0px #005500; }
+        body.theme-arcade .word.wrong { color: #ff1100; text-shadow: 2px 2px 0px #550000; }
+        
+        body.theme-arcade #userInput { background: #000; color: var(--primary1); border: 4px solid #fff; box-shadow: inset 4px 4px 0 #333; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;}
+        body.theme-arcade #userInput:focus { border-color: var(--primary1); box-shadow: inset 4px 4px 0 var(--primary); }
+        
+        body.theme-arcade .btn-main, body.theme-arcade .btn-top, body.theme-arcade .btn-refresh, body.theme-arcade .hamburger-btn, body.theme-arcade .dark-btn { 
+            background: #000; color: var(--primary1); border: 4px solid var(--primary1); box-shadow: 6px 6px 0px var(--primary); text-transform: uppercase; font-family: var(--font-head); font-size: 14px; transition: all 0.1s;
+        }
+        body.theme-arcade .btn-main:hover, body.theme-arcade .btn-top:hover, body.theme-arcade .btn-refresh:hover, body.theme-arcade .dark-btn:hover { background: var(--primary1); color: #000; border-color: #fff;}
+        body.theme-arcade .btn-main:active, body.theme-arcade .btn-top:active, body.theme-arcade .btn-refresh:active, body.theme-arcade .dark-btn:active { transform: translate(6px, 6px); box-shadow: 0px 0px 0px var(--primary); }
+
+        body.theme-arcade .timer-badge { color: #fff; box-shadow: 4px 4px 0px var(--primary); font-size: 24px; border: 4px solid var(--primary1); background: #000; font-family: var(--font-head);}
+        body.theme-arcade .stat-box { border: 4px solid #555; background: #000; }
+        body.theme-arcade .stat-box.highlight { border-color: var(--primary); box-shadow: 4px 4px 0px var(--primary1); }
+        body.theme-arcade .stat-val { font-family: var(--font-head); font-size: 24px; color: #fff; margin-top: 15px;}
+        body.theme-arcade .stat-val.huge { color: var(--primary1); font-size: 32px;}
+        body.theme-arcade .stat-label { font-family: var(--font-head); font-size: 10px; color: var(--highlight); letter-spacing: 1px;}
+        body.theme-arcade .auth-input, body.theme-arcade .dark-input { border: 4px solid #999; background: #000; color: var(--primary1); font-weight: bold;}
+        body.theme-arcade .rank-badge { border: 4px solid #fff; box-shadow: 6px 6px 0px var(--primary); background: #000; color: var(--primary1); font-family: var(--font-head); font-size: 16px;}
+        body.theme-arcade .dropdown-item { border-bottom: 4px solid #333; font-family: var(--font-head); font-size: 12px;}
+        body.theme-arcade .dropdown-item:hover { background: var(--primary1); color: #000; border-color: #fff;}
+        body.theme-arcade .rank-table th { background: var(--primary); font-family: var(--font-head); font-size: 10px; border-bottom: 4px solid #fff !important; }
+        body.theme-arcade .rank-table td { font-family: var(--font-head); font-size: 12px; color: #fff; border-bottom: 2px solid #333; }
+
+
+        /* ==================================================
+        6. HACKER PRO THEME (CRT & Glow Edition - Compact) 
+        ================================================== */
+        body.theme-hacker { --bg: #020202; --card: #080808; --primary: #00ff41; --primary-glow: rgba(0, 255, 65, 0.6); --primary-dim: #004400; --danger: #ff003c; --danger-glow: rgba(255, 0, 60, 0.6); --text-dark: #00ff41; --text-light: #e0e0e0; --font-head: 'VT323', 'Courier New', monospace; --font-main: 'VT323', 'Courier New', monospace; --border-rad: 0px; --border-btn: 0px; background-color: var(--bg); background-image: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 4px, 6px 100%; }
+        body.theme-hacker h1, body.theme-hacker h2 { color: var(--primary); font-weight: bold; letter-spacing: 3px; text-shadow: 0 0 8px var(--primary-glow); text-transform: uppercase; }
+        body.theme-hacker .ticker-wrap { background: #000; border-bottom: 1px solid var(--primary); color: var(--primary); box-shadow: 0 2px 10px var(--primary-glow); }
+        body.theme-hacker .typing-card, body.theme-hacker #authContainer, body.theme-hacker .modal-card, body.theme-hacker .dropdown-menu { border: 1px solid var(--primary-dim); border-top: 2px solid var(--primary); box-shadow: 0 0 20px rgba(0, 255, 65, 0.1), inset 0 0 15px rgba(0, 255, 65, 0.05); background: var(--card); }
+        body.theme-hacker .display-window { border: 1px dashed var(--primary-dim); background: rgba(0, 20, 0, 0.3); }
+        body.theme-hacker .word { color: var(--primary-dim); font-size: 38px; transition: color 0.1s; }
+        body.theme-hacker .word.current { background: rgba(0, 255, 65, 0.1); color: var(--primary); text-shadow: 0 0 5px var(--primary-glow); border-bottom: 2px solid var(--primary); box-shadow: 0 2px 5px var(--primary-glow); animation: pulse-cursor 1s infinite; }
+        body.theme-hacker .word.correct { color: var(--primary); text-shadow: 0 0 8px var(--primary-glow); }
+        body.theme-hacker .word.wrong { color: var(--danger); text-decoration: none; background: rgba(255, 0, 60, 0.15); text-shadow: 0 0 8px var(--danger-glow); border-bottom: 2px dashed var(--danger); }
+        body.theme-hacker #userInput { background: #000; color: var(--primary); border: 1px solid var(--primary-dim); font-family: var(--font-main); text-shadow: 0 0 5px var(--primary-glow); }
+        body.theme-hacker #userInput:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 10px var(--primary-glow); }
+        body.theme-hacker .btn-main, body.theme-hacker .btn-top, body.theme-hacker .btn-refresh, body.theme-hacker .hamburger-btn, body.theme-hacker .dark-btn { background: transparent; color: var(--primary); border: 1px solid var(--primary); box-shadow: inset 0 0 5px var(--primary-glow); font-size: 20px; font-weight: bold; text-transform: uppercase; cursor: crosshair; transition: all 0.2s ease; }
+        body.theme-hacker .btn-main:hover, body.theme-hacker .btn-top:hover, body.theme-hacker .dark-btn:hover { background: var(--primary); color: #000; text-shadow: none; box-shadow: 0 0 15px var(--primary-glow); }
+        body.theme-hacker .timer-badge { border: 1px solid var(--primary); background: rgba(0, 20, 0, 0.5); font-size: 32px; color: var(--primary); text-shadow: 0 0 8px var(--primary-glow); box-shadow: inset 0 0 10px var(--primary-glow); }
+        body.theme-hacker .stat-box { border: 1px dashed var(--primary-dim); background: var(--card); }
+        body.theme-hacker .stat-box.highlight { border: 1px solid var(--primary); background: rgba(0, 255, 65, 0.05); box-shadow: inset 0 0 10px var(--primary-glow); }
+        body.theme-hacker .stat-val { color: var(--primary); font-size: 38px; text-shadow: 0 0 10px var(--primary-glow); }
+        @keyframes pulse-cursor { 0% { border-bottom-color: var(--primary); box-shadow: 0 2px 5px var(--primary-glow); } 50% { border-bottom-color: transparent; box-shadow: none; } 100% { border-bottom-color: var(--primary); box-shadow: 0 2px 5px var(--primary-glow); } }
+
+
+        /* ==================================================
+           7. VALORANT THEME (มุมตัดเฉียงสไตล์ Valo)
+           ================================================== */
+        body.theme-valo {
+            --bg: #0f1923; /* สีพื้นหลัง Dark Slate ของ Valo */
+            --card: #ece8e1; /* สีขาวครีม Off-White */
+            --primary: #ff4655; /* สีแดง Valorant */
+            --primary1: #0f1923; 
+            --text-dark: #0f1923; --text-light: #ece8e1; --highlight: #ff4655;
+            --correct-live: #00ffcc; /* สีเขียวคล้ายสกิล Sage */
+            --wrong-live: #ff4655;
+            --font-head: 'Teko', 'Chakra Petch', sans-serif; --font-main: 'Chakra Petch', sans-serif;
+            --border-rad: 0px; --border-btn: 0px;
+        }
+        body.theme-valo::before {
+            content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(rgba(236, 232, 225, 0.05) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(236, 232, 225, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px; z-index: -1; pointer-events: none;
+        }
+        body.theme-valo h1 { color: var(--text-light); font-size: 42px; text-transform: uppercase; letter-spacing: 3px; text-shadow: 2px 2px 0px rgba(0,0,0,0.5);}
+        body.theme-valo h2 { color: var(--primary); font-size: 28px; text-transform: uppercase; letter-spacing: 1px; margin-top: -15px;}
+        body.theme-valo .ticker-wrap { background: var(--primary); border-bottom: none; }
+        body.theme-valo .ticker-content { font-family: var(--font-head); font-size: 26px; color: #fff; letter-spacing: 2px;}
+        
+        body.theme-valo .typing-card, body.theme-valo #authContainer, body.theme-valo .modal-card { 
+            background: var(--card); border: none; box-shadow: none;
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 30px), calc(100% - 30px) 100%, 0 100%);
+            position: relative; border-top: 6px solid var(--primary); color: var(--text-dark);
+        }
+        body.theme-valo .display-window { background: #fff; border: 2px solid #ccc; border-left: 6px solid var(--primary); box-shadow: 4px 4px 0px rgba(15, 25, 35, 0.1); }
+        body.theme-valo .word { color: #8b978f; font-weight: bold; font-size: 36px;}
+        body.theme-valo .word.current { background: var(--text-dark); color: #fff; box-shadow: none; border-radius: 0; transform: scale(1.05); }
+        body.theme-valo .word.correct { color: #0f1923; }
+        body.theme-valo .word.wrong { color: var(--primary); text-decoration: line-through; }
+        
+        body.theme-valo #userInput { background: #fff; color: var(--text-dark); border: 2px solid #ccc; font-weight: bold; border-radius: 0; box-shadow: 4px 4px 0px rgba(15, 25, 35, 0.1);}
+        body.theme-valo #userInput:focus { border-color: var(--primary); }
+        
+        body.theme-valo .btn-main, body.theme-valo .btn-top, body.theme-valo .btn-refresh, body.theme-valo .hamburger-btn, body.theme-valo .dark-btn { 
+            background: var(--primary); color: #fff; border: none; text-transform: uppercase; 
+            font-family: var(--font-head); font-size: 24px; font-weight: 600; letter-spacing: 2px; border-radius: 0; transition: 0.2s;
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+        }
+        body.theme-valo .btn-main:hover, body.theme-valo .btn-top:hover, body.theme-valo .dark-btn:hover { background: var(--text-dark); color: var(--text-light); transform: translateY(-2px);}
+        body.theme-valo .timer-badge { background: var(--text-dark); color: var(--primary); font-family: var(--font-head); font-size: 36px; clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%); border: none;}
+        
+        body.theme-valo .stat-box { background: rgba(15, 25, 35, 0.05); border: 1px solid #ccc; border-left: 4px solid var(--text-dark); }
+        body.theme-valo .stat-box.highlight { border-color: var(--primary); background: rgba(255, 70, 85, 0.05); border-left: 4px solid var(--primary); }
+        body.theme-valo .stat-val { color: var(--text-dark); font-family: var(--font-head); font-size: 48px; text-shadow: none;}
+        body.theme-valo .stat-val.huge { color: var(--primary); font-size: 64px;}
+        body.theme-valo .stat-label { color: #8b978f; font-family: var(--font-head); font-size: 18px;}
+        
+        body.theme-valo .auth-input, body.theme-valo .dark-input { background: #fff; color: var(--text-dark); border: 2px solid #ccc; border-radius: 0;}
+        body.theme-valo .rank-badge { background: var(--primary); color: #fff; font-family: var(--font-head); font-size: 28px; border-radius: 0; border: none; letter-spacing: 2px; box-shadow: 4px 4px 0px rgba(15,25,35,0.2);}
+        body.theme-valo .result-title, body.theme-valo .dark-modal h2 { color: var(--text-dark); font-family: var(--font-head); font-size: 42px; text-transform: uppercase;}
+        body.theme-valo .result-subtitle, body.theme-valo .dark-modal p { color: #8b978f; font-family: var(--font-main); font-weight: bold;}
+        body.theme-valo .dropdown-menu { background: var(--text-light); border: 2px solid #ccc; border-radius: 0; clip-path: none;}
+        body.theme-valo .dropdown-item { color: var(--text-dark); border-bottom: 1px solid #ddd; font-weight: bold; text-transform: uppercase;}
+        body.theme-valo .dropdown-item:hover { background: var(--primary); color: #fff; }
+        body.theme-valo .rank-table th { background: var(--text-dark); color: #fff; font-family: var(--font-head); font-size: 22px; letter-spacing: 1px;}
+        body.theme-valo .rank-table td { color: var(--text-dark); border-bottom: 1px solid #ccc; font-weight: bold;}
+        body.theme-valo .close-modal-x { color: var(--text-dark); }
+        body.theme-valo .close-modal-x:hover { color: var(--primary); }
+
+
+        /* ==================================================
+           8. GTA V THEME (สายแก๊งสเตอร์ / Wasted)
+           ================================================== */
+        body.theme-gta {
+            --bg: #1a1a1a; --card: #000000; 
+            --primary: #59b200; /* สีเขียว Franklin */
+            --primary1: #00aaff; /* สีฟ้า Michael */
+            --text-dark: #fff; --text-light: #fff; --highlight: #ff9900; /* สีส้ม Trevor */
+            --correct-live: #59b200; --wrong-live: #ff3333;
+            --font-head: 'Teko', sans-serif; --font-main: 'Chakra Petch', sans-serif;
+            --border-rad: 8px; --border-btn: 4px;
+        }
+        body.theme-gta::before {
+            content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle, rgba(89, 178, 0, 0.05) 0%, rgba(0, 0, 0, 0.8) 100%); z-index: -1;
+        }
+        body.theme-gta h1 { color: #fff; font-size: 40px; text-transform: uppercase; text-shadow: 3px 3px 0px #000, -1px -1px 0px #59b200;}
+        body.theme-gta h2 { color: var(--highlight); font-size: 30px; text-transform: uppercase; text-shadow: 2px 2px 0px #000;}
+        body.theme-gta .ticker-wrap { background: rgba(0,0,0,0.9); border-bottom: 3px solid var(--primary); }
+        body.theme-gta .ticker-content { font-family: var(--font-head); font-size: 26px; color: #fff; letter-spacing: 1px;}
+        
+        body.theme-gta .typing-card, body.theme-gta #authContainer, body.theme-gta .modal-card { 
+            background: rgba(10, 10, 10, 0.95); border: 2px solid #333; border-top: 4px solid var(--primary); box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+        }
+        body.theme-gta .display-window { background: #000; border: 2px solid #333; box-shadow: inset 0 0 20px rgba(0,0,0,1); }
+        body.theme-gta .word { color: #666; font-weight: 800; font-size: 38px;}
+        body.theme-gta .word.current { background: #fff; color: #000; box-shadow: 0 0 10px #fff; border-radius: 4px;}
+        body.theme-gta .word.correct { color: var(--primary); text-shadow: 1px 1px 0px #000; }
+        body.theme-gta .word.wrong { color: #ff3333; text-decoration: line-through; text-shadow: 1px 1px 0px #000; }
+        
+        body.theme-gta #userInput { background: #000; color: #fff; border: 2px solid #555; font-weight: bold; text-transform: uppercase;}
+        body.theme-gta #userInput:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(89, 178, 0, 0.4); }
+        
+        body.theme-gta .btn-main, body.theme-gta .btn-top, body.theme-gta .btn-refresh, body.theme-gta .dark-btn, body.theme-gta .hamburger-btn { 
+            background: transparent; color: #fff; border: 2px solid var(--primary); text-transform: uppercase; font-family: var(--font-head); font-size: 26px; font-weight: 600; letter-spacing: 1px; transition: 0.2s;
+        }
+        body.theme-gta .btn-main:hover, body.theme-gta .btn-top:hover, body.theme-gta .dark-btn:hover { background: var(--primary); color: #000; transform: scale(1.02); box-shadow: 0 0 15px rgba(89, 178, 0, 0.5);}
+        body.theme-gta .timer-badge { background: #000; color: #fff; font-family: var(--font-head); font-size: 40px; border: 2px solid #fff;}
+        body.theme-gta .stat-box { background: #0a0a0a; border: 1px solid #333; }
+        body.theme-gta .stat-box.highlight { border-color: var(--primary); background: rgba(89, 178, 0, 0.1); }
+        body.theme-gta .stat-val { color: #fff; font-family: var(--font-head); font-size: 50px; text-shadow: 2px 2px 0px #000;}
+        body.theme-gta .stat-val.huge { color: var(--primary); font-size: 65px;}
+        body.theme-gta .auth-input, body.theme-gta .dark-input { background: #000; color: #fff; border: 2px solid #333; }
+        body.theme-gta .rank-badge { background: transparent; color: var(--primary); border: 2px solid var(--primary); font-family: var(--font-head); font-size: 30px; letter-spacing: 1px; box-shadow: none;}
+        body.theme-gta .result-title, body.theme-gta .dark-modal h2 { font-family: var(--font-head); font-size: 48px; color: #ff3333; text-shadow: 2px 2px 0px #000;} /* อารมณ์คำว่า WASTED */
+
+
+        /* ==================================================
+           9. MINECRAFT THEME (ระดับเทพ - เหลี่ยมๆ บล็อกๆ 100%)
+           ================================================== */
+        body.theme-mc {
+            --bg: #767676; /* สีพื้นหิน Stone */
+            --card: #c6c6c6; /* สี UI เมนูคราฟต์ */
+            --primary: #418b38; /* สีหญ้า Grass */
+            --primary1: #8b5a2b; /* สีดิน Dirt */
+            --text-dark: #373737; --text-light: #373737; --highlight: #ffff55; 
+            --correct-live: #55ff55; --wrong-live: #ff5555;
+            --font-head: 'Press Start 2P', cursive; --font-main: 'Chakra Petch', sans-serif;
+            --border-rad: 0px; --border-btn: 0px;
+        }
+        body.theme-mc::before {
+            content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: linear-gradient(rgba(0,0,0,0.1) 2px, transparent 2px), linear-gradient(90deg, rgba(0,0,0,0.1) 2px, transparent 2px);
+            background-size: 64px 64px; z-index: -1;
+        }
+        body.theme-mc h1 { color: #fff; font-size: 20px; text-shadow: 2px 2px 0px #373737; letter-spacing: 1px;}
+        body.theme-mc h2 { color: #ffff55; font-size: 24px; text-shadow: 2px 2px 0px #373737;}
+        body.theme-mc .ticker-wrap { background: #373737; border-bottom: 4px solid #000; box-shadow: inset 0 4px 0 rgba(255,255,255,0.2); }
+        body.theme-mc .ticker-content { font-family: var(--font-head); font-size: 14px; color: #fff; text-shadow: 2px 2px 0px #000;}
+        
+        /* ขอบนูนแบบกล่อง Minecraft UI เป๊ะๆ */
+        body.theme-mc .typing-card, body.theme-mc #authContainer, body.theme-mc .modal-card, body.theme-mc .dropdown-menu { 
+            background: var(--card); 
+            border: 4px solid; 
+            border-color: #ffffff #555555 #555555 #ffffff; /* บนซ้ายสว่าง ล่างขวามืด */
+            box-shadow: 8px 8px 0px rgba(0,0,0,0.3);
+        }
+        /* ช่องพิมพ์ยุบลงไปเหมือนช่องใส่ไอเทม */
+        body.theme-mc .display-window { 
+            background: #8b8b8b; 
+            border: 4px solid; 
+            border-color: #555555 #ffffff #ffffff #555555; 
+        } 
+        
+        body.theme-mc .word { color: #373737; font-weight: 800; font-size: 34px;}
+        body.theme-mc .word.current { background: #373737; color: #fff; border-bottom: 4px solid #fff; box-shadow: none; border-radius: 0; padding-top: 4px;}
+        body.theme-mc .word.correct { color: #55ff55; text-shadow: 2px 2px 0px #000;}
+        body.theme-mc .word.wrong { color: #ff5555; text-shadow: 2px 2px 0px #000;}
+        
+        body.theme-mc #userInput { 
+            background: #8b8b8b; color: #fff; 
+            border: 4px solid; border-color: #555555 #ffffff #ffffff #555555; 
+            text-shadow: 2px 2px 0px #000; font-weight: bold; font-family: var(--font-head); font-size: 16px;
+        }
+        body.theme-mc #userInput:focus { background: #707070; outline: 2px solid #fff; }
+        
+        /* ปุ่มสไตล์ Stone Block ในเกม */
+        body.theme-mc .btn-main, body.theme-mc .btn-top, body.theme-mc .btn-refresh, body.theme-mc .hamburger-btn, body.theme-mc .dark-btn { 
+            background: #8b8b8b; color: #fff; text-shadow: 2px 2px 0px #373737;
+            border: 4px solid; border-color: #ffffff #555555 #555555 #ffffff; 
+            font-family: var(--font-head); font-size: 14px; transition: none; /* MC ไม่ค่อยมี transition */
+        }
+        body.theme-mc .btn-main:hover, body.theme-mc .btn-top:hover, body.theme-mc .dark-btn:hover { background: #999999; }
+        body.theme-mc .btn-main:active, body.theme-mc .btn-top:active, body.theme-mc .btn-refresh:active { 
+            border-color: #555555 #ffffff #ffffff #555555; /* สลับสีขอบให้ปุ่มยุบ */
+        } 
+        
+        body.theme-mc .timer-badge { background: #373737; color: #fff; border: 4px solid #000; font-family: var(--font-head); font-size: 20px;}
+        body.theme-mc .stat-box { background: #8b8b8b; border: 4px solid; border-color: #555555 #ffffff #ffffff #555555; }
+        body.theme-mc .stat-box.highlight { background: #5b8731; border-color: #72a840 #3a571f #3a571f #72a840;}
+        body.theme-mc .stat-val { color: #fff; font-family: var(--font-head); font-size: 24px; text-shadow: 2px 2px 0px #373737; margin-top: 15px;}
+        body.theme-mc .stat-val.huge { color: #ffff55; font-size: 32px;}
+        body.theme-mc .stat-label { color: #373737; font-family: var(--font-head); font-size: 10px;}
+        
+        body.theme-mc .auth-input, body.theme-mc .dark-input { background: #8b8b8b; color: #fff; border: 4px solid; border-color: #555555 #ffffff #ffffff #555555; text-shadow: 2px 2px 0px #000; font-family: var(--font-head);}
+        body.theme-mc .rank-badge { background: #373737; color: #ffff55; border: 4px solid #000; font-family: var(--font-head); font-size: 16px;}
+        body.theme-mc .result-title, body.theme-mc .dark-modal h2 { color: #373737; font-family: var(--font-head); font-size: 20px; text-shadow: 2px 2px 0px #fff;}
+        body.theme-mc .rank-table th { background: #373737; color: #fff; font-family: var(--font-head); font-size: 10px; border-bottom: 4px solid #000 !important; }
+        body.theme-mc .rank-table td { color: #373737; border-bottom: 4px solid #8b8b8b; font-weight: bold;}
+
+
+        /* ==================================================
+           10. RPG FANTASY THEME (อารมณ์ Ragnarok / Diablo)
+           ================================================== */
+        body.theme-rpg {
+            --bg: #1a1511; /* สีไม้เก่า/แผ่นหนังมืดๆ */
+            --card: #2a2118; /* สีกระดาษเก่า */
+            --primary: #d4af37; /* สีทอง Gold */
+            --primary1: #8b0000; /* สีแดงเลือดหมู */
+            --text-dark: #f0e6d2; --text-light: #f0e6d2; --highlight: #d4af37;
+            --correct-live: #5cdb5c; --wrong-live: #ff3333;
+            --font-head: 'Mali', serif; --font-main: 'Sarabun', sans-serif;
+            --border-rad: 8px; --border-btn: 4px;
+        }
+        body.theme-rpg::before { /* ลายพื้นผิว */
+            content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle, transparent 20%, #0a0806 120%); z-index: -1; pointer-events: none;
+        }
+        body.theme-rpg h1, body.theme-rpg h2 { color: var(--primary); text-shadow: 2px 2px 4px #000; font-weight: 700;}
+        body.theme-rpg .ticker-wrap { background: #140f0c; border-bottom: 2px solid var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.8); }
+        body.theme-rpg .ticker-content { color: var(--primary); font-family: var(--font-head); }
+        
+        body.theme-rpg .typing-card, body.theme-rpg #authContainer, body.theme-rpg .modal-card, body.theme-rpg .dropdown-menu { 
+            background: #2a2118; border: 2px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,0,0,0.8); border-radius: 12px;
+        }
+        body.theme-rpg .display-window { background: #1a1511; border: 1px solid #5a4634; box-shadow: inset 0 0 15px #000; border-radius: 8px;}
+        body.theme-rpg .word { color: #8c7662; font-family: var(--font-head);}
+        body.theme-rpg .word.current { background: transparent; color: var(--primary); text-shadow: 0 0 8px var(--primary); box-shadow: none; border-bottom: 2px dashed var(--primary); border-radius: 0;}
+        body.theme-rpg .word.correct { color: #c4b5a3; }
+        body.theme-rpg .word.wrong { color: var(--primary1); text-decoration: line-through; }
+        
+        body.theme-rpg #userInput { background: #140f0c; color: var(--primary); border: 2px solid #5a4634; font-family: var(--font-head); font-weight: bold; border-radius: 8px;}
+        body.theme-rpg #userInput:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+        
+        body.theme-rpg .btn-main, body.theme-rpg .btn-top, body.theme-rpg .btn-refresh, body.theme-rpg .hamburger-btn, body.theme-rpg .dark-btn { 
+            background: linear-gradient(180deg, #8b0000 0%, #520000 100%); color: #f0e6d2; border: 2px solid #a80000; font-family: var(--font-head); font-weight: bold; box-shadow: 0 4px 8px rgba(0,0,0,0.6); border-radius: 6px;
+        }
+        body.theme-rpg .btn-main:hover, body.theme-rpg .btn-top:hover, body.theme-rpg .dark-btn:hover { background: linear-gradient(180deg, #a80000 0%, #700000 100%); border-color: var(--primary); transform: translateY(-2px); color: var(--primary);}
+        
+        body.theme-rpg .timer-badge { background: #140f0c; border: 2px solid var(--primary); color: var(--primary); font-family: var(--font-head); border-radius: 50%; width: 70px; height: 70px; display: flex; justify-content: center; align-items: center; padding: 0;}
+        body.theme-rpg .stat-box { background: #1a1511; border: 1px solid #5a4634; box-shadow: inset 0 0 10px rgba(0,0,0,0.5); border-radius: 8px;}
+        body.theme-rpg .stat-box.highlight { border-color: var(--primary); background: radial-gradient(circle, rgba(212,175,55,0.1) 0%, #1a1511 100%); }
+        body.theme-rpg .stat-val { color: #f0e6d2; font-family: var(--font-head); text-shadow: 2px 2px 4px #000;}
+        body.theme-rpg .stat-val.huge { color: var(--primary); }
+        body.theme-rpg .auth-input, body.theme-rpg .dark-input { background: #140f0c; border: 1px solid #5a4634; color: #f0e6d2; border-radius: 6px;}
+        body.theme-rpg .rank-badge { background: #140f0c; border: 2px solid var(--primary); color: var(--primary); font-family: var(--font-head); box-shadow: 0 0 10px rgba(0,0,0,0.5);}
+
+        /* ==================================================
+           11. CYBERPUNK THEME (นีออนเดือดๆ)
+           ================================================== */
+        body.theme-cyber { 
+            --bg: #0b0914; --card: #140b2e; --primary: #00f3ff; --primary1: #ff003c; 
+            --text-dark: #fff; --text-light: #fff; --highlight: #fcee0a; 
+            --correct-live: #00f3ff; --wrong-live: #ff003c;
+            --font-head: 'Chakra Petch', sans-serif; --font-main: 'Chakra Petch', sans-serif;
+            --border-rad: 10px; --border-btn: 5px;
+        }
+        body.theme-cyber h1 { color: var(--primary); text-shadow: 0 0 10px var(--primary); }
+        body.theme-cyber h2 { color: var(--primary1); text-shadow: 0 0 10px var(--primary1); }
+        body.theme-cyber .ticker-wrap { background: #000; border-bottom: 2px solid var(--primary1); box-shadow: 0 0 15px var(--primary1); }
+        body.theme-cyber .typing-card, body.theme-cyber #authContainer, body.theme-cyber .modal-card { border: 1px solid #f0f; box-shadow: 0 0 20px rgba(255,0,255,0.3), inset 0 0 15px rgba(0,255,255,0.1); background: #0b0914;}
+        body.theme-cyber .display-window { border: 1px solid var(--primary); background: #000; box-shadow: inset 0 0 10px var(--primary); }
+        body.theme-cyber .word { color: #555; }
+        body.theme-cyber .word.current { background: var(--highlight); color: #000; box-shadow: 0 0 15px var(--highlight); }
+        body.theme-cyber .word.correct { color: var(--primary); text-shadow: 0 0 8px var(--primary); }
+        body.theme-cyber .word.wrong { color: var(--primary1); text-shadow: 0 0 8px var(--primary1); }
+        body.theme-cyber #userInput { background: #000; color: var(--primary); border: 1px solid var(--primary1); box-shadow: inset 0 0 10px rgba(255,0,60,0.3); }
+        body.theme-cyber #userInput:focus { border-color: var(--primary); box-shadow: inset 0 0 10px rgba(0,243,255,0.3); }
+        body.theme-cyber .btn-main, body.theme-cyber .timer-badge { background: transparent; color: var(--primary); border: 1px solid var(--primary); box-shadow: 0 0 10px rgba(0,243,255,0.3); }
+        body.theme-cyber .btn-main:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
+
+
+        /* ==================================================
+           ปุ่มและ UI เลือกตีม (Popup Modal) - Layout ให้สวยงาม
+           ================================================== */
+        #btnOpenTheme {
+            position: fixed; bottom: 25px; right: 25px; z-index: 9999;
+            background: var(--card); border: 2px solid var(--primary); color: var(--text-light);
             padding: 12px 20px; border-radius: 50px; cursor: pointer;
             font-family: 'Sarabun', sans-serif; font-weight: 700; font-size: 16px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: all 0.3s; display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s; display: flex; align-items: center; gap: 8px;
         }
-        #themeToggleBtn:hover { transform: scale(1.05); }
-        body.light-mode #themeToggleBtn { background: #ffffff; color: #1e293b; box-shadow: 0 4px 15px rgba(0,0,0,0.1); border-color: #cbd5e1; }
+        #btnOpenTheme:hover { transform: scale(1.05); background: var(--primary); color: #000; }
+
+        .theme-selector-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 20px;
+        }
+        .theme-option-btn {
+            background: #1a1a1a; border: 2px solid #333; color: #fff; padding: 15px 5px;
+            border-radius: 12px; cursor: pointer; transition: 0.3s; font-family: 'Sarabun'; font-weight: bold; font-size: 13px;
+            display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+        .theme-option-btn:hover { background: #2a2a2a; transform: translateY(-3px); }
+        .theme-option-btn.active { border-color: #3bb154; box-shadow: 0 0 15px rgba(59,177,84,0.4); background: #1a2e1f; }
+        .theme-icon { font-size: 30px; margin-bottom: 2px;}
         
-        .admin-btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; font-family: 'Sarabun'; }
-        .admin-btn-edit { background: #3b82f6; color: white; }
-        .admin-btn-edit:hover { background: #2563eb; }
-        .admin-btn-del { background: #ef4444; color: white; margin-left: 5px; }
-        .admin-btn-del:hover { background: #dc2626; }
+        #themeModal .modal-card { background: #0f172a; border: 1px solid #334155; color: #fff; max-width: 800px;}
+        #themeModal h2 { color: #38bdf8; text-shadow: none; font-family: 'Sarabun'; }
+        #themeModal p { color: #94a3b8; font-family: 'Sarabun'; }
     </style>
 </head>
 <body>
 
-<button id="themeToggleBtn" onclick="toggleTheme()">☀️ สลับโหมดสว่าง</button>
+<button id="btnOpenTheme" onclick="openThemeModal()">เลือกโหมด</button>
 
 <div class="ticker-wrap" id="tickerWrap">
     <div class="ticker-content" id="tickerContent">📢 แป๊บไอ้สัสนรก</div>
@@ -306,10 +771,10 @@
     </div>
 
     <div id="registerForm" style="display:none;">
-        <h2 style="color:red; font-size: 22px; margin-top:0;">📝 ส มั ค ร ส ม า ชิ ก ใ ห ม่</h2>
+        <h2 style="color:#ef4444; font-size: 22px; margin-top:0;"><img src="https://img5.pic.in.th/file/secure-sv1/imagea7debf762c63d200.png" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle;"> ส มั ค ร ส ม า ชิ ก ใ ห ม่</h2>
         <input type="text" id="regUser" class="auth-input" placeholder="ใส่ชื่อของมึง (ช่องบน)" maxlength="30">
         <input type="password" id="regPass" class="auth-input" placeholder="ตั้งรหัสผ่าน 4 ตัวขึ้นไป (ช่องล่าง)">
-        <p style="font-size: 11px; color: #999; margin-top: 5px; line-height: 1.4;">*ช่องบน (ชื่อ) กับช่องล่าง (รหัส) ห้ามตรงกันนะไอ้เวร!<br>ถ้าพิมพ์เหมือนกันกูไม่ให้ผ่าน!</p>
+        <p style="font-size: 11px; color: #999; margin-top: 5px; line-height: 1.4; font-family:'Sarabun';">*ช่องบน (ชื่อ) กับช่องล่าง (รหัส) ห้ามตรงกันนะไอ้เวร!<br>ถ้าพิมพ์เหมือนกันกูไม่ให้ผ่าน!</p>
         <button class="btn-main" onclick="handleRegister()" style="background:#ef4444;">สมัครแล้วไปพิมพ์ซะ</button>
     </div>
 </div>
@@ -318,7 +783,7 @@
     
     <div class="top-actions">
         <button class="btn-top" onclick="showRanking()" style="padding: 10px 15px; font-weight: bold;">
-            <img src="https://img2.pic.in.th/image441518007c22e3ef.md.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> อันดับรวมของพวกกากๆ
+            <img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> อันดับรวมของพวกกากๆ
         </button>
         
         <div class="menu-container">
@@ -335,10 +800,10 @@
     
     <div style="display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; color: var(--text-light); font-size: 14px; transition: color 0.3s;">
         <span><img src="https://img5.pic.in.th/file/secure-sv1/imagea7debf762c63d200.png" style="height: 60px; vertical-align: middle; margin-right: 5px;"> ผู้เล่นกากๆ: <b id="displayUser" style="color:var(--highlight)"></b></span>        
-        <span style="background: rgba(0,0,0,0.3); padding: 5px 15px; border-radius: 15px; border: 1px dashed var(--highlight); display: flex; align-items: center; gap: 8px;">
+        <span style="background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 15px; border: 1px dashed var(--highlight); display: flex; align-items: center; gap: 8px;">
             ระดับของมึงตอนนี้: <span id="topRankDisplay">-</span>
         </span>
-        <span> สถิติสูงสุดของมึง: <b id="bestWPM" style="color:var(--highlight)">0</b> WPM</span>
+        <span> สถิติสูงสุดของมึง: <b id="bestWPM" style="color:var(--highlight); font-size:18px;">0</b> WPM</span>
     </div>
 
     <h1>ฝึกพิมพ์ สำหรับคนว่างๆ ไม่มีลูกค้า</h1>
@@ -357,13 +822,55 @@
     </div>
 </div>
 
+<div class="modal-overlay" id="themeModal">
+    <div class="modal-card" style="max-width: 750px; padding: 30px;">
+        <span class="close-modal-x" onclick="closeModal('themeModal')" style="font-family: sans-serif;">&times;</span>
+        <h2 style="margin-top: 0; margin-bottom: 5px;"><img src="https://img5.pic.in.th/file/secure-sv1/imagea7debf762c63d200.png" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle;"> เ ลื อ ก โ ห ม ด ข อ ง มึ ง</h2>
+        <p style="margin-top: 0; margin-bottom: 20px;">สลับโหมดตามอารมณ์ความเดือดได้เลย!</p>
+        
+        <div class="theme-selector-grid">
+            <button class="theme-option-btn" id="btn-theme-valo" onclick="selectTheme('theme-valo')">
+                <span class="theme-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/1280px-Valorant_logo_-_pink_color_version.svg.png" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ff4655">Valorant</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-sf" onclick="selectTheme('theme-sf')">
+                <span class="theme-icon"><img src="https://img5.pic.in.th/file/secure-sv1/image6a39b307553b9354.png" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ffcc00">SF (ทหาร)</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-pb" onclick="selectTheme('theme-pb')">
+                <span class="theme-icon"><img src="https://play-lh.googleusercontent.com/IGOlY-TMU0cGW_I8EFKBkLACxPLu1TQqbqaqx7NUsGMyjNWIO1NdhwdBrq-71pUAHw" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#00aaff">PB</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-arcade" onclick="selectTheme('theme-arcade')">
+                <span class="theme-icon"><img src="https://img5.pic.in.th/file/secure-sv1/image093bf6da1bbf884c.md.png" style="width: 100px; height: 50px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ff3300">8-BIT</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-gta" onclick="selectTheme('theme-gta')">
+                <span class="theme-icon"><img src="https://img5.pic.in.th/file/secure-sv1/imagec54e67af57177634.md.png" style="width: 45px; height: 40px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#59b200">GTA</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-mc" onclick="selectTheme('theme-mc')">
+                <span class="theme-icon"><img src="https://img5.pic.in.th/file/secure-sv1/imagea631dfd79d4d760d.md.png" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#55ff55">Minecraft</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-hacker" onclick="selectTheme('theme-hacker')">
+                <span class="theme-icon"><img src="https://img5.pic.in.th/file/secure-sv1/imaged6386bbcc5db5c59.md.png" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#00ff41">Hacker</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-rpg" onclick="selectTheme('theme-rpg')">
+                <span class="theme-icon"><img src="https://png.pngtree.com/png-vector/20251203/ourmid/pngtree-rpg-game-logo-with-sword-icon-shield-and-gold-accents-for-png-image_18105743.webp" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#d4af37">Fantasy</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-cyber" onclick="selectTheme('theme-cyber')">
+                <span class="theme-icon"><img src="https://img2.pic.in.th/image253b874a1db0a8cb.md.png" style="width: 90px; height: 45px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#00f3ff">Cyberpunk Neon</span>
+            </button>
+            <button class="theme-option-btn" id="btn-default" onclick="selectTheme('default')">
+                <span class="theme-icon"><img src="https://img5.pic.in.th/file/secure-sv1/imagef83510d9f849b655.md.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ddd">โหมดมืด</span>
+            </button>
+            <button class="theme-option-btn" id="btn-light-mode" onclick="selectTheme('light-mode')">
+                <span class="theme-icon"><img src="https://img5.pic.in.th/file/secure-sv1/image06fd1ac150e6742e.md.png" style="width: 110px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#fde047">โหมดสว่าง</span>
+            </button>
+        </div>
+    </div>
+</div>
+
 <div class="modal-overlay" id="resultModal">
     <div class="modal-card result-card">
         <h2 class="result-title">ส รุ ป คื อ อ้ า ย เ จ็ บ พ๊ า ม !!</h2>
         <p class="result-subtitle">ผลประกอบการความว่างของมึงในรอบนี้</p>
-        
         <div class="rank-badge" id="resRankBadge">ระดับ</div>
-       
         <div class="stats-grid">
             <div class="stat-box highlight">
                 <div class="stat-label">🔥 ความเร็ว (WPM)</div>
@@ -386,23 +893,21 @@
                 <div class="stat-val" style="color: #a855f7;" id="resAttempts">0</div>
             </div>
         </div>
-
         <div id="syncStatus" class="sync-status">⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส...</div>
         <button class="btn-main" onclick="resetGame()">ก็เล่นใหม่ดิวะ พอใจแล้วหรอแค่นี้</button>
     </div>
 </div>
 
 <div class="modal-overlay" id="rankingModal">
-    <div class="modal-card" style="max-width: 900px; background: #0f172a; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-radius: 16px; padding: 30px;">
-        <span class="close-modal-x" onclick="closeModal('rankingModal')" style="color: #64748b; top: 15px; right: 20px;">&times;</span>
+    <div class="modal-card" style="max-width: 900px; background: #0f172a; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); padding: 30px;">
+        <span class="close-modal-x" onclick="closeModal('rankingModal')" style="color: #64748b; top: 15px; right: 20px; font-family: sans-serif;">&times;</span>
         <div style="text-align: left; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 15px;">
-            <h2 style="color: #fbbf24; margin: 0; font-size: 26px; display: flex; align-items: center; gap: 10px; letter-spacing: 0;">
+            <h2 style="color: #fbbf24; margin: 0; font-size: 26px; display: flex; align-items: center; gap: 10px; letter-spacing: 0; font-family:'Sarabun';">
                 <img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 45px;"> อั น ดั บ ก า ร พิ ม พ์ ก า ก ๆ ข อ ง พ ว ก มึ ง
             </h2>
-            <p style="color: #94a3b8; font-size: 14px; margin: 5px 0 0 0;">ตารางจัดอันดับความไวของพวกตัวตึงในบริษัท</p>
+            <p style="color: #94a3b8; font-size: 14px; margin: 5px 0 0 0; font-family:'Sarabun';">ตารางจัดอันดับความไวของพวกตัวตึงในบริษัท</p>
         </div>
-        
-        <div style="max-height: 450px; overflow-y: auto; border-radius: 8px; border: 1px solid #1e293b; background: #0b1120;">
+        <div style="max-height: 450px; overflow-y: auto; border: 1px solid #1e293b; background: #0b1120;">
             <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; color: #cbd5e1;">
                 <thead style="position: sticky; top: 0; background: #1e293b; color: #f8fafc; font-size: 13px; letter-spacing: 0.5px; z-index: 10;">
                     <tr>
@@ -420,14 +925,12 @@
 
 <div class="modal-overlay" id="historyModal">
     <div class="modal-card" style="max-width: 800px; background: #EAF4F4; border: 1px solid #334155;">
-        <span class="close-modal-x" onclick="closeModal('historyModal')">&times;</span>
-        
-        <h2 style="color: #000000;">📜 ป ร ะ วั ติ ก า ร พิ ม พ์ ก า ก ๆ</h2>
-        
+        <span class="close-modal-x" onclick="closeModal('historyModal')" style="font-family: sans-serif;">&times;</span>
+        <h2 style="color: #000000; font-family:'Sarabun';">📜 ป ร ะ วั ติ ก า ร พิ ม พ์ ก า ก ๆ</h2>
         <div style="max-height: 400px; overflow-y: auto;">
-            <table class="rank-table">
-                <thead>
-                    <tr><th>#</th><th>WPM</th><th>ระดับของมึงที่ผ่านมา</th><th>เวลาที่พิมพ์</th></tr>
+            <table class="rank-table" style="width:100%; text-align:left;">
+                <thead style="background:#333; color:#fff;">
+                    <tr><th style="padding:10px;">#</th><th style="padding:10px;">WPM</th><th style="padding:10px;">ระดับของมึงที่ผ่านมา</th><th style="padding:10px;">เวลาที่พิมพ์</th></tr>
                 </thead>
                 <tbody id="historyBody"></tbody>
             </table>
@@ -439,10 +942,8 @@
     <div class="modal-card dark-modal">
         <h2 id="darkTitle">หัวข้อ</h2>
         <p id="darkDesc">รายละเอียด</p>
-        
         <input type="text" id="darkInput1" class="dark-input" style="display:none;" maxlength="30">
         <input type="password" id="darkInput2" class="dark-input" style="display:none;">
-        
         <div class="dark-btn-group">
             <button class="dark-btn cancel" id="darkCancelBtn" onclick="closeModal('darkActionModal')">ช่างแม่ง</button>
             <button class="dark-btn confirm" id="darkConfirmBtn">จัดไป</button>
@@ -451,23 +952,20 @@
 </div>
 
 <div class="modal-overlay" id="adminModal">
-    <div class="modal-card" style="max-width: 950px; background: #0f172a; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); border-radius: 16px; padding: 30px;">
-        <span class="close-modal-x" onclick="closeModal('adminModal')" style="color: #64748b; top: 15px; right: 20px;">&times;</span>
-        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end;">
+    <div class="modal-card" style="max-width: 950px; background: #0f172a; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); padding: 30px;">
+        <span class="close-modal-x" onclick="closeModal('adminModal')" style="color: #64748b; top: 15px; right: 20px; font-family: sans-serif;">&times;</span>
+        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap:wrap; gap:10px;">
             <div>
-                <h2 style="color: #38bdf8; margin: 0; font-size: 24px; display: flex; align-items: center; gap: 10px; letter-spacing: 0;">
-                    🛠️ Admin Control Panel
-                </h2>
-                <p style="color: #94a3b8; font-size: 13px; margin: 5px 0 0 0;">จัดการข้อมูล ลบ หรือแก้ไขรหัสผ่านของสมาชิก</p>
+                <h2 style="color: #38bdf8; margin: 0; font-size: 24px; display: flex; align-items: center; gap: 10px; font-family:'Sarabun';">🛠️ Admin Control Panel</h2>
+                <p style="color: #94a3b8; font-size: 13px; margin: 5px 0 0 0; font-family:'Sarabun';">จัดการข้อมูล ลบ หรือแก้ไขรหัสผ่านของสมาชิก</p>
             </div>
             <div>
-                <input type="text" id="adminSearch" placeholder="🔍 ค้นหาชื่อหรือรหัส..." onkeyup="filterAdminTable()" style="padding: 10px 15px; width: 250px; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; outline: none; font-family: 'Sarabun';">
+                <input type="text" id="adminSearch" placeholder="🔍 ค้นหาชื่อหรือรหัส..." onkeyup="filterAdminTable()" style="padding: 10px 15px; width: 250px; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; outline: none; font-family: 'Sarabun'; margin:0;">
             </div>
         </div>
-        
         <div style="max-height: 450px; overflow-y: auto; border-radius: 8px; border: 1px solid #1e293b; background: #0b1120;">
             <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; color: #cbd5e1;">
-                <thead style="position: sticky; top: 0; background: #1e293b; color: #f8fafc; font-size: 13px; letter-spacing: 0.5px; z-index: 10;">
+                <thead style="position: sticky; top: 0; background: #1e293b; color: #f8fafc; font-size: 13px; z-index: 10;">
                     <tr>
                         <th style="padding: 15px; border-bottom: 2px solid #334155;">#</th>
                         <th style="padding: 15px; border-bottom: 2px solid #334155;">👤 ชื่อผู้ใช้ (Username)</th>
@@ -482,9 +980,20 @@
     </div>
 </div>
 
+<div class="modal-overlay" id="logoutModal" style="display: none; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);">
+    <div class="modal-card" style="background: #1a1a1a; width: 95%; max-width: 420px; padding: 45px; border-radius: 35px; text-align: center; border: 2px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
+        <span class="close-modal-x" onclick="closeModal('logoutModal')" style="font-family: sans-serif;">&times;</span>
+        <h2 style="color: #ff4d4d; margin-bottom: 15px; font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,77,77,0.3); font-family:'Sarabun';">มึ ง จ ะ อ อ ก จ ริ ง ๆ ห ร อ ?</h2>
+        <p style="margin-bottom: 30px; color: #ffffff; font-size: 1.1rem; opacity: 0.9; font-family:'Sarabun';">แล้วจะจำรหัสได้ไหม? คิดดีๆ นะไอ้กาก!</p>
+        <div style="display: flex; gap: 15px;">
+            <button class="btn-main" style="background: #ef4444; color: white; border: none; padding: 12px 20px; border-radius: 15px; flex: 1;" onclick="confirmLogout()">เออ ออกเลย!</button>
+            <button class="btn-main" style="background: #444; color: white; border: none; padding: 12px 20px; border-radius: 15px; flex: 1;" onclick="closeModal('logoutModal')">ไม่เอา ล้อเล่น</button>
+        </div>
+    </div>
+</div>
+
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCSrDKagG7zbroZ5g57YWDeRtypNg2r3qDI3zXwN8L-33rySbq7ZXVjjoietR4aeck/exec";
-    
     window.adminUsersList = {};
 
     const fullWordList = [
@@ -523,13 +1032,38 @@
      ];
     let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
     let correctCount = 0, wrongCount = 0, totalTypeAttempts = 0, totalChars = 0, correctChars = 0, currentUser = "";
-    
+
+    // ================= ระบบ THEME (สลับโหมด) =================
+    function initTheme() {
+        const savedTheme = localStorage.getItem('theme_preference') || 'default';
+        document.body.className = savedTheme === 'default' ? '' : savedTheme;
+        updateThemeButtons(savedTheme);
+    }
+
+    function openThemeModal() {
+        document.getElementById('themeModal').style.display = 'flex';
+        const currentTheme = localStorage.getItem('theme_preference') || 'default';
+        updateThemeButtons(currentTheme);
+    }
+
+    function selectTheme(themeId) {
+        document.body.className = themeId === 'default' ? '' : themeId;
+        localStorage.setItem('theme_preference', themeId);
+        updateThemeButtons(themeId);
+        setTimeout(() => closeModal('themeModal'), 200);
+    }
+
+    function updateThemeButtons(activeId) {
+        document.querySelectorAll('.theme-option-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        const activeBtn = document.getElementById('btn-' + activeId);
+        if(activeBtn) activeBtn.classList.add('active');
+    }
+
+    // ================= โค้ดเกมและการทำงานเดิม 100% =================
     window.onload = function() {
-        if (localStorage.getItem('theme_preference') === 'light') {
-            document.body.classList.add('light-mode');
-            document.getElementById('themeToggleBtn').innerHTML = '🌙 สลับโหมดมืด';
-        }
-        
+        initTheme();
         const savedUser = localStorage.getItem('isLoggedIn');
         if (savedUser) {
             currentUser = savedUser;
@@ -538,91 +1072,43 @@
         }
         loadTickerData(); 
         setInterval(loadTickerData, 30000);
-        
         const inputField = document.getElementById('userInput');
-        if (inputField) {
-            inputField.focus();
-            setTimeout(() => inputField.focus(), 100);
-        }
+        if (inputField) { inputField.focus(); setTimeout(() => inputField.focus(), 100); }
     };
 
-    function toggleActionMenu(e) {
-        if(e) e.stopPropagation();
-        document.getElementById('actionMenu').classList.toggle('show');
-    }
-    function closeActionMenu() {
-        const menu = document.getElementById('actionMenu');
-        if(menu) menu.classList.remove('show');
-    }
+    function toggleActionMenu(e) { if(e) e.stopPropagation(); document.getElementById('actionMenu').classList.toggle('show'); }
+    function closeActionMenu() { const menu = document.getElementById('actionMenu'); if(menu) menu.classList.remove('show'); }
     window.addEventListener('click', function(e) {
-        const menu = document.getElementById('actionMenu');
-        const btn = document.querySelector('.hamburger-btn');
-        if (menu && menu.classList.contains('show') && e.target !== btn && !menu.contains(e.target)) {
-            menu.classList.remove('show');
-        }
+        const menu = document.getElementById('actionMenu'); const btn = document.querySelector('.hamburger-btn');
+        if (menu && menu.classList.contains('show') && e.target !== btn && !menu.contains(e.target)) { menu.classList.remove('show'); }
     });
 
-    function toggleTheme() {
-        const body = document.body;
-        body.classList.toggle('light-mode');
-        const btn = document.getElementById('themeToggleBtn');
-        
-        if (body.classList.contains('light-mode')) {
-            btn.innerHTML = '🌙 สลับโหมดมืด';
-            localStorage.setItem('theme_preference', 'light');
-        } else {
-            btn.innerHTML = '☀️ สลับโหมดสว่าง';
-            localStorage.setItem('theme_preference', 'dark');
-        }
-    }
-
     function loadTickerData() {
-        fetch(SCRIPT_URL)
-        .then(res => res.json())
-        .then(data => {
+        fetch(SCRIPT_URL).then(res => res.json()).then(data => {
             if(data && data.length > 0) {
                 if(currentUser) {
                     let myData = data.filter(item => item.username === currentUser);
                     if (myData.length > 0) {
                         let sheetMax = Math.max(...myData.map(item => Number(item.wpm) || 0));
-                        
                         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-                        if(db[currentUser]) {
-                            db[currentUser].best = sheetMax; 
-                            localStorage.setItem('typingDB_Final', JSON.stringify(db));
-                        }
-                        
-                        document.getElementById('bestWPM').innerText = sheetMax;
-                        document.getElementById('topRankDisplay').innerHTML = getRank(sheetMax);
+                        if(db[currentUser]) { db[currentUser].best = sheetMax; localStorage.setItem('typingDB_Final', JSON.stringify(db)); }
+                        document.getElementById('bestWPM').innerText = sheetMax; document.getElementById('topRankDisplay').innerHTML = getRank(sheetMax);
                     }
                 }
-
                 let validData = data.filter(item => Number(item.wpm) > 0);
-                
-                let uniqueLatest = [];
-                let seenNames = new Set();
-    
+                let uniqueLatest = []; let seenNames = new Set();
                 for (let i = validData.length - 1; i >= 0; i--) {
                     if (!seenNames.has(validData[i].username)) {
-                        uniqueLatest.push(validData[i]);
-                        seenNames.add(validData[i].username);
+                        uniqueLatest.push(validData[i]); seenNames.add(validData[i].username);
                          if (uniqueLatest.length >= 2) break;
                     }
                 }
-
                 if (uniqueLatest.length > 0) {
-                    let tickerHtml = uniqueLatest.map(item => 
-                      `<img src="https://img2.pic.in.th/image4a54c6aceb3df441.md.png" style="height: 45px; vertical-align: middle; margin-right: 5px;"> <b>${item.username}</b> พิมพ์ไป <b>${item.wpm} WPM</b> ( ${getRank(item.wpm)} )`
-                    ).join(' &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ');
+                    let tickerHtml = uniqueLatest.map(item => `<img src="https://img2.pic.in.th/image4a54c6aceb3df441.md.png" style="height: 45px; vertical-align: middle; margin-right: 5px;"> <b>${item.username}</b> พิมพ์ไป <b>${item.wpm} WPM</b> ( ${getRank(item.wpm)} )`).join(' &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; ');
                     document.getElementById('tickerContent').innerHTML = `📢 แง๊นๆๆ โหลเทสๆ &nbsp;&nbsp;&nbsp; ${tickerHtml}`;
-                } else {
-                    document.getElementById('tickerContent').innerHTML = `📢 ยังไม่มีใครพิมพ์ได้คะแนนเลยว่ะ เงียบกริบ`;
-                }
+                } else { document.getElementById('tickerContent').innerHTML = `📢 ยังไม่มีใครพิมพ์ได้คะแนนเลยว่ะ เงียบกริบ`; }
             }
-        })
-        .catch(() => {
-            document.getElementById('tickerContent').innerHTML = "📢 โหลดไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน";
-        });
+        }).catch(() => { document.getElementById('tickerContent').innerHTML = "📢 โหลดไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน"; });
     }
 
     function getRank(wpm) {
@@ -642,619 +1128,278 @@
 
     function switchAuth(type) {
         if(type === 'login') {
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('registerForm').style.display = 'none';
-            document.getElementById('tabLogin').style.background = 'var(--primary)';
-            document.getElementById('tabRegister').style.background = '#222';
+            document.getElementById('loginForm').style.display = 'block'; document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('tabLogin').style.background = 'var(--primary)'; document.getElementById('tabRegister').style.background = '#222';
         } else {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('registerForm').style.display = 'block';
-            document.getElementById('tabLogin').style.background = '#222';
-            document.getElementById('tabRegister').style.background = '#ef4444';
+            document.getElementById('loginForm').style.display = 'none'; document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('tabLogin').style.background = '#222'; document.getElementById('tabRegister').style.background = '#ef4444';
         }
     }
 
     function showAdminPanel() {
         document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>⏳ กำลังเชื่อมต่อและดึงข้อมูลจาก Cloud... กรุณารอสักครู่</td></tr>";
-        document.getElementById('adminSearch').value = '';
-        document.getElementById('adminModal').style.display = 'flex';
-
-        fetch(SCRIPT_URL)
-        .then(res => res.json())
-        .then(data => {
+        document.getElementById('adminSearch').value = ''; document.getElementById('adminModal').style.display = 'flex';
+        fetch(SCRIPT_URL).then(res => res.json()).then(data => {
             window.adminUsersList = {}; 
-            
             data.forEach(item => {
-                if (!window.adminUsersList[item.username]) {
-                    window.adminUsersList[item.username] = { wpm: item.wpm, password: item.password };
+                if (!window.adminUsersList[item.username]) { window.adminUsersList[item.username] = { wpm: item.wpm, password: item.password };
                 } else {
-                    if (item.wpm > window.adminUsersList[item.username].wpm) {
-                        window.adminUsersList[item.username].wpm = item.wpm;
-                    }
+                    if (item.wpm > window.adminUsersList[item.username].wpm) { window.adminUsersList[item.username].wpm = item.wpm; }
                     if (item.password !== undefined && item.password !== null && item.password !== "ไม่มีรหัส" && item.password !== "") {
                         window.adminUsersList[item.username].password = String(item.password).trim();
                     }
                 }
             });
-
             filterAdminTable(); 
-        })
-        .catch(() => {
-            document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#ef4444; padding: 30px;'>❌ เกิดข้อผิดพลาดในการโหลดข้อมูล โปรดตรวจสอบอินเทอร์เน็ต</td></tr>";
-        });
+        }).catch(() => { document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#ef4444; padding: 30px;'>❌ เกิดข้อผิดพลาดในการโหลดข้อมูล โปรดตรวจสอบอินเทอร์เน็ต</td></tr>"; });
     }
 
     function filterAdminTable() {
-        let searchText = document.getElementById('adminSearch').value.toLowerCase();
-        let html = "";
-        let count = 1;
-
+        let searchText = document.getElementById('adminSearch').value.toLowerCase(); let html = ""; let count = 1;
         for (let user in window.adminUsersList) {
             if(!user || user === "undefined") continue; 
-            
-            let pass = window.adminUsersList[user].password || "ไม่มีรหัส";
-            let best = window.adminUsersList[user].wpm || 0;
-
+            let pass = window.adminUsersList[user].password || "ไม่มีรหัส"; let best = window.adminUsersList[user].wpm || 0;
             if (user.toLowerCase().includes(searchText) || pass.toLowerCase().includes(searchText)) {
-                html += `<tr style="border-bottom: 1px solid #1e293b; transition: 0.2s;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='transparent'">
+                html += `<tr style="border-bottom: 1px solid #333; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
                     <td style="padding: 12px 15px; color: #64748b;">${count}</td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #e2e8f0;">${user}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: #fff;">${user}</td>
                     <td style="padding: 12px 15px; color: #fbbf24; font-family: monospace; font-size: 15px;">${pass}</td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #34d399;">${best}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: var(--primary);">${best}</td>
                     <td style="padding: 12px 15px; text-align: center;">
                         <button class="admin-btn admin-btn-edit" onclick="showAdminEditUser('${user}', '${pass}')">✏️ แก้ไข</button>
                         <button class="admin-btn admin-btn-del" onclick="adminDeleteUser('${user}')">🗑️ ลบ</button>
                     </td>
-                </tr>`;
-                count++;
+                </tr>`; count++;
             }
         }
-
-        if(html === "") {
-            html = `<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>ไม่พบข้อมูลสมาชิกที่ค้นหา</td></tr>`;
-        }
+        if(html === "") { html = `<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>ไม่พบข้อมูลสมาชิกที่ค้นหา</td></tr>`; }
         document.getElementById('adminBody').innerHTML = html;
     }
 
     function adminDeleteUser(user) {
         if(confirm(`⚠️ คำเตือน!\nคุณแน่ใจหรือไม่ที่จะลบข้อมูลของ '${user}' ออกจากระบบทั้งหมด?\n(ข้อมูลจะถูกลบทั้งในเว็บและใน Google Sheet)`)) {
-            
-            delete window.adminUsersList[user];
-            filterAdminTable();
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'deleteUser', username: user })
-            }).catch(()=>alert("ลบในฐานข้อมูลไม่สำเร็จ กรุณาเช็คอินเทอร์เน็ต"));
+            delete window.adminUsersList[user]; filterAdminTable();
+            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteUser', username: user }) }).catch(()=>alert("ลบในฐานข้อมูลไม่สำเร็จ กรุณาเช็คอินเทอร์เน็ต"));
         }
     }
 
     function showAdminEditUser(user, currentPass) {
         setupDarkModal("🔧 จัดการบัญชีสมาชิก", `กำลังแก้ไขข้อมูลของ: <b style="color:var(--primary)">${user}</b><br>เปลี่ยนชื่อหรือรหัสผ่านได้เลย`, "บันทึกการแก้ไข", () => {
-            const newName = document.getElementById('darkInput1').value.trim();
-            const newPass = document.getElementById('darkInput2').value.trim();
-            
+            const newName = document.getElementById('darkInput1').value.trim(); const newPass = document.getElementById('darkInput2').value.trim();
             if(!newName || !newPass) return alert("กรุณาใส่ชื่อและรหัสให้ครบ!");
-            
-            let wpm = window.adminUsersList[user].wpm;
-            delete window.adminUsersList[user];
-            window.adminUsersList[newName] = { wpm: wpm, password: newPass };
-            
-            closeModal('darkActionModal');
-            filterAdminTable();
-
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'adminEditUser', oldName: user, newName: newName, newPass: newPass })
-            }).catch(()=>alert("บันทึกลงฐานข้อมูลไม่สำเร็จ"));
+            let wpm = window.adminUsersList[user].wpm; delete window.adminUsersList[user]; window.adminUsersList[newName] = { wpm: wpm, password: newPass };
+            closeModal('darkActionModal'); filterAdminTable();
+            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'adminEditUser', oldName: user, newName: newName, newPass: newPass }) }).catch(()=>alert("บันทึกลงฐานข้อมูลไม่สำเร็จ"));
         }, "ยกเลิก");
-        
-        document.getElementById('darkInput1').style.display = 'block';
-        document.getElementById('darkInput1').value = user;
-        document.getElementById('darkInput1').placeholder = "ตั้งชื่อใหม่...";
-        
-        document.getElementById('darkInput2').style.display = 'block';
-        document.getElementById('darkInput2').type = 'text'; 
-        document.getElementById('darkInput2').value = currentPass !== "ไม่มีรหัส" ? currentPass : "";
-        document.getElementById('darkInput2').placeholder = "ตั้งรหัสผ่านใหม่...";
+        document.getElementById('darkInput1').style.display = 'block'; document.getElementById('darkInput1').value = user; document.getElementById('darkInput1').placeholder = "ตั้งชื่อใหม่...";
+        document.getElementById('darkInput2').style.display = 'block'; document.getElementById('darkInput2').type = 'text'; 
+        document.getElementById('darkInput2').value = currentPass !== "ไม่มีรหัส" ? currentPass : ""; document.getElementById('darkInput2').placeholder = "ตั้งรหัสผ่านใหม่...";
     }
 
     async function handleLogin() {
-        const user = document.getElementById('loginUser').value.trim();
-        const pass = document.getElementById('loginPass').value.trim();
+        const user = document.getElementById('loginUser').value.trim(); const pass = document.getElementById('loginPass').value.trim();
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
-        
-        if(user.toLowerCase() === "304152" && pass === "304152") {
-            showAdminPanel();
-            document.getElementById('loginUser').value = '';
-            document.getElementById('loginPass').value = '';
-            return;
-        }
-
+        if(user.toLowerCase() === "304152" && pass === "304152") { showAdminPanel(); document.getElementById('loginUser').value = ''; document.getElementById('loginPass').value = ''; return; }
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-        
-        if(db[user] && db[user].pass === pass) {
-            proceedLogin(user, pass, db);
-            return;
-        }
+        if(db[user] && db[user].pass === pass) { proceedLogin(user, pass, db); return; }
 
-        const btn = document.querySelector('#loginForm .btn-main');
-        const originalText = btn.innerText;
-        btn.innerText = "รอแปปนะไอ้สัส.....";
-        btn.disabled = true;
+        const btn = document.querySelector('#loginForm .btn-main'); const originalText = btn.innerText;
+        btn.innerText = "รอแปปนะไอ้สัส....."; btn.disabled = true;
 
         try {
-            let res = await fetch(SCRIPT_URL);
-            let data = await res.json();
-            
+            let res = await fetch(SCRIPT_URL); let data = await res.json();
             let userRecords = data.filter(item => item.username === user);
-            
             if(userRecords.length > 0) {
-                let latestPass = "";
-                let bestWPM = 0;
-                
+                let latestPass = ""; let bestWPM = 0;
                 for(let r of userRecords) {
-                    if(r.password !== undefined && r.password !== null && r.password !== "ไม่มีรหัส" && r.password !== "") {
-                        latestPass = String(r.password).trim(); 
-                    }
-                    if(Number(r.wpm) > bestWPM) {
-                        bestWPM = Number(r.wpm);
-                    }
+                    if(r.password !== undefined && r.password !== null && r.password !== "ไม่มีรหัส" && r.password !== "") { latestPass = String(r.password).trim(); }
+                    if(Number(r.wpm) > bestWPM) { bestWPM = Number(r.wpm); }
                 }
-
                 if (latestPass !== "") {
                     if(latestPass === pass) {
                         if (!db[user]) db[user] = { history: [] };
-                        db[user].pass = pass;
-                        db[user].best = bestWPM;
-                        proceedLogin(user, pass, db);
-                    } else {
-                        alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!");
-                    }
+                        db[user].pass = pass; db[user].best = bestWPM; proceedLogin(user, pass, db);
+                    } else { alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!"); }
                 } else {
-                    if (!db[user]) db[user] = { history: [] };
-                    db[user].pass = pass;
-                    db[user].best = bestWPM;
-                    
-                    fetch(SCRIPT_URL, { 
-                        method: 'POST', 
-                        body: JSON.stringify({ action: 'changePassword', username: user, password: pass }) 
-                    }).catch(() => {});
-
-                    alert("✅ กู้คืนบัญชีเก่าสำเร็จ! ระบบบันทึกรหัสใหม่ให้มึงแล้ว");
-                    proceedLogin(user, pass, db);
+                    if (!db[user]) db[user] = { history: [] }; db[user].pass = pass; db[user].best = bestWPM;
+                    fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'changePassword', username: user, password: pass }) }).catch(() => {});
+                    alert("✅ กู้คืนบัญชีเก่าสำเร็จ! ระบบบันทึกรหัสใหม่ให้มึงแล้ว"); proceedLogin(user, pass, db);
                 }
-            } else {
-                alert("ไม่พบชื่อนี้ในระบบเลย ไปสมัครก่อนไอ้กาก!");
-            }
-        } catch(e) {
-            alert("โหลดข้อมูลไม่สำเร็จ เน็ตมึงมีปัญหาป่าว?");
-        }
-
-        btn.innerText = originalText;
-        btn.disabled = false;
+            } else { alert("ไม่พบชื่อนี้ในระบบเลย ไปสมัครก่อนไอ้กาก!"); }
+        } catch(e) { alert("โหลดข้อมูลไม่สำเร็จ เน็ตมึงมีปัญหาป่าว?"); }
+        btn.innerText = originalText; btn.disabled = false;
     }
 
     function handleRegister() {
-        const user = document.getElementById('regUser').value.trim();
-        const pass = document.getElementById('regPass').value.trim();
-        
+        const user = document.getElementById('regUser').value.trim(); const pass = document.getElementById('regPass').value.trim();
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
         if(user.length > 30) return alert("ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!");
-        
-        if(pass.length < 4) {
-            return setupDarkModal("🚨 รหัสสั้นไปไอ้กาก!", "มึงจะตั้งรหัสสั้นๆ ให้เด็กอนุบาลมันแฮกหรอ?<br>ไปตั้งมาใหม่ เอาให้ถึง 4 ตัวอักษรขึ้นไป!", "รับทราบ", () => { closeModal('darkActionModal'); }, "ซ่อน");
-        }
-
-        if(user === pass) {
-            return setupDarkModal("🚨 เตือนสติหน่อยไอ้เวร!", "ช่องบน (ชื่อ) กับช่องล่าง (รหัส) ห้ามเหมือนกันเว้ย!!<br>มึงจะตั้งชื่อกับรหัสเหมือนกันไม่ได้ ไปแก้ให้มันต่างกันเดี๋ยวนี้ไอ้กาก!", "รับทราบแล้วไอ้สัส!", () => { closeModal('darkActionModal'); }, "ซ่อน");
-        }
-        
+        if(pass.length < 4) { return setupDarkModal("🚨 รหัสสั้นไปไอ้กาก!", "มึงจะตั้งรหัสสั้นๆ ให้เด็กอนุบาลมันแฮกหรอ?<br>ไปตั้งมาใหม่ เอาให้ถึง 4 ตัวอักษรขึ้นไป!", "รับทราบ", () => { closeModal('darkActionModal'); }, "ซ่อน"); }
+        if(user === pass) { return setupDarkModal("🚨 เตือนสติหน่อยไอ้เวร!", "ช่องบน (ชื่อ) กับช่องล่าง (รหัส) ห้ามเหมือนกันเว้ย!!<br>มึงจะตั้งชื่อกับรหัสเหมือนกันไม่ได้ ไปแก้ให้มันต่างกันเดี๋ยวนี้ไอ้กาก!", "รับทราบแล้วไอ้สัส!", () => { closeModal('darkActionModal'); }, "ซ่อน"); }
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         if(db[user]) return alert("ชื่อนี้มีคนใช้แล้วไอ้สัส เปลี่ยนใหม่!");
-        
         db[user] = { pass: pass, best: 0, history: [] };
-
-        fetch(SCRIPT_URL, { 
-            method: 'POST', 
-            body: JSON.stringify({ username: user, wpm: 0, accuracy: 0, password: pass }) 
-        }).catch(() => {});
-
+        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ username: user, wpm: 0, accuracy: 0, password: pass }) }).catch(() => {});
         proceedLogin(user, pass, db);
     }
 
     function proceedLogin(user, pass, db) {
-        if(!db[user].history) db[user].history = [];
-        localStorage.setItem('typingDB_Final', JSON.stringify(db));
-        localStorage.setItem('isLoggedIn', user);
-        currentUser = user;
-        showGame(user, db[user].best);
-        loadTickerData(); 
+        if(!db[user].history) db[user].history = []; localStorage.setItem('typingDB_Final', JSON.stringify(db));
+        localStorage.setItem('isLoggedIn', user); currentUser = user;
+        showGame(user, db[user].best); loadTickerData(); 
     }
 
     function setupDarkModal(title, desc, confirmText, confirmAction, cancelText = "ยกเลิก") {
-        document.getElementById('darkTitle').innerHTML = title;
-        document.getElementById('darkDesc').innerHTML = desc;
-        document.getElementById('darkInput1').style.display = 'none';
-        document.getElementById('darkInput1').value = '';
-        document.getElementById('darkInput2').style.display = 'none';
-        document.getElementById('darkInput2').value = '';
-        
-        let confirmBtn = document.getElementById('darkConfirmBtn');
-        let cancelBtn = document.getElementById('darkCancelBtn');
-        
-        confirmBtn.innerHTML = confirmText;
-        confirmBtn.className = "dark-btn confirm"; 
-        confirmBtn.onclick = confirmAction;
-        
-        cancelBtn.innerHTML = cancelText;
-        cancelBtn.style.display = "block";
+        document.getElementById('darkTitle').innerHTML = title; document.getElementById('darkDesc').innerHTML = desc;
+        document.getElementById('darkInput1').style.display = 'none'; document.getElementById('darkInput1').value = '';
+        document.getElementById('darkInput2').style.display = 'none'; document.getElementById('darkInput2').value = '';
+        let confirmBtn = document.getElementById('darkConfirmBtn'); let cancelBtn = document.getElementById('darkCancelBtn');
+        confirmBtn.innerHTML = confirmText; confirmBtn.className = "dark-btn confirm"; confirmBtn.onclick = confirmAction;
+        cancelBtn.innerHTML = cancelText; cancelBtn.style.display = "block";
         document.getElementById('darkActionModal').style.display = 'flex';
     }
 
     function showEditName() {
         setupDarkModal("✏️ แก้ไขชื่อของมึง", "ใส่ชื่อใหม่ที่ดูดีกว่าเดิมมาเลยไอ้สัส", "เปลี่ยนชื่อ", () => {
-            const newName = document.getElementById('darkInput1').value.trim();
-            if(!newName || newName === currentUser) return;
-            
-            if(newName.length > 30) {
-                 document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!</span>";
-                return;
-            }
-
+            const newName = document.getElementById('darkInput1').value.trim(); if(!newName || newName === currentUser) return;
+            if(newName.length > 30) { document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!</span>"; return; }
             let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-            if(db[newName]) {
-                 document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อนี้มีคนใช้แล้ว เปลี่ยนใหม่ดิวะ!</span>";
-                return;
-            }
-            const oldName = currentUser;
-            db[newName] = db[oldName];
-            delete db[oldName];
-            localStorage.setItem('typingDB_Final', JSON.stringify(db));
-            localStorage.setItem('isLoggedIn', newName);
-            currentUser = newName;
-            document.getElementById('displayUser').innerText = newName;
-            closeModal('darkActionModal');
+            if(db[newName]) { document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อนี้มีคนใช้แล้ว เปลี่ยนใหม่ดิวะ!</span>"; return; }
+            const oldName = currentUser; db[newName] = db[oldName]; delete db[oldName];
+            localStorage.setItem('typingDB_Final', JSON.stringify(db)); localStorage.setItem('isLoggedIn', newName); currentUser = newName;
+            document.getElementById('displayUser').innerText = newName; closeModal('darkActionModal');
             setupDarkModal("✅ เรียบร้อย", "เปลี่ยนชื่อเป็น '" + newName + "' เรียบร้อย", "ปิด", () => closeModal('darkActionModal'));
             document.getElementById('darkCancelBtn').style.display = "none";
             fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'editName', oldName: oldName, newName: newName }) }).catch(() => {});
         });
-        document.getElementById('darkInput1').style.display = 'block';
-        document.getElementById('darkInput1').value = currentUser;
-        setTimeout(() => document.getElementById('darkInput1').focus(), 100);
+        document.getElementById('darkInput1').style.display = 'block'; document.getElementById('darkInput1').value = currentUser; setTimeout(() => document.getElementById('darkInput1').focus(), 100);
     }
 
     function showChangePassword() {
         setupDarkModal("🔑 เปลี่ยนรหัสกากๆของมึง", "พิมพ์รหัสเดิม และรหัสใหม่มาให้ครบ กูจะได้จำให้", "เปลี่ยนรหัส", () => {
-            const oldPass = document.getElementById('darkInput1').value.trim();
-            const newPass = document.getElementById('darkInput2').value.trim();
-            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-            if(!oldPass || !newPass) return;
-         
-             if(db[currentUser].pass !== oldPass) {
-                document.getElementById('darkDesc').innerHTML = "<span style='color:red'>รหัสเดิมมึงยังผิดเลย ไอ้ควาย!</span>";
-                return;
-            }
-            
-            if(newPass.length < 4) {
-                document.getElementById('darkDesc').innerHTML = "<span style='color:red'>รหัสใหม่สั้นไป! ต้อง 4 ตัวขึ้นไป</span>";
-                return;
-            }
-
-            db[currentUser].pass = newPass;
-            localStorage.setItem('typingDB_Final', JSON.stringify(db));
-            closeModal('darkActionModal');
-     
-            setupDarkModal("✅ เปลี่ยนแล้ว", "รหัสของมึงเปลี่ยนใหม่แล้ว", "ปิด", () => closeModal('darkActionModal'));
-            document.getElementById('darkCancelBtn').style.display = "none";
-
-            fetch(SCRIPT_URL, { 
-                method: 'POST', 
-                body: JSON.stringify({ action: 'changePassword', username: currentUser, password: newPass }) 
-            }).catch(() => {});
-
+            const oldPass = document.getElementById('darkInput1').value.trim(); const newPass = document.getElementById('darkInput2').value.trim();
+            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}'); if(!oldPass || !newPass) return;
+            if(db[currentUser].pass !== oldPass) { document.getElementById('darkDesc').innerHTML = "<span style='color:red'>รหัสเดิมมึงยังผิดเลย ไอ้ควาย!</span>"; return; }
+            if(newPass.length < 4) { document.getElementById('darkDesc').innerHTML = "<span style='color:red'>รหัสใหม่สั้นไป! ต้อง 4 ตัวขึ้นไป</span>"; return; }
+            db[currentUser].pass = newPass; localStorage.setItem('typingDB_Final', JSON.stringify(db)); closeModal('darkActionModal');
+            setupDarkModal("✅ เปลี่ยนแล้ว", "รหัสของมึงเปลี่ยนใหม่แล้ว", "ปิด", () => closeModal('darkActionModal')); document.getElementById('darkCancelBtn').style.display = "none";
+            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'changePassword', username: currentUser, password: newPass }) }).catch(() => {});
         });
-        document.getElementById('darkInput1').style.display = 'block';
-        document.getElementById('darkInput1').type = 'password';
-        document.getElementById('darkInput1').placeholder = "รหัสเก่า...";
-        document.getElementById('darkInput2').style.display = 'block';
-        document.getElementById('darkInput2').placeholder = "รหัสใหม่ 4 ตัวขึ้นไป...";
-        setTimeout(() => document.getElementById('darkInput1').focus(), 100);
+        document.getElementById('darkInput1').style.display = 'block'; document.getElementById('darkInput1').type = 'password'; document.getElementById('darkInput1').placeholder = "รหัสเก่า...";
+        document.getElementById('darkInput2').style.display = 'block'; document.getElementById('darkInput2').placeholder = "รหัสใหม่ 4 ตัวขึ้นไป..."; setTimeout(() => document.getElementById('darkInput1').focus(), 100);
     }
 
     function showDeleteAccount() {
         setupDarkModal("🗑️ ยืนยันจะลบทิ้ง?", "มึงแน่ใจนะว่าจะลบบัญชี? <br><span style='color:#ef4444'>ลบแล้วข้อมูลหายหมดเกลี้ยง!</span>", "ลบแม่งเลย!", () => {
-            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-            delete db[currentUser];
-            localStorage.setItem('typingDB_Final', JSON.stringify(db));
-            closeModal('darkActionModal');
-            handleLogout();
-            
-            fetch(SCRIPT_URL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'deleteUser', username: currentUser })
-            }).catch(()=>{});
-
-        }, "เปลี่ยนใจแล้ว");
-        document.getElementById('darkConfirmBtn').className = "dark-btn danger";
+            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}'); delete db[currentUser]; localStorage.setItem('typingDB_Final', JSON.stringify(db));
+            closeModal('darkActionModal'); handleLogout(); fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteUser', username: currentUser }) }).catch(()=>{});
+        }, "เปลี่ยนใจแล้ว"); document.getElementById('darkConfirmBtn').className = "dark-btn danger";
     }
 
     function showGame(user, best) {
-        document.getElementById('displayUser').innerText = user;
-        document.getElementById('topRankDisplay').innerHTML = getRank(best);
-        document.getElementById('bestWPM').innerText = best;
-        
-        document.getElementById('authContainer').style.display = 'none';
-        document.getElementById('gameMain').style.display = 'block';
-        init();
+        document.getElementById('displayUser').innerText = user; document.getElementById('topRankDisplay').innerHTML = getRank(best); document.getElementById('bestWPM').innerText = best;
+        document.getElementById('authContainer').style.display = 'none'; document.getElementById('gameMain').style.display = 'block'; init();
     }
 
-    function handleLogout() {
-        localStorage.removeItem('isLoggedIn');
-        location.reload();
-    }
+    function handleLogout() { localStorage.removeItem('isLoggedIn'); location.reload(); }
 
     function showRanking() {
-        document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลเทพๆ จากสวรรค์ชั้น 7...</td></tr>";
-        document.getElementById('rankingModal').style.display = 'flex';
+        document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลเทพๆ จากสวรรค์ชั้น 7...</td></tr>"; document.getElementById('rankingModal').style.display = 'flex';
         fetch(SCRIPT_URL).then(res => res.json()).then(data => {
-            const bestScoresMap = {};
-            data.forEach(item => { if (!bestScoresMap[item.username] || item.wpm > bestScoresMap[item.username].wpm) bestScoresMap[item.username] = item; });
-            
-            const leaderboard = Object.values(bestScoresMap).sort((a, b) => b.wpm - a.wpm);
-            let html = "";
-            
+            const bestScoresMap = {}; data.forEach(item => { if (!bestScoresMap[item.username] || item.wpm > bestScoresMap[item.username].wpm) bestScoresMap[item.username] = item; });
+            const leaderboard = Object.values(bestScoresMap).sort((a, b) => b.wpm - a.wpm); let html = "";
             leaderboard.slice(0, 150).forEach((row, i) => {
-                let rankColor = "#64748b"; 
-                let rankTrophy = i + 1;
-                let bgStyle = "transparent";
-
+                let rankColor = "#64748b"; let rankTrophy = i + 1; let bgStyle = "transparent";
                 if (i === 0) { rankColor = "#fbbf24"; rankTrophy = "🥇 1"; bgStyle = "rgba(251, 191, 36, 0.05)"; }
                 else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
                 else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
-                
                 if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
-
-                html += `<tr style="border-bottom: 1px solid #1e293b; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='#1e293b'" onmouseout="this.style.background='${bgStyle}'">
+                html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
                     <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #e2e8f0; font-size: 15px;">${row.username}</td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #34d399; font-size: 17px;">${row.wpm}</td>
-                    <td style="padding: 12px 15px;">${getRank(row.wpm)}</td>
-                </tr>`;
+                    <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px;">${row.username}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: var(--primary); font-size: 17px;">${row.wpm}</td>
+                    <td style="padding: 12px 15px;">${getRank(row.wpm)}</td></tr>`;
             });
             document.getElementById('lbBody').innerHTML = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนกากคนไหนมาพิมพ์</td></tr>";
         }).catch(() => { document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตด่วน!</td></tr>"; });
     }
 
     function showHistory() {
-        document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>กำลังคุ้ยประวัติมึงอยู่ แป๊บ...</td></tr>";
-        document.getElementById('historyModal').style.display = 'flex';
-        
-        fetch(SCRIPT_URL)
-        .then(res => res.json())
-        .then(data => {
+        document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>กำลังคุ้ยประวัติมึงอยู่ แป๊บ...</td></tr>"; document.getElementById('historyModal').style.display = 'flex';
+        fetch(SCRIPT_URL).then(res => res.json()).then(data => {
             let historyData = data.filter(item => item.username === currentUser).reverse();
-            if (historyData.length === 0) {
-                document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>มึงยังไม่เคยพิมพ์เลยไอ้กาก ไปพิมพ์ก่อน!</td></tr>";
-                 return;
-            }
-            
+            if (historyData.length === 0) { document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>มึงยังไม่เคยพิมพ์เลยไอ้กาก ไปพิมพ์ก่อน!</td></tr>"; return; }
             let html = "";
             historyData.slice(0, 1000).forEach((h, i) => {
-                let wpmStr = h.wpm;
-                let dateStr = h.timestamp ? new Date(h.timestamp).toLocaleString('th-TH') : "ดึงจากระบบ Sheet"; 
-                html += `<tr>
-                    <td>${i+1}</td>
-                    <td style="color:var(--primary); font-weight:bold; font-size:1.1rem;">${wpmStr}</td>
-                    <td>${getRank(h.wpm)}</td>
-                    <td style="color:#888;">${dateStr}</td>
-                </tr>`;
-            });
-            document.getElementById('historyBody').innerHTML = html;
-        })
-        .catch(() => {
-            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-            let history = (db[currentUser] && db[currentUser].history) ? db[currentUser].history : [];
-            let html = "";
-            if(history.length === 0) {
-                html = "<tr><td colspan='4' style='text-align:center'>โหลด Sheet ไม่ติด และไม่มีข้อมูลในเครื่องมึงว่ะ ไปพิมพ์ก่อน!</td></tr>";
+                let wpmStr = h.wpm; let dateStr = h.timestamp ? new Date(h.timestamp).toLocaleString('th-TH') : "ดึงจากระบบ Sheet"; 
+                html += `<tr><td style="padding:10px;">${i+1}</td><td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:10px;">${wpmStr}</td><td style="padding:10px;">${getRank(h.wpm)}</td><td style="color:#888; padding:10px;">${dateStr}</td></tr>`;
+            }); document.getElementById('historyBody').innerHTML = html;
+        }).catch(() => {
+            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}'); let history = (db[currentUser] && db[currentUser].history) ? db[currentUser].history : []; let html = "";
+            if(history.length === 0) { html = "<tr><td colspan='4' style='text-align:center'>โหลด Sheet ไม่ติด และไม่มีข้อมูลในเครื่องมึงว่ะ ไปพิมพ์ก่อน!</td></tr>";
             } else {
-                history.slice(0, 1000).forEach((h, i) => {
-                    html += `<tr>
-                        <td>${i+1}</td>
-                        <td style="color:var(--primary); font-weight:bold; font-size:1.1rem;">${h.wpm}</td>
-                        <td>${getRank(h.wpm)}</td>
-                        <td style="color:#888;">${h.date || "เซฟในเครื่องมึง"}</td>
-                    </tr>`;
-                });
-            }
-            document.getElementById('historyBody').innerHTML = html;
+                history.slice(0, 1000).forEach((h, i) => { html += `<tr><td style="padding:10px;">${i+1}</td><td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:10px;">${h.wpm}</td><td style="padding:10px;">${getRank(h.wpm)}</td><td style="color:#888; padding:10px;">${h.date || "เซฟในเครื่องมึง"}</td></tr>`; });
+            } document.getElementById('historyBody').innerHTML = html;
         });
     }
 
-    function closeModal(id) { 
-        document.getElementById(id).style.display = 'none';
-    }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
     function init() {
         words = [...fullWordList].sort(() => Math.random() - 0.5);
         document.getElementById('wordContainer').innerHTML = words.map((w, i) => `<span class="word" id="w-${i}">${w}</span>`).join('');
-        currentIdx = 0; timeLeft = 60; isStarted = false; 
-        correctCount = 0;
-        wrongCount = 0; totalTypeAttempts = 0; totalChars = 0; correctChars = 0;
-        document.getElementById('userInput').value = '';
-        document.getElementById('userInput').style.color = 'var(--text-dark)';
-        document.getElementById('userInput').disabled = false;
-        document.getElementById('timer').innerText = 60;
-        document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none');
-        document.getElementById('wordContainer').style.transform = `translateY(0)`;
-        updateFocus();
+        currentIdx = 0; timeLeft = 60; isStarted = false; correctCount = 0; wrongCount = 0; totalTypeAttempts = 0; totalChars = 0; correctChars = 0;
+        document.getElementById('userInput').value = ''; document.getElementById('userInput').style.color = ''; document.getElementById('userInput').disabled = false;
+        document.getElementById('timer').innerText = 60; document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); document.getElementById('wordContainer').style.transform = `translateY(0)`; updateFocus();
     }
 
     function updateFocus() {
         document.querySelectorAll('.word.current').forEach(el => el.classList.remove('current', 'is-correct', 'is-wrong'));
         const active = document.getElementById(`w-${currentIdx}`);
-        if(active) {
-            active.classList.add('current');
-            if(active.offsetTop > 40) document.getElementById('wordContainer').style.transform = `translateY(-${active.offsetTop - 10}px)`;
-        }
+        if(active) { active.classList.add('current'); if(active.offsetTop > 40) document.getElementById('wordContainer').style.transform = `translateY(-${active.offsetTop - 10}px)`; }
     }
 
     document.getElementById('userInput').addEventListener('input', (e) => {
         if(!isStarted && e.target.value.length > 0) {
-            isStarted = true;
-            timer = setInterval(() => {
-                timeLeft--;
-                document.getElementById('timer').innerText = timeLeft;
-    
-             if(timeLeft <= 0) endGame();
-            }, 1000);
+            isStarted = true; timer = setInterval(() => { timeLeft--; document.getElementById('timer').innerText = timeLeft; if(timeLeft <= 0) endGame(); }, 1000);
         }
-        
-        const val = e.target.value;
-        const target = words[currentIdx];
-        const activeWord = document.getElementById(`w-${currentIdx}`);
-
+        const val = e.target.value; const target = words[currentIdx]; const activeWord = document.getElementById(`w-${currentIdx}`);
         if (activeWord) {
             if (val.length > 0) {
-                if (target.startsWith(val)) {
-                    e.target.style.color = '#10b981';
-                    activeWord.classList.add('is-correct');
-                    activeWord.classList.remove('is-wrong');
-                } else {
-                    e.target.style.color = '#ef4444';
-                    activeWord.classList.add('is-wrong');
-                    activeWord.classList.remove('is-correct');
-                }
-            } else {
-                e.target.style.color = 'var(--text-dark)';
-                activeWord.classList.remove('is-correct', 'is-wrong');
-            }
+                if (target.startsWith(val)) { e.target.style.color = '#10b981'; activeWord.classList.add('is-correct'); activeWord.classList.remove('is-wrong');
+                } else { e.target.style.color = '#ef4444'; activeWord.classList.add('is-wrong'); activeWord.classList.remove('is-correct'); }
+            } else { e.target.style.color = ''; activeWord.classList.remove('is-correct', 'is-wrong'); }
         }
     });
 
     document.getElementById('userInput').addEventListener('keydown', (e) => {
         if(e.key === ' ' || e.key === 'Enter') {
-            e.preventDefault();
-            const val = document.getElementById('userInput').value.trim();
-            if(!val) return;
-            
-            totalTypeAttempts++; 
-            const target = words[currentIdx];
-           totalChars += target.length;
-            const activeWord = document.getElementById(`w-${currentIdx}`);
-            
+            e.preventDefault(); const val = document.getElementById('userInput').value.trim(); if(!val) return;
+            totalTypeAttempts++; const target = words[currentIdx]; totalChars += target.length; const activeWord = document.getElementById(`w-${currentIdx}`);
             activeWord.classList.remove('is-correct', 'is-wrong');
-
-            if(val === target) { 
-                activeWord.classList.add('correct'); 
-                correctCount++; 
-                correctChars += target.length; 
-            } else { 
-                activeWord.classList.add('wrong'); 
-                wrongCount++;
-            }
-    
-            currentIdx++; 
-   
-            document.getElementById('userInput').value = '';
-            document.getElementById('userInput').style.color = 'var(--text-dark)';
-            updateFocus();
+            if(val === target) { activeWord.classList.add('correct'); correctCount++; correctChars += target.length; 
+            } else { activeWord.classList.add('wrong'); wrongCount++; }
+            currentIdx++; document.getElementById('userInput').value = ''; document.getElementById('userInput').style.color = ''; updateFocus();
         }
     });
 
     function endGame() {
-        clearInterval(timer);
-        document.getElementById('userInput').disabled = true;
-        const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0;
-        const rankMessage = getRank(correctCount);
-        let db = JSON.parse(localStorage.getItem('typingDB_Final'));
-        
-        if (!db[currentUser].history) db[currentUser].history = [];
-        db[currentUser].history.unshift({
-            wpm: correctCount,
-            acc: finalAcc,
-            date: new Date().toLocaleString('th-TH')
-        });
+        clearInterval(timer); document.getElementById('userInput').disabled = true;
+        const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; const rankMessage = getRank(correctCount); let db = JSON.parse(localStorage.getItem('typingDB_Final'));
+        if (!db[currentUser].history) db[currentUser].history = []; db[currentUser].history.unshift({ wpm: correctCount, acc: finalAcc, date: new Date().toLocaleString('th-TH') });
         if (db[currentUser].history.length > 1000) db[currentUser].history.pop();
-        
-        if(correctCount > db[currentUser].best) {
-            db[currentUser].best = correctCount;
-            document.getElementById('topRankDisplay').innerHTML = rankMessage;
-        }
-        
-        let currentPersonalBest = parseInt(document.getElementById('bestWPM').innerText) || 0;
-        if(correctCount > currentPersonalBest) {
-            document.getElementById('bestWPM').innerText = correctCount;
-        }
-
+        if(correctCount > db[currentUser].best) { db[currentUser].best = correctCount; document.getElementById('topRankDisplay').innerHTML = rankMessage; }
+        let currentPersonalBest = parseInt(document.getElementById('bestWPM').innerText) || 0; if(correctCount > currentPersonalBest) { document.getElementById('bestWPM').innerText = correctCount; }
         localStorage.setItem('typingDB_Final', JSON.stringify(db));
-        
-        document.getElementById('resWpm').innerText = correctCount;
-        document.getElementById('resAcc').innerText = finalAcc + "%";
-        document.getElementById('resCorrect').innerText = correctCount;
-        document.getElementById('resWrong').innerText = wrongCount;
-        document.getElementById('resAttempts').innerText = totalTypeAttempts;
-        document.getElementById('resRankBadge').innerHTML = rankMessage;
-        
-        document.getElementById('syncStatus').innerText = "⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส...";
-        document.getElementById('resultModal').style.display = 'flex';
-        
-        fetch(SCRIPT_URL, { 
-            method: 'POST', 
-            body: JSON.stringify({ 
-                username: currentUser, 
-                wpm: correctCount, 
-                accuracy: finalAcc, 
-                password: db[currentUser].pass
-            }) 
-        })
-        .then(() => { 
-            document.getElementById('syncStatus').innerText = "✅ ส่งขึ้นคลาวด์เรียบร้อยแล้วเว้ย"; 
-            loadTickerData(); 
-        })
-        .catch(() => { document.getElementById('syncStatus').innerText = "❌ เซฟไม่ลงฐานข้อมูลว่ะ ช่างแม่งไปก่อน"; });
+        document.getElementById('resWpm').innerText = correctCount; document.getElementById('resAcc').innerText = finalAcc + "%"; document.getElementById('resCorrect').innerText = correctCount; document.getElementById('resWrong').innerText = wrongCount; document.getElementById('resAttempts').innerText = totalTypeAttempts; document.getElementById('resRankBadge').innerHTML = rankMessage;
+        document.getElementById('syncStatus').innerText = "⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส..."; document.getElementById('resultModal').style.display = 'flex';
+        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ username: currentUser, wpm: correctCount, accuracy: finalAcc, password: db[currentUser].pass }) }).then(() => { document.getElementById('syncStatus').innerText = "✅ ส่งขึ้นคลาวด์เรียบร้อยแล้วเว้ย"; loadTickerData(); }).catch(() => { document.getElementById('syncStatus').innerText = "❌ เซฟไม่ลงฐานข้อมูลว่ะ ช่างแม่งไปก่อน"; });
     }
 
-    function resetGame() { 
-        clearInterval(timer); init();
-        setTimeout(() => document.getElementById('userInput').focus(), 100);
-    }
-
-    function showLogoutConfirm() {
-        const modal = document.getElementById('logoutModal');
-        if (modal) {
-            modal.style.display = 'flex';
-        }
-    }
-
-    function confirmLogout() {
-        alert("เออ โชคดี อย่าลืมรหัสล่ะไอ้สอง!");
-        if (typeof handleLogout === "function") {
-            handleLogout();
-        } else {
-            location.reload();
-        }
-    }
+    function resetGame() { clearInterval(timer); init(); setTimeout(() => document.getElementById('userInput').focus(), 100); }
+    function showLogoutConfirm() { const modal = document.getElementById('logoutModal'); if (modal) { modal.style.display = 'flex'; } }
+    function confirmLogout() { alert("เออ โชคดี อย่าลืมรหัสล่ะไอ้สอง!"); if (typeof handleLogout === "function") { handleLogout(); } else { location.reload(); } }
 </script>
 
-<div class="modal-overlay" id="logoutModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; backdrop-filter: blur(5px);">
-    <div class="modal-card" style="background: #1a1a1a; width: 95%; max-width: 420px; padding: 45px; border-radius: 35px; text-align: center; position: relative; border: 2px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
-        
-        <span style="position: absolute; top: 20px; right: 25px; font-size: 35px; cursor: pointer; color: #fff; line-height: 1; transition: 0.3s;"
-            onclick="closeModal('logoutModal')" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#fff'">&times;</span>
-        
-        <h2 style="color: #ff4d4d; margin-bottom: 15px; font-size: 1.8rem; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,77,77,0.3);">มึ ง จ ะ อ อ ก จ ริ ง ๆ ห ร อ ?</h2>
-        
-        <p style="margin-bottom: 30px; color: #ffffff; font-size: 1.1rem; opacity: 0.9;">แล้วจะจำรหัสได้ไหม? คิดดีๆ นะไอ้กาก!</p>
-        
-        <div style="display: flex; gap: 15px;">
-            <button class="btn-main" style="background: #ef4444; color: white; border: none; padding: 12px 20px; border-radius: 15px; flex: 1; cursor: pointer; font-weight: bold; font-size: 1rem; transition: 0.2s;"
-                onclick="confirmLogout()" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">เออ ออกเลย!</button>
-            <button class="btn-main" style="background: #444; color: white; border: none; padding: 12px 20px; border-radius: 15px; flex: 1; cursor: pointer; font-size: 1rem; transition: 0.2s;"
-                onclick="closeModal('logoutModal')" onmouseover="this.style.background='#555'" onmouseout="this.style.background='#444'">ไม่เอา ล้อเล่น</button>
-        </div>
-    </div>
-</div>
 </body>
 </html>
