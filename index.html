@@ -1559,17 +1559,18 @@ function getRankIcon(rankName) {
                     let myData = data.filter(item => item.username === currentUser);
                     if (myData.length > 0) {
                         let sheetMax = Math.max(...myData.map(item => Number(item.wpm) || 0));
-                        let sheetExp = Math.max(...myData.map(item => Number(item.exp) || 0)); // ✨ 1. หาค่า EXP สูงสุดจาก Sheet
+                        
+                        // ✨ ดึง EXP จากแถวล่าสุด(ล่างสุด)ของคนนั้นใน Sheet5
+                        let latestRow = myData[myData.length - 1]; 
+                        let sheetExp = Number(latestRow.exp) || 0; 
                         
                         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
                         if(db[currentUser]) { 
                             db[currentUser].best = sheetMax; 
                             
-                            // ✨ 2. ถ้า EXP ใน Sheet เยอะกว่า ให้อัปเดตตาม Sheet ทันที
-                            if (sheetExp > (db[currentUser].exp || 0)) {
-                                db[currentUser].exp = sheetExp;
-                                if (typeof updateExpUI === "function") updateExpUI(sheetExp); // อัปเดตยศและหลอด EXP บนหน้าจอ
-                            }
+                            // ✨ บังคับอัปเดต EXP ให้เท่ากับใน Sheet5 ทันที (ถึงแอดมินจะแก้ลดลง ก็จะลดตาม)
+                            db[currentUser].exp = sheetExp;
+                            if (typeof updateExpUI === "function") updateExpUI(sheetExp);
                             
                             localStorage.setItem('typingDB_Final', JSON.stringify(db)); 
                         }
@@ -1590,11 +1591,10 @@ function getRankIcon(rankName) {
                 // ===== บอร์ดเลื่อนดีไซน์ใหม่แบบเทพๆ ดึงรูปยศจริง =====
                 if (uniqueLatest.length > 0) {
                     let tickerHtml = uniqueLatest.map(item => {
-                        // ✨ คำนวณยศจริงจาก EXP แทนการดึง item.rank ตรงๆ (กันเพี้ยนเป็นคำด่า)
                         let actualRank = getRankInfo(item.exp || 0).current.name;
                         let iconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
                         
-                        return `<span style="display: inline-flex; align-items: center; background: linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.8) 100%); padding: 6px 16px; border-radius: 30px; border: 1px solid #334155; margin-right: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                        return `<span style="display: inline-flex; align-items: center; background: linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.8) 100%); padding: 6px 16px; border-radius: 30px; border: 1px solid #334155; margin margin-right: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
                             <img src="${iconUrl}" style="height: 32px; width: 32px; border-radius: 6px; margin-right: 12px; box-shadow: 0 0 8px rgba(251, 191, 36, 0.4); border: 1px solid #475569; object-fit: cover;">
                             <span style="color: #f8fafc; font-weight: bold; margin-right: 10px; font-size: 15px; letter-spacing: 0.5px;">${item.username}</span> 
                             <span style="color: #64748b; font-size: 13px; margin-right: 10px;">ซัดไป</span>
@@ -1636,7 +1636,7 @@ function getRankIcon(rankName) {
         }
     }
 
-    /* ================= ระบบ ADMIN ================= */
+    /* ================ ระบบ ADMIN ================ */
     function showAdminPanel() {
         document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>⏳ กำลังเชื่อมต่อและดึงข้อมูลจาก Cloud... กรุณารอสักครู่</td></tr>";
         document.getElementById('adminSearch').value = ''; document.getElementById('adminModal').style.display = 'flex';
@@ -1726,12 +1726,12 @@ function getRankIcon(rankName) {
             if(userRecords.length > 0) {
                 let latestPass = "";
                 let bestWPM = 0;
-                let bestExp = 0; // ✨ 1. เพิ่มตัวแปรดึง EXP จากฐานข้อมูล
+                let latestExp = 0; // ✨ รับค่า EXP จากแถวล่าสุดตรงๆ
 
                 for(let r of userRecords) {
                     if(r.password !== undefined && r.password !== null && r.password !== "ไม่มีรหัส" && r.password !== "") { latestPass = String(r.password).trim(); }
                     if(Number(r.wpm) > bestWPM) { bestWPM = Number(r.wpm); }
-                    if(Number(r.exp) > bestExp) { bestExp = Number(r.exp); } // ✨ 2. หาค่า EXP ล่าสุด
+                    latestExp = Number(r.exp) || 0; // ✨ ให้ตัวแปรนี้จำค่าของแถวสุดท้ายเสมอ
                 }
                 
                 if (latestPass !== "") {
@@ -1739,14 +1739,14 @@ function getRankIcon(rankName) {
                         if (!db[user]) db[user] = { history: [], exp: 0 };
                         db[user].pass = pass; 
                         db[user].best = bestWPM; 
-                        db[user].exp = Math.max(bestExp, db[user].exp || 0); // ✨ 3. อัปเดต EXP ลงเครื่อง
+                        db[user].exp = latestExp; // ✨ บังคับใช้ค่าจาก Sheet ตรงๆ
                         proceedLogin(user, pass, db);
                     } else { alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!"); }
                 } else {
                     if (!db[user]) db[user] = { history: [], exp: 0 };
                     db[user].pass = pass; 
                     db[user].best = bestWPM; 
-                    db[user].exp = Math.max(bestExp, db[user].exp || 0); // ✨ 4. อัปเดต EXP ลงเครื่อง
+                    db[user].exp = latestExp; // ✨ บังคับใช้ค่าจาก Sheet ตรงๆ
                     fetch(SCRIPT_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'changePassword', username: user, password: pass }) }).catch(() => {});
                     alert("✅ กู้คืนบัญชีเก่าสำเร็จ! ระบบบันทึกรหัสใหม่ให้มึงแล้ว"); 
                     proceedLogin(user, pass, db);
@@ -2014,7 +2014,7 @@ function showRankBoard() {
         const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
         
         let db = JSON.parse(localStorage.getItem('typingDB_Final'));
-        let expMultiplier = 5
+        let expMultiplier = 10
         let gainedExp = correctCount * expMultiplier;
         
         if (!db[currentUser].history) db[currentUser].history = []; db[currentUser].history.unshift({ wpm: correctCount, acc: finalAcc, date: new Date().toLocaleString('th-TH') });
