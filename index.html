@@ -1559,11 +1559,24 @@ function getRankIcon(rankName) {
                     let myData = data.filter(item => item.username === currentUser);
                     if (myData.length > 0) {
                         let sheetMax = Math.max(...myData.map(item => Number(item.wpm) || 0));
+                        let sheetExp = Math.max(...myData.map(item => Number(item.exp) || 0)); // ✨ 1. หาค่า EXP สูงสุดจาก Sheet
+                        
                         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-                        if(db[currentUser]) { db[currentUser].best = sheetMax; localStorage.setItem('typingDB_Final', JSON.stringify(db)); }
+                        if(db[currentUser]) { 
+                            db[currentUser].best = sheetMax; 
+                            
+                            // ✨ 2. ถ้า EXP ใน Sheet เยอะกว่า ให้อัปเดตตาม Sheet ทันที
+                            if (sheetExp > (db[currentUser].exp || 0)) {
+                                db[currentUser].exp = sheetExp;
+                                if (typeof updateExpUI === "function") updateExpUI(sheetExp); // อัปเดตยศและหลอด EXP บนหน้าจอ
+                            }
+                            
+                            localStorage.setItem('typingDB_Final', JSON.stringify(db)); 
+                        }
                         document.getElementById('bestWPM').innerText = sheetMax; 
                     }
                 }
+                
                 let validData = data.filter(item => Number(item.wpm) > 0);
                 let uniqueLatest = []; let seenNames = new Set();
                 for (let i = validData.length - 1; i >= 0; i--) {
@@ -1577,7 +1590,7 @@ function getRankIcon(rankName) {
                 // ===== บอร์ดเลื่อนดีไซน์ใหม่แบบเทพๆ ดึงรูปยศจริง =====
                 if (uniqueLatest.length > 0) {
                     let tickerHtml = uniqueLatest.map(item => {
-                        // ✨ คำนวณยศจริงจาก EXP แทนการดึง item.rank ตรงๆ
+                        // ✨ คำนวณยศจริงจาก EXP แทนการดึง item.rank ตรงๆ (กันเพี้ยนเป็นคำด่า)
                         let actualRank = getRankInfo(item.exp || 0).current.name;
                         let iconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
                         
@@ -1702,30 +1715,45 @@ function getRankIcon(rankName) {
         if(db[user] && db[user].pass === pass) { proceedLogin(user, pass, db); return; }
 
         const btn = document.querySelector('#loginForm .btn-main'); const originalText = btn.innerText;
-        btn.innerText = "รอแปปนะไอ้สัส....."; btn.disabled = true;
+        btn.innerText = "รอแปปนะไอ้สัส.....";
+        btn.disabled = true;
 
         try {
-            let res = await fetch(SCRIPT_URL); let data = await res.json();
+            let res = await fetch(SCRIPT_URL);
+            let data = await res.json();
             let userRecords = data.filter(item => item.username === user);
+            
             if(userRecords.length > 0) {
-                let latestPass = ""; let bestWPM = 0;
+                let latestPass = "";
+                let bestWPM = 0;
+                let bestExp = 0; // ✨ 1. เพิ่มตัวแปรดึง EXP จากฐานข้อมูล
+
                 for(let r of userRecords) {
                     if(r.password !== undefined && r.password !== null && r.password !== "ไม่มีรหัส" && r.password !== "") { latestPass = String(r.password).trim(); }
                     if(Number(r.wpm) > bestWPM) { bestWPM = Number(r.wpm); }
+                    if(Number(r.exp) > bestExp) { bestExp = Number(r.exp); } // ✨ 2. หาค่า EXP ล่าสุด
                 }
+                
                 if (latestPass !== "") {
                     if(latestPass === pass) {
                         if (!db[user]) db[user] = { history: [], exp: 0 };
-                        db[user].pass = pass; db[user].best = bestWPM; proceedLogin(user, pass, db);
+                        db[user].pass = pass; 
+                        db[user].best = bestWPM; 
+                        db[user].exp = Math.max(bestExp, db[user].exp || 0); // ✨ 3. อัปเดต EXP ลงเครื่อง
+                        proceedLogin(user, pass, db);
                     } else { alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!"); }
                 } else {
                     if (!db[user]) db[user] = { history: [], exp: 0 };
-                    db[user].pass = pass; db[user].best = bestWPM;
+                    db[user].pass = pass; 
+                    db[user].best = bestWPM; 
+                    db[user].exp = Math.max(bestExp, db[user].exp || 0); // ✨ 4. อัปเดต EXP ลงเครื่อง
                     fetch(SCRIPT_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'changePassword', username: user, password: pass }) }).catch(() => {});
-                    alert("✅ กู้คืนบัญชีเก่าสำเร็จ! ระบบบันทึกรหัสใหม่ให้มึงแล้ว"); proceedLogin(user, pass, db);
+                    alert("✅ กู้คืนบัญชีเก่าสำเร็จ! ระบบบันทึกรหัสใหม่ให้มึงแล้ว"); 
+                    proceedLogin(user, pass, db);
                 }
             } else { alert("ไม่พบชื่อนี้ในระบบเลย ไปสมัครก่อนไอ้กาก!"); }
         } catch(e) { alert("โหลดข้อมูลไม่สำเร็จ เน็ตมึงมีปัญหาป่าว?"); }
+        
         btn.innerText = originalText; btn.disabled = false;
     }
 
