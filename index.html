@@ -12,7 +12,7 @@
     
     <style>
         /* ==================================================
-           1. BASE THEME (โหมดมืด ออริจินัล) 
+           1. BASE THEME (โหมดมืด ออริจินัล) และ CSS โครงสร้างหลัก
            ================================================== */
         :root {
             --primary: #3bb154; --primary1: #29344e;
@@ -22,201 +22,127 @@
             --font-main: 'Sarabun', sans-serif; --font-head: 'Sarabun', sans-serif;
             --border-rad: 24px; --border-btn: 16px;
         }
-        body { background-color: var(--bg); font-family: var(--font-main); margin: 0; display: flex; justify-content: center;
-        align-items: center; min-height: 100vh; color: var(--text-dark); padding-top: 40px; transition: background-color 0.3s, color 0.3s;
-        }
-        h1, h2, h3 { font-family: var(--font-head);
-        }
-        .ticker-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 65px;
-        background-color: #000000e6; color: #ffffff; display: flex; align-items: center; overflow: hidden; z-index: 9999; border-bottom: 2px solid var(--primary);
-        transition: background-color 0.3s, color 0.3s; }
-        .ticker-content { white-space: nowrap; padding-left: 100%;
-        display: inline-block; animation: ticker 13s linear infinite; font-size: 20px; font-weight: 600;
-        }
-        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-100%);
-        } }
-        .main-container { width: 95%; max-width: 1100px; text-align: center; display: none;
-        position: relative; }
-        .top-actions { position: absolute; top: -60px; right: 0; display: flex;
-        gap: 10px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
-        .btn-top { background: #333;
-        color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s;
-        font-family: var(--font-main);}
-        .btn-top:hover { background: #555;
-        }
-        .btn-danger { background: #ef4444;
-        }
-        .btn-danger:hover { background: #dc2626;
-        }
-        .hamburger-btn { background: var(--card); color: var(--text-light); border: 2px solid #333; border-radius: 8px;
-        width: 50px; height: 44px; font-size: 22px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; padding: 0;
-        }
-        .hamburger-btn:hover { background: #333; transform: scale(1.05);
-        }
-        .menu-container { position: relative;
-        }
-        .dropdown-menu { position: absolute; top: 55px; right: 0; background: #111;
-        border: 1px solid #333; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); display: none; flex-direction: column; min-width: 240px; z-index: 1000;
-        overflow: hidden; }
-        .dropdown-menu.show { display: flex; animation: fadeIn 0.2s ease-in-out;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px);
-        } to { opacity: 1; transform: translateY(0); } }
-        .dropdown-item { background: transparent;
-        color: #fff; border: none; padding: 15px 20px; text-align: left; font-family: var(--font-main); font-size: 15px; cursor: pointer; transition: 0.2s;
-        border-bottom: 1px solid #222; display: flex; align-items: center; gap: 8px;
-        }
-        .dropdown-item:last-child { border-bottom: none;
-        }
-        .dropdown-item:hover { background: #222; padding-left: 25px;
-        }
-        .dropdown-danger { color: #ef4444;
-        }
-        .dropdown-danger:hover { background: #3f1515; color: #fca5a5;
-        }
-        h1 { font-weight: 700; color: var(--primary); margin-bottom: 30px; letter-spacing: -1px;
-        }
-        h2 { font-weight: 900; color: var(--primary1); margin-bottom: 10px; letter-spacing: -3px;
-        }
-        .typing-card { background: var(--card); padding: 50px; border-radius: var(--border-rad);
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); margin-bottom: 30px; position: relative; transition: background-color 0.3s, box-shadow 0.3s;
-        }
-        .display-window { height: 150px; overflow: hidden; position: relative; margin-bottom: 45px;
-        border: 1px solid #000000; box-sizing: border-box; transition: border-color 0.3s, background-color 0.3s;
-        }
-        #wordContainer { position: absolute; top: 0; left: 0; width: 100%; display: flex;
-        flex-wrap: wrap; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: left;
-        }
-        .word { font-size: 40px; line-height: 69px; margin-right: 5px; color: var(--text-light);
-        padding: 0 8px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-main);
-        }
-        .word.current { background-color: var(--highlight); color: #000000; font-weight: 600;
-        box-shadow: 0 4px 12px rgba(255, 212, 59, 0.4); }
-        .word.current.is-correct { background-color: var(--correct-live) !important;
-        color: white !important; box-shadow: 0 4px 12px rgba(46, 204, 113, 0.5);
-        }
-        .word.current.is-wrong { background-color: var(--wrong-live) !important; color: white !important;
-        box-shadow: 0 4px 12px rgba(231, 76, 60, 0.5); }
-        .word.correct { color: green;
-        background-color: transparent !important; box-shadow: none; }
-        .word.wrong { color: red; text-decoration: line-through;
-        background-color: transparent !important; box-shadow: none; }
-        .controls-row { display: flex; gap: 20px;
-        align-items: center; }
-        #userInput { flex: 1; font-family: var(--font-main); font-size: 28px;
-        padding: 18px 25px; border: 2px solid #e2e8f0; border-radius: var(--border-btn); outline: none; background: #f1f5f9; color: var(--text-dark);
-        transition: color 0.2s, background-color 0.3s, border-color 0.3s; }
-        .timer-badge { background: var(--primary);
-        color: white; padding: 15px 35px; border-radius: var(--border-btn); font-size: 32px; font-weight: 700; min-width: 70px;
-        font-family: var(--font-main);}
-        .btn-refresh { background: #fff; border: 2px solid #e2e8f0; width: 70px;
-        height: 70px; border-radius: var(--border-btn); cursor: pointer; font-size: 28px; color: #333; transition: 0.3s;
-        }
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(10, 10, 15, 0.9); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 10000;
-        }
-        .modal-overlay[style*="display: flex"] .modal-card { animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        @keyframes popIn { 0% { opacity: 0; transform: scale(0.95) translateY(20px);
-        } 100% { opacity: 1; transform: scale(1) translateY(0); } }
-        .modal-card { background: var(--card);
-        color: var(--text-light); width: 95%; max-width: 750px; padding: 40px; border-radius: var(--border-rad); text-align: center; max-height: 85vh; overflow-y: auto;
-        transition: background-color 0.3s, color 0.3s, border-color 0.3s; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-        .result-title { font-size: 32px; font-weight: 800; margin-bottom: 5px; color: var(--text-light);
-        font-family: var(--font-head);}
-        .result-subtitle { font-size: 16px; color: #64748b; margin-top: 0; margin-bottom: 25px;
-        font-weight: 400; font-family: var(--font-main);}
-        .rank-badge { background: linear-gradient(135deg, #ffd43b, #f59e0b); color: #000;
-        padding: 12px 35px; border-radius: 50px; font-weight: 800; font-size: 22px; margin-bottom: 25px; display: inline-flex; align-items: center; gap: 8px;
-        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3); border: 2px solid #fff; font-family: var(--font-main);
-        }
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px;
-        }
-        .stat-box { background: #111827; padding: 25px 20px; border-radius: 20px;
-        border: 1px solid #1f2937; transition: 0.3s ease; display: flex; flex-direction: column; justify-content: center; align-items: center;
-        }
-        .stat-box:hover { transform: translateY(-3px); border-color: #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-        .stat-box.highlight { grid-column: span 2; background: linear-gradient(145deg, rgba(59,177,84,0.1), rgba(0,0,0,0)); border-color: rgba(59,177,84,0.3);
-        }
-        .stat-box.highlight:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(59,177,84,0.15);
-        }
-        .stat-val { font-size: 38px; font-weight: 800; line-height: 1.1; margin-top: 5px;
-        text-shadow: 0 2px 10px rgba(0,0,0,0.2); font-family: var(--font-head);}
-        .stat-val.huge { font-size: 56px; color: var(--primary);
-        }
-        .stat-label { font-size: 14px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
-        font-family: var(--font-main);}
-        .btn-main { background: var(--primary); color: white; border: none; width: 100%;
-        padding: 18px; border-radius: var(--border-btn); font-weight: 800; font-size: 18px; cursor: pointer; margin-top: 10px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 8px 25px rgba(59, 177, 84, 0.3); font-family: var(--font-main);
-        }
-        .btn-main:hover { background: #2f8d43; transform: translateY(-2px);
-        box-shadow: 0 12px 30px rgba(59, 177, 84, 0.4); }
-        .btn-main:active { transform: translateY(1px);
-        box-shadow: 0 4px 15px rgba(59, 177, 84, 0.3); }
-        .sync-status { font-size: 14px;
-        color: #94a3b8; margin-top: 15px; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 5px;
-        }
-        .dark-modal { background: #121212; border: 1px solid #333;
-        box-shadow: 0 10px 40px rgba(0,0,0,0.8); border-radius: 20px; color: #fff; width: 90%; max-width: 400px; padding: 30px;
-        }
-        .dark-modal h2 { color: #fff; letter-spacing: 0; margin-top: 0; font-size: 24px;
-        border-bottom: 1px solid #222; padding-bottom: 15px;}
-        .dark-modal p { color: #aaa; font-size: 15px;
-        margin-bottom: 25px; line-height: 1.5; }
-        .dark-input { width: 100%; padding: 12px; margin-bottom: 15px;
-        background: #000; border: 1px solid #333; color: var(--primary); border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s;
-        font-family: var(--font-main);}
-        .dark-input:focus { border-color: var(--primary);
-        box-shadow: 0 0 10px rgba(59, 177, 84, 0.2); }
-        .dark-btn-group { display: flex;
-        gap: 10px; }
-        .dark-btn { flex: 1; padding: 12px; border-radius: 8px; border: none;
-        font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 15px; font-family: var(--font-main);}
-        .dark-btn.confirm { background: var(--primary);
-        color: #000; }
-        .dark-btn.confirm:hover { background: #2f8d43;
-        }
-        .dark-btn.cancel { background: #333; color: #fff;
-        }
-        .dark-btn.cancel:hover { background: #444;
-        }
-        .dark-btn.danger { background: #dc2626; color: #fff;
-        }
-        .dark-btn.danger:hover { background: #b91c1c;
-        }
-        .rank-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; text-align: left;
-        }
-        .rank-table tr { border-bottom: 1px solid #eee;
-        }
-        .rank-table td, .rank-table th { padding: 10px; color:#333;
-        font-family: var(--font-main);}
-        .active-rank { background: #fff1f2; font-weight: bold;
-        }
-        #authContainer { background: #000; padding: 40px; border-radius: var(--border-rad); width: 340px; text-align: center;
-        color: white; transition: background-color 0.3s, color 0.3s; }
-        .auth-input { width: 100%;
-        padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #111; color: white; box-sizing: border-box; transition: 0.3s;
-        font-family: var(--font-main);}
-        .close-modal-x { position: absolute; top: 15px; right: 20px; font-size: 52px;
-        font-weight: bold; color: #999; cursor: pointer; line-height: 1; transition: 0.2s; user-select: none; z-index: 10;
-        font-family: sans-serif;}
-        .close-modal-x:hover { color: #ef4444; transform: scale(1.1);
-        }
-        .admin-btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer;
-        font-size: 12px; font-weight: bold; transition: 0.2s; font-family: var(--font-main); }
-        .admin-btn-edit { background: #3b82f6;
-        color: white; }
-        .admin-btn-edit:hover { background: #2563eb;
-        }
-        .admin-btn-del { background: #ef4444; color: white; margin-left: 5px;
-        }
-        .admin-btn-del:hover { background: #dc2626;
+        body { background-color: var(--bg); font-family: var(--font-main); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; color: var(--text-dark); padding-top: 40px; transition: background-color 0.3s, color 0.3s; }
+        h1, h2, h3 { font-family: var(--font-head); }
+        .ticker-wrap { position: fixed; top: 0; left: 0; width: 100%; height: 65px; background-color: #000000e6; color: #ffffff; display: flex; align-items: center; overflow: hidden; z-index: 9999; border-bottom: 2px solid var(--primary); transition: background-color 0.3s, color 0.3s; }
+        .ticker-content { 
+            white-space: nowrap; 
+            padding-left: 100%;
+            display: inline-block; 
+            /* 1. เปลี่ยนเวลาจาก 13s เป็น 30s (หรือตัวเลขอื่นตามชอบ) เพื่อไม่ให้มันวิ่งเร็วเกินไปจนตาลาย */
+            animation: ticker 20s linear infinite; 
+            font-size: 20px; 
+            font-weight: 600;
+
+            /* --- 2. เพิ่ม 3 บรรทัดนี้เพื่อความสมูท --- */
+            will-change: transform; /* สั่งให้ดึงพลัง GPU มาเตรียมเรนเดอร์ล่วงหน้า */
+            -webkit-font-smoothing: antialiased; /* ทำให้ขอบตัวหนังสือเนียน ไม่แตกเวลาขยับ */
+            backface-visibility: hidden; /* ลดอาการภาพสั่น (Flicker) */
         }
 
-        /* ==================================================
+        /* 3. แก้ไข Keyframes โดยใช้ translate3d เพื่อบังคับใช้ Hardware Acceleration แบบ 100% */
+        @keyframes ticker { 
+            0% { transform: translate3d(0, 0, 0); } 
+            100% { transform: translate3d(-100%, 0, 0); } 
+        }
+        /* --- UI Components (Compressed) --- */
+        .main-container { width: 95%; max-width: 1100px; text-align: center; display: none; position: relative; }
+        .top-actions { position: absolute; top: -60px; right: 0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+        .btn-top { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; font-family: var(--font-main); }
+        .btn-top:hover { background: #555; transform: translateY(-2px); }
+        .btn-danger { background: #ef4444; }
+        .btn-danger:hover { background: #dc2626; }
+
+        .hamburger-btn { background: var(--card); color: var(--text-light); border: 2px solid #333; border-radius: 8px; width: 50px; height: 44px; font-size: 22px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; padding: 0; }
+        .hamburger-btn:hover { background: #333; transform: scale(1.05); }
+        .menu-container { position: relative; }
+
+        .dropdown-menu { position: absolute; top: 55px; right: 0; background: #111; border: 1px solid #333; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.7); display: none; flex-direction: column; min-width: 240px; z-index: 1000; overflow: hidden; }
+        .dropdown-menu.show { display: flex; animation: fadeIn 0.2s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .dropdown-item { background: transparent; color: #fff; border: none; padding: 15px 20px; text-align: left; font-family: var(--font-main); font-size: 15px; cursor: pointer; transition: 0.2s; border-bottom: 1px solid #222; display: flex; align-items: center; gap: 8px; }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background: #222; padding-left: 25px; color: var(--primary); }
+        .dropdown-danger { color: #ef4444; }
+        .dropdown-danger:hover { background: #3f1515; color: #fca5a5; }
+
+        h1 { font-weight: 700; color: var(--primary); margin-bottom: 30px; letter-spacing: -1px; }
+        h2 { font-weight: 900; color: var(--primary1); margin-bottom: 10px; letter-spacing: -3px; }
+        
+        /* Profile Card & EXP Bar CSS */
+        .user-profile-card { display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.5); padding: 15px 20px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); width: 100%; box-sizing: border-box; justify-content: space-between; flex-wrap: wrap; margin-bottom: 20px; transition: 0.3s; }
+        .profile-left { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 280px; }
+        .rank-icon-large { font-size: 45px; line-height: 1; filter: drop-shadow(0 0 5px rgba(255,255,255,0.3)); }
+        .exp-wrapper { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+        .user-name-rank { display: flex; justify-content: space-between; align-items: flex-end; }
+        .name-text { font-size: 18px; font-weight: bold; color: var(--highlight); letter-spacing: 0.5px; }
+        .rank-text { font-size: 13px; font-weight: bold; color: #fff; background: rgba(255,255,255,0.15); padding: 3px 10px; border-radius: 6px; }
+        .exp-bar-bg { width: 100%; height: 18px; background: rgba(0,0,0,0.7); border: 2px solid #334155; border-radius: 10px; position: relative; overflow: hidden; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
+        .exp-bar-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #10b981, #fde047); background-size: 200% 100%; width: 0%; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); animation: shimmer 3s infinite linear; }
+        @keyframes shimmer { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+        .exp-numbers { position: absolute; top: 0; left: 0; right: 0; text-align: center; font-size: 11px; font-weight: bold; color: white; line-height: 18px; text-shadow: 1px 1px 2px #000; z-index: 2; font-family: sans-serif;}
+        
+        .typing-card { background: var(--card); padding: 50px; border-radius: var(--border-rad); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); margin-bottom: 30px; position: relative; transition: background-color 0.3s, box-shadow 0.3s; }
+        .display-window { height: 150px; overflow: hidden; position: relative; margin-bottom: 45px; border: 1px solid #000000; box-sizing: border-box; transition: border-color 0.3s, background-color 0.3s; }
+        #wordContainer { position: absolute; top: 0; left: 0; width: 100%; display: flex; flex-wrap: wrap; transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); text-align: left; }
+        .word { font-size: 40px; line-height: 69px; margin-right: 5px; color: var(--text-light); padding: 0 8px; border-radius: 8px; transition: all 0.2s; font-family: var(--font-main); }
+        .word.current { background-color: var(--highlight); color: #000000; font-weight: 600; box-shadow: 0 4px 12px rgba(255, 212, 59, 0.4); }
+        .word.current.is-correct { background-color: var(--correct-live) !important; color: white !important; box-shadow: 0 4px 12px rgba(46, 204, 113, 0.5); }
+        .word.current.is-wrong { background-color: var(--wrong-live) !important; color: white !important; box-shadow: 0 4px 12px rgba(231, 76, 60, 0.5); }
+        .word.correct { color: green; background-color: transparent !important; box-shadow: none; }
+        .word.wrong { color: red; text-decoration: line-through; background-color: transparent !important; box-shadow: none; }
+        .controls-row { display: flex; gap: 20px; align-items: center; }
+        #userInput { flex: 1; font-family: var(--font-main); font-size: 28px; padding: 18px 25px; border: 2px solid #e2e8f0; border-radius: var(--border-btn); outline: none; background: #f1f5f9; color: var(--text-dark); transition: color 0.2s, background-color 0.3s, border-color 0.3s; }
+        .timer-badge { background: var(--primary); color: white; padding: 15px 35px; border-radius: var(--border-btn); font-size: 32px; font-weight: 700; min-width: 70px; font-family: var(--font-main);}
+        .btn-refresh { background: #fff; border: 2px solid #e2e8f0; width: 70px; height: 70px; border-radius: var(--border-btn); cursor: pointer; font-size: 28px; color: #333; transition: 0.3s; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 15, 0.9); backdrop-filter: blur(8px); display: none; justify-content: center; align-items: center; z-index: 10000; }
+        .modal-overlay[style*="display: flex"] .modal-card { animation: popIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes popIn { 0% { opacity: 0; transform: scale(0.95) translateY(20px); } 100% { opacity: 1; transform: scale(1) translateY(0); } }
+        .modal-card { background: var(--card); color: var(--text-light); width: 95%; max-width: 750px; padding: 40px; border-radius: var(--border-rad); text-align: center; max-height: 85vh; overflow-y: auto; transition: background-color 0.3s, color 0.3s, border-color 0.3s; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+        .result-title { font-size: 32px; font-weight: 800; margin-bottom: 5px; color: var(--text-light); font-family: var(--font-head);}
+        .result-subtitle { font-size: 16px; color: #64748b; margin-top: 0; margin-bottom: 25px; font-weight: 400; font-family: var(--font-main);}
+        .rank-badge { background: linear-gradient(135deg, #ffd43b, #f59e0b); color: #000; padding: 12px 35px; border-radius: 50px; font-weight: 800; font-size: 22px; margin-bottom: 25px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3); border: 2px solid #fff; font-family: var(--font-main); }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 30px; }
+        .stat-box { background: #111827; padding: 25px 20px; border-radius: 20px; border: 1px solid #1f2937; transition: 0.3s ease; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        .stat-box:hover { transform: translateY(-3px); border-color: #334155; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        .stat-box.highlight { background: linear-gradient(145deg, rgba(59,177,84,0.1), rgba(0,0,0,0)); border-color: rgba(59,177,84,0.3); }
+        .stat-box.highlight:hover { border-color: var(--primary); box-shadow: 0 10px 30px rgba(59,177,84,0.15); }
+        .stat-val { font-size: 38px; font-weight: 800; line-height: 1.1; margin-top: 5px; text-shadow: 0 2px 10px rgba(0,0,0,0.2); font-family: var(--font-head);}
+        .stat-val.huge { font-size: 56px; color: var(--primary); }
+        .stat-label { font-size: 14px; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; font-family: var(--font-main);}
+        .btn-main { background: var(--primary); color: white; border: none; width: 100%; padding: 18px; border-radius: var(--border-btn); font-weight: 800; font-size: 18px; cursor: pointer; margin-top: 10px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 25px rgba(59, 177, 84, 0.3); font-family: var(--font-main); }
+        .btn-main:hover { background: #2f8d43; transform: translateY(-2px); box-shadow: 0 12px 30px rgba(59, 177, 84, 0.4); }
+        .btn-main:active { transform: translateY(1px); box-shadow: 0 4px 15px rgba(59, 177, 84, 0.3); }
+        .sync-status { font-size: 14px; color: #94a3b8; margin-top: 15px; font-weight: 600; display: flex; justify-content: center; align-items: center; gap: 5px; }
+        .dark-modal { background: #121212; border: 1px solid #333; box-shadow: 0 10px 40px rgba(0,0,0,0.8); border-radius: 20px; color: #fff; width: 90%; max-width: 400px; padding: 30px; }
+        .dark-modal h2 { color: #fff; letter-spacing: 0; margin-top: 0; font-size: 24px; border-bottom: 1px solid #222; padding-bottom: 15px;}
+        .dark-modal p { color: #aaa; font-size: 15px; margin-bottom: 25px; line-height: 1.5; }
+        .dark-input { width: 100%; padding: 12px; margin-bottom: 15px; background: #000; border: 1px solid #333; color: var(--primary); border-radius: 8px; font-size: 16px; box-sizing: border-box; outline: none; transition: 0.3s; font-family: var(--font-main);}
+        .dark-input:focus { border-color: var(--primary); box-shadow: 0 0 10px rgba(59, 177, 84, 0.2); }
+        .dark-btn-group { display: flex; gap: 10px; }
+        .dark-btn { flex: 1; padding: 12px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 15px; font-family: var(--font-main);}
+        .dark-btn.confirm { background: var(--primary); color: #000; }
+        .dark-btn.confirm:hover { background: #2f8d43; }
+        .dark-btn.cancel { background: #333; color: #fff; }
+        .dark-btn.cancel:hover { background: #444; }
+        .dark-btn.danger { background: #dc2626; color: #fff; }
+        .dark-btn.danger:hover { background: #b91c1c; }
+        .rank-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; text-align: left; }
+        .rank-table tr { border-bottom: 1px solid #eee; }
+        .rank-table td, .rank-table th { padding: 10px; color:#333; font-family: var(--font-main);}
+        .active-rank { background: #fff1f2; font-weight: bold; }
+        #authContainer { background: #000; padding: 40px; border-radius: var(--border-rad); width: 340px; text-align: center; color: white; transition: background-color 0.3s, color 0.3s; }
+        .auth-input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #333; background: #111; color: white; box-sizing: border-box; transition: 0.3s; font-family: var(--font-main);}
+        .close-modal-x { position: absolute; top: 15px; right: 20px; font-size: 52px; font-weight: bold; color: #999; cursor: pointer; line-height: 1; transition: 0.2s; user-select: none; z-index: 10; font-family: sans-serif;}
+        .close-modal-x:hover { color: #ef4444; transform: scale(1.1); }
+        .admin-btn { padding: 6px 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; transition: 0.2s; font-family: var(--font-main); }
+        .admin-btn-edit { background: #3b82f6; color: white; }
+        .admin-btn-edit:hover { background: #2563eb; }
+        .admin-btn-del { background: #ef4444; color: white; margin-left: 5px; }
+        .admin-btn-del:hover { background: #dc2626; }
+
+            /* ==================================================
            2. LIGHT MODE (โหมดสว่าง) 
            ================================================== */
         body.light-mode { --bg: #e1eff5;
@@ -1104,84 +1030,59 @@
         body.theme-gold .dropdown-item:hover { background: rgba(229, 193, 88, 0.15);
         color: #fff; padding-left: 25px; }
 
-
         /* ==================================================
            📱 MOBILE RESPONSIVE
            ================================================== */
         @media (max-width: 768px) {
-            body { padding-top: 110px;
-            }
-            .top-actions { top: -65px; gap: 5px;
-            } .btn-top { font-size: 12px; padding: 6px 10px; } .hamburger-btn { width: 42px; height: 38px; font-size: 18px;
-            }
-            #gameMain > div:nth-child(2) { flex-direction: column !important;
-            align-items: flex-start !important; background: rgba(0,0,0,0.25); padding: 12px 15px; border-radius: 12px; gap: 10px !important; margin-bottom: 20px !important; border: 1px solid rgba(255,255,255,0.1);
-            }
-            .typing-card { padding: 25px 15px;
-            } h1 { font-size: 20px !important; margin-bottom: 8px; } h2 { font-size: 16px !important; margin-bottom: 15px;
-            }
-            .display-window { height: 110px; margin-bottom: 15px;
-            } .word { font-size: 24px; line-height: 40px; padding: 0 4px;
-            }
-            .controls-row { flex-wrap: wrap; gap: 10px;
-            } #userInput { flex: none; width: 100%; font-size: 18px; padding: 12px 15px; text-align: center;
-            }
-            .timer-badge { flex: 1; font-size: 24px; padding: 10px;
-            text-align: center; } .btn-refresh { flex: none; width: 50px; height: 50px; font-size: 20px;
-            }
-            .modal-card { width: 95%; padding: 25px 15px;
-            max-height: 85vh; } .stats-grid { gap: 10px; margin-bottom: 20px; } .stat-box { padding: 12px 8px;
-            }
-            .stat-val { font-size: 28px;
-            } .stat-val.huge { font-size: 42px; } .stat-label { font-size: 12px; } #authContainer { width: 90%; padding: 30px 20px;
-            }
-            .rank-table th, .rank-table td { padding: 10px 5px !important;
-            font-size: 12px !important; }
-            .theme-selector-grid { grid-template-columns: repeat(2, 1fr);
-            gap: 10px; } .theme-option-btn { padding: 10px 5px; }
+            body { padding-top: 110px; }
+            .top-actions { top: -65px; gap: 5px; } 
+            .btn-top { font-size: 12px; padding: 6px 10px; } 
+            .hamburger-btn { width: 42px; height: 38px; font-size: 18px; }
+            .user-profile-card { flex-direction: column !important; align-items: flex-start !important; padding: 12px 15px; gap: 10px !important; }
+            .typing-card { padding: 25px 15px; } 
+            h1 { font-size: 20px !important; margin-bottom: 8px; } 
+            h2 { font-size: 16px !important; margin-bottom: 15px; }
+            .display-window { height: 110px; margin-bottom: 15px; } 
+            .word { font-size: 24px; line-height: 40px; padding: 0 4px; }
+            .controls-row { flex-wrap: wrap; gap: 10px; } 
+            #userInput { flex: none; width: 100%; font-size: 18px; padding: 12px 15px; text-align: center; }
+            .timer-badge { flex: 1; font-size: 24px; padding: 10px; text-align: center; } 
+            .btn-refresh { flex: none; width: 50px; height: 50px; font-size: 20px; }
+            .modal-card { width: 95%; padding: 25px 15px; max-height: 85vh; } 
+            .stats-grid { gap: 10px; margin-bottom: 20px; } 
+            .stat-box { padding: 12px 8px; }
+            .stat-val { font-size: 28px; } 
+            .stat-val.huge { font-size: 36px; } 
+            .stat-label { font-size: 11px; } 
+            #authContainer { width: 90%; padding: 30px 20px; }
+            .rank-table th, .rank-table td { padding: 10px 5px !important; font-size: 12px !important; }
+            .theme-selector-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } 
+            .theme-option-btn { padding: 10px 5px; }
+            input[type="text"], input[type="password"] { font-size: 16px !important; } 
+            * { -webkit-tap-highlight-color: transparent; } 
+            body { -webkit-user-select: none; user-select: none; touch-action: manipulation; padding-top: 85px; } 
+            input { -webkit-user-select: text; user-select: text; } 
+            .modal-card > div, #lbBody { -webkit-overflow-scrolling: touch; } 
+            .ticker-wrap { height: 45px; } 
+            .ticker-content { font-size: 16px; } 
+            .top-actions { top: -45px; } 
         }
 
-        /* ==================================================
-           🚀 MOBILE APP FEELING (Compact Version)
-           ================================================== */
-        @media (max-width: 768px) { input[type="text"], input[type="password"] { font-size: 16px !important;
-        } * { -webkit-tap-highlight-color: transparent; } body { -webkit-user-select: none; user-select: none; touch-action: manipulation; padding-top: 85px;
-        } input { -webkit-user-select: text; user-select: text; } .modal-card > div, #lbBody { -webkit-overflow-scrolling: touch; } .ticker-wrap { height: 45px;
-        } .ticker-content { font-size: 16px; } .top-actions { top: -45px;
-        } }
-
-        /* ==================================================
-           ปุ่มและ UI เลือกตีม (Popup Modal) - Layout ให้สวยงาม
-           ================================================== */
-        #btnOpenTheme { position: fixed;
-        bottom: 25px; right: 25px; z-index: 9999; background: var(--card); border: 2px solid var(--primary); color: var(--text-light); padding: 12px 20px; border-radius: 50px;
-        cursor: pointer; font-family: 'Sarabun', sans-serif; font-weight: 700; font-size: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s; display: flex;
-        align-items: center; gap: 8px; }
-        #btnOpenTheme:hover { transform: scale(1.05); background: var(--primary); color: #000;
-        }
-        .theme-selector-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 20px;
-        }
-        .theme-option-btn { background: #1a1a1a; border: 2px solid #333; color: #fff;
-        padding: 15px 5px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-family: 'Sarabun'; font-weight: bold; font-size: 13px; display: flex; flex-direction: column;
-        align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); text-align: center;
-        }
-        .theme-option-btn:hover { background: #2a2a2a; transform: translateY(-3px);
-        }
-        .theme-option-btn.active { border-color: #3bb154; box-shadow: 0 0 15px rgba(59,177,84,0.4); background: #1a2e1f;
-        }
-        .theme-icon { font-size: 30px;
-        margin-bottom: 2px;}
-        #themeModal .modal-card { background: #0f172a; border: 1px solid #334155; color: #fff;
-        max-width: 800px;}
-        #themeModal h2 { color: #38bdf8; text-shadow: none; font-family: 'Sarabun';
-        }
-        #themeModal p { color: #94a3b8; font-family: 'Sarabun';
-        }
+        #btnOpenTheme { position: fixed; bottom: 25px; right: 25px; z-index: 9999; background: var(--card); border: 2px solid var(--primary); color: var(--text-light); padding: 12px 20px; border-radius: 50px; cursor: pointer; font-family: 'Sarabun', sans-serif; font-weight: 700; font-size: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); transition: all 0.3s; display: flex; align-items: center; gap: 8px; }
+        #btnOpenTheme:hover { transform: scale(1.05); background: var(--primary); color: #000; }
+        .theme-selector-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 20px; }
+        .theme-option-btn { background: #1a1a1a; border: 2px solid #333; color: #fff; padding: 15px 5px; border-radius: 12px; cursor: pointer; transition: 0.3s; font-family: 'Sarabun'; font-weight: bold; font-size: 13px; display: flex; flex-direction: column; align-items: center; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); text-align: center; }
+        .theme-option-btn:hover { background: #2a2a2a; transform: translateY(-3px); }
+        .theme-option-btn.active { border-color: #3bb154; box-shadow: 0 0 15px rgba(59,177,84,0.4); background: #1a2e1f; }
+        .theme-icon { font-size: 30px; margin-bottom: 2px;}
+        #themeModal .modal-card { background: #0f172a; border: 1px solid #334155; color: #fff; max-width: 800px;}
+        #themeModal h2 { color: #38bdf8; text-shadow: none; font-family: 'Sarabun'; }
+        #themeModal p { color: #94a3b8; font-family: 'Sarabun'; }
     </style>
 </head>
 <body>
 
-<button id="btnOpenTheme" onclick="openThemeModal()">ถ้าธีมนี้มันกาก ก็กดตรงนี้</button>
+<button id="btnOpenTheme" onclick="openThemeModal()">ถ้าธีมนี้มันกาก กดตรงนี้</button>
 
 <div class="ticker-wrap" id="tickerWrap">
     <div class="ticker-content" id="tickerContent">📢 แป๊บไอ้สัสนรก</div>
@@ -1213,9 +1114,11 @@
     
     <div class="top-actions">
         <button class="btn-top" onclick="showRanking()" style="padding: 10px 15px; font-weight: bold;">
-            <img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> อันดับรวมของพวกกากๆ
+            <img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> อันดับความเร็วสูงสุด
         </button>
-        
+        <button class="btn-top" onclick="showRankBoard()" style="padding: 10px 15px; font-weight: bold; color: #fbbf24; margin-left: 5px;">
+            <img src="https://img2.pic.in.th/imagec45e19e0556aa82c.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> ทำเนียบยศ
+        </button>
         <div class="menu-container">
             <button class="hamburger-btn" onclick="toggleActionMenu(event)">☰</button>
             <div class="dropdown-menu" id="actionMenu">
@@ -1228,12 +1131,24 @@
         </div>
     </div>
     
-    <div style="display:flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-bottom: 10px; color: var(--text-light); font-size: 14px; transition: color 0.3s;">
-        <span><img src="https://img5.pic.in.th/file/secure-sv1/imagea7debf762c63d200.png" style="height: 60px; vertical-align: middle; margin-right: 5px;"> ผู้เล่นกากๆ: <b id="displayUser" style="color:var(--highlight)"></b></span>        
-        <span style="background: rgba(0,0,0,0.5); padding: 5px 15px; border-radius: 15px; border: 1px dashed var(--highlight); display: flex; align-items: center; gap: 8px;">
-            ระดับของมึงตอนนี้: <span id="topRankDisplay">-</span>
-        </span>
-        <span> สถิติสูงสุดของมึง: <b id="bestWPM" style="color:var(--highlight); font-size:18px;">0</b> WPM</span>
+    <div class="user-profile-card">
+        <div class="profile-left">
+            <div class="rank-icon-large" id="rankIconDisplay">🪖</div>
+            <div class="exp-wrapper">
+                <div class="user-name-rank">
+                    <span class="name-text" id="displayUser">Unknown</span>
+                    <span class="rank-text" id="rankTextDisplay">ทหารฝึก</span>
+                </div>
+                <div class="exp-bar-bg">
+                    <div class="exp-bar-fill" id="expBarFill"></div>
+                    <div class="exp-numbers" id="expNumbersDisplay">0 / 3500 EXP</div>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: right; min-width: 150px;">
+            <span style="font-size: 12px; color: #94a3b8; display: block;">สถิติสูงสุดของมึง</span>
+            <span style="font-size: 26px; font-weight: bold; color: var(--highlight);"><b id="bestWPM">0</b> <span style="font-size:14px; color:#fff;">WPM</span></span>
+        </div>
     </div>
 
     <h1>ฝึกพิมพ์ สำหรับคนว่างๆ ไม่มีลูกค้า</h1>
@@ -1256,7 +1171,7 @@
     <div class="modal-card" style="max-width: 750px; padding: 30px;">
         <span class="close-modal-x" onclick="closeModal('themeModal')" style="font-family: sans-serif;">×</span>
         <h2 style="margin-top: 0; margin-bottom: 5px;"><img src="https://img5.pic.in.th/file/secure-sv1/imagea7debf762c63d200.png" style="width: 50px; height: 50px; object-fit: contain; vertical-align: middle;"> เ ลื อ ก ธี ม ข อ ง มึ ง</h2>
-        <p style="margin-top: 0; margin-bottom: 20px;">เลือกเอา ธีมไหนจะทำให้มึงพิมพ์ได้เยอะกว่าเดิม</p>
+        <p style="margin-top: 0; margin-bottom: 20px;">สลับโหมดตามอารมณ์ความเดือดได้เลย!</p>
         
         <div class="theme-selector-grid">
             <button class="theme-option-btn" id="btn-theme-valo" onclick="selectTheme('theme-valo')">
@@ -1309,11 +1224,15 @@
     <div class="modal-card result-card">
         <h2 class="result-title">ส รุ ป คื อ อ้ า ย เ จ็ บ พ๊ า ม !!</h2>
         <p class="result-subtitle">ผลประกอบการความว่างของมึงในรอบนี้</p>
-        <div class="rank-badge" id="resRankBadge">ระดับ</div>
+        <div class="rank-badge" id="resRankBadge" style="display:none;">ระดับ</div>
         <div class="stats-grid">
             <div class="stat-box highlight">
                 <div class="stat-label">🔥 ความเร็ว (WPM)</div>
                 <div class="stat-val huge" id="resWpm">0</div>
+            </div>
+            <div class="stat-box highlight" style="background: linear-gradient(145deg, rgba(251,191,36,0.1), rgba(0,0,0,0)); border-color: rgba(251,191,36,0.3);">
+                <div class="stat-label" style="color:#fbbf24;">✨ EXP ที่ได้</div>
+                <div class="stat-val huge" style="color: #fbbf24;" id="resExp">+0</div>
             </div>
             <div class="stat-box">
                 <div class="stat-label">🎯 ความแม่นยำเหยดๆ</div>
@@ -1342,9 +1261,9 @@
         <span class="close-modal-x" onclick="closeModal('rankingModal')" style="color: #64748b; top: 15px; right: 20px; font-family: sans-serif;">×</span>
         <div style="text-align: left; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 15px;">
             <h2 style="color: #fbbf24; margin: 0; font-size: 26px; display: flex; align-items: center; gap: 10px; letter-spacing: 0; font-family:'Sarabun';">
-                <img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 45px;"> อั น ดั บ ก า ร พิ ม พ์ ก า ก ๆ ข อ ง พ ว ก มึ ง
+                <img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 45px;"> อันดับความเร็ว
             </h2>
-            <p style="color: #94a3b8; font-size: 14px; margin: 5px 0 0 0; font-family:'Sarabun';">ตารางจัดอันดับความไวของพวกตัวตึงในบริษัท</p>
+            <p style="color: #94a3b8; font-size: 14px; margin: 5px 0 0 0; font-family:'Sarabun';">ตารางจัดอันดับความเร็วสูงสุด (วัดจาก WPM สูงสุด)</p>
         </div>
         <div style="max-height: 450px; overflow-y: auto; border: 1px solid #1e293b; background: #0b1120;">
             <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; color: #cbd5e1;">
@@ -1352,8 +1271,8 @@
                     <tr>
                         <th style="padding: 15px; border-bottom: 2px solid #334155;"># อันดับ</th>
                         <th style="padding: 15px; border-bottom: 2px solid #334155;">👤 ชื่อ (Name)</th>
-                        <th style="padding: 15px; border-bottom: 2px solid #334155;">⚡ WPM</th>
-                        <th style="padding: 15px; border-bottom: 2px solid #334155;">🎖️ ระดับของมึง</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;">⚡ WPM สูงสุด</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;">🎖️ ระดับความไว</th>
                     </tr>
                 </thead>
                 <tbody id="lbBody"></tbody>
@@ -1361,25 +1280,38 @@
         </div>
     </div>
 </div>
-
-<div class="modal-overlay" id="historyModal">
-    <div class="modal-card" style="max-width: 800px; padding: 30px;">
-        <span class="close-modal-x" onclick="closeModal('historyModal')">×</span>
-        <div style="text-align: left; margin-bottom: 20px; border-bottom: 1px solid var(--primary); padding-bottom: 15px;">
-            <h2 style="color: var(--primary); margin: 0; font-size: 26px; display: flex; align-items: center; gap: 10px; font-family: var(--font-head);">
-                📜 ป ร ะ วั ติ ก า ร พิ ม พ์ ก า ก ๆ
+<div class="modal-overlay" id="rankBoardModal">
+    <div class="modal-card" style="max-width: 900px; background: #0f172a; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); padding: 30px;">
+        <span class="close-modal-x" onclick="closeModal('rankBoardModal')" style="color: #64748b; top: 15px; right: 20px; font-family: sans-serif;">×</span>
+        <div style="text-align: left; margin-bottom: 20px; border-bottom: 1px solid #334155; padding-bottom: 15px;">
+            <h2 style="color: #38bdf8; margin: 0; font-size: 26px; display: flex; align-items: center; gap: 10px; letter-spacing: 0; font-family:'Sarabun';">
+                <img src="https://img2.pic.in.th/imagec45e19e0556aa82c.png" style="height: 45px;"> ท ำ เ นี ย บ ย ศ
             </h2>
-            <p style="color: var(--text-light); font-size: 14px; margin: 5px 0 0 0; font-family: var(--font-main); opacity: 0.8;">สถิติความว่างของมึงที่ผ่านมาทั้งหมด</p>
+            <p style="color: #94a3b8; font-size: 14px; margin: 5px 0 0 0; font-family:'Sarabun';">จัดอันดับตามความว่าง </p>
         </div>
-        <div style="max-height: 400px; overflow-y: auto;">
-            <table class="rank-table" style="width:100%; text-align:left; border-collapse: collapse;">
-                <thead style="position: sticky; top: 0; z-index: 10;">
+        <div style="max-height: 450px; overflow-y: auto; border: 1px solid #1e293b; background: #0b1120;">
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; color: #cbd5e1;">
+                <thead style="position: sticky; top: 0; background: #1e293b; color: #f8fafc; font-size: 13px; letter-spacing: 0.5px; z-index: 10;">
                     <tr>
-                        <th style="padding:15px;">#</th>
-                        <th style="padding:15px;">⚡ WPM</th>
-                        <th style="padding:15px;">🎖️ ระดับของมึงที่ผ่านมา</th>
-                        <th style="padding:15px;">🕒 เวลาที่พิมพ์</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;"># อันดับ</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;"> ชื่อ (Name)</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;"> ยศปัจจุบัน</th>
+                        <th style="padding: 15px; border-bottom: 2px solid #334155;"> EXP รวม</th>
                     </tr>
+                </thead>
+                <tbody id="rankBoardBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-overlay" id="historyModal">
+    <div class="modal-card" style="max-width: 800px; background: #EAF4F4; border: 1px solid #334155;">
+        <span class="close-modal-x" onclick="closeModal('historyModal')" style="font-family: sans-serif;">×</span>
+        <h2 style="color: #000000; font-family:'Sarabun';">📜 ป ร ะ วั ติ ก า ร พิ ม พ์ ก า ก ๆ</h2>
+        <div style="max-height: 400px; overflow-y: auto;">
+            <table class="rank-table" style="width:100%; text-align:left;">
+                <thead style="background:#333; color:#fff;">
+                    <tr><th style="padding:10px;">#</th><th style="padding:10px;">WPM ที่ทำได้</th><th style="padding:10px;">ระดับความไว</th><th style="padding:10px;">เวลาที่พิมพ์</th></tr>
                 </thead>
                 <tbody id="historyBody"></tbody>
             </table>
@@ -1442,7 +1374,7 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxCSrDKagG7zbroZ5g57YWDeRtypNg2r3qDI3zXwN8L-33rySbq7ZXVjjoietR4aeck/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwvfoS3HAEKZ9B-_Anh4BcxuU-LPmiGKKf2fJhZzzjVqK-cTmzrcUUEyB7glEB9isUO/exec";
     window.adminUsersList = {};
 
     const fullWordList = [
@@ -1481,8 +1413,99 @@
       "เทวดา", "ดู", "ตรัส", "คลอง", "ตะวัน", "ท่าน", "ถ้อย", "กระทำ", "แก่", "ข้าราชการ", "ทวีป", "เกล้า", "ตอบ", "เจ็บ", "ร้อง", "ต่อย", 
       "เสร็จ", "เพชร", "แก้ว", "หมา", "ลิง", "หมก", "ลาบ", "ถวาย", "รำ", "ชก", "ต่อย", "แฟน", "พลาน", "ถ้วย", "หอย", "บี้", "ขยี้", "บด"
      ];
+
     let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
-    let correctCount = 0, wrongCount = 0, totalTypeAttempts = 0, totalChars = 0, correctChars = 0, currentUser = "";
+    let correctCount = 0, wrongCount = 0, totalTypeAttempts = 0, totalChars = 0, correctChars = 0, currentUser = "";let rankAtStart = ""; // ตัวแปรสำหรับจำยศก่อนเริ่มเล่น
+
+    // ================= ระบบข้อมูล EXP & RANK =================
+    const rankData = [
+        { exp: 0, name: "ทหารฝึก" }, { exp: 2000, name: "พลทหาร" }, { exp: 4056, name: "สิบตรี" }, { exp: 4667, name: "สิบโท" }, { exp: 5339, name: "สิบเอก" },
+        { exp: 6078, name: "จ่าสิบตรี ชั้น 1" }, { exp: 6891, name: "จ่าสิบตรี ชั้น 2" }, { exp: 7786, name: "จ่าสิบตรี ชั้น 3" }, { exp: 8770, name: "จ่าสิบตรี ชั้น 4" }, { exp: 9853, name: "จ่าสิบตรี ชั้น 5" },
+        { exp: 11043, name: "จ่าสิบโท ชั้น 1" }, { exp: 12353, name: "จ่าสิบโท ชั้น 2" }, { exp: 13794, name: "จ่าสิบโท ชั้น 3" }, { exp: 15379, name: "จ่าสิบโท ชั้น 4" }, { exp: 17122, name: "จ่าสิบโท ชั้น 5" },
+        { exp: 19040, name: "จ่าสิบเอก ชั้น 1" }, { exp: 21150, name: "จ่าสิบเอก ชั้น 2" }, { exp: 23470, name: "จ่าสิบเอก ชั้น 3" }, { exp: 26023, name: "จ่าสิบเอก ชั้น 4" }, { exp: 28830, name: "จ่าสิบเอก ชั้น 5" },
+        { exp: 31919, name: "ร้อยตรี ชั้น 1" }, { exp: 35316, name: "ร้อยตรี ชั้น 2" }, { exp: 39393, name: "ร้อยตรี ชั้น 3" }, { exp: 44285, name: "ร้อยตรี ชั้น 4" }, { exp: 50156, name: "ร้อยตรี ชั้น 5" },
+        { exp: 57201, name: "ร้อยโท ชั้น 1" }, { exp: 65655, name: "ร้อยโท ชั้น 2" }, { exp: 75799, name: "ร้อยโท ชั้น 3" }, { exp: 87973, name: "ร้อยโท ชั้น 4" }, { exp: 102581, name: "ร้อยโท ชั้น 5" },
+        { exp: 120111, name: "ร้อยเอก ชั้น 1" }, { exp: 141146, name: "ร้อยเอก ชั้น 2" }, { exp: 166389, name: "ร้อยเอก ชั้น 3" }, { exp: 196681, name: "ร้อยเอก ชั้น 4" }, { exp: 223030, name: "ร้อยเอก ชั้น 5" },
+        { exp: 256650, name: "พันตรี ชั้น 1" }, { exp: 298994, name: "พันตรี ชั้น 2" }, { exp: 321806, name: "พันตรี ชั้น 3" }, { exp: 357181, name: "พันตรี ชั้น 4" }, { exp: 387631, name: "พันตรี ชั้น 5" },
+        { exp: 426170, name: "พันโท ชั้น 1" }, { exp: 466418, name: "พันโท ชั้น 2" }, { exp: 513715, name: "พันโท ชั้น 3" }, { exp: 555272, name: "พันโท ชั้น 4" }, { exp: 595640, name: "พันโท ชั้น 5" },
+        { exp: 635421, name: "พันเอก ชั้น 1" }, { exp: 689519, name: "พันเอก ชั้น 2" }, { exp: 728437, name: "พันเอก ชั้น 3" }, { exp: 748138, name: "พันเอก ชั้น 4" }, { exp: 790179, name: "พันเอก ชั้น 5" },
+        { exp: 847229, name: "พลจัตวา ชั้น 1" }, { exp: 899688, name: "พลจัตวา ชั้น 2" }, { exp: 941439, name: "พลจัตวา ชั้น 3" }, { exp: 992740, name: "พลจัตวา ชั้น 4" }, { exp: 1066302, name: "พลจัตวา ชั้น 5" },
+        { exp: 1120576, name: "พลตรี ชั้น 1" }, { exp: 1175305, name: "พลตรี ชั้น 2" }, { exp: 1233380, name: "พลตรี ชั้น 3" }, { exp: 1293069, name: "พลตรี ชั้น 4" }, { exp: 1350697, name: "พลตรี ชั้น 5" },
+        { exp: 1421850, name: "พลโท ชั้น 1" }, { exp: 1505233, name: "พลโท ชั้น 2" }, { exp: 1577293, name: "พลโท ชั้น 3" }, { exp: 1647766, name: "พลโท ชั้น 4" }, { exp: 1716332, name: "พลโท ชั้น 5" },
+        { exp: 1790612, name: "พลเอก ชั้น 1" }, { exp: 1885748, name: "พลเอก ชั้น 2" }, { exp: 1963398, name: "พลเอก ชั้น 3" }, { exp: 2027813, name: "พลเอก ชั้น 4" }, { exp: 2105669, name: "พลเอก ชั้น 5" },
+        { exp: 2205669, name: "จอมพล ชั้น 1" }, { exp: 2300000, name: "จอมพล ชั้น 2" }, { exp: 2400000, name: "จอมพล ชั้น 3" }, { exp: 2500000, name: "จอมพล ชั้น 4" }, { exp: 2600000, name: "จอมพล ชั้น 5" }
+    ];
+
+function getRankInfo(exp) {
+        let currentRank = rankData[0];
+        let nextRank = rankData[1];
+        for (let i = 0; i < rankData.length; i++) {
+            if (exp >= rankData[i].exp) {
+                currentRank = rankData[i];
+                nextRank = rankData[i + 1] ? rankData[i + 1] : rankData[i];
+            } else { break; }
+        }
+        return { current: currentRank, next: nextRank };
+    }
+
+    // 1. ตารางเก็บลิงก์รูปภาพ แยกเดี่ยว 75 ยศ 75 รูป
+const rankIconUrls = {
+    "ทหารฝึก": "https://img5.pic.in.th/file/secure-sv1/image4b12c85f3302454a.png",
+    "พลทหาร": "https://img2.pic.in.th/imagedd3259c7f361f6f4.png",
+    "สิบตรี": "https://img5.pic.in.th/file/secure-sv1/imagec6eea617aaebdedf.md.png",
+    "สิบโท": "https://img5.pic.in.th/file/secure-sv1/image9cce4dc5a6ad4358.png",
+    "สิบเอก": "https://img2.pic.in.th/image45ab129463ceba3c.png",
+
+    "จ่าสิบตรี ชั้น 1": "https://img2.pic.in.th/image99e2843807279c8c.png", "จ่าสิบตรี ชั้น 2": "https://img5.pic.in.th/file/secure-sv1/image30056fd837c37b95.png", "จ่าสิบตรี ชั้น 3": "https://img5.pic.in.th/file/secure-sv1/imageeb1299999365ce7f.png", "จ่าสิบตรี ชั้น 4": "https://img2.pic.in.th/image1f6c1360d4f70c3c.png", "จ่าสิบตรี ชั้น 5": "https://img5.pic.in.th/file/secure-sv1/imageb01fbf060fb68e71.png",
+    "จ่าสิบโท ชั้น 1": "https://img5.pic.in.th/file/secure-sv1/image9a746f0881c23af6.png", "จ่าสิบโท ชั้น 2": "https://img5.pic.in.th/file/secure-sv1/image8b2f62914c55e350.png", "จ่าสิบโท ชั้น 3": "https://img5.pic.in.th/file/secure-sv1/imagef317fccd8ef78c1b.png", "จ่าสิบโท ชั้น 4": "https://img5.pic.in.th/file/secure-sv1/imageb592c4e06baa6a55.png", "จ่าสิบโท ชั้น 5": "https://img2.pic.in.th/imagea2abc5f1dbfa53b3.png",
+    "จ่าสิบเอก ชั้น 1": "https://img2.pic.in.th/imageefe3c5bc7c5490e5.png", "จ่าสิบเอก ชั้น 2": "https://img5.pic.in.th/file/secure-sv1/imagebd6241dd61031927.png", "จ่าสิบเอก ชั้น 3": "https://img2.pic.in.th/image5a1a490ac4222bdc.png", "จ่าสิบเอก ชั้น 4": "https://img5.pic.in.th/file/secure-sv1/image89e5138f15b0d58e.png", "จ่าสิบเอก ชั้น 5": "https://img5.pic.in.th/file/secure-sv1/imagebd2dd4c152117587.png",
+
+    "ร้อยตรี ชั้น 1": "https://img5.pic.in.th/file/secure-sv1/imageb70ad2364d95aff9.png", "ร้อยตรี ชั้น 2": "https://img2.pic.in.th/image7474fc1cb52d0e9d.png", "ร้อยตรี ชั้น 3": "https://img5.pic.in.th/file/secure-sv1/image70f6024cecd5370b.png", "ร้อยตรี ชั้น 4": "https://img5.pic.in.th/file/secure-sv1/imageba2f9c4272b072f9.png", "ร้อยตรี ชั้น 5": "https://img2.pic.in.th/image44c895a336301521.png",
+    "ร้อยโท ชั้น 1": "https://img2.pic.in.th/imagea95ccf86bf28709f.png", "ร้อยโท ชั้น 2": "https://img5.pic.in.th/file/secure-sv1/imagee1ff52be8a757081.png", "ร้อยโท ชั้น 3": "https://img2.pic.in.th/imageeadb35f0537e4aec.png", "ร้อยโท ชั้น 4": "https://img2.pic.in.th/imageb89e5810b7ce6300.png", "ร้อยโท ชั้น 5": "https://img5.pic.in.th/file/secure-sv1/image1b38c9b0f6e475f1.png",
+    "ร้อยเอก ชั้น 1": "https://img5.pic.in.th/file/secure-sv1/image6cf480555e53bc87.png", "ร้อยเอก ชั้น 2": "https://img2.pic.in.th/image99f2baa16c25c4a3.png", "ร้อยเอก ชั้น 3": "https://img5.pic.in.th/file/secure-sv1/image16bd149cdf5dd21c.png", "ร้อยเอก ชั้น 4": "https://img2.pic.in.th/image53adb96dda5e9bfb.png", "ร้อยเอก ชั้น 5": "https://img5.pic.in.th/file/secure-sv1/image628dc5aeedb913bc.png",
+
+    "พันตรี ชั้น 1": "https://img2.pic.in.th/image9f209d61c7b5309d.png", "พันตรี ชั้น 2": "https://img2.pic.in.th/image08ea7de5cb1ecd9e.png", "พันตรี ชั้น 3": "https://img2.pic.in.th/image624ecb055852f813.png", "พันตรี ชั้น 4": "https://img5.pic.in.th/file/secure-sv1/imageb61e52ed73fb7953.png", "พันตรี ชั้น 5": "https://img2.pic.in.th/imagea63a1fc9d663d83b.png",
+    "พันโท ชั้น 1": "https://img2.pic.in.th/imagebad2f32eac0cab83.png", "พันโท ชั้น 2": "https://img5.pic.in.th/file/secure-sv1/image05469338a18dc027.png", "พันโท ชั้น 3": "https://img2.pic.in.th/imagecccca340d2a22601.png", "พันโท ชั้น 4": "https://img5.pic.in.th/file/secure-sv1/image19a6c8f5b239dbae.png", "พันโท ชั้น 5": "https://img2.pic.in.th/image7f79ece01a2f9644.png",
+    "พันเอก ชั้น 1": "https://img5.pic.in.th/file/secure-sv1/imagef88bcaa1707bb9d5.png", "พันเอก ชั้น 2": "https://img2.pic.in.th/imageaf7f79858b2a2e9c.png", "พันเอก ชั้น 3": "https://img5.pic.in.th/file/secure-sv1/image2c803c59f7787ef9.png", "พันเอก ชั้น 4": "https://img2.pic.in.th/imagec2faa7d47b12d377.png", "พันเอก ชั้น 5": "https://img5.pic.in.th/file/secure-sv1/imagedc063800a6c2b22b.png",
+
+    "พลจัตวา ชั้น 1": "https://img5.pic.in.th/file/secure-sv1/image423d98f0c9ae8809.png", "พลจัตวา ชั้น 2": "https://img2.pic.in.th/image3d34ddef015a21db.png", "พลจัตวา ชั้น 3": "https://img2.pic.in.th/imagea671864d7faf7dfd.png", "พลจัตวา ชั้น 4": "https://img5.pic.in.th/file/secure-sv1/imageb40fef9e4df1336c.png", "พลจัตวา ชั้น 5": "https://img5.pic.in.th/file/secure-sv1/image7c213a4aae05d213.png",
+    "พลตรี ชั้น 1": "https://img5.pic.in.th/file/secure-sv1/image7c6817b0fb46bf3e.png", "พลตรี ชั้น 2": "https://img2.pic.in.th/imagea9b6b716c1bb5f2d.png", "พลตรี ชั้น 3": "https://img5.pic.in.th/file/secure-sv1/image62643a9ec4511851.png", "พลตรี ชั้น 4": "https://img2.pic.in.th/imaged776af33e19acafb.png", "พลตรี ชั้น 5": "https://img5.pic.in.th/file/secure-sv1/imageedb7abb4319b9124.png",
+    "พลโท ชั้น 1": "https://img5.pic.in.th/file/secure-sv1/image730f94fc26d5174c.png", "พลโท ชั้น 2": "https://img5.pic.in.th/file/secure-sv1/imagecf1857939a55c3fc.png", "พลโท ชั้น 3": "https://img2.pic.in.th/imageb4eec773a2185679.png", "พลโท ชั้น 4": "https://img2.pic.in.th/image212c80be90857267.png", "พลโท ชั้น 5": "https://img2.pic.in.th/imagea6a65d289cc50ba8.png",
+    "พลเอก ชั้น 1": "https://img2.pic.in.th/image2a9372af8c5ae1d2.png", "พลเอก ชั้น 2": "https://img2.pic.in.th/image86ad235916741eea.png", "พลเอก ชั้น 3": "https://img5.pic.in.th/file/secure-sv1/image205d17a15568ef28.png", "พลเอก ชั้น 4": "https://img2.pic.in.th/image9d43182872b81b81.png", "พลเอก ชั้น 5": "https://img5.pic.in.th/file/secure-sv1/imagec3d9c0af93c57566.png",
+
+    "จอมพล ชั้น 1": "https://img2.pic.in.th/image240139ce4fd3dec4.png", "จอมพล ชั้น 2": "https://img2.pic.in.th/image4b81c395aeb80fbb.png", "จอมพล ชั้น 3": "https://img5.pic.in.th/file/secure-sv1/image2c66a975c1cfceca.png", "จอมพล ชั้น 4": "https://img2.pic.in.th/image09b415a0bd9b9b52.png", "จอมพล ชั้น 5": "https://img2.pic.in.th/image275ce7bb9f9d485c.png"
+};
+
+// 2. ฟังก์ชันดึงรูปภาพไปใช้งาน
+function getRankIcon(rankName) {
+    // รูปภาพเริ่มต้น (กันเหนียวไว้เผื่อลืมใส่ลิงก์รูปบางยศ)
+    const defaultIcon = "https://img5.pic.in.th/file/secure-sv1/image4b12c85f3302454a.png"; 
+    
+    // ค้นหารูปจากตารางด้านบนให้ตรงกับชื่อยศ
+    const imageUrl = rankIconUrls[rankName] || defaultIcon;
+    
+    // ส่งคืนผลลัพธ์เป็นแท็ก <img> ขนาด 20x20
+    return `<img src="${imageUrl}" width="60" height="60" style="vertical-align: middle; border-radius: 4px;">`;
+}
+
+    function updateExpUI(exp) {
+        const info = getRankInfo(exp);
+        document.getElementById('rankTextDisplay').innerText = info.current.name;
+        
+        // แก้ไขบรรทัดนี้: เปลี่ยนจาก .innerText เป็น .innerHTML เพื่อให้โชว์รูปได้
+        document.getElementById('rankIconDisplay').innerHTML = getRankIcon(info.current.name);
+        
+        let progress = 2;
+        if (info.current.exp !== info.next.exp) {
+            let expInCurrentLevel = exp - info.current.exp;
+            let expNeededForNext = info.next.exp - info.current.exp;
+            progress = (expInCurrentLevel / expNeededForNext) * 100;
+            document.getElementById('expNumbersDisplay').innerText = `${exp.toLocaleString()} / ${info.next.exp.toLocaleString()} EXP`;
+        } else {
+            document.getElementById('expNumbersDisplay').innerText = `MAX LEVEL (${exp.toLocaleString()} EXP)`;
+        }
+        document.getElementById('expBarFill').style.width = `${progress}%`;
+    }
 
     // ================= ระบบ THEME (สลับโหมด) =================
     function initTheme() {
@@ -1490,29 +1513,24 @@
         document.body.className = savedTheme === 'default' ? '' : savedTheme;
         updateThemeButtons(savedTheme);
     }
-
     function openThemeModal() {
         document.getElementById('themeModal').style.display = 'flex';
         const currentTheme = localStorage.getItem('theme_preference') || 'default';
         updateThemeButtons(currentTheme);
     }
-
     function selectTheme(themeId) {
         document.body.className = themeId === 'default' ? '' : themeId;
         localStorage.setItem('theme_preference', themeId);
         updateThemeButtons(themeId);
         setTimeout(() => closeModal('themeModal'), 200);
     }
-
     function updateThemeButtons(activeId) {
-        document.querySelectorAll('.theme-option-btn').forEach(btn => {
-            btn.classList.remove('active');
-        });
+        document.querySelectorAll('.theme-option-btn').forEach(btn => btn.classList.remove('active'));
         const activeBtn = document.getElementById('btn-' + activeId);
         if(activeBtn) activeBtn.classList.add('active');
     }
 
-    // ================= โค้ดเกมและการทำงานเดิม 100% =================
+    // ================= โค้ดเกมและการทำงานทั้งหมด =================
     window.onload = function() {
         initTheme();
         const savedUser = localStorage.getItem('isLoggedIn');
@@ -1543,7 +1561,7 @@
                         let sheetMax = Math.max(...myData.map(item => Number(item.wpm) || 0));
                         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
                         if(db[currentUser]) { db[currentUser].best = sheetMax; localStorage.setItem('typingDB_Final', JSON.stringify(db)); }
-                        document.getElementById('bestWPM').innerText = sheetMax; document.getElementById('topRankDisplay').innerHTML = getRank(sheetMax);
+                        document.getElementById('bestWPM').innerText = sheetMax; 
                     }
                 }
                 let validData = data.filter(item => Number(item.wpm) > 0);
@@ -1552,44 +1570,60 @@
                     if (!seenNames.has(validData[i].username)) {
                         uniqueLatest.push(validData[i]);
                         seenNames.add(validData[i].username);
-                        if (uniqueLatest.length >= 2) break;
+                        if (uniqueLatest.length >= 5) break;
                     }
                 }
+                
+                // ===== บอร์ดเลื่อนดีไซน์ใหม่แบบเทพๆ ดึงรูปยศจริง =====
                 if (uniqueLatest.length > 0) {
-                    let tickerHtml = uniqueLatest.map(item => `<img src="https://img2.pic.in.th/image4a54c6aceb3df441.md.png" style="height: 45px; vertical-align: middle; margin-right: 5px;"> <b>${item.username}</b> พิมพ์ไป <b>${item.wpm} WPM</b> ( ${getRank(item.wpm)} )`).join('     |     ');
-                    document.getElementById('tickerContent').innerHTML = `📢 แง๊นๆๆ โหลเทสๆ     ${tickerHtml}`;
-                } else { document.getElementById('tickerContent').innerHTML = `📢 ยังไม่มีใครพิมพ์ได้คะแนนเลยว่ะ เงียบกริบ`; }
+                    let tickerHtml = uniqueLatest.map(item => {
+                        // ✨ คำนวณยศจริงจาก EXP แทนการดึง item.rank ตรงๆ
+                        let actualRank = getRankInfo(item.exp || 0).current.name;
+                        let iconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
+                        
+                        return `<span style="display: inline-flex; align-items: center; background: linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.8) 100%); padding: 6px 16px; border-radius: 30px; border: 1px solid #334155; margin-right: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                            <img src="${iconUrl}" style="height: 32px; width: 32px; border-radius: 6px; margin-right: 12px; box-shadow: 0 0 8px rgba(251, 191, 36, 0.4); border: 1px solid #475569; object-fit: cover;">
+                            <span style="color: #f8fafc; font-weight: bold; margin-right: 10px; font-size: 15px; letter-spacing: 0.5px;">${item.username}</span> 
+                            <span style="color: #64748b; font-size: 13px; margin-right: 10px;">ซัดไป</span>
+                            <span style="color: #38bdf8; font-weight: 900; font-size: 18px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);">${item.wpm}</span> <span style="color: #38bdf8; font-size: 12px; margin-right: 12px; margin-left: 3px;">WPM</span>
+                            <span style="color: #fbbf24; font-size: 12px; font-weight: bold; background: rgba(251, 191, 36, 0.15); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(251, 191, 36, 0.3);">🎖️ ${actualRank}</span>
+                        </span>`;
+                    }).join('');
+                    
+                    document.getElementById('tickerContent').innerHTML = `<span style="display:inline-flex; align-items:center; color: #ef4444; font-weight: 800; margin-right: 20px; font-size: 16px; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);"><span style="font-size: 20px; margin-right: 5px;">🔥</span> อัปเดตล่าสุด:</span> ${tickerHtml}`;
+                } else { 
+                    document.getElementById('tickerContent').innerHTML = `<span style="color: #94a3b8; font-style: italic;">📢 ยังไม่มีใครพิมพ์ได้คะแนนเลยว่ะ รอคนเปิดอยู่...</span>`; 
+                }
             }
         }).catch(() => { document.getElementById('tickerContent').innerHTML = "📢 โหลดไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน"; });
     }
 
-    function getRank(wpm) {
-        if (wpm <= 30) return `<img src="https://img5.pic.in.th/file/secure-sv1/imagecfaa905716e8f8ca.md.png" width="25" style="vertical-align:middle;"> พิมพ์เป็นไหมวะ กากว่ะ`;
-        if (wpm <= 40) return `<img src="https://img5.pic.in.th/file/secure-sv1/imagee7b335b8644c6a0f.md.png" width="25" style="vertical-align:middle;"> ไปฝึกเยอะๆ ยังอ่อนอยู่`;
-        if (wpm <= 50) return `<img src="https://img2.pic.in.th/image2fdd9d164361e281.md.png" width="25" style="vertical-align:middle;"> มึงกำลังหัดพิมพ์หรอ? `;
-        if (wpm <= 60) return `<img src="https://img5.pic.in.th/file/secure-sv1/image290900a076ee86fd.md.png" width="25" style="vertical-align:middle;"> เหยดๆ เริ่มเก่งละว่ะ`;
-        if (wpm <= 65) return `<img src="https://img5.pic.in.th/file/secure-sv1/imageb2c8dd5a97fcbbd6.md.png" width="25" style="vertical-align:middle;"> โหดสัสรัสเซีย แม่เย็ด`;
-        if (wpm <= 75) return `<img src="https://img5.pic.in.th/file/secure-sv1/image4104bcba1c517794.md.png" width="25" style="vertical-align:middle;"> สุดจัด มึงก็พิมพ์ไวไป`;
-        if (wpm <= 84) return `<img src="https://img2.pic.in.th/image52451a7b24c0129a.md.png" width="25" style="vertical-align:middle;"> ไอ้เหี้ย มึงจะสุดไปละ`;
-        if (wpm <= 95) return `<img src="https://img2.pic.in.th/image70ac1e10293d80dd.md.png" width="25" style="vertical-align:middle;"> มึงจะไวเกินไปละไอ้เวร`;
-        if (wpm <= 105) return `<img src="https://img2.pic.in.th/image7879c2ee29d6d391.md.png" width="25" style="vertical-align:middle;"> โคตรพ่อโคตรแม่ไวจัด`;
-        if (wpm <= 116) return `<img src="https://s.imgz.io/2026/03/03/imageb4b6edf3a25f9dc5.png" width="25" style="vertical-align:middle;"> พิมพ์ก็ไว เสร็จก็ไวไอ้สัส`;
-        if (wpm <= 125) return `<img src="https://img2.pic.in.th/image0d2874d58475dbc7.md.png" width="25" style="vertical-align:middle;"> เร็วสัส ใครจะสู้ได้วะแม่เย็ด`;
-        return `<img src="https://playserver.in.th/user_image/server_icon/13889_131811298.jpg" width="25" style="vertical-align:middle;"> ตัวตึงหนึ่งเดียวในบริษัท`;
+    function getRankText(wpm) {
+        if (wpm <= 30) return `พิมพ์เป็นไหมวะ กากว่ะ`;
+        if (wpm <= 40) return `ไปฝึกเยอะๆ ยังอ่อนอยู่`;
+        if (wpm <= 50) return `มึงกำลังหัดพิมพ์หรอ?`;
+        if (wpm <= 60) return `เหยดๆ เริ่มเก่งละว่ะ`;
+        if (wpm <= 65) return `โหดสัสรัสเซีย แม่เย็ด`;
+        if (wpm <= 75) return `สุดจัด มึงก็พิมพ์ไวไป`;
+        if (wpm <= 84) return `ไอ้เหี้ย มึงจะสุดไปละ`;
+        if (wpm <= 95) return `มึงจะไวเกินไปละไอ้เวร`;
+        if (wpm <= 105) return `โคตรพ่อโคตรแม่ไวจัด`;
+        if (wpm <= 116) return `พิมพ์ก็ไว เสร็จก็ไวไอ้สัส`;
+        if (wpm <= 125) return `เร็วสัส ใครจะสู้ได้วะแม่เย็ด`;
+        return `ตัวตึงหนึ่งเดียวในบริษัท`;
     }
 
     function switchAuth(type) {
         if(type === 'login') {
-            document.getElementById('loginForm').style.display = 'block';
-            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block'; document.getElementById('registerForm').style.display = 'none';
             document.getElementById('tabLogin').style.background = 'var(--primary)'; document.getElementById('tabRegister').style.background = '#222';
         } else {
-            document.getElementById('loginForm').style.display = 'none';
-            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none'; document.getElementById('registerForm').style.display = 'block';
             document.getElementById('tabLogin').style.background = '#222'; document.getElementById('tabRegister').style.background = '#ef4444';
         }
     }
 
+    /* ================= ระบบ ADMIN ================= */
     function showAdminPanel() {
         document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>⏳ กำลังเชื่อมต่อและดึงข้อมูลจาก Cloud... กรุณารอสักครู่</td></tr>";
         document.getElementById('adminSearch').value = ''; document.getElementById('adminModal').style.display = 'flex';
@@ -1602,13 +1636,12 @@
                     if (item.password !== undefined && item.password !== null && item.password !== "ไม่มีรหัส" && item.password !== "") {
                         window.adminUsersList[item.username].password = String(item.password).trim();
                     }
-                 }
+                }
             });
             filterAdminTable(); 
         }).catch(() => { document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#ef4444; padding: 30px;'>❌ เกิดข้อผิดพลาดในการโหลดข้อมูล โปรดตรวจสอบอินเทอร์เน็ต</td></tr>"; });
     }
 
-    // แก้บัคค้นหา: ปรับให้แปลง password เป็น String เสมอ เพื่อป้องกันข้อผิดพลาดกรณีตัวเลข
     function filterAdminTable() {
         let searchText = document.getElementById('adminSearch').value.toLowerCase();
         let html = ""; let count = 1;
@@ -1640,7 +1673,7 @@
         if(confirm(`⚠️ คำเตือน!\nคุณแน่ใจหรือไม่ที่จะลบข้อมูลของ '${user}' ออกจากระบบทั้งหมด?\n(ข้อมูลจะถูกลบทั้งในเว็บและใน Google Sheet)`)) {
             delete window.adminUsersList[user];
             filterAdminTable();
-            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteUser', username: user }) }).catch(()=>alert("ลบในฐานข้อมูลไม่สำเร็จ กรุณาเช็คอินเทอร์เน็ต"));
+            fetch(SCRIPT_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'deleteUser', username: user }) }).catch(()=>alert("ลบในฐานข้อมูลไม่สำเร็จ กรุณาเช็คอินเทอร์เน็ต"));
         }
     }
 
@@ -1651,46 +1684,44 @@
             let wpm = window.adminUsersList[user].wpm; delete window.adminUsersList[user]; window.adminUsersList[newName] = { wpm: wpm, password: newPass };
             closeModal('darkActionModal'); 
             filterAdminTable();
-            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'adminEditUser', oldName: user, newName: newName, newPass: newPass }) }).catch(()=>alert("บันทึกลงฐานข้อมูลไม่สำเร็จ"));
+            fetch(SCRIPT_URL, { method: 'POST',headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'adminEditUser', oldName: user, newName: newName, newPass: newPass }) }).catch(()=>alert("บันทึกลงฐานข้อมูลไม่สำเร็จ"));
         }, "ยกเลิก");
         document.getElementById('darkInput1').style.display = 'block'; document.getElementById('darkInput1').value = user; document.getElementById('darkInput1').placeholder = "ตั้งชื่อใหม่...";
         document.getElementById('darkInput2').style.display = 'block'; document.getElementById('darkInput2').type = 'text';
         document.getElementById('darkInput2').value = currentPass !== "ไม่มีรหัส" ? currentPass : ""; document.getElementById('darkInput2').placeholder = "ตั้งรหัสผ่านใหม่...";
     }
 
+    /* ================= ระบบ Login & User ================= */
     async function handleLogin() {
         const user = document.getElementById('loginUser').value.trim();
         const pass = document.getElementById('loginPass').value.trim();
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
-        if(user.toLowerCase() === "304152" && pass === "304152") { showAdminPanel();
-            document.getElementById('loginUser').value = ''; document.getElementById('loginPass').value = ''; return; }
+        if(user.toLowerCase() === "304152" && pass === "304152") { showAdminPanel(); document.getElementById('loginUser').value = ''; document.getElementById('loginPass').value = ''; return; }
+        
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         if(db[user] && db[user].pass === pass) { proceedLogin(user, pass, db); return; }
 
         const btn = document.querySelector('#loginForm .btn-main'); const originalText = btn.innerText;
-        btn.innerText = "รอแปปนะไอ้สัส.....";
-        btn.disabled = true;
+        btn.innerText = "รอแปปนะไอ้สัส....."; btn.disabled = true;
 
         try {
-            let res = await fetch(SCRIPT_URL);
-            let data = await res.json();
+            let res = await fetch(SCRIPT_URL); let data = await res.json();
             let userRecords = data.filter(item => item.username === user);
             if(userRecords.length > 0) {
-                let latestPass = "";
-                let bestWPM = 0;
+                let latestPass = ""; let bestWPM = 0;
                 for(let r of userRecords) {
                     if(r.password !== undefined && r.password !== null && r.password !== "ไม่มีรหัส" && r.password !== "") { latestPass = String(r.password).trim(); }
                     if(Number(r.wpm) > bestWPM) { bestWPM = Number(r.wpm); }
                 }
                 if (latestPass !== "") {
                     if(latestPass === pass) {
-                        if (!db[user]) db[user] = { history: [] };
+                        if (!db[user]) db[user] = { history: [], exp: 0 };
                         db[user].pass = pass; db[user].best = bestWPM; proceedLogin(user, pass, db);
                     } else { alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!"); }
                 } else {
-                    if (!db[user]) db[user] = { history: [] };
+                    if (!db[user]) db[user] = { history: [], exp: 0 };
                     db[user].pass = pass; db[user].best = bestWPM;
-                    fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'changePassword', username: user, password: pass }) }).catch(() => {});
+                    fetch(SCRIPT_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'changePassword', username: user, password: pass }) }).catch(() => {});
                     alert("✅ กู้คืนบัญชีเก่าสำเร็จ! ระบบบันทึกรหัสใหม่ให้มึงแล้ว"); proceedLogin(user, pass, db);
                 }
             } else { alert("ไม่พบชื่อนี้ในระบบเลย ไปสมัครก่อนไอ้กาก!"); }
@@ -1701,31 +1732,46 @@
     function handleRegister() {
         const user = document.getElementById('regUser').value.trim();
         const pass = document.getElementById('regPass').value.trim();
-        if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
-        if(user.length > 30) return alert("ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!");
-        if(pass.length < 4) { return setupDarkModal("🚨 รหัสสั้นไปไอ้กาก!", "มึงจะตั้งรหัสสั้นๆ ให้เด็กอนุบาลมันแฮกหรอ?<br>ไปตั้งมาใหม่ เอาให้ถึง 4 ตัวอักษรขึ้นไป!", "รับทราบ", () => { closeModal('darkActionModal'); }, "ซ่อน"); }
-        if(user === pass) { return setupDarkModal("🚨 เตือนสติหน่อยไอ้เวร!", "ช่องบน (ชื่อ) กับช่องล่าง (รหัส) ห้ามเหมือนกันเว้ย!!<br>มึงจะตั้งชื่อกับรหัสเหมือนกันไม่ได้ ไปแก้ให้มันต่างกันเดี๋ยวนี้ไอ้กาก!", "รับทราบแล้วไอ้สัส!", () => { closeModal('darkActionModal'); }, "ซ่อน"); }
+        if(!user || !pass) return alert("กรอกข้อมูลให้ครบ!");
+        if(user.length > 30) return alert("ชื่อยาวไป!");
+        if(pass.length < 4) { return setupDarkModal("🚨 รหัสสั้นไป!", "ต้อง 4 ตัวขึ้นไป", "รับทราบ", () => { closeModal('darkActionModal'); }, "ซ่อน"); }
+        if(user === pass) { return setupDarkModal("🚨 เตือนสติ!", "ชื่อกับรหัสห้ามเหมือนกัน!", "รับทราบ", () => { closeModal('darkActionModal'); }, "ซ่อน"); }
+        
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-        if(db[user]) return alert("ชื่อนี้มีคนใช้แล้วไอ้สัส เปลี่ยนใหม่!");
-        db[user] = { pass: pass, best: 0, history: [] };
-        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ username: user, wpm: 0, accuracy: 0, password: pass }) }).catch(() => {});
+        if(db[user]) return alert("ชื่อนี้มีคนใช้แล้ว!");
+        db[user] = { pass: pass, best: 0, exp: 0, history: [] };
+        
+        // ส่งข้อมูลให้ครบตามที่ Sheet ใหม่ต้องการ
+        const payload = {
+            action: 'saveScore',
+            username: user, 
+            wpm: 0, 
+            accuracy: 0, 
+            correctWords: 0, 
+            wrongWords: 0,
+            totalAttempts: 0, // <-- เพิ่มบรรทัดนี้
+            exp: 0, 
+            rank: "ทหารฝึก", 
+            password: pass
+        };
+
+        fetch(SCRIPT_URL, { method: 'POST',headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) }).catch(() => {});
         proceedLogin(user, pass, db);
     }
 
     function proceedLogin(user, pass, db) {
         if(!db[user].history) db[user].history = [];
+        if(db[user].exp === undefined) db[user].exp = 0; 
         localStorage.setItem('typingDB_Final', JSON.stringify(db));
         localStorage.setItem('isLoggedIn', user); currentUser = user;
         showGame(user, db[user].best); loadTickerData();
     }
 
     function setupDarkModal(title, desc, confirmText, confirmAction, cancelText = "ยกเลิก") {
-        document.getElementById('darkTitle').innerHTML = title;
-        document.getElementById('darkDesc').innerHTML = desc;
+        document.getElementById('darkTitle').innerHTML = title; document.getElementById('darkDesc').innerHTML = desc;
         document.getElementById('darkInput1').style.display = 'none'; document.getElementById('darkInput1').value = '';
         document.getElementById('darkInput2').style.display = 'none'; document.getElementById('darkInput2').value = '';
-        let confirmBtn = document.getElementById('darkConfirmBtn');
-        let cancelBtn = document.getElementById('darkCancelBtn');
+        let confirmBtn = document.getElementById('darkConfirmBtn'); let cancelBtn = document.getElementById('darkCancelBtn');
         confirmBtn.innerHTML = confirmText; confirmBtn.className = "dark-btn confirm"; confirmBtn.onclick = confirmAction;
         cancelBtn.innerHTML = cancelText; cancelBtn.style.display = "block";
         document.getElementById('darkActionModal').style.display = 'flex';
@@ -1742,10 +1788,9 @@
             document.getElementById('displayUser').innerText = newName; closeModal('darkActionModal');
             setupDarkModal("✅ เรียบร้อย", "เปลี่ยนชื่อเป็น '" + newName + "' เรียบร้อย", "ปิด", () => closeModal('darkActionModal'));
             document.getElementById('darkCancelBtn').style.display = "none";
-            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'editName', oldName: oldName, newName: newName }) }).catch(() => {});
+            fetch(SCRIPT_URL, { method: 'POST',headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'editName', oldName: oldName, newName: newName }) }).catch(() => {});
         });
-        document.getElementById('darkInput1').style.display = 'block';
-        document.getElementById('darkInput1').value = currentUser; setTimeout(() => document.getElementById('darkInput1').focus(), 100);
+        document.getElementById('darkInput1').style.display = 'block'; document.getElementById('darkInput1').value = currentUser; setTimeout(() => document.getElementById('darkInput1').focus(), 100);
     }
 
     function showChangePassword() {
@@ -1757,7 +1802,7 @@
             db[currentUser].pass = newPass; localStorage.setItem('typingDB_Final', JSON.stringify(db)); closeModal('darkActionModal');
             setupDarkModal("✅ เปลี่ยนแล้ว", "รหัสของมึงเปลี่ยนใหม่แล้ว", "ปิด", () => closeModal('darkActionModal'));
             document.getElementById('darkCancelBtn').style.display = "none";
-            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'changePassword', username: currentUser, password: newPass }) }).catch(() => {});
+            fetch(SCRIPT_URL, { method: 'POST',headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'changePassword', username: currentUser, password: newPass }) }).catch(() => {});
         });
         document.getElementById('darkInput1').style.display = 'block'; document.getElementById('darkInput1').type = 'password'; document.getElementById('darkInput1').placeholder = "รหัสเก่า...";
         document.getElementById('darkInput2').style.display = 'block'; document.getElementById('darkInput2').placeholder = "รหัสใหม่ 4 ตัวขึ้นไป...";
@@ -1767,14 +1812,16 @@
     function showDeleteAccount() {
         setupDarkModal("🗑️ ยืนยันจะลบทิ้ง?", "มึงแน่ใจนะว่าจะลบบัญชี? <br><span style='color:#ef4444'>ลบแล้วข้อมูลหายหมดเกลี้ยง!</span>", "ลบแม่งเลย!", () => {
             let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}'); delete db[currentUser]; localStorage.setItem('typingDB_Final', JSON.stringify(db));
-            closeModal('darkActionModal'); handleLogout(); fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ action: 'deleteUser', username: currentUser }) }).catch(()=>{});
+            closeModal('darkActionModal'); handleLogout(); fetch(SCRIPT_URL, { method: 'POST',headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'deleteUser', username: currentUser }) }).catch(()=>{});
         }, "เปลี่ยนใจแล้ว");
         document.getElementById('darkConfirmBtn').className = "dark-btn danger";
     }
 
     function showGame(user, best) {
-        document.getElementById('displayUser').innerText = user;
-        document.getElementById('topRankDisplay').innerHTML = getRank(best); document.getElementById('bestWPM').innerText = best;
+        document.getElementById('displayUser').innerText = user; document.getElementById('bestWPM').innerText = best;
+        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+        if (db[user].exp === undefined) db[user].exp = 0;
+        updateExpUI(db[user].exp);
         document.getElementById('authContainer').style.display = 'none'; document.getElementById('gameMain').style.display = 'block'; init();
     }
 
@@ -1796,64 +1843,112 @@
                     <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
                     <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px;">${row.username}</td>
                     <td style="padding: 12px 15px; font-weight: bold; color: var(--primary); font-size: 17px;">${row.wpm}</td>
-                    <td style="padding: 12px 15px;">${getRank(row.wpm)}</td></tr>`;
+                    <td style="padding: 12px 15px;">${getRankText(row.wpm)}</td></tr>`;
             });
             document.getElementById('lbBody').innerHTML = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนกากคนไหนมาพิมพ์</td></tr>";
         }).catch(() => { document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตด่วน!</td></tr>"; });
     }
+function showRankBoard() {
+    document.getElementById('rankBoardBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลทำเนียบยศ... แป๊บนึง</td></tr>";
+    document.getElementById('rankBoardModal').style.display = 'flex';
+    
+    fetch(SCRIPT_URL).then(res => res.json()).then(data => {
+        const userStats = {}; 
+        
+        // หา EXP สูงสุดของแต่ละคน
+        data.forEach(item => { 
+            if (!userStats[item.username]) {
+                userStats[item.username] = { ...item };
+            } else {
+                if (item.exp > userStats[item.username].exp) {
+                    userStats[item.username].exp = item.exp;
+                    // ไม่ต้องสน item.rank เก่าแล้ว เพราะเราจะคำนวณใหม่จาก EXP ล้วนๆ
+                }
+            } 
+        });
 
-    // แก้ไขฟังก์ชัน showHistory() ตรงนี้ให้เข้ากับ Theme ที่เปลี่ยนไปมา
+        // สั่งเรียงลำดับตาม EXP จากมากไปน้อย
+        const leaderboard = Object.values(userStats).sort((a, b) => b.exp - a.exp); 
+        
+        let html = "";
+        leaderboard.slice(0, 150).forEach((row, i) => {
+            let rankColor = "#64748b"; let rankTrophy = i + 1; let bgStyle = "transparent";
+            
+            // ไฮไลท์ที่ 1-3
+            if (i === 0) { rankColor = "#fbbf24"; rankTrophy = "🏆 1"; bgStyle = "rgba(251, 191, 36, 0.05)"; }
+            else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
+            else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
+            
+            // ไฮไลท์ชื่อตัวเอง
+            if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
+            
+            // 🔥 ไฮไลท์สำคัญ: คำนวณชื่อยศของทุกคนใหม่จากฟังก์ชัน getRankInfo เพื่อให้ชัวร์ 100%
+            let actualRankName = "ทหารฝึก";
+            if (typeof getRankInfo === "function") {
+                actualRankName = getRankInfo(row.exp || 0).current.name;
+            } else {
+                actualRankName = row.rank || "ทหารฝึก"; // สำรองไว้เผื่อฟังก์ชันหาไม่เจอ
+            }
+            
+            // ดึงรูปรหัสยศจากที่ประกาศไว้ (ถ้าไม่มีให้ใช้รูปทหารฝึก)
+            let iconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
+            
+            html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
+                <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
+                <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px;">${row.username}</td>
+                <td style="padding: 12px 15px; font-weight: bold; color: #fbbf24; font-size: 14px;">
+                    <img src="${iconUrl}" width="30" height="30" style="vertical-align: middle; border-radius: 4px; margin-right: 8px;"> 
+                    ${actualRankName}
+                </td>
+                <td style="padding: 12px 15px; font-weight: bold; color: #a855f7; font-size: 16px;">${Number(row.exp || 0).toLocaleString()}</td>
+            </tr>`;
+        });
+        
+        document.getElementById('rankBoardBody').innerHTML = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนเล่นเลยว่ะ</td></tr>";
+    }).catch(() => { 
+        document.getElementById('rankBoardBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตดูนะ!</td></tr>"; 
+    });
+}
     function showHistory() {
-        document.getElementById('historyBody').innerHTML = `<tr><td colspan='4' style='text-align:center; padding:30px; color:var(--text-light);'>กำลังคุ้ยประวัติมึงอยู่ แป๊บ...</td></tr>`;
-        document.getElementById('historyModal').style.display = 'flex';
+        document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>กำลังคุ้ยประวัติมึงอยู่ แป๊บ...</td></tr>"; document.getElementById('historyModal').style.display = 'flex';
         fetch(SCRIPT_URL).then(res => res.json()).then(data => {
             let historyData = data.filter(item => item.username === currentUser).reverse();
-            if (historyData.length === 0) { 
-                document.getElementById('historyBody').innerHTML = `<tr><td colspan='4' style='text-align:center; padding:30px; color:var(--text-light);'>มึงยังไม่เคยพิมพ์เลยไอ้กาก ไปพิมพ์ก่อน!</td></tr>`; 
-                return; 
-            }
+            if (historyData.length === 0) { document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>มึงยังไม่เคยพิมพ์เลยไอ้กาก ไปพิมพ์ก่อน!</td></tr>"; return; }
             let html = "";
             historyData.slice(0, 1000).forEach((h, i) => {
-                let wpmStr = h.wpm; 
-                let dateStr = h.timestamp ? new Date(h.timestamp).toLocaleString('th-TH') : "ดึงจากระบบ Sheet"; 
-                html += `<tr style="transition: 0.2s;" onmouseover="this.style.background='rgba(128,128,128,0.1)'" onmouseout="this.style.background='transparent'">
-                            <td style="padding:12px;">${i+1}</td>
-                            <td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:12px;">${wpmStr}</td>
-                            <td style="padding:12px;">${getRank(h.wpm)}</td>
-                            <td style="color:var(--text-light); opacity:0.8; padding:12px; font-size:0.9em;">${dateStr}</td>
-                         </tr>`;
-            }); 
-            document.getElementById('historyBody').innerHTML = html;
+                let wpmStr = h.wpm; let dateStr = h.timestamp ? new Date(h.timestamp).toLocaleString('th-TH') : "ดึงจากระบบ Sheet"; 
+                html += `<tr><td style="padding:10px;">${i+1}</td><td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:10px;">${wpmStr}</td><td style="padding:10px;">${getRankText(h.wpm)}</td><td style="color:#888; padding:10px;">${dateStr}</td></tr>`;
+            }); document.getElementById('historyBody').innerHTML = html;
         }).catch(() => {
-            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}'); 
-            let history = (db[currentUser] && db[currentUser].history) ? db[currentUser].history : []; 
-            let html = "";
-            if(history.length === 0) { 
-                html = `<tr><td colspan='4' style='text-align:center; padding:30px; color:var(--text-light);'>โหลด Sheet ไม่ติด และไม่มีข้อมูลในเครื่องมึงว่ะ ไปพิมพ์ก่อน!</td></tr>`;
+            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}'); let history = (db[currentUser] && db[currentUser].history) ? db[currentUser].history : []; let html = "";
+            if(history.length === 0) { html = "<tr><td colspan='4' style='text-align:center'>โหลด Sheet ไม่ติด และไม่มีข้อมูลในเครื่องมึงว่ะ ไปพิมพ์ก่อน!</td></tr>";
             } else {
-                history.slice(0, 1000).forEach((h, i) => { 
-                    html += `<tr style="transition: 0.2s;" onmouseover="this.style.background='rgba(128,128,128,0.1)'" onmouseout="this.style.background='transparent'">
-                                <td style="padding:12px;">${i+1}</td>
-                                <td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:12px;">${h.wpm}</td>
-                                <td style="padding:12px;">${getRank(h.wpm)}</td>
-                                <td style="color:var(--text-light); opacity:0.8; padding:12px; font-size:0.9em;">${h.date || "เซฟในเครื่องมึง"}</td>
-                             </tr>`; 
-                });
-            } 
-            document.getElementById('historyBody').innerHTML = html;
+                history.slice(0, 1000).forEach((h, i) => { html += `<tr><td style="padding:10px;">${i+1}</td><td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:10px;">${h.wpm}</td><td style="padding:10px;">${getRankText(h.wpm)}</td><td style="color:#888; padding:10px;">${h.date || "เซฟในเครื่องมึง"}</td></tr>`; });
+            } document.getElementById('historyBody').innerHTML = html;
         });
     }
 
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
+   /* ================= ระบบการพิมพ์และเกม ================= */
     function init() {
         words = [...fullWordList].sort(() => Math.random() - 0.5);
         document.getElementById('wordContainer').innerHTML = words.map((w, i) => `<span class="word" id="w-${i}">${w}</span>`).join('');
         currentIdx = 0; timeLeft = 60; isStarted = false; correctCount = 0;
         wrongCount = 0; totalTypeAttempts = 0; totalChars = 0; correctChars = 0;
-        document.getElementById('userInput').value = ''; document.getElementById('userInput').style.color = '';
+        document.getElementById('userInput').value = ''; 
+        document.getElementById('userInput').style.color = '';
         document.getElementById('userInput').disabled = false;
-        document.getElementById('timer').innerText = 60; document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); document.getElementById('wordContainer').style.transform = `translateY(0)`; updateFocus();
+        document.getElementById('timer').innerText = 60; 
+        document.querySelectorAll('.modal-overlay').forEach(m => m.style.display = 'none'); 
+        document.getElementById('wordContainer').style.transform = `translateY(0)`; 
+        updateFocus();
+
+        // ✅ ย้ายเข้ามาไว้ข้างในนี้แล้ว: จำยศก่อนเริ่มเกมทุกครั้งที่เริ่มใหม่
+        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+        if (currentUser && db[currentUser]) {
+            rankAtStart = getRankInfo(db[currentUser].exp || 0).current.name;
+        }
     }
 
     function updateFocus() {
@@ -1861,7 +1956,7 @@
         const active = document.getElementById(`w-${currentIdx}`);
         if(active) { active.classList.add('current'); if(active.offsetTop > 40) document.getElementById('wordContainer').style.transform = `translateY(-${active.offsetTop - 10}px)`; }
     }
-
+    
     document.getElementById('userInput').addEventListener('input', (e) => {
         if(!isStarted && e.target.value.length > 0) {
             isStarted = true; timer = setInterval(() => { timeLeft--; document.getElementById('timer').innerText = timeLeft; if(timeLeft <= 0) endGame(); }, 1000);
@@ -1888,23 +1983,116 @@
 
     function endGame() {
         clearInterval(timer); document.getElementById('userInput').disabled = true;
-        const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; const rankMessage = getRank(correctCount); let db = JSON.parse(localStorage.getItem('typingDB_Final'));
+        const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
+        
+        let db = JSON.parse(localStorage.getItem('typingDB_Final'));
+        let expMultiplier = 5
+        let gainedExp = correctCount * expMultiplier;
+        
         if (!db[currentUser].history) db[currentUser].history = []; db[currentUser].history.unshift({ wpm: correctCount, acc: finalAcc, date: new Date().toLocaleString('th-TH') });
         if (db[currentUser].history.length > 1000) db[currentUser].history.pop();
-        if(correctCount > db[currentUser].best) { db[currentUser].best = correctCount; document.getElementById('topRankDisplay').innerHTML = rankMessage; }
+        
+        if (db[currentUser].exp === undefined) db[currentUser].exp = 0;
+        db[currentUser].exp += gainedExp;
+        if(correctCount > db[currentUser].best) { db[currentUser].best = correctCount; }
+        
         let currentPersonalBest = parseInt(document.getElementById('bestWPM').innerText) || 0;
         if(correctCount > currentPersonalBest) { document.getElementById('bestWPM').innerText = correctCount; }
+        
         localStorage.setItem('typingDB_Final', JSON.stringify(db));
+        updateExpUI(db[currentUser].exp);
+
         document.getElementById('resWpm').innerText = correctCount;
-        document.getElementById('resAcc').innerText = finalAcc + "%"; document.getElementById('resCorrect').innerText = correctCount; document.getElementById('resWrong').innerText = wrongCount; document.getElementById('resAttempts').innerText = totalTypeAttempts; document.getElementById('resRankBadge').innerHTML = rankMessage;
-        document.getElementById('syncStatus').innerText = "⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส..."; document.getElementById('resultModal').style.display = 'flex';
-        fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify({ username: currentUser, wpm: correctCount, accuracy: finalAcc, password: db[currentUser].pass }) }).then(() => { document.getElementById('syncStatus').innerText = "✅ ส่งขึ้นคลาวด์เรียบร้อยแล้วเว้ย"; loadTickerData(); }).catch(() => { document.getElementById('syncStatus').innerText = "❌ เซฟไม่ลงฐานข้อมูลว่ะ ช่างแม่งไปก่อน"; });
+        document.getElementById('resExp').innerText = "+" + gainedExp.toLocaleString();
+        document.getElementById('resAcc').innerText = finalAcc + "%"; 
+        document.getElementById('resCorrect').innerText = correctCount; 
+        document.getElementById('resWrong').innerText = wrongCount; 
+        document.getElementById('resAttempts').innerText = totalTypeAttempts; 
+        
+        document.getElementById('syncStatus').innerText = "⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส..."; 
+        document.getElementById('resultModal').style.display = 'flex';
+
+        // ดึงชื่อยศล่าสุด
+        const currentRankName = getRankInfo(db[currentUser].exp).current.name;
+
+        // 🔥 แพ็กข้อมูลให้ครบก่อนส่งไป Sheet ตามที่ Google Apps Script ต้องการ
+        const payload = {
+            action: 'saveScore',
+            username: currentUser, 
+            wpm: correctCount, 
+            accuracy: finalAcc, 
+            correctWords: correctCount,
+            wrongWords: wrongCount,
+            totalAttempts: totalTypeAttempts, // <-- เพิ่มบรรทัดนี้ ให้ดึงค่าไปลง Sheet
+            exp: db[currentUser].exp,
+            rank: currentRankName,
+            password: db[currentUser].pass
+        };
+
+        fetch(SCRIPT_URL, { 
+            method: 'POST', 
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload) 
+        }).then(() => { 
+            document.getElementById('syncStatus').innerText = "✅ ..เรียบร้อยแล้วเว้ย.."; 
+            loadTickerData(); 
+        }).catch(() => { 
+            document.getElementById('syncStatus').innerText = "❌ เซฟไม่ลงฐานข้อมูลว่ะ ช่างแม่งไปก่อน"; 
+        });
     }
 
-    function resetGame() { clearInterval(timer); init(); setTimeout(() => document.getElementById('userInput').focus(), 100); }
-    function showLogoutConfirm() { const modal = document.getElementById('logoutModal'); if (modal) { modal.style.display = 'flex'; } }
-    function confirmLogout() { alert("เออ โชคดี อย่าลืมรหัสล่ะไอ้สอง!"); if (typeof handleLogout === "function") { handleLogout(); } else { location.reload(); } }
-</script>
+    // แก้ไขฟังก์ชัน resetGame ให้มีระบบเช็คยศ
+function resetGame() {
+    // 1. ปิดหน้าสรุปผลก่อน
+    closeModal('resultModal');
+    
+    // 2. เช็คยศปัจจุบันเทียบกับตอนเริ่ม
+    let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+    let rankNow = getRankInfo(db[currentUser].exp || 0).current.name;
+    
+    if (rankNow !== rankAtStart && rankAtStart !== "") {
+        // ถ้ายศเปลี่ยน ให้เด้งป๊อปอัพยินดีด้วย
+        showPromotion(rankNow);
+    } else {
+        // ถ้ายศไม่เปลี่ยน ให้เริ่มเกมใหม่ปกติ
+        clearInterval(timer); 
+        init(); 
+        setTimeout(() => document.getElementById('userInput').focus(), 100);
+    }
+}
 
+// ฟังก์ชันเปิดป๊อปอัพเลื่อนยศ
+function showPromotion(newRank) {
+    document.getElementById('newRankName').innerText = newRank;
+    // ดึงรูปยศใหม่มาโชว์ในป๊อปอัพ
+    document.getElementById('promoIcon').innerHTML = getRankIcon(newRank); 
+    document.getElementById('promotionModal').style.display = 'flex';
+}
+
+// ฟังก์ชันปิดป๊อปอัพเลื่อนยศแล้วเริ่มเกม
+function closePromotion() {
+    closeModal('promotionModal');
+    rankAtStart = ""; // รีเซ็ตค่า
+    clearInterval(timer);
+    init();
+    setTimeout(() => document.getElementById('userInput').focus(), 100);
+}
+    
+    function showLogoutConfirm() { const modal = document.getElementById('logoutModal'); if (modal) { modal.style.display = 'flex'; } }
+    
+    function confirmLogout() { alert("เออ โชคดี อย่าลืมรหัสล่ะไอ้สอง!"); if (typeof handleLogout === "function") { handleLogout(); } else { location.reload(); } }
+
+</script>
+<div class="modal-overlay" id="promotionModal" style="z-index: 10001;">
+    <div class="modal-card" style="max-width: 450px; background: linear-gradient(145deg, #1a1a1a, #000); border: 3px solid #fbbf24; box-shadow: 0 0 50px rgba(251, 191, 36, 0.4); padding: 40px; text-align: center;">
+        <div style="font-size: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 15px #fbbf24);" id="promoIcon">🎖️</div>
+        <h2 style="color: #fbbf24; font-size: 30px; margin-bottom: 10px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.5); font-family: 'Sarabun';">ยิ น ดี ด้ ว ย ไ อ้ ส อ ง !</h2>
+        <h3 style="color: #fff; font-size: 24px; margin-bottom: 20px; font-family: 'Sarabun';">มึงได้เลื่อนยศเป็น</h3>
+        <div id="newRankName" style="font-size: 28px; font-weight: 800; color: #fbbf24; background: rgba(251,191,36,0.1); padding: 15px; border-radius: 15px; border: 1px dashed #fbbf24; margin-bottom: 30px; font-family: 'Sarabun';">
+            สิบตรี
+        </div>
+        <button class="btn-main" onclick="closePromotion()" style="background: #fbbf24; color: #000; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4);">รับทราบครับจ่า!</button>
+    </div>
+</div>
 </body>
 </html>
