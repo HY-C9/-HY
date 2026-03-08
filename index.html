@@ -1119,6 +1119,18 @@
         <button class="btn-top" onclick="showRankBoard()" style="padding: 10px 15px; font-weight: bold; color: #fbbf24; margin-left: 5px;">
             <img src="https://img2.pic.in.th/imagec45e19e0556aa82c.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> ทำเนียบยศ
         </button>
+        <div id="onlineBadge" style="background: #111; color: #10b981; border: 1px solid #10b981; padding: 8px 15px; border-radius: 8px; font-size: 14px; font-weight: bold; font-family: var(--font-main); display: flex; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);">
+    <span style="font-size: 10px; animation: pulse 1.5s infinite;">🟢</span> ออนไลน์: <span id="onlineCount" style="color: #fff; font-size: 16px;">1</span> คน
+</div>
+
+<style>
+/* แถมอนิเมชั่นไฟกระพริบให้ดูเรียลไทม์หน่อย */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+</style>
         <div class="menu-container">
             <button class="hamburger-btn" onclick="toggleActionMenu(event)">☰</button>
             <div class="dropdown-menu" id="actionMenu">
@@ -1373,7 +1385,7 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwvfoS3HAEKZ9B-_Anh4BcxuU-LPmiGKKf2fJhZzzjVqK-cTmzrcUUEyB7glEB9isUO/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyFoSjtvaNI-5i-36J89vwkayTWbUCESVQw8ZpbPrR91ImZAkOB1SZ6-6tcBRYxg3Qq/exec";
     window.adminUsersList = {};
 
     const fullWordList = [
@@ -1552,63 +1564,76 @@ function getRankIcon(rankName) {
     });
 
     function loadTickerData() {
-        fetch(SCRIPT_URL).then(res => res.json()).then(data => {
-            if(data && data.length > 0) {
-                if(currentUser) {
-                    let myData = data.filter(item => item.username === currentUser);
-                    if (myData.length > 0) {
-                        let sheetMax = Math.max(...myData.map(item => Number(item.wpm) || 0));
-                        
-                        // ✨ ดึง EXP จากแถวล่าสุด(ล่างสุด)ของคนนั้นใน Sheet5
-                        let latestRow = myData[myData.length - 1]; 
-                        let sheetExp = Number(latestRow.exp) || 0; 
-                        
-                        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-                        if(db[currentUser]) { 
-                            db[currentUser].best = sheetMax; 
-                            
-                            // ✨ บังคับอัปเดต EXP ให้เท่ากับใน Sheet5 ทันที (ถึงแอดมินจะแก้ลดลง ก็จะลดตาม)
-                            db[currentUser].exp = sheetExp;
-                            if (typeof updateExpUI === "function") updateExpUI(sheetExp);
-                            
-                            localStorage.setItem('typingDB_Final', JSON.stringify(db)); 
-                        }
-                        document.getElementById('bestWPM').innerText = sheetMax; 
-                    }
-                }
-                
-                let validData = data.filter(item => Number(item.wpm) > 0);
-                let uniqueLatest = []; let seenNames = new Set();
-                for (let i = validData.length - 1; i >= 0; i--) {
-                    if (!seenNames.has(validData[i].username)) {
-                        uniqueLatest.push(validData[i]);
-                        seenNames.add(validData[i].username);
-                        if (uniqueLatest.length >= 5) break;
-                    }
-                }
-                
-                // ===== บอร์ดเลื่อนดีไซน์ใหม่แบบเทพๆ ดึงรูปยศจริง =====
-                if (uniqueLatest.length > 0) {
-                    let tickerHtml = uniqueLatest.map(item => {
-                        let actualRank = getRankInfo(item.exp || 0).current.name;
-                        let iconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
-                        
-                        return `<span style="display: inline-flex; align-items: center; background: linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.8) 100%); padding: 6px 16px; border-radius: 30px; border: 1px solid #334155; margin margin-right: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                            <img src="${iconUrl}" style="height: 32px; width: 32px; border-radius: 6px; margin-right: 12px; box-shadow: 0 0 8px rgba(251, 191, 36, 0.4); border: 1px solid #475569; object-fit: cover;">
-                            <span style="color: #f8fafc; font-weight: bold; margin-right: 10px; font-size: 15px; letter-spacing: 0.5px;">${item.username}</span> 
-                            <span style="color: #64748b; font-size: 13px; margin-right: 10px;">ซัดไป</span>
-                            <span style="color: #38bdf8; font-weight: 900; font-size: 18px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);">${item.wpm}</span> <span style="color: #38bdf8; font-size: 12px; margin-right: 12px; margin-left: 3px;">WPM</span>
-                            <span style="color: #fbbf24; font-size: 12px; font-weight: bold; background: rgba(251, 191, 36, 0.15); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(251, 191, 36, 0.3);">🎖️ ${actualRank}</span>
-                        </span>`;
-                    }).join('');
+    // ✨ เพิ่มการส่งชื่อ user ไปบอกหลังบ้านว่ากูออนไลน์อยู่
+    let url = SCRIPT_URL;
+    if (currentUser) {
+        url += "?user=" + encodeURIComponent(currentUser);
+    }
+
+    fetch(url).then(res => res.json()).then(data => {
+        if(data && data.length > 0) {
+            
+            // ✨ อัปเดตตัวเลขคนออนไลน์ตรงนี้ (เช็คก่อนว่ามีอิลิเมนต์นี้ไหม จะได้ไม่พัง)
+            if (data[0] && data[0].online_count !== undefined) {
+                let badge = document.getElementById('onlineCount');
+                if (badge) badge.innerText = data[0].online_count;
+            }
+
+            if(currentUser) {
+                let myData = data.filter(item => item.username === currentUser);
+                if (myData.length > 0) {
+                    let sheetMax = Math.max(...myData.map(item => Number(item.wpm) || 0));
                     
-                    document.getElementById('tickerContent').innerHTML = `<span style="display:inline-flex; align-items:center; color: #ef4444; font-weight: 800; margin-right: 20px; font-size: 16px; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);"><span style="font-size: 20px; margin-right: 5px;">🔥</span> อัปเดตล่าสุด:</span> ${tickerHtml}`;
-                } else { 
-                    document.getElementById('tickerContent').innerHTML = `<span style="color: #94a3b8; font-style: italic;">📢 ยังไม่มีใครพิมพ์ได้คะแนนเลยว่ะ รอคนเปิดอยู่...</span>`; 
+                    // ✨ ดึง EXP จากแถวล่าสุด(ล่างสุด)ของคนนั้นใน Sheet5
+                    let latestRow = myData[myData.length - 1]; 
+                    let sheetExp = Number(latestRow.exp) || 0; 
+                    
+                    let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+                    if(db[currentUser]) { 
+                        db[currentUser].best = sheetMax; 
+                        
+                        // ✨ บังคับอัปเดต EXP ให้เท่ากับใน Sheet5 ทันที (ถึงแอดมินจะแก้ลดลง ก็จะลดตาม)
+                        db[currentUser].exp = sheetExp;
+                        if (typeof updateExpUI === "function") updateExpUI(sheetExp);
+                        
+                        localStorage.setItem('typingDB_Final', JSON.stringify(db)); 
+                    }
+                    document.getElementById('bestWPM').innerText = sheetMax; 
                 }
             }
-        }).catch(() => { document.getElementById('tickerContent').innerHTML = "📢 โหลดไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน"; });
-    }
+            
+            let validData = data.filter(item => Number(item.wpm) > 0);
+            let uniqueLatest = []; let seenNames = new Set();
+            for (let i = validData.length - 1; i >= 0; i--) {
+                if (!seenNames.has(validData[i].username)) {
+                    uniqueLatest.push(validData[i]);
+                    seenNames.add(validData[i].username);
+                    if (uniqueLatest.length >= 5) break;
+                }
+            }
+            
+            // ===== บอร์ดเลื่อนดีไซน์ใหม่แบบเทพๆ ดึงรูปยศจริง =====
+            if (uniqueLatest.length > 0) {
+                let tickerHtml = uniqueLatest.map(item => {
+                    let actualRank = getRankInfo(item.exp || 0).current.name;
+                    let iconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
+                    
+                    return `<span style="display: inline-flex; align-items: center; background: linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.8) 100%); padding: 6px 16px; border-radius: 30px; border: 1px solid #334155; margin-right: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                        <img src="${iconUrl}" style="height: 32px; width: 32px; border-radius: 6px; margin-right: 12px; box-shadow: 0 0 8px rgba(251, 191, 36, 0.4); border: 1px solid #475569; object-fit: cover;">
+                        <span style="color: #f8fafc; font-weight: bold; margin-right: 10px; font-size: 15px; letter-spacing: 0.5px;">${item.username}</span> 
+                        <span style="color: #64748b; font-size: 13px; margin-right: 10px;">ซัดไป</span>
+                        <span style="color: #38bdf8; font-weight: 900; font-size: 18px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);">${item.wpm}</span> <span style="color: #38bdf8; font-size: 12px; margin-right: 12px; margin-left: 3px;">WPM</span>
+                        <span style="color: #fbbf24; font-size: 12px; font-weight: bold; background: rgba(251, 191, 36, 0.15); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(251, 191, 36, 0.3);">🎖️ ${actualRank}</span>
+                    </span>`;
+                }).join('');
+                
+                document.getElementById('tickerContent').innerHTML = `<span style="display:inline-flex; align-items:center; color: #ef4444; font-weight: 800; margin-right: 20px; font-size: 16px; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);"><span style="font-size: 20px; margin-right: 5px;">🔥</span> อัปเดตล่าสุด:</span> ${tickerHtml}`;
+            } else { 
+                document.getElementById('tickerContent').innerHTML = `<span style="color: #94a3b8; font-style: italic;">📢 ยังไม่มีใครพิมพ์ได้คะแนนเลยว่ะ รอคนเปิดอยู่...</span>`; 
+            }
+        }
+    }).catch(() => { document.getElementById('tickerContent').innerHTML = "📢 โหลดไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน"; });
+}
 
     function getRankText(wpm) {
         if (wpm <= 30) return `พิมพ์เป็นไหมวะ กากว่ะ`;
