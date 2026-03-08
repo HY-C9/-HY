@@ -2014,7 +2014,7 @@ function showRankBoard() {
         const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
         
         let db = JSON.parse(localStorage.getItem('typingDB_Final'));
-        let expMultiplier = 10
+        let expMultiplier = 5
         let gainedExp = correctCount * expMultiplier;
         
         if (!db[currentUser].history) db[currentUser].history = []; db[currentUser].history.unshift({ wpm: correctCount, acc: finalAcc, date: new Date().toLocaleString('th-TH') });
