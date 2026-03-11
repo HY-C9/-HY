@@ -1412,7 +1412,7 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyBYj9Y5_70cGMNgProQRFG340Q_WSTBfjZX9pHElacdwLn7-nwACztOb2WEPYI9dMl/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxq2DI0g4ZkhMm4ffSagWdq6IHRZJGW63Rw7D_U35vqCxCuM7dF4pe19wVlNers6_V/exec";
     window.adminUsersList = {};
 
     // ✨ เริ่มระบบจำ 2 ID ต่อเครื่อง และระบุตัวตนเครื่อง
@@ -1866,7 +1866,7 @@ function getRankIcon(rankName, size = 60) {
 
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         const btn = document.querySelector('#loginForm .btn-main'); const originalText = btn.innerText;
-        btn.innerText = "กำลังโหลดดดดดด.....";
+        btn.innerText = "กำลังตรวจจับการซ้อนทับ.....";
         btn.disabled = true;
 
         try {
@@ -2150,26 +2150,11 @@ function showRankBoard() {
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
    /* ================= ระบบการพิมพ์และเกม ================= */
-    // 🔥 เตรียมตัวแปรจับเวลา (ข้อ 1)
-    let keyTimings = []; 
-    let lastKeyTime = 0;
-
     function init() {
         words = [...fullWordList].sort(() => Math.random() - 0.5);
-        
-        // 🔥 (ข้อ 3) วางยาสลบ: สอดไส้ข้อความล่องหน คนมองไม่เห็น แต่บอทดูดไปจะพัง!
-        document.getElementById('wordContainer').innerHTML = words.map((w, i) => {
-            let trap = `<b style="width:0; height:0; overflow:hidden; display:inline-block; position:absolute; user-select:none;">_BOT</b>`;
-            return `<span class="word" id="w-${i}">${w}${trap}</span>`;
-        }).join('');
-
+        document.getElementById('wordContainer').innerHTML = words.map((w, i) => `<span class="word" id="w-${i}">${w}</span>`).join('');
         currentIdx = 0; timeLeft = 60; isStarted = false; correctCount = 0;
         wrongCount = 0; totalTypeAttempts = 0; totalChars = 0; correctChars = 0;
-        
-        // 🔥 รีเซ็ตเวลาตอนเริ่มเกม (ข้อ 1)
-        keyTimings = []; 
-        lastKeyTime = 0;
-
         document.getElementById('userInput').value = ''; 
         document.getElementById('userInput').style.color = '';
         document.getElementById('userInput').disabled = false;
@@ -2178,6 +2163,7 @@ function showRankBoard() {
         document.getElementById('wordContainer').style.transform = `translateY(0)`; 
         updateFocus();
 
+        // ✅ ย้ายเข้ามาไว้ข้างในนี้แล้ว: จำยศก่อนเริ่มเกมทุกครั้งที่เริ่มใหม่
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         if (currentUser && db[currentUser]) {
             rankAtStart = getRankInfo(db[currentUser].exp || 0).current.name;
@@ -2191,17 +2177,11 @@ function showRankBoard() {
     }
     
     document.getElementById('userInput').addEventListener('input', (e) => {
-        // 🔥 (ข้อ 5) เช็ค isTrusted แบบทะลวงไส้ ป้องกันบอทปลอมค่า
-        const isRealEvent = Object.getOwnPropertyDescriptor(Event.prototype, 'isTrusted').get.call(e);
-        if (!isRealEvent) {
+        // 🔥 กันบอท Auto-typer ถ้าไม่ใช่นิ้วคนพิมพ์จริงๆ ให้บล็อกทิ้ง
+        if (!e.isTrusted) {
             e.preventDefault();
             return;
         }
-
-        // 🔥 (ข้อ 1) เก็บเวลาช่องว่างระหว่างการกดปุ่ม (Keystroke Dynamics)
-        let now = Date.now();
-        if (lastKeyTime > 0) { keyTimings.push(now - lastKeyTime); }
-        lastKeyTime = now;
 
         if(!isStarted && e.target.value.length > 0) {
             isStarted = true; timer = setInterval(() => { timeLeft--; document.getElementById('timer').innerText = timeLeft; if(timeLeft <= 0) endGame(); }, 1000);
@@ -2216,11 +2196,10 @@ function showRankBoard() {
     });
 
     document.getElementById('userInput').addEventListener('keydown', (e) => {
-        // 🔥 (ข้อ 5) เช็ค isTrusted แบบทะลวงไส้ ป้องกันบอทปลอมค่า
-        const isRealEvent = Object.getOwnPropertyDescriptor(Event.prototype, 'isTrusted').get.call(e);
-        if (!isRealEvent) {
+        // 🔥 กันบอทจำลองการกดปุ่ม (Macro) ถ้าใช้โปรแกรมให้ด่าหน้าสั่น
+        if (!e.isTrusted) {
             e.preventDefault();
-            alert('หยุดใช้สคริปต์ปลอมคีย์บอร์ดเดี๋ยวนี้นะไอ้กาก!');
+            alert('ใช้โปรแกรมช่วยเล่นงั้นหรอ555');
             return;
         }
 
@@ -2242,21 +2221,6 @@ function showRankBoard() {
             alert("ใช้โปรแกรมหรอออ กูริบคะแนน!");
             correctCount = 0;  // จับคะแนนเป็น 0
             wrongCount = 999;  // ประจานแม่งเลยว่าผิดยับๆ
-        }
-
-        // 🔥 [เพิ่มใหม่] ระบบจับผิดบอทจาก "ความเป๊ะ" ของจังหวะการพิมพ์
-        if (keyTimings && keyTimings.length > 20) {
-            let sum = keyTimings.reduce((a, b) => a + b, 0);
-            let avg = sum / keyTimings.length;
-            // หาค่าความแปรปรวน (Variance) ว่าพิมพ์เป๊ะเกินไปไหม
-            let variance = keyTimings.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / keyTimings.length;
-            
-            // คนปกติค่า Variance จะแกว่งหลักร้อย ถ้าต่ำกว่า 50 คือมาโครตั้งเวลาเป๊ะชัวร์!
-            if (variance < 50) {
-                alert("จังหวะพิมพ์มึงเป๊ะเป็นบอทเลยนะไอ้เวร! โดนแบนคะแนน!");
-                correctCount = 0;
-                wrongCount = 999;
-            }
         }
 
         const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
@@ -2288,12 +2252,10 @@ function showRankBoard() {
         document.getElementById('syncStatus').innerText = "⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส..."; 
         document.getElementById('resultModal').style.display = 'flex';
         
+        // ... (โค้ดส่วนดึง currentRankName และ fetch(SCRIPT_URL, ...) ของมึงที่อยู่ต่อจากนี้ ปล่อยไว้เหมือนเดิมเลยนะ ไม่ต้องไปยุ่งกับมัน)
+
         // ดึงชื่อยศล่าสุด
         const currentRankName = getRankInfo(db[currentUser].exp).current.name;
-
-        // 🔥 [เพิ่มใหม่] สร้างรหัสลับ (Token) กันคนใช้ Postman ยิง API มั่วๆ
-        let secretCalc = (correctCount * 13) + (wrongCount * 7);
-        let cheatToken = btoa(secretCalc + "-ANTI-GAK");
 
         // 🔥 แพ็กข้อมูลให้ครบก่อนส่งไป Sheet ตามที่ Google Apps Script ต้องการ
         const payload = {
@@ -2307,8 +2269,7 @@ function showRankBoard() {
             exp: db[currentUser].exp,
             multiplier: expMultiplier, // ✨ เพิ่มบรรทัดนี้ส่งกลับไป Sheet ด้วย
             rank: currentRankName,
-            password: db[currentUser].pass,
-            token: cheatToken // 🟢 [เพิ่มใหม่] ส่งรหัสลับแนบไปด้วย!
+            password: db[currentUser].pass
         };
 
         fetch(SCRIPT_URL, { 
@@ -2319,7 +2280,7 @@ function showRankBoard() {
             document.getElementById('syncStatus').innerText = "✅ ..เรียบร้อยแล้วเว้ย.."; 
             loadTickerData(); 
         }).catch(() => { 
-            document.getElementById('syncStatus').innerText = "❌ เซฟไม่ได้ว่ะ ช่างแม่งไปก่อน"; 
+            document.getElementById('syncStatus').innerText = "❌ เซฟไม่ลงฐานข้อมูลว่ะ ช่างแม่งไปก่อน"; 
         });
     }
 
@@ -2385,37 +2346,25 @@ function closePromotion() {
     window.addEventListener('DOMContentLoaded', () => {
         const inputField = document.getElementById('userInput');
         
-        // 🔥 (ข้อ 4) ระบบดักจับการยัดข้อความด้วย Script (Hook Value Setter)
-        if (inputField) {
-            const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
-            const nativeGetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').get;
-            
-            Object.defineProperty(inputField, 'value', {
-                set: function(val) {
-                    // ถ้าพยายามยัดข้อความแปลกๆ ที่ไม่ใช่การเคลียร์ค่า = สคริปต์โกง
-                    if (val !== '') {
-                        alert('ใช้สคริปต์ยัดข้อความหรอไอ้สัส! กูจับได้ละ!');
-                        correctCount = 0; wrongCount = 999;
-                        return; // บล็อคไม่ให้ข้อความเข้ากล่อง
-                    }
-                    nativeSetter.call(this, val);
-                },
-                get: function() { return nativeGetter.call(this); }
-            });
-        }
-
         // ห้ามก็อป ห้ามวาง ห้ามตัด ห้ามลากมาวาง
         if (inputField) {
-            inputField.addEventListener('paste', e => { e.preventDefault(); alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); });
+            inputField.addEventListener('paste', e => { 
+                e.preventDefault(); 
+                alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); 
+            });
             inputField.addEventListener('copy', e => e.preventDefault());
             inputField.addEventListener('cut', e => e.preventDefault());
             inputField.addEventListener('drop', e => e.preventDefault());
         }
 
+        // ปิดคลิกขวาหน้าเว็บ
         document.addEventListener('contextmenu', event => event.preventDefault());
 
+        // ปิด F12 และปุ่มลัด DevTools (Ctrl+Shift+I, Ctrl+U ฯลฯ)
         document.onkeydown = function(e) {
-            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 'I'.charCodeAt(0) || e.keyCode === 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) {
+            if (e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 'I'.charCodeAt(0) || e.keyCode === 'J'.charCodeAt(0))) || 
+                (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) {
                 return false;
             }
         };
