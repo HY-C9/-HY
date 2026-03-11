@@ -1866,7 +1866,7 @@ function getRankIcon(rankName, size = 60) {
 
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         const btn = document.querySelector('#loginForm .btn-main'); const originalText = btn.innerText;
-        btn.innerText = "กำลังโหลด.....";
+        btn.innerText = "กำลังโหลดดดดดด.....";
         btn.disabled = true;
 
         try {
@@ -1878,10 +1878,10 @@ function getRankIcon(rankName, size = 60) {
             let sessionInfo = activeSessions[user];
             let now = new Date().getTime();
             
-            // ถ้ามีประวัติออนไลน์ (ไม่เกิน 1 นาที) และ Device ID ไม่ตรงกับเครื่องนี้ = โดนแอบใช้อยู่!
-            if (sessionInfo && (now - sessionInfo.lastSeen < 60000) && sessionInfo.deviceId !== myDeviceId && user.toLowerCase() !== "304152") {
+            // ถ้ามีประวัติออนไลน์ (ไม่เกิน 2 นาที) และ Device ID ไม่ตรงกับเครื่องนี้ = โดนแอบใช้อยู่!
+            if (sessionInfo && (now - sessionInfo.lastSeen < 120000) && sessionInfo.deviceId !== myDeviceId && user.toLowerCase() !== "304152") {
                 btn.innerText = originalText; btn.disabled = false;
-                return alert(`🚨 ไอดี '${user}' กำลังถูกใช้งานอยู่ที่เครื่องอื่น!\n(ให้อีกเครื่องกด 'ออกจากระบบ' ก่อน หรือรอ 1 นาทีหลังจากอีกเครื่องปิดหน้าเว็บ)`);
+                return alert(`🚨 ไอดี '${user}' กำลังถูกใช้งานอยู่ที่เครื่องอื่น!\n(ให้อีกเครื่องกด 'ออกจากระบบ' ก่อน หรือรอ 2 นาทีหลังจากอีกเครื่องปิดหน้าเว็บ)`);
             }
 
             let userRecords = data.filter(item => item.username === user);
@@ -2177,6 +2177,12 @@ function showRankBoard() {
     }
     
     document.getElementById('userInput').addEventListener('input', (e) => {
+        // 🔥 กันบอท Auto-typer ถ้าไม่ใช่นิ้วคนพิมพ์จริงๆ ให้บล็อกทิ้ง
+        if (!e.isTrusted) {
+            e.preventDefault();
+            return;
+        }
+
         if(!isStarted && e.target.value.length > 0) {
             isStarted = true; timer = setInterval(() => { timeLeft--; document.getElementById('timer').innerText = timeLeft; if(timeLeft <= 0) endGame(); }, 1000);
         }
@@ -2190,6 +2196,13 @@ function showRankBoard() {
     });
 
     document.getElementById('userInput').addEventListener('keydown', (e) => {
+        // 🔥 กันบอทจำลองการกดปุ่ม (Macro) ถ้าใช้โปรแกรมให้ด่าหน้าสั่น
+        if (!e.isTrusted) {
+            e.preventDefault();
+            alert('ใช้โปรแกรมช่วยเล่นงั้นหรอ555');
+            return;
+        }
+
         if(e.key === ' ' || e.key === 'Enter') {
             e.preventDefault(); const val = document.getElementById('userInput').value.trim(); if(!val) return;
             totalTypeAttempts++; const target = words[currentIdx]; totalChars += target.length; const activeWord = document.getElementById(`w-${currentIdx}`);
@@ -2202,6 +2215,14 @@ function showRankBoard() {
 
     function endGame() {
         clearInterval(timer); document.getElementById('userInput').disabled = true;
+
+        // 🔥 ระบบริบคะแนน ถ้ายอดพิมพ์ถูก (WPM) เกิน 140 ถือว่าใช้โปรแกรมโกงชัวร์!
+        if (correctCount > 140) {
+            alert("ใช้โปรแกรมหรอออ กูริบคะแนน!");
+            correctCount = 0;  // จับคะแนนเป็น 0
+            wrongCount = 999;  // ประจานแม่งเลยว่าผิดยับๆ
+        }
+
         const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
         
         let db = JSON.parse(localStorage.getItem('typingDB_Final'));
@@ -2230,6 +2251,8 @@ function showRankBoard() {
         
         document.getElementById('syncStatus').innerText = "⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส..."; 
         document.getElementById('resultModal').style.display = 'flex';
+        
+        // ... (โค้ดส่วนดึง currentRankName และ fetch(SCRIPT_URL, ...) ของมึงที่อยู่ต่อจากนี้ ปล่อยไว้เหมือนเดิมเลยนะ ไม่ต้องไปยุ่งกับมัน)
 
         // ดึงชื่อยศล่าสุด
         const currentRankName = getRankInfo(db[currentUser].exp).current.name;
@@ -2319,7 +2342,35 @@ function closePromotion() {
         }
     }
 
+// ================= ระบบป้องกันโปรแกรมช่วยเล่น (Anti-Cheat) =================
+    window.addEventListener('DOMContentLoaded', () => {
+        const inputField = document.getElementById('userInput');
+        
+        // ห้ามก็อป ห้ามวาง ห้ามตัด ห้ามลากมาวาง
+        if (inputField) {
+            inputField.addEventListener('paste', e => { 
+                e.preventDefault(); 
+                alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); 
+            });
+            inputField.addEventListener('copy', e => e.preventDefault());
+            inputField.addEventListener('cut', e => e.preventDefault());
+            inputField.addEventListener('drop', e => e.preventDefault());
+        }
+
+        // ปิดคลิกขวาหน้าเว็บ
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        // ปิด F12 และปุ่มลัด DevTools (Ctrl+Shift+I, Ctrl+U ฯลฯ)
+        document.onkeydown = function(e) {
+            if (e.keyCode === 123 || 
+                (e.ctrlKey && e.shiftKey && (e.keyCode === 'I'.charCodeAt(0) || e.keyCode === 'J'.charCodeAt(0))) || 
+                (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) {
+                return false;
+            }
+        };
+    });
 </script>
+
 <div class="modal-overlay" id="promotionModal" style="z-index: 10001;">
     <div class="modal-card" style="max-width: 450px; background: linear-gradient(145deg, #1a1a1a, #000); border: 3px solid #fbbf24; box-shadow: 0 0 50px rgba(251, 191, 36, 0.4); padding: 40px; text-align: center;">
         <div style="font-size: 80px; margin-bottom: 20px; filter: drop-shadow(0 0 15px #fbbf24);" id="promoIcon">🎖️</div>
