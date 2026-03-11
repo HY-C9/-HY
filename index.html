@@ -47,7 +47,12 @@
         }
         /* --- UI Components (Compressed) --- */
         .main-container { width: 95%; max-width: 1100px; text-align: center; display: none; position: relative; }
-        .top-actions { position: absolute; top: -60px; right: 0; display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+        .top-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+        @media (max-width: 768px) {
+            .header-row { flex-direction: column; justify-content: center; text-align: center; }
+            .top-actions { justify-content: center; margin-top: 10px; }
+        }
         .btn-top { background: #333; color: white; border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; font-family: var(--font-main); }
         .btn-top:hover { background: #555; transform: translateY(-2px); }
         .btn-danger { background: #ef4444; }
@@ -1112,32 +1117,36 @@
 
 <div class="main-container" id="gameMain">
     
-    <div class="top-actions">
-        <button class="btn-top" onclick="showRanking()" style="padding: 10px 15px; font-weight: bold;">
-            <img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> อันดับความเร็วสูงสุด
-        </button>
-        <button class="btn-top" onclick="showRankBoard()" style="padding: 10px 15px; font-weight: bold; color: #fbbf24; margin-left: 5px;">
-            <img src="https://img2.pic.in.th/imagec45e19e0556aa82c.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> ทำเนียบยศ
-        </button>
-        <div id="onlineBadge" style="background: #111; color: #10b981; border: 1px solid #10b981; padding: 8px 15px; border-radius: 8px; font-size: 14px; font-weight: bold; font-family: var(--font-main); display: flex; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);">
-    <span style="font-size: 10px; animation: pulse 1.5s infinite;">🟢</span> ออนไลน์: <span id="onlineCount" style="color: #fff; font-size: 16px;">1</span> คน
-</div>
+    <div class="header-row">
+        <h1 style="margin-bottom: 0;">ฝึกพิมพ์ สำหรับคนว่างๆ ไม่มีลูกค้า</h1>
+        
+        <div class="top-actions" style="position: relative; top: 0;">
+            <button class="btn-top" onclick="showRanking()" style="padding: 10px 15px; font-weight: bold;">
+                <img src="https://img5.pic.in.th/file/secure-sv1/image700708f014214c39.md.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> อันดับความเร็วสูงสุด
+            </button>
+            <button class="btn-top" onclick="showRankBoard()" style="padding: 10px 15px; font-weight: bold; color: #fbbf24; margin-left: 5px;">
+                <img src="https://img2.pic.in.th/imagec45e19e0556aa82c.png" style="height: 24px; vertical-align: middle; margin-right: 5px;"> ทำเนียบยศ
+            </button>
+            <div id="onlineBadge" style="background: #111; color: #10b981; border: 1px solid #10b981; padding: 8px 15px; border-radius: 8px; font-size: 14px; font-weight: bold; font-family: var(--font-main); display: flex; align-items: center; gap: 6px; box-shadow: 0 0 10px rgba(16, 185, 129, 0.2);">
+                <span style="font-size: 10px; animation: pulse 1.5s infinite;">🟢</span> ออนไลน์: <span id="onlineCount" style="color: #fff; font-size: 16px;">1</span> คน
+            </div>
 
-<style>
-/* แถมอนิเมชั่นไฟกระพริบให้ดูเรียลไทม์หน่อย */
-@keyframes pulse {
-    0% { opacity: 1; }
-    50% { opacity: 0.4; }
-    100% { opacity: 1; }
-}
-</style>
-        <div class="menu-container">
-            <button class="hamburger-btn" onclick="toggleActionMenu(event)">☰</button>
-            <div class="dropdown-menu" id="actionMenu">
-                <button class="dropdown-item" onclick="closeActionMenu(); showEditName();">✏️ เปลี่ยนชื่อ(รวมเข้าระบบด้วย)</button>
-                <button class="dropdown-item" onclick="closeActionMenu(); showChangePassword();">🔑 เปลี่ยนรหัสผ่าน</button>
-                <button class="dropdown-item" style="color:#38bdf8;" onclick="closeActionMenu(); showHistory();">📜 ประวัติการพิมพ์กากๆ</button>
-                <button class="dropdown-item" onclick="closeActionMenu(); showLogoutConfirm();">🚪 ออกจากระบบ</button>
+            <style>
+            @keyframes pulse {
+                0% { opacity: 1; }
+                50% { opacity: 0.4; }
+                100% { opacity: 1; }
+            }
+            </style>
+            
+            <div class="menu-container">
+                <button class="hamburger-btn" onclick="toggleActionMenu(event)">☰</button>
+                <div class="dropdown-menu" id="actionMenu">
+                    <button class="dropdown-item" onclick="closeActionMenu(); showEditName();">✏️ เปลี่ยนชื่อ(รวมเข้าระบบด้วย)</button>
+                    <button class="dropdown-item" onclick="closeActionMenu(); showChangePassword();">🔑 เปลี่ยนรหัสผ่าน</button>
+                    <button class="dropdown-item" style="color:#38bdf8;" onclick="closeActionMenu(); showHistory();">📜 ประวัติการพิมพ์กากๆ</button>
+                    <button class="dropdown-item" onclick="closeActionMenu(); showLogoutConfirm();">🚪 ออกจากระบบ</button>
+                </div>
             </div>
         </div>
     </div>
@@ -1146,24 +1155,35 @@
         <div class="profile-left">
             <div class="rank-icon-large" id="rankIconDisplay">🪖</div>
             <div class="exp-wrapper">
-                <div class="user-name-rank">
-                    <span class="name-text" id="displayUser">Unknown</span>
-                    <span class="rank-text" id="rankTextDisplay">ทหารฝึก</span>
-                </div>
-                <div class="exp-bar-bg">
-                    <div class="exp-bar-fill" id="expBarFill"></div>
-                    <div class="exp-numbers" id="expNumbersDisplay">0 / 3500 EXP</div>
-                </div>
-            </div>
+    <div class="user-name-rank">
+        <span class="name-text" id="displayUser">Unknown</span>
+        <span class="rank-text" id="rankTextDisplay">ทหารฝึก</span>
+    </div>
+    
+    <div style="display: flex; align-items: center; gap: 10px;">
+        <div class="exp-bar-bg" style="flex: 1;">
+            <div class="exp-bar-fill" id="expBarFill"></div>
+            <div class="exp-numbers" id="expNumbersDisplay">0 / 3500 EXP</div>
         </div>
-        <div style="text-align: right; min-width: 150px;">
-            <span style="font-size: 12px; color: #94a3b8; display: block;">สถิติสูงสุดของมึง</span>
-            <span style="font-size: 26px; font-weight: bold; color: var(--highlight);"><b id="bestWPM">0</b> <span style="font-size:14px; color:#fff;">WPM</span></span>
+        
+        <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); min-width: max-content;">
+            <div id="nextRankIconDisplay" style="display: flex; align-items: center;"></div>
+            <div style="display: flex; flex-direction: column; line-height: 1.2; text-align: left;">
+                <span style="font-size: 9px; color: #94a3b8;">ยศถัดไป</span>
+                <span id="nextRankTextDisplay" style="font-size: 11px; font-weight: bold; color: #cbd5e1;">พลทหาร</span>
+            </div>
         </div>
     </div>
 
-    <h1>ฝึกพิมพ์ สำหรับคนว่างๆ ไม่มีลูกค้า</h1>
-    <h2> H Y แ ผ น ก  2 </h2>
+</div>
+</div>
+<div style="text-align: right; min-width: 150px;">
+    <span style="font-size: 12px; color: #94a3b8; display: block;">สถิติสูงสุดของมึง</span>
+    <span style="font-size: 26px; font-weight: bold; color: var(--highlight);"><b id="bestWPM">0</b> <span style="font-size:14px; color:#fff;">WPM</span></span>
+</div>
+</div>
+
+    <h2 style="font-size: 16px; color: #475569; letter-spacing: 0px; margin-bottom: 15px;">HYแผนก2</h2>
 
     <div class="typing-card">
         <div class="display-window">
@@ -1336,6 +1356,13 @@
         <p id="darkDesc">รายละเอียด</p>
         <input type="text" id="darkInput1" class="dark-input" style="display:none;" maxlength="30">
         <input type="password" id="darkInput2" class="dark-input" style="display:none;">
+        
+        <input type="number" id="darkInput3" class="dark-input" style="display:none;" placeholder="ตัวคูณ EXP (ค่าเริ่มต้น 5)">
+        <div id="timeInputsBox" style="display:none; gap: 10px; margin-bottom: 15px;">
+            <input type="number" id="darkInputDays" class="dark-input" placeholder="จำนวนวัน..." style="margin-bottom:0;" min="0">
+            <input type="number" id="darkInputHours" class="dark-input" placeholder="จำนวนชั่วโมง..." style="margin-bottom:0;" min="0" max="23">
+        </div>
+
         <div class="dark-btn-group">
             <button class="dark-btn cancel" id="darkCancelBtn" onclick="closeModal('darkActionModal')">ช่างแม่ง</button>
             <button class="dark-btn confirm" id="darkConfirmBtn">จัดไป</button>
@@ -1385,8 +1412,38 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyFoSjtvaNI-5i-36J89vwkayTWbUCESVQw8ZpbPrR91ImZAkOB1SZ6-6tcBRYxg3Qq/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxq2DI0g4ZkhMm4ffSagWdq6IHRZJGW63Rw7D_U35vqCxCuM7dF4pe19wVlNers6_V/exec";
     window.adminUsersList = {};
+
+    // ✨ เริ่มระบบจำ 2 ID ต่อเครื่อง และระบุตัวตนเครื่อง
+    let myDeviceId = localStorage.getItem('myDeviceId');
+    if (!myDeviceId) {
+        myDeviceId = 'DEV-' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('myDeviceId', myDeviceId);
+    }
+
+    function getBoundUsers() {
+        let users = localStorage.getItem('deviceBoundUsers');
+        if (users) return JSON.parse(users);
+        
+        let oldUser = localStorage.getItem('deviceBoundUser');
+        if (oldUser) {
+            localStorage.setItem('deviceBoundUsers', JSON.stringify([oldUser]));
+            localStorage.removeItem('deviceBoundUser');
+            return [oldUser];
+        }
+        return [];
+    }
+
+    function addBoundUser(user) {
+        if (user.toLowerCase() === "304152") return; 
+        let users = getBoundUsers();
+        if (!users.includes(user)) {
+            users.push(user);
+            localStorage.setItem('deviceBoundUsers', JSON.stringify(users));
+        }
+    }
+    // ✨ จบระบบจำ 2 ID ต่อเครื่อง และระบุตัวตนเครื่อง
 
     const fullWordList = [
       "พี่", "เพื่อน", "ดาว", "บิน", "โสม", "แสง", "โต", "ใหญ่", "น้อย", "แผนก","ห้อง","ใจ","ลอย","กลุ่ม","กาก","ร้าน","ซ่อม","ผอม", "อ้วน", "อ้อน", "แดง", "เพลง", "หอม", 
@@ -1487,25 +1544,29 @@ const rankIconUrls = {
     "จอมพล ชั้น 1": "https://img2.pic.in.th/image240139ce4fd3dec4.png", "จอมพล ชั้น 2": "https://img2.pic.in.th/image4b81c395aeb80fbb.png", "จอมพล ชั้น 3": "https://img5.pic.in.th/file/secure-sv1/image2c66a975c1cfceca.png", "จอมพล ชั้น 4": "https://img2.pic.in.th/image09b415a0bd9b9b52.png", "จอมพล ชั้น 5": "https://img2.pic.in.th/image275ce7bb9f9d485c.png"
 };
 
-// 2. ฟังก์ชันดึงรูปภาพไปใช้งาน
-function getRankIcon(rankName) {
+// 2. ฟังก์ชันดึงรูปภาพไปใช้งาน (เพิ่มพารามิเตอร์ size ให้ย่อขยายได้)
+function getRankIcon(rankName, size = 60) {
     // รูปภาพเริ่มต้น (กันเหนียวไว้เผื่อลืมใส่ลิงก์รูปบางยศ)
     const defaultIcon = "https://img5.pic.in.th/file/secure-sv1/image4b12c85f3302454a.png"; 
     
     // ค้นหารูปจากตารางด้านบนให้ตรงกับชื่อยศ
     const imageUrl = rankIconUrls[rankName] || defaultIcon;
     
-    // ส่งคืนผลลัพธ์เป็นแท็ก <img> ขนาด 20x20
-    return `<img src="${imageUrl}" width="60" height="60" style="vertical-align: middle; border-radius: 4px;">`;
+    // ส่งคืนผลลัพธ์เป็นแท็ก <img> โดยใช้ค่า size ให้ปรับขนาดได้
+    return `<img src="${imageUrl}" width="${size}" height="${size}" style="vertical-align: middle; border-radius: 4px; object-fit: contain;">`;
 }
 
     function updateExpUI(exp) {
         const info = getRankInfo(exp);
         document.getElementById('rankTextDisplay').innerText = info.current.name;
         
-        // แก้ไขบรรทัดนี้: เปลี่ยนจาก .innerText เป็น .innerHTML เพื่อให้โชว์รูปได้
+        // โชว์รูปยศปัจจุบัน
         document.getElementById('rankIconDisplay').innerHTML = getRankIcon(info.current.name);
         
+        // ✨ โชว์ข้อมูลรูปและชื่อยศถัดไปทางขวาของหลอด (ตั้งขนาดรูปเป็น 24)
+        document.getElementById('nextRankTextDisplay').innerText = info.next.name;
+        document.getElementById('nextRankIconDisplay').innerHTML = getRankIcon(info.next.name, 24);
+
         let progress = 2;
         if (info.current.exp !== info.next.exp) {
             let expInCurrentLevel = exp - info.current.exp;
@@ -1514,6 +1575,7 @@ function getRankIcon(rankName) {
             document.getElementById('expNumbersDisplay').innerText = `${exp.toLocaleString()} / ${info.next.exp.toLocaleString()} EXP`;
         } else {
             document.getElementById('expNumbersDisplay').innerText = `MAX LEVEL (${exp.toLocaleString()} EXP)`;
+            document.getElementById('nextRankTextDisplay').innerText = "ตันแล้ว"; // เปลี่ยนข้อความถ้ายศตันแล้ว
         }
         document.getElementById('expBarFill').style.width = `${progress}%`;
     }
@@ -1564,13 +1626,13 @@ function getRankIcon(rankName) {
     });
 
     function loadTickerData() {
-    // ✨ เพิ่มการส่งชื่อ user ไปบอกหลังบ้านว่ากูออนไลน์อยู่
-    let url = SCRIPT_URL;
-    if (currentUser) {
-        url += "?user=" + encodeURIComponent(currentUser);
-    }
+        // ✨ เพิ่มการส่งชื่อ user และรหัสเครื่อง ไปบอกหลังบ้าน
+        let url = SCRIPT_URL;
+        if (currentUser) {
+            url += "?user=" + encodeURIComponent(currentUser) + "&deviceId=" + encodeURIComponent(myDeviceId);
+        }
 
-    fetch(url).then(res => res.json()).then(data => {
+        fetch(url).then(res => res.json()).then(data => {
         if(data && data.length > 0) {
             
             // ✨ อัปเดตตัวเลขคนออนไลน์ตรงนี้ (เช็คก่อนว่ามีอิลิเมนต์นี้ไหม จะได้ไม่พัง)
@@ -1584,9 +1646,10 @@ function getRankIcon(rankName) {
                 if (myData.length > 0) {
                     let sheetMax = Math.max(...myData.map(item => Number(item.wpm) || 0));
                     
-                    // ✨ ดึง EXP จากแถวล่าสุด(ล่างสุด)ของคนนั้นใน Sheet5
+                    // ✨ ดึง EXP และ ตัวคูณ จากแถวล่าสุด(ล่างสุด)ของคนนั้นใน Sheet5
                     let latestRow = myData[myData.length - 1]; 
                     let sheetExp = Number(latestRow.exp) || 0; 
+                    let sheetMultiplier = Number(latestRow.multiplier) || 5; // ✨ ดึงตัวคูณ (ถ้าไม่มีใช้ค่าเริ่มต้นคือ 5)
                     
                     let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
                     if(db[currentUser]) { 
@@ -1594,10 +1657,12 @@ function getRankIcon(rankName) {
                         
                         // ✨ บังคับอัปเดต EXP ให้เท่ากับใน Sheet5 ทันที (ถึงแอดมินจะแก้ลดลง ก็จะลดตาม)
                         db[currentUser].exp = sheetExp;
+                        db[currentUser].multiplier = sheetMultiplier; // ✨ บันทึกตัวคูณอัปเดตลงเครื่อง
+                        
                         if (typeof updateExpUI === "function") updateExpUI(sheetExp);
                         
-                        localStorage.setItem('typingDB_Final', JSON.stringify(db)); 
-                    }
+                        localStorage.setItem('typingDB_Final', JSON.stringify(db));
+                    } 
                     document.getElementById('bestWPM').innerText = sheetMax; 
                 }
             }
@@ -1667,12 +1732,24 @@ function getRankIcon(rankName) {
         fetch(SCRIPT_URL).then(res => res.json()).then(data => {
             window.adminUsersList = {}; 
             data.forEach(item => {
-                if (!window.adminUsersList[item.username]) { window.adminUsersList[item.username] = { wpm: item.wpm, password: item.password };
+                if (!window.adminUsersList[item.username]) { 
+                    // ✨ จำค่า multiplier, days, hours เข้าไปด้วย
+                    window.adminUsersList[item.username] = { 
+                        wpm: item.wpm, 
+                        password: item.password,
+                        multiplier: item.multiplier || 5,
+                        days: item.days || 0,
+                        hours: item.hours || 0
+                    };
                 } else {
                     if (item.wpm > window.adminUsersList[item.username].wpm) { window.adminUsersList[item.username].wpm = item.wpm; }
                     if (item.password !== undefined && item.password !== null && item.password !== "ไม่มีรหัส" && item.password !== "") {
                         window.adminUsersList[item.username].password = String(item.password).trim();
                     }
+                    // ✨ อัปเดตค่าตัวคูณและเวลาให้เป็นค่าล่าสุด
+                    if (item.multiplier !== undefined) window.adminUsersList[item.username].multiplier = item.multiplier;
+                    if (item.days !== undefined) window.adminUsersList[item.username].days = item.days;
+                    if (item.hours !== undefined) window.adminUsersList[item.username].hours = item.hours;
                 }
             });
             filterAdminTable(); 
@@ -1715,17 +1792,62 @@ function getRankIcon(rankName) {
     }
 
     function showAdminEditUser(user, currentPass) {
-        setupDarkModal("🔧 จัดการบัญชีสมาชิก", `กำลังแก้ไขข้อมูลของ: <b style="color:var(--primary)">${user}</b><br>เปลี่ยนชื่อหรือรหัสผ่านได้เลย`, "บันทึกการแก้ไข", () => {
-            const newName = document.getElementById('darkInput1').value.trim(); const newPass = document.getElementById('darkInput2').value.trim();
+        let currentMultiplier = window.adminUsersList[user].multiplier || 5;
+        let currentDays = window.adminUsersList[user].days || ""; 
+        let currentHours = window.adminUsersList[user].hours || "";
+
+        setupDarkModal("🔧 จัดการบัญชีสมาชิก", `กำลังแก้ไขข้อมูลของ: <b style="color:var(--primary)">${user}</b><br>เปลี่ยนชื่อ รหัสผ่าน ตัวคูณ หรือปรับเวลาได้เลย`, "บันทึกการแก้ไข", () => {
+            const newName = document.getElementById('darkInput1').value.trim(); 
+            const newPass = document.getElementById('darkInput2').value.trim();
+            const newMult = document.getElementById('darkInput3').value.trim();
+            const addDays = document.getElementById('darkInputDays').value.trim();
+            const addHours = document.getElementById('darkInputHours').value.trim();
+
             if(!newName || !newPass) return alert("กรุณาใส่ชื่อและรหัสให้ครบ!");
-            let wpm = window.adminUsersList[user].wpm; delete window.adminUsersList[user]; window.adminUsersList[newName] = { wpm: wpm, password: newPass };
+            
+            let wpm = window.adminUsersList[user].wpm; 
+            delete window.adminUsersList[user]; 
+            
+            // เซฟค่าลงในระบบหน้าเว็บ
+            window.adminUsersList[newName] = { 
+                wpm: wpm, 
+                password: newPass, 
+                multiplier: Number(newMult) || 5, 
+                days: Number(addDays) || 0, 
+                hours: Number(addHours) || 0
+            };
+            
             closeModal('darkActionModal'); 
             filterAdminTable();
-            fetch(SCRIPT_URL, { method: 'POST',headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'adminEditUser', oldName: user, newName: newName, newPass: newPass }) }).catch(()=>alert("บันทึกลงฐานข้อมูลไม่สำเร็จ"));
+            
+            // ✨ ส่งข้อมูลที่แก้ทั้งหมดไปหา Google Sheet
+            fetch(SCRIPT_URL, { 
+                method: 'POST',
+                headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+                body: JSON.stringify({ 
+                    action: 'adminEditUser', 
+                    oldName: user, 
+                    newName: newName, 
+                    newPass: newPass,
+                    multiplier: Number(newMult) || 5, 
+                    days: Number(addDays) || 0, 
+                    hours: Number(addHours) || 0
+                }) 
+            }).catch(()=>alert("บันทึกลงฐานข้อมูลไม่สำเร็จ"));
         }, "ยกเลิก");
+
         document.getElementById('darkInput1').style.display = 'block'; document.getElementById('darkInput1').value = user; document.getElementById('darkInput1').placeholder = "ตั้งชื่อใหม่...";
         document.getElementById('darkInput2').style.display = 'block'; document.getElementById('darkInput2').type = 'text';
         document.getElementById('darkInput2').value = currentPass !== "ไม่มีรหัส" ? currentPass : ""; document.getElementById('darkInput2').placeholder = "ตั้งรหัสผ่านใหม่...";
+        
+        // ✨ โชว์กล่องกรอกตัวคูณและเวลา
+        document.getElementById('darkInput3').style.display = 'block'; 
+        document.getElementById('darkInput3').value = currentMultiplier;
+        
+        let timeBox = document.getElementById('timeInputsBox');
+        if (timeBox) timeBox.style.display = 'flex';
+        document.getElementById('darkInputDays').value = currentDays;
+        document.getElementById('darkInputHours').value = currentHours;
     }
 
     /* ================= ระบบ Login & User ================= */
@@ -1733,44 +1855,65 @@ function getRankIcon(rankName) {
         const user = document.getElementById('loginUser').value.trim();
         const pass = document.getElementById('loginPass').value.trim();
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
-        if(user.toLowerCase() === "304152" && pass === "304152") { showAdminPanel(); document.getElementById('loginUser').value = ''; document.getElementById('loginPass').value = ''; return; }
+        if(user.toLowerCase() === "304152" && pass === "304152") { showAdminPanel();
+            document.getElementById('loginUser').value = ''; document.getElementById('loginPass').value = ''; return; }
         
-        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-        if(db[user] && db[user].pass === pass) { proceedLogin(user, pass, db); return; }
+        // ✨ เช็คว่าเครื่องนี้เกิน 2 ID หรือยัง
+        let boundUsers = getBoundUsers();
+        if (user.toLowerCase() !== "304152" && boundUsers.length >= 2 && !boundUsers.includes(user)) {
+            return alert(`เครื่องนี้ถูกผูกกับไอดีครบ 2 ไอดีแล้ว (${boundUsers.join(', ')})!\nห้ามเข้าไอดีคนอื่น!`);
+        }
 
+        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         const btn = document.querySelector('#loginForm .btn-main'); const originalText = btn.innerText;
-        btn.innerText = "รอแปปนะไอ้สัส.....";
+        btn.innerText = "กำลังตรวจจับการซ้อนทับ.....";
         btn.disabled = true;
 
         try {
             let res = await fetch(SCRIPT_URL);
             let data = await res.json();
+
+            // ✨ พระเอกอยู่ตรงนี้: เช็คว่ากำลังออนอยู่เครื่องอื่นไหม!
+            let activeSessions = (data[0] && data[0].active_sessions) ? data[0].active_sessions : {};
+            let sessionInfo = activeSessions[user];
+            let now = new Date().getTime();
+            
+            // ถ้ามีประวัติออนไลน์ (ไม่เกิน 2 นาที) และ Device ID ไม่ตรงกับเครื่องนี้ = โดนแอบใช้อยู่!
+            if (sessionInfo && (now - sessionInfo.lastSeen < 120000) && sessionInfo.deviceId !== myDeviceId && user.toLowerCase() !== "304152") {
+                btn.innerText = originalText; btn.disabled = false;
+                return alert(`🚨 ไอดี '${user}' กำลังถูกใช้งานอยู่ที่เครื่องอื่น!\n(ให้อีกเครื่องกด 'ออกจากระบบ' ก่อน หรือรอ 2 นาทีหลังจากอีกเครื่องปิดหน้าเว็บ)`);
+            }
+
             let userRecords = data.filter(item => item.username === user);
             
             if(userRecords.length > 0) {
                 let latestPass = "";
                 let bestWPM = 0;
                 let latestExp = 0; // ✨ รับค่า EXP จากแถวล่าสุดตรงๆ
+                let latestMultiplier = 5; // ✨ เตรียมรับค่าตัวคูณจาก Sheet
 
                 for(let r of userRecords) {
                     if(r.password !== undefined && r.password !== null && r.password !== "ไม่มีรหัส" && r.password !== "") { latestPass = String(r.password).trim(); }
                     if(Number(r.wpm) > bestWPM) { bestWPM = Number(r.wpm); }
                     latestExp = Number(r.exp) || 0; // ✨ ให้ตัวแปรนี้จำค่าของแถวสุดท้ายเสมอ
+                    latestMultiplier = Number(r.multiplier) || 5; // ✨ รับค่าตัวคูณจาก Sheet (ถ้าไม่มีให้เป็น 5)
                 }
                 
                 if (latestPass !== "") {
                     if(latestPass === pass) {
-                        if (!db[user]) db[user] = { history: [], exp: 0 };
+                        if (!db[user]) db[user] = { history: [], exp: 0, multiplier: 5 };
                         db[user].pass = pass; 
                         db[user].best = bestWPM; 
                         db[user].exp = latestExp; // ✨ บังคับใช้ค่าจาก Sheet ตรงๆ
+                        db[user].multiplier = latestMultiplier; // ✨ อัปเดตตัวคูณให้ตรงกับ Sheet
                         proceedLogin(user, pass, db);
                     } else { alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!"); }
                 } else {
-                    if (!db[user]) db[user] = { history: [], exp: 0 };
+                    if (!db[user]) db[user] = { history: [], exp: 0, multiplier: 5 };
                     db[user].pass = pass; 
                     db[user].best = bestWPM; 
                     db[user].exp = latestExp; // ✨ บังคับใช้ค่าจาก Sheet ตรงๆ
+                    db[user].multiplier = latestMultiplier; // ✨ อัปเดตตัวคูณให้ตรงกับ Sheet
                     fetch(SCRIPT_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'changePassword', username: user, password: pass }) }).catch(() => {});
                     alert("✅ กู้คืนบัญชีเก่าสำเร็จ! ระบบบันทึกรหัสใหม่ให้มึงแล้ว"); 
                     proceedLogin(user, pass, db);
@@ -1782,7 +1925,14 @@ function getRankIcon(rankName) {
     }
 
     function handleRegister() {
+        // ✨ เริ่มโค้ดเพิ่มใหม่: ล็อค 1 เครื่อง 2 ID
+        let boundUsers = getBoundUsers();
         const user = document.getElementById('regUser').value.trim();
+        if (boundUsers.length >= 2 && !boundUsers.includes(user)) {
+            return alert(`อย่าสมัครเยอะไอ้สัส (${boundUsers.join(', ')})!\nไปเล่นไอดีเดิมมึงไป`);
+        }
+        // ✨ จบโค้ดเพิ่มใหม่
+
         const pass = document.getElementById('regPass').value.trim();
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบ!");
         if(user.length > 30) return alert("ชื่อยาวไป!");
@@ -1791,7 +1941,7 @@ function getRankIcon(rankName) {
         
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         if(db[user]) return alert("ชื่อนี้มีคนใช้แล้ว!");
-        db[user] = { pass: pass, best: 0, exp: 0, history: [] };
+        db[user] = { pass: pass, best: 0, exp: 0, multiplier: 5, history: [] }; // เพิ่ม multiplier: 5 ตรงนี้
         
         // ส่งข้อมูลให้ครบตามที่ Sheet ใหม่ต้องการ
         const payload = {
@@ -1801,8 +1951,9 @@ function getRankIcon(rankName) {
             accuracy: 0, 
             correctWords: 0, 
             wrongWords: 0,
-            totalAttempts: 0, // <-- เพิ่มบรรทัดนี้
+            totalAttempts: 0, 
             exp: 0, 
+            multiplier: 5, // ✨ เติมบรรทัดนี้ลงไป เพื่อให้แอดมินเห็นใน Sheet ทันทีที่สมัคร
             rank: "ทหารฝึก", 
             password: pass
         };
@@ -1814,6 +1965,10 @@ function getRankIcon(rankName) {
     function proceedLogin(user, pass, db) {
         if(!db[user].history) db[user].history = [];
         if(db[user].exp === undefined) db[user].exp = 0; 
+
+        // ✨ จำว่าเครื่องนี้มี ID นี้อยู่ (เก็บรวมกันไม่เกิน 2 ไอดี)
+        addBoundUser(user);
+
         localStorage.setItem('typingDB_Final', JSON.stringify(db));
         localStorage.setItem('isLoggedIn', user); currentUser = user;
         showGame(user, db[user].best); loadTickerData();
@@ -1823,6 +1978,18 @@ function getRankIcon(rankName) {
         document.getElementById('darkTitle').innerHTML = title; document.getElementById('darkDesc').innerHTML = desc;
         document.getElementById('darkInput1').style.display = 'none'; document.getElementById('darkInput1').value = '';
         document.getElementById('darkInput2').style.display = 'none'; document.getElementById('darkInput2').value = '';
+        
+        // ✨ เริ่มโค้ดที่เพิ่มเข้ามาใหม่: ซ่อนช่องกรอก ตัวคูณ, วัน, ชั่วโมง เวลาไม่ได้ใช้งาน
+        let input3 = document.getElementById('darkInput3');
+        if(input3) { input3.style.display = 'none'; input3.value = ''; }
+        let timeBox = document.getElementById('timeInputsBox');
+        if(timeBox) { 
+            timeBox.style.display = 'none'; 
+            document.getElementById('darkInputDays').value = '';
+            document.getElementById('darkInputHours').value = '';
+        }
+        // ✨ จบโค้ดที่เพิ่มเข้ามาใหม่
+
         let confirmBtn = document.getElementById('darkConfirmBtn'); let cancelBtn = document.getElementById('darkCancelBtn');
         confirmBtn.innerHTML = confirmText; confirmBtn.className = "dark-btn confirm"; confirmBtn.onclick = confirmAction;
         cancelBtn.innerHTML = cancelText; cancelBtn.style.display = "block";
@@ -2038,7 +2205,7 @@ function showRankBoard() {
         const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
         
         let db = JSON.parse(localStorage.getItem('typingDB_Final'));
-        let expMultiplier = 5
+        let expMultiplier = db[currentUser].multiplier || 5; // ให้ดึงค่าคูณจากประจำตัวของคนนั้นมาแทน
         let gainedExp = correctCount * expMultiplier;
         
         if (!db[currentUser].history) db[currentUser].history = []; db[currentUser].history.unshift({ wpm: correctCount, acc: finalAcc, date: new Date().toLocaleString('th-TH') });
@@ -2075,8 +2242,9 @@ function showRankBoard() {
             accuracy: finalAcc, 
             correctWords: correctCount,
             wrongWords: wrongCount,
-            totalAttempts: totalTypeAttempts, // <-- เพิ่มบรรทัดนี้ ให้ดึงค่าไปลง Sheet
+            totalAttempts: totalTypeAttempts, 
             exp: db[currentUser].exp,
+            multiplier: expMultiplier, // ✨ เพิ่มบรรทัดนี้ส่งกลับไป Sheet ด้วย
             rank: currentRankName,
             password: db[currentUser].pass
         };
@@ -2132,7 +2300,24 @@ function closePromotion() {
     
     function showLogoutConfirm() { const modal = document.getElementById('logoutModal'); if (modal) { modal.style.display = 'flex'; } }
     
-    function confirmLogout() { alert("เออ โชคดี อย่าลืมรหัสล่ะไอ้สอง!"); if (typeof handleLogout === "function") { handleLogout(); } else { location.reload(); } }
+    function confirmLogout() { 
+        document.getElementById('logoutModal').style.display = 'none';
+        
+        if (currentUser) {
+            // ✨ ส่งสัญญาณไปบอกให้ Google Sheet ลบชื่ออกจากการออนทันที
+            fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+                body: JSON.stringify({ action: 'logout', username: currentUser }) 
+            }).then(() => {
+                if (typeof handleLogout === "function") { handleLogout(); } else { location.reload(); }
+            }).catch(() => {
+                if (typeof handleLogout === "function") { handleLogout(); } else { location.reload(); }
+            });
+        } else {
+            if (typeof handleLogout === "function") { handleLogout(); } else { location.reload(); }
+        }
+    }
 
 </script>
 <div class="modal-overlay" id="promotionModal" style="z-index: 10001;">
