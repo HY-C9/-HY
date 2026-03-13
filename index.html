@@ -1370,35 +1370,6 @@
     </div>
 </div>
 
-<div class="modal-overlay" id="adminModal">
-    <div class="modal-card" style="max-width: 950px; background: #0f172a; border: 1px solid #334155; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); padding: 30px;">
-        <span class="close-modal-x" onclick="closeModal('adminModal')" style="color: #64748b; top: 15px; right: 20px; font-family: sans-serif;">×</span>
-        <div style="text-align: left; margin-bottom: 15px; border-bottom: 1px solid #334155; padding-bottom: 15px; display: flex; justify-content: space-between; align-items: flex-end; flex-wrap:wrap; gap:10px;">
-            <div>
-                <h2 style="color: #38bdf8; margin: 0; font-size: 24px; display: flex; align-items: center; gap: 10px; font-family:'Sarabun';">🛠️ Admin Control Panel</h2>
-                <p style="color: #94a3b8; font-size: 13px; margin: 5px 0 0 0; font-family:'Sarabun';">จัดการข้อมูล ลบ หรือแก้ไขรหัสผ่านของสมาชิก</p>
-            </div>
-            <div>
-                <input type="text" id="adminSearch" placeholder="🔍 ค้นหาชื่อหรือรหัส..." onkeyup="filterAdminTable()" style="padding: 10px 15px; width: 250px; border-radius: 8px; border: 1px solid #334155; background: #1e293b; color: white; outline: none; font-family: 'Sarabun'; margin:0;">
-            </div>
-        </div>
-        <div style="max-height: 450px; overflow-y: auto; border-radius: 8px; border: 1px solid #1e293b; background: #0b1120;">
-            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; color: #cbd5e1;">
-                <thead style="position: sticky; top: 0; background: #1e293b; color: #f8fafc; font-size: 13px; z-index: 10;">
-                    <tr>
-                        <th style="padding: 15px; border-bottom: 2px solid #334155;">#</th>
-                        <th style="padding: 15px; border-bottom: 2px solid #334155;">👤 ชื่อผู้ใช้ (Username)</th>
-                        <th style="padding: 15px; border-bottom: 2px solid #334155;">🔑 รหัสผ่าน (Password)</th>
-                        <th style="padding: 15px; border-bottom: 2px solid #334155;">⚡ WPM สูงสุด</th>
-                        <th style="padding: 15px; border-bottom: 2px solid #334155; text-align: center;">⚙️ จัดการ</th>
-                    </tr>
-                </thead>
-                <tbody id="adminBody"></tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
 <div class="modal-overlay" id="logoutModal" style="display: none; background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);">
     <div class="modal-card" style="background: #1a1a1a; width: 95%; max-width: 420px; padding: 45px; border-radius: 35px; text-align: center; border: 2px solid #333; box-shadow: 0 20px 50px rgba(0,0,0,0.5);">
         <span class="close-modal-x" onclick="closeModal('logoutModal')" style="font-family: sans-serif;">×</span>
@@ -1412,7 +1383,7 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyxq2DI0g4ZkhMm4ffSagWdq6IHRZJGW63Rw7D_U35vqCxCuM7dF4pe19wVlNers6_V/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWvhDrr1XdBUORgrLf73yZlQLHM1RkgLWWjYyKMaO906tbIcpPXzeSYVtLYDtTb3I7/exec";
     window.adminUsersList = {};
 
     // ✨ เริ่มระบบจำ 2 ID ต่อเครื่อง และระบุตัวตนเครื่อง
@@ -1613,7 +1584,9 @@ function getRankIcon(rankName, size = 60) {
             showGame(savedUser, db[savedUser] ? db[savedUser].best : 0);
         }
         loadTickerData(); 
-        setInterval(loadTickerData, 30000);
+        // 🔥 ปรับความเร็วจาก 30 วิ เป็น 8 วิ (เครื่องเก่าจะโดนเตะไวขึ้นมาก!)
+        setInterval(loadTickerData, 3000);
+        
         const inputField = document.getElementById('userInput');
         if (inputField) { inputField.focus(); setTimeout(() => inputField.focus(), 100); }
     };
@@ -1626,16 +1599,34 @@ function getRankIcon(rankName, size = 60) {
     });
 
     function loadTickerData() {
-        // ✨ เพิ่มการส่งชื่อ user และรหัสเครื่อง ไปบอกหลังบ้าน
         let url = SCRIPT_URL;
         if (currentUser) {
-            url += "?user=" + encodeURIComponent(currentUser) + "&deviceId=" + encodeURIComponent(myDeviceId);
-        }
+            url += "?user=" + encodeURIComponent(currentUser) + "&deviceId=" + encodeURIComponent(myDeviceId) + "&action=ping&_t=" + Date.now();
+        } else { url += "?_t=" + Date.now(); }
 
         fetch(url).then(res => res.json()).then(data => {
         if(data && data.length > 0) {
             
-            // ✨ อัปเดตตัวเลขคนออนไลน์ตรงนี้ (เช็คก่อนว่ามีอิลิเมนต์นี้ไหม จะได้ไม่พัง)
+            // 🔥 [ระบบเตะออกขั้นสุดยอด - เครื่องใหม่สู้กลับ]
+            if (currentUser && currentUser.toLowerCase() !== "304152") {
+                let activeSessions = (data[0] && data[0].active_sessions) ? data[0].active_sessions : {};
+                if (activeSessions[currentUser] && activeSessions[currentUser].deviceId !== myDeviceId) {
+                    
+                    let timeSinceLogin = window.lastLoginTime ? (Date.now() - window.lastLoginTime) : 99999;
+                    
+                    if (timeSinceLogin > 15000) {
+                        // ถ้าออนไลน์มานานกว่า 15 วิ แล้วรหัสเครื่องเปลี่ยน = โดนแย่งไอดีชัวร์! เตะออกทันที!
+                        alert("🚨มีคนล็อกอินไอดีมึงจากเครื่องอื่น!");
+                        handleLogout(true);
+                        return; 
+                    } else {
+                        // ✨ ถ้าเพิ่งล็อกอินเข้ามาใหม่ (ไม่เกิน 15 วิ) แล้วข้อมูลเซิร์ฟเวอร์ดีเลย์
+                        // เครื่องใหม่จะไม่เตะตัวเอง แต่จะ "สู้กลับ" ยิงคำสั่งยึดไอดีซ้ำอีกรอบ!
+                        fetch(SCRIPT_URL + "?user=" + encodeURIComponent(currentUser) + "&deviceId=" + encodeURIComponent(myDeviceId) + "&action=login&_t=" + Date.now());
+                    }
+                }
+            }
+
             if (data[0] && data[0].online_count !== undefined) {
                 let badge = document.getElementById('onlineCount');
                 if (badge) badge.innerText = data[0].online_count;
@@ -1644,30 +1635,25 @@ function getRankIcon(rankName, size = 60) {
             if(currentUser) {
                 let myData = data.filter(item => item.username === currentUser);
                 if (myData.length > 0) {
-                    let sheetMax = Math.max(...myData.map(item => Number(item.wpm) || 0));
-                    
-                    // ✨ ดึง EXP และ ตัวคูณ จากแถวล่าสุด(ล่างสุด)ของคนนั้นใน Sheet5
-                    let latestRow = myData[myData.length - 1]; 
+                    let latestRow = myData[0]; 
+                    let sheetMax = Number(latestRow.wpm) || 0; 
                     let sheetExp = Number(latestRow.exp) || 0; 
-                    let sheetMultiplier = Number(latestRow.multiplier) || 5; // ✨ ดึงตัวคูณ (ถ้าไม่มีใช้ค่าเริ่มต้นคือ 5)
+                    let sheetMultiplier = Number(latestRow.multiplier) || 5; 
                     
                     let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
                     if(db[currentUser]) { 
-                        db[currentUser].best = sheetMax; 
-                        
-                        // ✨ บังคับอัปเดต EXP ให้เท่ากับใน Sheet5 ทันที (ถึงแอดมินจะแก้ลดลง ก็จะลดตาม)
+                        db[currentUser].best = sheetMax;
                         db[currentUser].exp = sheetExp;
-                        db[currentUser].multiplier = sheetMultiplier; // ✨ บันทึกตัวคูณอัปเดตลงเครื่อง
-                        
+                        db[currentUser].multiplier = sheetMultiplier; 
                         if (typeof updateExpUI === "function") updateExpUI(sheetExp);
-                        
                         localStorage.setItem('typingDB_Final', JSON.stringify(db));
                     } 
-                    document.getElementById('bestWPM').innerText = sheetMax; 
+                    document.getElementById('bestWPM').innerText = sheetMax;
                 }
             }
             
-            let validData = data.filter(item => Number(item.wpm) > 0);
+            let tickerPayload = data.find(d => d.__TICKER_DATA__);
+            let validData = tickerPayload ? tickerPayload.__TICKER_DATA__ : [];
             let uniqueLatest = []; let seenNames = new Set();
             for (let i = validData.length - 1; i >= 0; i--) {
                 if (!seenNames.has(validData[i].username)) {
@@ -1677,12 +1663,10 @@ function getRankIcon(rankName, size = 60) {
                 }
             }
             
-            // ===== บอร์ดเลื่อนดีไซน์ใหม่แบบเทพๆ ดึงรูปยศจริง =====
             if (uniqueLatest.length > 0) {
                 let tickerHtml = uniqueLatest.map(item => {
                     let actualRank = getRankInfo(item.exp || 0).current.name;
                     let iconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
-                    
                     return `<span style="display: inline-flex; align-items: center; background: linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.8) 100%); padding: 6px 16px; border-radius: 30px; border: 1px solid #334155; margin-right: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
                         <img src="${iconUrl}" style="height: 32px; width: 32px; border-radius: 6px; margin-right: 12px; box-shadow: 0 0 8px rgba(251, 191, 36, 0.4); border: 1px solid #475569; object-fit: cover;">
                         <span style="color: #f8fafc; font-weight: bold; margin-right: 10px; font-size: 15px; letter-spacing: 0.5px;">${item.username}</span> 
@@ -1691,7 +1675,6 @@ function getRankIcon(rankName, size = 60) {
                         <span style="color: #fbbf24; font-size: 12px; font-weight: bold; background: rgba(251, 191, 36, 0.15); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(251, 191, 36, 0.3);">🎖️ ${actualRank}</span>
                     </span>`;
                 }).join('');
-                
                 document.getElementById('tickerContent').innerHTML = `<span style="display:inline-flex; align-items:center; color: #ef4444; font-weight: 800; margin-right: 20px; font-size: 16px; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);"><span style="font-size: 20px; margin-right: 5px;">🔥</span> อัปเดตล่าสุด:</span> ${tickerHtml}`;
             } else { 
                 document.getElementById('tickerContent').innerHTML = `<span style="color: #94a3b8; font-style: italic;">📢 ยังไม่มีใครพิมพ์ได้คะแนนเลยว่ะ รอคนเปิดอยู่...</span>`; 
@@ -1724,165 +1707,21 @@ function getRankIcon(rankName, size = 60) {
             document.getElementById('tabLogin').style.background = '#222'; document.getElementById('tabRegister').style.background = '#ef4444';
         }
     }
-
-    /* ================ ระบบ ADMIN ================ */
-    function showAdminPanel() {
-        document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>⏳ กำลังเชื่อมต่อและดึงข้อมูลจาก Cloud... กรุณารอสักครู่</td></tr>";
-        document.getElementById('adminSearch').value = ''; document.getElementById('adminModal').style.display = 'flex';
-        fetch(SCRIPT_URL).then(res => res.json()).then(data => {
-            window.adminUsersList = {}; 
-            data.forEach(item => {
-                if (!window.adminUsersList[item.username]) { 
-                    // ✨ จำค่า multiplier, days, hours เข้าไปด้วย
-                    window.adminUsersList[item.username] = { 
-                        wpm: item.wpm, 
-                        password: item.password,
-                        multiplier: item.multiplier || 5,
-                        days: item.days || 0,
-                        hours: item.hours || 0
-                    };
-                } else {
-                    if (item.wpm > window.adminUsersList[item.username].wpm) { window.adminUsersList[item.username].wpm = item.wpm; }
-                    if (item.password !== undefined && item.password !== null && item.password !== "ไม่มีรหัส" && item.password !== "") {
-                        window.adminUsersList[item.username].password = String(item.password).trim();
-                    }
-                    // ✨ อัปเดตค่าตัวคูณและเวลาให้เป็นค่าล่าสุด
-                    if (item.multiplier !== undefined) window.adminUsersList[item.username].multiplier = item.multiplier;
-                    if (item.days !== undefined) window.adminUsersList[item.username].days = item.days;
-                    if (item.hours !== undefined) window.adminUsersList[item.username].hours = item.hours;
-                }
-            });
-            filterAdminTable(); 
-        }).catch(() => { document.getElementById('adminBody').innerHTML = "<tr><td colspan='5' style='text-align:center; color:#ef4444; padding: 30px;'>❌ เกิดข้อผิดพลาดในการโหลดข้อมูล โปรดตรวจสอบอินเทอร์เน็ต</td></tr>"; });
-    }
-
-    function filterAdminTable() {
-        let searchText = document.getElementById('adminSearch').value.toLowerCase();
-        let html = ""; let count = 1;
-        for (let user in window.adminUsersList) {
-            if(!user || user === "undefined") continue;
-            let rawPass = window.adminUsersList[user].password;
-            let passStr = (rawPass !== undefined && rawPass !== null && rawPass !== "") ? String(rawPass).toLowerCase() : "ไม่มีรหัส";
-            let best = window.adminUsersList[user].wpm || 0;
-            
-            if (String(user).toLowerCase().includes(searchText) || passStr.includes(searchText)) {
-                html += `<tr style="border-bottom: 1px solid #333; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='transparent'">
-                    <td style="padding: 12px 15px; color: #64748b;">${count}</td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #fff;">${user}</td>
-                    <td style="padding: 12px 15px; color: #fbbf24; font-family: monospace; font-size: 15px;">${rawPass || "ไม่มีรหัส"}</td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: var(--primary);">${best}</td>
-                    <td style="padding: 12px 15px; text-align: center;">
-                        <button class="admin-btn admin-btn-edit" onclick="showAdminEditUser('${user}', '${rawPass || 'ไม่มีรหัส'}')">✏️ แก้ไข</button>
-                        <button class="admin-btn admin-btn-del" onclick="adminDeleteUser('${user}')">🗑️ ลบ</button>
-                    </td>
-                </tr>`;
-                count++;
-            }
-        }
-        if(html === "") { html = `<tr><td colspan='5' style='text-align:center; color:#94a3b8; padding: 30px;'>ไม่พบข้อมูลสมาชิกที่ค้นหา</td></tr>`; }
-        document.getElementById('adminBody').innerHTML = html;
-    }
-
-    function adminDeleteUser(user) {
-        if(confirm(`⚠️ คำเตือน!\nคุณแน่ใจหรือไม่ที่จะลบข้อมูลของ '${user}' ออกจากระบบทั้งหมด?\n(ข้อมูลจะถูกลบทั้งในเว็บและใน Google Sheet)`)) {
-            delete window.adminUsersList[user];
-            filterAdminTable();
-            fetch(SCRIPT_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'deleteUser', username: user }) }).catch(()=>alert("ลบในฐานข้อมูลไม่สำเร็จ กรุณาเช็คอินเทอร์เน็ต"));
-        }
-    }
-
-    function showAdminEditUser(user, currentPass) {
-        let currentMultiplier = window.adminUsersList[user].multiplier || 5;
-        let currentDays = window.adminUsersList[user].days || ""; 
-        let currentHours = window.adminUsersList[user].hours || "";
-
-        setupDarkModal("🔧 จัดการบัญชีสมาชิก", `กำลังแก้ไขข้อมูลของ: <b style="color:var(--primary)">${user}</b><br>เปลี่ยนชื่อ รหัสผ่าน ตัวคูณ หรือปรับเวลาได้เลย`, "บันทึกการแก้ไข", () => {
-            const newName = document.getElementById('darkInput1').value.trim(); 
-            const newPass = document.getElementById('darkInput2').value.trim();
-            const newMult = document.getElementById('darkInput3').value.trim();
-            const addDays = document.getElementById('darkInputDays').value.trim();
-            const addHours = document.getElementById('darkInputHours').value.trim();
-
-            if(!newName || !newPass) return alert("กรุณาใส่ชื่อและรหัสให้ครบ!");
-            
-            let wpm = window.adminUsersList[user].wpm; 
-            delete window.adminUsersList[user]; 
-            
-            // เซฟค่าลงในระบบหน้าเว็บ
-            window.adminUsersList[newName] = { 
-                wpm: wpm, 
-                password: newPass, 
-                multiplier: Number(newMult) || 5, 
-                days: Number(addDays) || 0, 
-                hours: Number(addHours) || 0
-            };
-            
-            closeModal('darkActionModal'); 
-            filterAdminTable();
-            
-            // ✨ ส่งข้อมูลที่แก้ทั้งหมดไปหา Google Sheet
-            fetch(SCRIPT_URL, { 
-                method: 'POST',
-                headers: { "Content-Type": "text/plain;charset=utf-8" }, 
-                body: JSON.stringify({ 
-                    action: 'adminEditUser', 
-                    oldName: user, 
-                    newName: newName, 
-                    newPass: newPass,
-                    multiplier: Number(newMult) || 5, 
-                    days: Number(addDays) || 0, 
-                    hours: Number(addHours) || 0
-                }) 
-            }).catch(()=>alert("บันทึกลงฐานข้อมูลไม่สำเร็จ"));
-        }, "ยกเลิก");
-
-        document.getElementById('darkInput1').style.display = 'block'; document.getElementById('darkInput1').value = user; document.getElementById('darkInput1').placeholder = "ตั้งชื่อใหม่...";
-        document.getElementById('darkInput2').style.display = 'block'; document.getElementById('darkInput2').type = 'text';
-        document.getElementById('darkInput2').value = currentPass !== "ไม่มีรหัส" ? currentPass : ""; document.getElementById('darkInput2').placeholder = "ตั้งรหัสผ่านใหม่...";
-        
-        // ✨ โชว์กล่องกรอกตัวคูณและเวลา
-        document.getElementById('darkInput3').style.display = 'block'; 
-        document.getElementById('darkInput3').value = currentMultiplier;
-        
-        let timeBox = document.getElementById('timeInputsBox');
-        if (timeBox) timeBox.style.display = 'flex';
-        document.getElementById('darkInputDays').value = currentDays;
-        document.getElementById('darkInputHours').value = currentHours;
-    }
-
     /* ================= ระบบ Login & User ================= */
     async function handleLogin() {
         const user = document.getElementById('loginUser').value.trim();
         const pass = document.getElementById('loginPass').value.trim();
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบดอแม่เย็ด!");
-        if(user.toLowerCase() === "304152" && pass === "304152") { showAdminPanel();
-            document.getElementById('loginUser').value = ''; document.getElementById('loginPass').value = ''; return; }
-        
-        // ✨ เช็คว่าเครื่องนี้เกิน 2 ID หรือยัง
-        let boundUsers = getBoundUsers();
-        if (user.toLowerCase() !== "304152" && boundUsers.length >= 2 && !boundUsers.includes(user)) {
-            return alert(`เครื่องนี้ถูกผูกกับไอดีครบ 2 ไอดีแล้ว (${boundUsers.join(', ')})!\nห้ามเข้าไอดีคนอื่น!`);
-        }
 
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         const btn = document.querySelector('#loginForm .btn-main'); const originalText = btn.innerText;
-        btn.innerText = "กำลังตรวจจับการซ้อนทับ.....";
+        btn.innerText = "กำลังโหลดดดดดด.....";
         btn.disabled = true;
 
         try {
-            let res = await fetch(SCRIPT_URL);
+            // ✨ ใส่ Date.now() กันเบราว์เซอร์จำค่าเก่า
+            let res = await fetch(SCRIPT_URL + "?_t=" + Date.now());
             let data = await res.json();
-
-            // ✨ พระเอกอยู่ตรงนี้: เช็คว่ากำลังออนอยู่เครื่องอื่นไหม!
-            let activeSessions = (data[0] && data[0].active_sessions) ? data[0].active_sessions : {};
-            let sessionInfo = activeSessions[user];
-            let now = new Date().getTime();
-            
-            // ถ้ามีประวัติออนไลน์ (ไม่เกิน 2 นาที) และ Device ID ไม่ตรงกับเครื่องนี้ = โดนแอบใช้อยู่!
-            if (sessionInfo && (now - sessionInfo.lastSeen < 120000) && sessionInfo.deviceId !== myDeviceId && user.toLowerCase() !== "304152") {
-                btn.innerText = originalText; btn.disabled = false;
-                return alert(`🚨 ไอดี '${user}' กำลังถูกใช้งานอยู่ที่เครื่องอื่น!\n(ให้อีกเครื่องกด 'ออกจากระบบ' ก่อน หรือรอ 2 นาทีหลังจากอีกเครื่องปิดหน้าเว็บ)`);
-            }
 
             let userRecords = data.filter(item => item.username === user);
             
@@ -1925,7 +1764,7 @@ function getRankIcon(rankName, size = 60) {
     }
 
     function handleRegister() {
-        // ✨ เริ่มโค้ดเพิ่มใหม่: ล็อค 1 เครื่อง 2 ID
+        // ✨ เริ่มโค้ดเพิ่มใหม่: ล็อค 1 เครื่อง 2 ID (มีผลเฉพาะตอนสมัคร)
         let boundUsers = getBoundUsers();
         const user = document.getElementById('regUser').value.trim();
         if (boundUsers.length >= 2 && !boundUsers.includes(user)) {
@@ -1953,9 +1792,10 @@ function getRankIcon(rankName, size = 60) {
             wrongWords: 0,
             totalAttempts: 0, 
             exp: 0, 
-            multiplier: 5, // ✨ เติมบรรทัดนี้ลงไป เพื่อให้แอดมินเห็นใน Sheet ทันทีที่สมัคร
+            multiplier: 5, 
             rank: "ทหารฝึก", 
-            password: pass
+            password: pass,
+            token: btoa((0 * 13 + 0 * 7) + "-ANTI-GAK") // ✨ ใส่ Token ป้องกันแฮกเกอร์
         };
 
         fetch(SCRIPT_URL, { method: 'POST',headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) }).catch(() => {});
@@ -1971,7 +1811,16 @@ function getRankIcon(rankName, size = 60) {
 
         localStorage.setItem('typingDB_Final', JSON.stringify(db));
         localStorage.setItem('isLoggedIn', user); currentUser = user;
-        showGame(user, db[user].best); loadTickerData();
+        
+        // 🔥 สำคัญ: จำเวลาที่เพิ่งล็อกอิน เพื่อให้ระบบเป็นอมตะ 5 วินาทีแรก (กันเซิร์ฟดีเลย์)
+        window.lastLoginTime = Date.now();
+
+        // ยิงคำสั่งยึด Session
+        fetch(SCRIPT_URL + "?user=" + encodeURIComponent(user) + "&deviceId=" + encodeURIComponent(myDeviceId) + "&action=login&_t=" + Date.now())
+        .then(() => {
+            showGame(user, db[user].best); 
+            loadTickerData();
+        });
     }
 
     function setupDarkModal(title, desc, confirmText, confirmAction, cancelText = "ยกเลิก") {
@@ -1979,7 +1828,6 @@ function getRankIcon(rankName, size = 60) {
         document.getElementById('darkInput1').style.display = 'none'; document.getElementById('darkInput1').value = '';
         document.getElementById('darkInput2').style.display = 'none'; document.getElementById('darkInput2').value = '';
         
-        // ✨ เริ่มโค้ดที่เพิ่มเข้ามาใหม่: ซ่อนช่องกรอก ตัวคูณ, วัน, ชั่วโมง เวลาไม่ได้ใช้งาน
         let input3 = document.getElementById('darkInput3');
         if(input3) { input3.style.display = 'none'; input3.value = ''; }
         let timeBox = document.getElementById('timeInputsBox');
@@ -1988,7 +1836,6 @@ function getRankIcon(rankName, size = 60) {
             document.getElementById('darkInputDays').value = '';
             document.getElementById('darkInputHours').value = '';
         }
-        // ✨ จบโค้ดที่เพิ่มเข้ามาใหม่
 
         let confirmBtn = document.getElementById('darkConfirmBtn'); let cancelBtn = document.getElementById('darkCancelBtn');
         confirmBtn.innerHTML = confirmText; confirmBtn.className = "dark-btn confirm"; confirmBtn.onclick = confirmAction;
@@ -2044,14 +1891,34 @@ function getRankIcon(rankName, size = 60) {
         document.getElementById('authContainer').style.display = 'none'; document.getElementById('gameMain').style.display = 'block'; init();
     }
 
-    function handleLogout() { localStorage.removeItem('isLoggedIn'); location.reload(); }
+    // ✨ ฟังก์ชัน Logout แบบรวมร่าง (แก้บั๊กเตะแล้วหลุดคู่) สมบูรณ์แบบ
+    function handleLogout(isKicked = false) { 
+        if (currentUser && currentUser.toLowerCase() !== "304152" && !isKicked) {
+            // กรณี "กดออกเอง": ให้ส่งคำสั่งไปลบชื่อออกจากคนออนไลน์ใน Google Sheet
+            fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+                body: JSON.stringify({ action: 'logout', username: currentUser }) 
+            }).then(() => {
+                localStorage.removeItem('isLoggedIn'); location.reload(); 
+            }).catch(() => {
+                localStorage.removeItem('isLoggedIn'); location.reload(); 
+            });
+        } else {
+            // กรณี "โดนเตะ" (isKicked = true) หรือไอดีแอดมิน: 
+            // ให้ออกเงียบๆ ไม่ต้องไปยุ่งกับ Session ใน Sheet เพราะเครื่องใหม่เขาจองอยู่!
+            localStorage.removeItem('isLoggedIn'); 
+            location.reload(); 
+        }
+    }
 
     function showRanking() {
         document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลเทพๆ จากสวรรค์ชั้น 7...</td></tr>";
         document.getElementById('rankingModal').style.display = 'flex';
-        fetch(SCRIPT_URL).then(res => res.json()).then(data => {
-            const bestScoresMap = {}; data.forEach(item => { if (!bestScoresMap[item.username] || item.wpm > bestScoresMap[item.username].wpm) bestScoresMap[item.username] = item; });
-            const leaderboard = Object.values(bestScoresMap).sort((a, b) => b.wpm - a.wpm); let html = "";
+        fetch(SCRIPT_URL + "?_t=" + Date.now()).then(res => res.json()).then(data => {
+            // ข้อมูลถูกยุบมาแล้ว เรียงลำดับได้เลยทันที
+            const leaderboard = data.filter(item => item.username).sort((a, b) => b.wpm - a.wpm); 
+            let html = "";
             leaderboard.slice(0, 150).forEach((row, i) => {
                 let rankColor = "#64748b"; let rankTrophy = i + 1; let bgStyle = "transparent";
                 if (i === 0) { rankColor = "#fbbf24"; rankTrophy = "🥇 1"; bgStyle = "rgba(251, 191, 36, 0.05)"; }
@@ -2067,71 +1934,48 @@ function getRankIcon(rankName, size = 60) {
             document.getElementById('lbBody').innerHTML = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนกากคนไหนมาพิมพ์</td></tr>";
         }).catch(() => { document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตด่วน!</td></tr>"; });
     }
-function showRankBoard() {
-    document.getElementById('rankBoardBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลทำเนียบยศ... แป๊บนึง</td></tr>";
-    document.getElementById('rankBoardModal').style.display = 'flex';
-    
-    fetch(SCRIPT_URL).then(res => res.json()).then(data => {
-        const userStats = {}; 
-        
-        // หา EXP สูงสุดของแต่ละคน
-        data.forEach(item => { 
-            if (!userStats[item.username]) {
-                userStats[item.username] = { ...item };
-            } else {
-                if (item.exp > userStats[item.username].exp) {
-                    userStats[item.username].exp = item.exp;
-                    // ไม่ต้องสน item.rank เก่าแล้ว เพราะเราจะคำนวณใหม่จาก EXP ล้วนๆ
-                }
-            } 
-        });
 
-        // สั่งเรียงลำดับตาม EXP จากมากไปน้อย
-        const leaderboard = Object.values(userStats).sort((a, b) => b.exp - a.exp); 
+    function showRankBoard() {
+        document.getElementById('rankBoardBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลทำเนียบยศ... แป๊บนึง</td></tr>";
+        document.getElementById('rankBoardModal').style.display = 'flex';
         
-        let html = "";
-        leaderboard.slice(0, 150).forEach((row, i) => {
-            let rankColor = "#64748b"; let rankTrophy = i + 1; let bgStyle = "transparent";
-            
-            // ไฮไลท์ที่ 1-3
-            if (i === 0) { rankColor = "#fbbf24"; rankTrophy = "🏆 1"; bgStyle = "rgba(251, 191, 36, 0.05)"; }
-            else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
-            else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
-            
-            // ไฮไลท์ชื่อตัวเอง
-            if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
-            
-            // 🔥 ไฮไลท์สำคัญ: คำนวณชื่อยศของทุกคนใหม่จากฟังก์ชัน getRankInfo เพื่อให้ชัวร์ 100%
-            let actualRankName = "ทหารฝึก";
-            if (typeof getRankInfo === "function") {
-                actualRankName = getRankInfo(row.exp || 0).current.name;
-            } else {
-                actualRankName = row.rank || "ทหารฝึก"; // สำรองไว้เผื่อฟังก์ชันหาไม่เจอ
-            }
-            
-            // ดึงรูปรหัสยศจากที่ประกาศไว้ (ถ้าไม่มีให้ใช้รูปทหารฝึก)
-            let iconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
-            
-            html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
-                <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
-                <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px;">${row.username}</td>
-                <td style="padding: 12px 15px; font-weight: bold; color: #fbbf24; font-size: 14px;">
-                    <img src="${iconUrl}" width="30" height="30" style="vertical-align: middle; border-radius: 4px; margin-right: 8px;"> 
-                    ${actualRankName}
-                </td>
-                <td style="padding: 12px 15px; font-weight: bold; color: #a855f7; font-size: 16px;">${Number(row.exp || 0).toLocaleString()}</td>
-            </tr>`;
-        });
-        
-        document.getElementById('rankBoardBody').innerHTML = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนเล่นเลยว่ะ</td></tr>";
-    }).catch(() => { 
-        document.getElementById('rankBoardBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตดูนะ!</td></tr>"; 
-    });
-}
+        fetch(SCRIPT_URL + "?_t=" + Date.now()).then(res => res.json()).then(data => {
+            // ข้อมูลถูกยุบมาแล้ว เรียงลำดับตาม EXP ได้เลยทันที
+            const leaderboard = data.filter(item => item.username).sort((a, b) => b.exp - a.exp); 
+            let html = "";
+            leaderboard.slice(0, 150).forEach((row, i) => {
+                let rankColor = "#64748b"; let rankTrophy = i + 1; let bgStyle = "transparent";
+                if (i === 0) { rankColor = "#fbbf24"; rankTrophy = "🏆 1"; bgStyle = "rgba(251, 191, 36, 0.05)"; }
+                else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
+                else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
+                if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
+                
+                let actualRankName = "ทหารฝึก";
+                if (typeof getRankInfo === "function") { actualRankName = getRankInfo(row.exp || 0).current.name; } 
+                else { actualRankName = row.rank || "ทหารฝึก"; }
+                
+                let iconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
+                
+                html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
+                    <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px;">${row.username}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: #fbbf24; font-size: 14px;">
+                        <img src="${iconUrl}" width="30" height="30" style="vertical-align: middle; border-radius: 4px; margin-right: 8px;"> 
+                        ${actualRankName}
+                    </td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: #a855f7; font-size: 16px;">${Number(row.exp || 0).toLocaleString()}</td>
+                </tr>`;
+            });
+            document.getElementById('rankBoardBody').innerHTML = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนเล่นเลยว่ะ</td></tr>";
+        }).catch(() => { document.getElementById('rankBoardBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตดูนะ!</td></tr>"; });
+    }
     function showHistory() {
-        document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>กำลังคุ้ยประวัติมึงอยู่ แป๊บ...</td></tr>"; document.getElementById('historyModal').style.display = 'flex';
-        fetch(SCRIPT_URL).then(res => res.json()).then(data => {
-            let historyData = data.filter(item => item.username === currentUser).reverse();
+        document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>กำลังคุ้ยประวัติมึงอยู่ แป๊บ...</td></tr>";
+        document.getElementById('historyModal').style.display = 'flex';
+        // ดึงประวัติแบบตรงๆ ไม่ผ่านระบบย่อข้อมูล
+        fetch(SCRIPT_URL + "?action=getHistory&user=" + encodeURIComponent(currentUser) + "&_t=" + Date.now())
+        .then(res => res.json()).then(data => {
+            let historyData = data.reverse();
             if (historyData.length === 0) { document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>มึงยังไม่เคยพิมพ์เลยไอ้กาก ไปพิมพ์ก่อน!</td></tr>"; return; }
             let html = "";
             historyData.slice(0, 1000).forEach((h, i) => {
@@ -2139,22 +1983,41 @@ function showRankBoard() {
                 html += `<tr><td style="padding:10px;">${i+1}</td><td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:10px;">${wpmStr}</td><td style="padding:10px;">${getRankText(h.wpm)}</td><td style="color:#888; padding:10px;">${dateStr}</td></tr>`;
             }); document.getElementById('historyBody').innerHTML = html;
         }).catch(() => {
-            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}'); let history = (db[currentUser] && db[currentUser].history) ? db[currentUser].history : []; let html = "";
-            if(history.length === 0) { html = "<tr><td colspan='4' style='text-align:center'>โหลด Sheet ไม่ติด และไม่มีข้อมูลในเครื่องมึงว่ะ ไปพิมพ์ก่อน!</td></tr>";
-            } else {
+            // ถ้าเน็ตหลุด ให้ดึงจากเครื่องตัวเอง
+            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}'); 
+            let history = (db[currentUser] && db[currentUser].history) ? db[currentUser].history : []; 
+            let html = "";
+            if(history.length === 0) { html = "<tr><td colspan='4' style='text-align:center'>โหลด Sheet ไม่ติด และไม่มีข้อมูลในเครื่องมึงว่ะ ไปพิมพ์ก่อน!</td></tr>"; } 
+            else {
                 history.slice(0, 1000).forEach((h, i) => { html += `<tr><td style="padding:10px;">${i+1}</td><td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:10px;">${h.wpm}</td><td style="padding:10px;">${getRankText(h.wpm)}</td><td style="color:#888; padding:10px;">${h.date || "เซฟในเครื่องมึง"}</td></tr>`; });
-            } document.getElementById('historyBody').innerHTML = html;
+            } 
+            document.getElementById('historyBody').innerHTML = html;
         });
     }
 
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
    /* ================= ระบบการพิมพ์และเกม ================= */
+    // 🔥 เตรียมตัวแปรจับเวลา (ข้อ 1)
+    let keyTimings = []; 
+    let lastKeyTime = 0;
+
     function init() {
         words = [...fullWordList].sort(() => Math.random() - 0.5);
-        document.getElementById('wordContainer').innerHTML = words.map((w, i) => `<span class="word" id="w-${i}">${w}</span>`).join('');
+        
+        // 🔥 (ข้อ 3) วางยาสลบ: สอดไส้ข้อความล่องหน คนมองไม่เห็น แต่บอทดูดไปจะพัง!
+        document.getElementById('wordContainer').innerHTML = words.map((w, i) => {
+            let trap = `<b style="width:0; height:0; overflow:hidden; display:inline-block; position:absolute; user-select:none;">_BOT</b>`;
+            return `<span class="word" id="w-${i}">${w}${trap}</span>`;
+        }).join('');
+
         currentIdx = 0; timeLeft = 60; isStarted = false; correctCount = 0;
         wrongCount = 0; totalTypeAttempts = 0; totalChars = 0; correctChars = 0;
+        
+        // 🔥 รีเซ็ตเวลาตอนเริ่มเกม (ข้อ 1)
+        keyTimings = []; 
+        lastKeyTime = 0;
+
         document.getElementById('userInput').value = ''; 
         document.getElementById('userInput').style.color = '';
         document.getElementById('userInput').disabled = false;
@@ -2163,7 +2026,6 @@ function showRankBoard() {
         document.getElementById('wordContainer').style.transform = `translateY(0)`; 
         updateFocus();
 
-        // ✅ ย้ายเข้ามาไว้ข้างในนี้แล้ว: จำยศก่อนเริ่มเกมทุกครั้งที่เริ่มใหม่
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         if (currentUser && db[currentUser]) {
             rankAtStart = getRankInfo(db[currentUser].exp || 0).current.name;
@@ -2177,11 +2039,16 @@ function showRankBoard() {
     }
     
     document.getElementById('userInput').addEventListener('input', (e) => {
-        // 🔥 กันบอท Auto-typer ถ้าไม่ใช่นิ้วคนพิมพ์จริงๆ ให้บล็อกทิ้ง
-        if (!e.isTrusted) {
+        // 🔥 เปลี่ยนมาเช็ค isTrusted แบบปกติ (แบบล้วงลึกมันทำให้บางเบราว์เซอร์พัง)
+        if (e.isTrusted === false) {
             e.preventDefault();
             return;
         }
+
+        // 🔥 (ข้อ 1) เก็บเวลาช่องว่างระหว่างการกดปุ่ม (Keystroke Dynamics)
+        let now = Date.now();
+        if (lastKeyTime > 0) { keyTimings.push(now - lastKeyTime); }
+        lastKeyTime = now;
 
         if(!isStarted && e.target.value.length > 0) {
             isStarted = true; timer = setInterval(() => { timeLeft--; document.getElementById('timer').innerText = timeLeft; if(timeLeft <= 0) endGame(); }, 1000);
@@ -2196,10 +2063,10 @@ function showRankBoard() {
     });
 
     document.getElementById('userInput').addEventListener('keydown', (e) => {
-        // 🔥 กันบอทจำลองการกดปุ่ม (Macro) ถ้าใช้โปรแกรมให้ด่าหน้าสั่น
-        if (!e.isTrusted) {
+        // 🔥 แก้เป็นเช็คแบบปกติ เพื่อไม่ให้กด Space/Enter ไม่ติด
+        if (e.isTrusted === false) {
             e.preventDefault();
-            alert('ใช้โปรแกรมช่วยเล่นงั้นหรอ555');
+            alert('หยุดใช้สคริปต์ปลอมคีย์บอร์ดเดี๋ยวนี้นะไอ้กาก!');
             return;
         }
 
@@ -2221,6 +2088,21 @@ function showRankBoard() {
             alert("ใช้โปรแกรมหรอออ กูริบคะแนน!");
             correctCount = 0;  // จับคะแนนเป็น 0
             wrongCount = 999;  // ประจานแม่งเลยว่าผิดยับๆ
+        }
+
+        // 🔥 [เพิ่มใหม่] ระบบจับผิดบอทจาก "ความเป๊ะ" ของจังหวะการพิมพ์
+        if (keyTimings && keyTimings.length > 20) {
+            let sum = keyTimings.reduce((a, b) => a + b, 0);
+            let avg = sum / keyTimings.length;
+            // หาค่าความแปรปรวน (Variance) ว่าพิมพ์เป๊ะเกินไปไหม
+            let variance = keyTimings.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / keyTimings.length;
+            
+            // คนปกติค่า Variance จะแกว่งหลักร้อย ถ้าต่ำกว่า 50 คือมาโครตั้งเวลาเป๊ะชัวร์!
+            if (variance < 50) {
+                alert("จังหวะพิมพ์มึงเป๊ะเป็นบอทเลยนะไอ้เวร! โดนแบนคะแนน!");
+                correctCount = 0;
+                wrongCount = 999;
+            }
         }
 
         const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
@@ -2252,10 +2134,12 @@ function showRankBoard() {
         document.getElementById('syncStatus').innerText = "⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส..."; 
         document.getElementById('resultModal').style.display = 'flex';
         
-        // ... (โค้ดส่วนดึง currentRankName และ fetch(SCRIPT_URL, ...) ของมึงที่อยู่ต่อจากนี้ ปล่อยไว้เหมือนเดิมเลยนะ ไม่ต้องไปยุ่งกับมัน)
-
         // ดึงชื่อยศล่าสุด
         const currentRankName = getRankInfo(db[currentUser].exp).current.name;
+
+        // 🔥 [เพิ่มใหม่] สร้างรหัสลับ (Token) กันคนใช้ Postman ยิง API มั่วๆ
+        let secretCalc = (correctCount * 13) + (wrongCount * 7);
+        let cheatToken = btoa(secretCalc + "-ANTI-GAK");
 
         // 🔥 แพ็กข้อมูลให้ครบก่อนส่งไป Sheet ตามที่ Google Apps Script ต้องการ
         const payload = {
@@ -2269,7 +2153,8 @@ function showRankBoard() {
             exp: db[currentUser].exp,
             multiplier: expMultiplier, // ✨ เพิ่มบรรทัดนี้ส่งกลับไป Sheet ด้วย
             rank: currentRankName,
-            password: db[currentUser].pass
+            password: db[currentUser].pass,
+            token: cheatToken // 🟢 [เพิ่มใหม่] ส่งรหัสลับแนบไปด้วย!
         };
 
         fetch(SCRIPT_URL, { 
@@ -2280,7 +2165,7 @@ function showRankBoard() {
             document.getElementById('syncStatus').innerText = "✅ ..เรียบร้อยแล้วเว้ย.."; 
             loadTickerData(); 
         }).catch(() => { 
-            document.getElementById('syncStatus').innerText = "❌ เซฟไม่ลงฐานข้อมูลว่ะ ช่างแม่งไปก่อน"; 
+            document.getElementById('syncStatus').innerText = "❌ เซฟไม่ได้ว่ะ ช่างแม่งไปก่อน"; 
         });
     }
 
@@ -2325,46 +2210,61 @@ function closePromotion() {
     
     function confirmLogout() { 
         document.getElementById('logoutModal').style.display = 'none';
-        
-        if (currentUser) {
-            // ✨ ส่งสัญญาณไปบอกให้ Google Sheet ลบชื่ออกจากการออนทันที
+        if (typeof handleLogout === "function") { handleLogout(); } 
+        else { localStorage.removeItem('isLoggedIn'); location.reload(); }
+    }
+
+    // ✨ ฟังก์ชัน Logout แบบออกปุ๊บทันที (Fire and Forget)
+    function handleLogout(isKicked = false) { 
+        if (currentUser && currentUser.toLowerCase() !== "304152" && !isKicked) {
+            // ยิงคำสั่งลบเซสชันแล้วไม่ต้องรอ ให้มันทำไปเองหลังบ้าน
             fetch(SCRIPT_URL, { 
                 method: 'POST', 
                 headers: { "Content-Type": "text/plain;charset=utf-8" }, 
                 body: JSON.stringify({ action: 'logout', username: currentUser }) 
-            }).then(() => {
-                if (typeof handleLogout === "function") { handleLogout(); } else { location.reload(); }
-            }).catch(() => {
-                if (typeof handleLogout === "function") { handleLogout(); } else { location.reload(); }
-            });
-        } else {
-            if (typeof handleLogout === "function") { handleLogout(); } else { location.reload(); }
-        }
+            }).catch(() => {});
+        } 
+        
+        // ลบไอดีออกจากเบราว์เซอร์แล้วรีเฟรชออกทันที!
+        localStorage.removeItem('isLoggedIn'); 
+        location.reload(); 
     }
 
 // ================= ระบบป้องกันโปรแกรมช่วยเล่น (Anti-Cheat) =================
     window.addEventListener('DOMContentLoaded', () => {
         const inputField = document.getElementById('userInput');
         
+        // 🔥 (ข้อ 4) ระบบดักจับการยัดข้อความด้วย Script (Hook Value Setter)
+        if (inputField) {
+            const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+            const nativeGetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').get;
+            
+            Object.defineProperty(inputField, 'value', {
+                set: function(val) {
+                    // ถ้าพยายามยัดข้อความแปลกๆ ที่ไม่ใช่การเคลียร์ค่า = สคริปต์โกง
+                    if (val !== '') {
+                        alert('ใช้สคริปต์ยัดข้อความหรอไอ้สัส! กูจับได้ละ!');
+                        correctCount = 0; wrongCount = 999;
+                        return; // บล็อคไม่ให้ข้อความเข้ากล่อง
+                    }
+                    nativeSetter.call(this, val);
+                },
+                get: function() { return nativeGetter.call(this); }
+            });
+        }
+
         // ห้ามก็อป ห้ามวาง ห้ามตัด ห้ามลากมาวาง
         if (inputField) {
-            inputField.addEventListener('paste', e => { 
-                e.preventDefault(); 
-                alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); 
-            });
+            inputField.addEventListener('paste', e => { e.preventDefault(); alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); });
             inputField.addEventListener('copy', e => e.preventDefault());
             inputField.addEventListener('cut', e => e.preventDefault());
             inputField.addEventListener('drop', e => e.preventDefault());
         }
 
-        // ปิดคลิกขวาหน้าเว็บ
         document.addEventListener('contextmenu', event => event.preventDefault());
 
-        // ปิด F12 และปุ่มลัด DevTools (Ctrl+Shift+I, Ctrl+U ฯลฯ)
         document.onkeydown = function(e) {
-            if (e.keyCode === 123 || 
-                (e.ctrlKey && e.shiftKey && (e.keyCode === 'I'.charCodeAt(0) || e.keyCode === 'J'.charCodeAt(0))) || 
-                (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) {
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 'I'.charCodeAt(0) || e.keyCode === 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) {
                 return false;
             }
         };
