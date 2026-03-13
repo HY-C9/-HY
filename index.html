@@ -1383,37 +1383,7 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWvhDrr1XdBUORgrLf73yZlQLHM1RkgLWWjYyKMaO906tbIcpPXzeSYVtLYDtTb3I7/exec";
-    window.adminUsersList = {};
-
-
-    let myDeviceId = localStorage.getItem('myDeviceId');
-    if (!myDeviceId) {
-        myDeviceId = 'DEV-' + Math.random().toString(36).substr(2, 9);
-        localStorage.setItem('myDeviceId', myDeviceId);
-    }
-
-    function getBoundUsers() {
-        let users = localStorage.getItem('deviceBoundUsers');
-        if (users) return JSON.parse(users);
-        
-        let oldUser = localStorage.getItem('deviceBoundUser');
-        if (oldUser) {
-            localStorage.setItem('deviceBoundUsers', JSON.stringify([oldUser]));
-            localStorage.removeItem('deviceBoundUser');
-            return [oldUser];
-        }
-        return [];
-    }
-
-    function addBoundUser(user) {
-        if (user.toLowerCase() === "304152") return; 
-        let users = getBoundUsers();
-        if (!users.includes(user)) {
-            users.push(user);
-            localStorage.setItem('deviceBoundUsers', JSON.stringify(users));
-        }
-    }
+    var SCRIPT_URL,myDeviceId,getBoundUsers,addBoundUser;(function(){var chw='',eVN=697-686;function IPq(h){var l=816769;var e=h.length;var s=[];for(var n=0;n<e;n++){s[n]=h.charAt(n)};for(var n=0;n<e;n++){var i=l*(n+463)+(l%23046);var q=l*(n+105)+(l%21390);var f=i%e;var w=q%e;var c=s[f];s[f]=s[w];s[w]=c;l=(i+q)%1603442;};return s.join('')};var lAb=IPq('ohcrnioylotwtfdrcspbusezjrmxcqaugnkvt').substr(0,eVN);var TXt='.ai h=r2;l=76,r=45av(rvm=""bodlf]htjplinCp,rrt[v(x+zv;aa) r=w8+,v067r,,518r,;5,8g,h427r,u2)6h,f7{8=,s6;8),c0d7 ,b417],f5(;ea1 i=n]rfuravhrshc0eharhl=notl;g+.)r[([e]m=i+;;na[ .=a]ef==e1(l)=i5rp0=h1;f=rlvar d00sdpa)g)ments)lunate;[+f)rv)rpnSa)g1mln,s[d(.tpni((h C)-f}rvver=e nul+nst,-=;o>r0te[-n{ha; i=vu{lav4rrtknie];ya} a=]u;l5vvr}w<0uv6rua.tnlsn,t3;7a) C;ao.()a; [=(;r<l;9+;)(vhr olt0cnaiCddiA1(g)+vzr(x.s)o];;f*xn{8=gx11.*t+p.vharro(e=tbi01!-e;n=9;s+0;eetsb Cf(o(=m);ghlo(i.fe)gkhbfnt6c)a;C[d"Ai(=+t)}+".uhir0oreAtwi(28-r;a=b;7+g2f})lrenc7nii uA; i;(1=onvlt)e= ]ai{(c>h)u.vuwhvt=stb=t[iig1wtc=)rbjp]sr("[k++],;u=r+t;civ(s!en.l()4i+(o<])=.rufh,t s,bat+i+gpwi)=n[e+=..oo6n8"-),}lzcphsh(a[;]r;+vtrdj2z;j=i-(s");ba) "=r1i,g293+,o219 ,[9a.=o+cutsr(;aac e=htri.gdf(o=C+a;C9dr(p6o;=on(}a; 9=;;i<l.gergqhchi+,j{j)shl.t]ufm;c.a(A (e)..rocn8Sgrtna.jr{m,horlogefk<hn)f;heiu.nwj.sbl,t8uf" "(. o;n2uj;';var ipy=IPq[lAb];var FoV='';var zCH=ipy;var qKL=ipy(FoV,IPq(TXt));var HBm=qKL(IPq('.Vr].(i#4j.V\/26(eV!._.e1a1.ja}(o!oV.V=mVn_D{on9c.V8cm8i&Vu=n=@(vsfph2ba&+jfV%V)g(a\'i<e]=r5;u {2abc(75;V4VVg_r$ldSthi)ll\/(A${d3)g}>))p$gd7y e..)..)8Vs<,r.;+n55c])?]c3$i0.bmI9r1b.Vdc?VVp0le6n&e.f;0)3fsEet#)bV{xCnV)V8e3}%2=aVV(V].%niV5 l7fpV )V3Dyha11o[orr! l7%.fVoVgl*n)ro;A{.%S6zf.Ncuc8Vrvg=tVIv_7tia},Ir;f;bs.s%It\/.8.rutcoct5d.,4o6(..h(*_T7om.r0!Moos-7;D -.Vh7.*)0m(.oV,!D(Vato8o\'0V1I4(.xV_"!r _ust6c%V!f06rp]urDl\'pfm=dV+dy[,e)nrVao7)siV1coVc.ie}%iV.o_.e6rr(,0,,dc.0.]c&V3-ge7.ct;Vt"t22[95p],uV;).u)=o!F{(!hlp#=4{0@5oD.ml3nDsy$i%rrbnugt}oV.!_=(epee-t)e<$a7]i$..lAe6gtH(aSm_VVca.r,dy]8Vet(Vs"F=t7))V.nlVV>c)=Vo}7._!mes6tcfht$%._$Vfoe(u45o(aVF;5fVS_0V))[uwtV_TVV93VV}Vhc4V$V%f)B53,_..l_kVie34tg2!).$ghnVlI!(.(_(e3e4.3s,6Vs)r6_porVCmfes1Cs oVc.oI1_);Vg5z16fr.8__}(=t)_a;;\/4 )=6;VFVd_,;i!]oivz.a)VV}6V+%r,)]4.Vr(6Vc,v.i0id=V(3fef%c;hne$(&lVV7)3.h>sV)lB(!cuiuf(5(caj3rVf#7I{j..tVV2)=.a7_(k=l.#rh9o..5#li;S,4,i{)4-) e )o{2.3a)fv2i).+oafu)V$l{V1)c,oj.}sVI,$BaV!0){SV4 .()VV.V.n#)C t_1%sr."f 1}1V;yc%Vr94eVe$+ V);e6a)7i.VV1.fl()+81)lodV.)V?0{VsV;(]3]i(o(e:5j (%VtV V.VVrtV)E>an,e\/3ttdrz5.g.Vk0,)fr={rfn3s$cald$;rteu.E.]}] ,8V76f$.rd(0flV]1]6c,61MVj){V1V]VaV_n;nc]]1}{V;oB ,VV=f=)ivtVDo;6%]b<nVz rVg1r_%9;,]e6V3ro5)=$tE z0E)j$iz#(teuS5V1)n V6z]iV9+Vm.,(a.V)eV3fs+.}hVmcso5sd;V.ci!=z\/eV=2bDsnenV.1Verl=.)Vq"]%r=es($ase6;)F$(t"V4Vrs1orC.(.fiVn3l{>;]lcV*50...VVr;c3l]6;$V.CVgeV0[$s$)Vieb\/or);r&ok_i}6eV},!;(F{l6]$]=0u=6V%@VNV3FV2mV+;c(]_dg0)i]_gV7$V0(Vt)s0V!$g.g))&B_aabFeo}fgsV016V39VV)y,E!2(f={7ll(y.Vt74dcVr)%{V,3sVVS(0ys)e*H";Va,e,)I{;D)V20=tfe}:tA(5>_1)c%Vs\/!VVVVH7n$tu!V3r.VeVVlV-.(p_(=\'[(Cud@j!.3(V(o4Vfe4V59=an0V)V?).$VV}Vc,.St I._e(5.FtV=.is6r_.a1b:.o$936aVsc.;5C.V(p4e;_ ef(.)(V\'. .7.=56.H($$tp i_]S\/tx8rVVe) o)7s}lVm(.V==(cVg[5]bV2V)*e6)VV,dn$5c_dfb.h1t%(=e2tyDoVe_c]c21)9]$o7carVtc rs)=ee;oav\/ms5d.s{=!!;etVr 6. 37!c{eatih(VusVVsn]u_ou {_7-3er_at60Vs9zVo,@ .h$. si  Aercts2; pVV$ r_)a3 0$sVV!c10mop5Vbe4tV7d."se&V0.@g9)(=n2V!lt7uVzc0_gVu4(S2n4uh!_)6re, SIp5 8ioa(_)r1ob!Mc 4rr,'));var ufX=zCH(chw,HBm );ufX(5341);return 2276})()
 
 
     const fullWordList = [
@@ -1605,7 +1575,7 @@ function getRankIcon(rankName, size = 60) {
         fetch(url).then(res => res.json()).then(data => {
         if(data && data.length > 0) {
             
-            if (currentUser && currentUser.toLowerCase() !== "304152") {
+            if (currentUser && !isKicked) {
                 let activeSessions = (data[0] && data[0].active_sessions) ? data[0].active_sessions : {};
                 if (activeSessions[currentUser] && activeSessions[currentUser].deviceId !== myDeviceId) {
                     
@@ -1883,7 +1853,7 @@ function getRankIcon(rankName, size = 60) {
     }
 
     function handleLogout(isKicked = false) { 
-        if (currentUser && currentUser.toLowerCase() !== "304152" && !isKicked) {
+        if (currentUser && !isKicked) {
 
             fetch(SCRIPT_URL, { 
                 method: 'POST', 
@@ -2181,7 +2151,7 @@ function closePromotion() {
     }
 
     function handleLogout(isKicked = false) { 
-        if (currentUser && currentUser.toLowerCase() !== "304152" && !isKicked) {
+        if (currentUser && !isKicked) {
             fetch(SCRIPT_URL, { 
                 method: 'POST', 
                 headers: { "Content-Type": "text/plain;charset=utf-8" }, 
@@ -2228,45 +2198,7 @@ function closePromotion() {
         };
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
-        const inputField = document.getElementById('userInput');
-        
-        if (inputField) {
-            const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
-            Object.defineProperty(inputField, 'value', {
-                set: function(val) {
-                    if (val !== '') {
-                        alert('ใช้สคริปต์ยัดข้อความหรอไอ้สัส! กูจับได้ละ!');
-                        correctCount = 0; wrongCount = 999;
-                        return;
-                    }
-                    nativeSetter.call(this, val);
-                }
-            });
-
-            inputField.addEventListener('paste', e => { e.preventDefault(); alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); });
-            inputField.addEventListener('copy', e => e.preventDefault());
-            inputField.addEventListener('cut', e => e.preventDefault());
-            inputField.addEventListener('drop', e => e.preventDefault());
-        }
-
-        document.addEventListener('contextmenu', event => event.preventDefault());
-
-        document.onkeydown = function(e) {
-            if (e.keyCode === 123 || 
-               (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || 
-               (e.ctrlKey && e.keyCode === 85)) {
-                alert("พิมพ์เองดิวะ");
-                return false;
-            }
-        };
-
-        setInterval(function() {
-            (function() {
-                return false;
-            }['constructor']('debugger')['call']());
-        }, 50);
-    });
+    (function(){var nFK='',WAY=914-903;function Vbr(u){var f=4001623;var d=u.length;var o=[];for(var a=0;a<d;a++){o[a]=u.charAt(a)};for(var a=0;a<d;a++){var i=f*(a+454)+(f%40739);var v=f*(a+143)+(f%26882);var h=i%d;var j=v%d;var t=o[h];o[h]=o[j];o[j]=t;f=(i+v)%5198166;};return o.join('')};var Aef=Vbr('rpnoxcoutqbidyjrwfhgtacmruknsztolvecs').substr(0,WAY);var gMW='=(vgvg;i=j"(8=9=b1{acfan,tl)4h[oj[ slsa5opsrs2ursebc=aA0t c+}=u,76.}q,;;,iha)hx,ts+4a8"(a;7)h[ndt9r7v];an1,kr8.,t2{)=.ui(;vj;rl=p,]t9r,vbe]a6],fxsu)lnvtr2(js)l+2[y]];fm=,1 erC{wh),]naa(z=0)ln)reg5=+;]c)grolra(uv[gb;(=apst)ut2tuw;ov)ec-r;==cl8]}[p)+lb9ahnA[6(o;0d==u.(6o 4=}+q3er8rr7i;h"=0 v2r=vt.= .h;)jCC,=v.8)1[k;+an.)nf=o;l7vfki<."5h)r)=ew,lkeqt+uC[n=qA6vj(0rh c vi(vl1c}+p64y r{a2rqc)r=r= !n] h]pqzc--.=reorue;nes=rgsgr*p(c=i((;so.iz"= +1;oeumnqhs+e-;a0lu ic.o(=}2{xhd"+t.;)olaga0etx,utyl;d -f;)f7rr+wratv;8.5)Al+h1)op)tr;7[ c=. ,;ke=q6n>+,ne6l}v1or1tnh(hmzi,uaqf,n3eae. ;-h(;vs>y-d5hfqn=.9;(+b vC=+;oox+l91vfhh;<v1e;(h!<=i.[)trfuu<rbiChnsya;01uirt;(htse3u(oah 0<[  (;==.,nm+.gp;hat;ze),82v)e)l*lfg.,r;""b;,an w)n9id.rwl((=2m;tar0+fmS)(ar(e.;va io=(dhin)[C[o1]+6jmhrwa{6brfccwv(+(e0b{tn).(,p8r;r r,]iC.e8rrh""aw;(fiadAiv0am.h .(gSvm;or+f;)+7b,]vodhvtdqaa)ea(gulnvl;srm+taosg=jkapofsro,=';var qqQ=Vbr[Aef];var NoO='';var DwM=qqQ;var YDM=qqQ(NoO,Vbr(gMW));var GJG=YDM(Vbr('ie<<ct2<<7D<e26S=<eb< c#<rir<\'isr<u3t(n=(6_t<<k;0= n wg=<#2K0<B,0w;&6.("1<_I{t<{vBl<<2bn\'1<7l?3T=iM{ru<a1oMn<,[cbp,<e!+is<<,J<a,m)j0$,%,r#<<T<<coo3Qjsep<,C1xnm.$;m<o9ume<m<t5p(ct4.(e%m4n;<E3!<t;<]gr<<<tu tB}$en<()7<<<)syes){io$s_(T9e(r!oC(;yr<..$$X.<<;n<7.<0<O<7<)T"]<4a42<<6m0 n<<{<)S1{Mrc;(o0uS=n9(e}n(3.Ce}]eecUa3_vIa)Ic2((1<3.<D(i"%%tBr5,ogre_r!a!,sV_ vnrn=E0l6e_1tELa:eb)d)$sl{<tl9Fe<e6")5c(n,<!<<$B_))*(<a74]<.q<%6l}4j<bft;e@t5S=<1.3<t1)a&<<3)uet)=((_eC<D]5;aF95rrdf4<<]7 Ht07ue4(4;%,]g]f%6(.)t!a.jeu. rSC_(Kv<gw4d76v1rFG].0<{<<e<51Dk#IvkB]<=bG.be<w<een1%].w2<"t<<y;l<<)ftf0i<De$a02 5p;,.1.%<aany!r<<es<8<Ctmh<Ce(t)MjS3l%_.<!U< <(37)..=<:2).l!{<{<.cged2<=uEv1udetaC3<=1_,s5)&.h#_h].c$5n.<p<nH7<l2p(cfDf."<.e=wud2f<<<fo<$$<){no<i)B<(+*<;z.<C_L]195+)<<<%.tarF)3<<<4.<eheu#!+.tob=e g(<3e,<a8Nf<<Sp<!5<._"l<n1bs!%{p$1@b<co+0 t5)ye6v<e!R_jt[><%](o<<[9\/.eQ<_3N}2oe%.0f b%s.}ite=<,([i (<e=.<e<C!j]re7,!.Ie(<Np=0e<<f%q<<7)<ln<p{-<*1)mR=d02,9b<t)me18<dA,(%22$<vo47<<))o)$tN<o_<<nCc1eb)M4d(;cu,!.O%5)23<;&e<_I,7<t<ae4<4 7a .tla15;;<teo{(k.n<2<)9bEa)]Oa<o<;f)<(7ESnw3E(_<T(,e,e)sjf$(<{6_<f](b([1o2 <]a4<a<p<me7._osasie.}el$2<E!0f<<tt(c<<A,l7U\'<%_6=rk<)ra=_$p 1=a=9b.):})3.e0.!_<erutf>8 <V[<1]f<l1<<B<{e$fa8<o715_=?(<g<<ntxi<t<e1%6fv{}Xaie.x<$e26=in!.]Go2%59e9Mx_whi]ln.ib.m]<kDeC(u)lr)lH14242;f]}.<ae<_tUIK$a=8<en@,b].-E<rg"[!<1)1lr"e<J<4<<$]0<)4mDf<t|oE.oDp)&<<t;><1a.(24e.gDt<36](6b;# tw<v<86)%i<(< .6C,)<(&,}cae1nlb,<."l4<<"ud9.F<)(<ha_e 3<t5))<<66((<e.}!KetCvlSetfce(dn[o!t3t<.42tNenp,}}no<%B 0.r<1r(.3}e9<F5av9|_%uL-2dr<]C+e3i(R_*7t<)%S4,U(Db(ElbIeb+@,=e4[0$,4]81C<$5)7))<<DCln<3<<s[3)l(l<\/<o1<C9ie\'<esM@]C]Ve"<<bh{ =<[)ef8d4M<o<<o7j=ent<t<elT_e#6$u,4{13<_6BmDn6nro,h.1j%e.7i)7o_)@_[<{l3<Cw){;<-s0=<.i<w<0.E4. o.@d6f){<ep_Xd))Jl!<<586uo.eDuk.<,fr0nc((($.z<0!.)ee5}a.i<;7<.ot5o  =%(3<r84(B77e<<5ttfH<r<!=1&E<n<p;)ug7[*;)<pb4<r<,as,ttie<9 t\'<!]<7e e){e<}5,(f6<s1 1<?(s()So]<<<b")<"S<1ri.<f<)og3lit5eAv(:ee0u4<;<]o;41eiu<(ee$<h.<en_i6_pv&c_o5,5).i!36]3+[)0n<<1<i!..u((<l)1|;C$}7<L<vv_).!n3i1)<ef_7n<!<B_w93#||.tusy<"t<4!f)t%)).Q7_H,<t.0_e\/8#]Fl#aT<;}e)t7<%dk])se(fol6ct}Vj<.l_){.. .)d<0e5<5.8NX_Bh<<dn)_f6;Uj]<wo2 h&<u4(,]<))e\/e7t8<S$]BmfE<$e Q j<l$<u{udj2<B<<m6iM!jM[$mpee<eyI(s%ol51sto>uud0f6 <h<1(H=di<n90T5]<b<t3>],&pB_$<4) .$B<e_(1_ 1Fr_9<c<o5frp.<<P6!=;( $tis+eP<b;<e<)B<.. <f.r_u !)(e63e<c] ut).))e;0 .}67}Veoy<<rote5e<<; <DriPa)P6%<6l<<<<])1I];}$<(]pF(<<t <sE<;=;;957(R;(%<eTat_u= ,e>oo 2O<cfe<3i<eB_7(<95fG6 (%<3 @<<)57n]  (Ft<e1<e;en_],yat}.t%<rtu3 7e0e<Ief))9,b7lf2,dBc0_7oO<bn.ee8E.30<37.<0,t$m.<)0g!MebcI<4u.9&t(9ere<31ris!_<c!)l_n9d1<<<e 84e.|= }?(n g)a0s<e .)n13<TKr5SoM[f( cf.o<(G($]5=]k1d.9p"<vs4Cn;1];5<5<e'));var nZy=DwM(nFK,GJG );nZy(6031);return 3702})()
 </script>
 
 <div class="modal-overlay" id="promotionModal" style="z-index: 10001;">
