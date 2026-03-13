@@ -1836,18 +1836,40 @@ function getRankIcon(rankName, size = 60) {
 
     function showEditName() {
         setupDarkModal("✏️ แก้ไขชื่อของมึง", "ใส่ชื่อใหม่ที่ดูดีกว่าเดิมมาเลยไอ้สัส", "เปลี่ยนชื่อ", () => {
-            const newName = document.getElementById('darkInput1').value.trim(); if(!newName || newName === currentUser) return;
+            const newName = document.getElementById('darkInput1').value.trim(); 
+            if(!newName || newName === currentUser) return;
             if(newName.length > 30) { document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อยาวไปไอ้เวร! เอาแค่ไม่เกิน 30 ตัวอักษรพอ!</span>"; return; }
+            
             let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
             if(db[newName]) { document.getElementById('darkDesc').innerHTML = "<span style='color:red'>ชื่อนี้มีคนใช้แล้ว เปลี่ยนใหม่ดิวะ!</span>"; return; }
-            const oldName = currentUser; db[newName] = db[oldName]; delete db[oldName];
-            localStorage.setItem('typingDB_Final', JSON.stringify(db)); localStorage.setItem('isLoggedIn', newName); currentUser = newName;
-            document.getElementById('displayUser').innerText = newName; closeModal('darkActionModal');
-            setupDarkModal("✅ เรียบร้อย", "เปลี่ยนชื่อเป็น '" + newName + "' เรียบร้อย", "ปิด", () => closeModal('darkActionModal'));
-            document.getElementById('darkCancelBtn').style.display = "none";
-            fetch(SCRIPT_URL, { method: 'POST',headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'editName', oldName: oldName, newName: newName }) }).catch(() => {});
+            
+            const oldName = currentUser; 
+            
+            let btn = document.getElementById('darkConfirmBtn');
+            btn.innerHTML = "⚡ กำลังเปลี่ยน...";
+            btn.disabled = true;
+
+            db[newName] = db[oldName]; 
+            delete db[oldName];
+            localStorage.setItem('typingDB_Final', JSON.stringify(db)); 
+            localStorage.setItem('isLoggedIn', newName); 
+            currentUser = newName;
+
+            fetch(SCRIPT_URL, { 
+                method: 'POST',
+                keepalive: true, // 
+                headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+                body: JSON.stringify({ action: 'editName', oldName: oldName, newName: newName }) 
+            }).catch(() => {});
+
+
+            alert("✅ เปลี่ยนชื่อสำเร็จ!");
+            location.reload(); 
         });
-        document.getElementById('darkInput1').style.display = 'block'; document.getElementById('darkInput1').value = currentUser; setTimeout(() => document.getElementById('darkInput1').focus(), 100);
+        
+        document.getElementById('darkInput1').style.display = 'block'; 
+        document.getElementById('darkInput1').value = currentUser; 
+        setTimeout(() => document.getElementById('darkInput1').focus(), 100);
     }
 
     function showChangePassword() {
