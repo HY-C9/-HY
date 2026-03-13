@@ -29,23 +29,23 @@
             white-space: nowrap; 
             padding-left: 100%;
             display: inline-block; 
-            /* 1. เปลี่ยนเวลาจาก 13s เป็น 30s (หรือตัวเลขอื่นตามชอบ) เพื่อไม่ให้มันวิ่งเร็วเกินไปจนตาลาย */
+            
             animation: ticker 20s linear infinite; 
             font-size: 20px; 
             font-weight: 600;
 
-            /* --- 2. เพิ่ม 3 บรรทัดนี้เพื่อความสมูท --- */
-            will-change: transform; /* สั่งให้ดึงพลัง GPU มาเตรียมเรนเดอร์ล่วงหน้า */
-            -webkit-font-smoothing: antialiased; /* ทำให้ขอบตัวหนังสือเนียน ไม่แตกเวลาขยับ */
-            backface-visibility: hidden; /* ลดอาการภาพสั่น (Flicker) */
+            
+            will-change: transform; 
+            -webkit-font-smoothing: antialiased; 
+            backface-visibility: hidden; 
         }
 
-        /* 3. แก้ไข Keyframes โดยใช้ translate3d เพื่อบังคับใช้ Hardware Acceleration แบบ 100% */
+        
         @keyframes ticker { 
             0% { transform: translate3d(0, 0, 0); } 
             100% { transform: translate3d(-100%, 0, 0); } 
         }
-        /* --- UI Components (Compressed) --- */
+
         .main-container { width: 95%; max-width: 1100px; text-align: center; display: none; position: relative; }
         .top-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end; align-items: center; }
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
@@ -147,7 +147,7 @@
         .admin-btn-del { background: #ef4444; color: white; margin-left: 5px; }
         .admin-btn-del:hover { background: #dc2626; }
 
-            /* ==================================================
+        /* ==================================================
            2. LIGHT MODE (โหมดสว่าง) 
            ================================================== */
         body.light-mode { --bg: #e1eff5;
@@ -1386,7 +1386,7 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyWvhDrr1XdBUORgrLf73yZlQLHM1RkgLWWjYyKMaO906tbIcpPXzeSYVtLYDtTb3I7/exec";
     window.adminUsersList = {};
 
-    // ✨ เริ่มระบบจำ 2 ID ต่อเครื่อง และระบุตัวตนเครื่อง
+
     let myDeviceId = localStorage.getItem('myDeviceId');
     if (!myDeviceId) {
         myDeviceId = 'DEV-' + Math.random().toString(36).substr(2, 9);
@@ -1414,7 +1414,7 @@
             localStorage.setItem('deviceBoundUsers', JSON.stringify(users));
         }
     }
-    // ✨ จบระบบจำ 2 ID ต่อเครื่อง และระบุตัวตนเครื่อง
+
 
     const fullWordList = [
       "พี่", "เพื่อน", "ดาว", "บิน", "โสม", "แสง", "โต", "ใหญ่", "น้อย", "แผนก","ห้อง","ใจ","ลอย","กลุ่ม","กาก","ร้าน","ซ่อม","ผอม", "อ้วน", "อ้อน", "แดง", "เพลง", "หอม", 
@@ -1456,7 +1456,7 @@
     let words = [], currentIdx = 0, timeLeft = 60, isStarted = false, timer = null;
     let correctCount = 0, wrongCount = 0, totalTypeAttempts = 0, totalChars = 0, correctChars = 0, currentUser = "";let rankAtStart = ""; // ตัวแปรสำหรับจำยศก่อนเริ่มเล่น
 
-    // ================= ระบบข้อมูล EXP & RANK =================
+
     const rankData = [
         { exp: 0, name: "ทหารฝึก" }, { exp: 1000, name: "พลทหาร" }, { exp: 2056, name: "สิบตรี" }, { exp: 3667, name: "สิบโท" }, { exp: 4339, name: "สิบเอก" },
         { exp: 6078, name: "จ่าสิบตรี ชั้น 1" }, { exp: 7591, name: "จ่าสิบตรี ชั้น 2" }, { exp: 8586, name: "จ่าสิบตรี ชั้น 3" }, { exp: 9570, name: "จ่าสิบตรี ชั้น 4" }, { exp: 10853, name: "จ่าสิบตรี ชั้น 5" },
@@ -1487,7 +1487,7 @@ function getRankInfo(exp) {
         return { current: currentRank, next: nextRank };
     }
 
-    // 1. ตารางเก็บลิงก์รูปภาพ แยกเดี่ยว 75 ยศ 75 รูป
+
 const rankIconUrls = {
     "ทหารฝึก": "https://img5.pic.in.th/file/secure-sv1/image4b12c85f3302454a.png",
     "พลทหาร": "https://img2.pic.in.th/imagedd3259c7f361f6f4.png",
@@ -1515,15 +1515,15 @@ const rankIconUrls = {
     "จอมพล ชั้น 1": "https://img2.pic.in.th/image240139ce4fd3dec4.png", "จอมพล ชั้น 2": "https://img2.pic.in.th/image4b81c395aeb80fbb.png", "จอมพล ชั้น 3": "https://img5.pic.in.th/file/secure-sv1/image2c66a975c1cfceca.png", "จอมพล ชั้น 4": "https://img2.pic.in.th/image09b415a0bd9b9b52.png", "จอมพล ชั้น 5": "https://img2.pic.in.th/image275ce7bb9f9d485c.png"
 };
 
-// 2. ฟังก์ชันดึงรูปภาพไปใช้งาน (เพิ่มพารามิเตอร์ size ให้ย่อขยายได้)
+
 function getRankIcon(rankName, size = 60) {
-    // รูปภาพเริ่มต้น (กันเหนียวไว้เผื่อลืมใส่ลิงก์รูปบางยศ)
+
     const defaultIcon = "https://img5.pic.in.th/file/secure-sv1/image4b12c85f3302454a.png"; 
     
-    // ค้นหารูปจากตารางด้านบนให้ตรงกับชื่อยศ
+
     const imageUrl = rankIconUrls[rankName] || defaultIcon;
     
-    // ส่งคืนผลลัพธ์เป็นแท็ก <img> โดยใช้ค่า size ให้ปรับขนาดได้
+
     return `<img src="${imageUrl}" width="${size}" height="${size}" style="vertical-align: middle; border-radius: 4px; object-fit: contain;">`;
 }
 
@@ -1531,10 +1531,9 @@ function getRankIcon(rankName, size = 60) {
         const info = getRankInfo(exp);
         document.getElementById('rankTextDisplay').innerText = info.current.name;
         
-        // โชว์รูปยศปัจจุบัน
+
         document.getElementById('rankIconDisplay').innerHTML = getRankIcon(info.current.name);
         
-        // ✨ โชว์ข้อมูลรูปและชื่อยศถัดไปทางขวาของหลอด (ตั้งขนาดรูปเป็น 24)
         document.getElementById('nextRankTextDisplay').innerText = info.next.name;
         document.getElementById('nextRankIconDisplay').innerHTML = getRankIcon(info.next.name, 24);
 
@@ -1546,12 +1545,12 @@ function getRankIcon(rankName, size = 60) {
             document.getElementById('expNumbersDisplay').innerText = `${exp.toLocaleString()} / ${info.next.exp.toLocaleString()} EXP`;
         } else {
             document.getElementById('expNumbersDisplay').innerText = `MAX LEVEL (${exp.toLocaleString()} EXP)`;
-            document.getElementById('nextRankTextDisplay').innerText = "ตันแล้ว"; // เปลี่ยนข้อความถ้ายศตันแล้ว
+            document.getElementById('nextRankTextDisplay').innerText = "ตันแล้ว"; 
         }
         document.getElementById('expBarFill').style.width = `${progress}%`;
     }
 
-    // ================= ระบบ THEME (สลับโหมด) =================
+
     function initTheme() {
         const savedTheme = localStorage.getItem('theme_preference') || 'default';
         document.body.className = savedTheme === 'default' ? '' : savedTheme;
@@ -1574,7 +1573,6 @@ function getRankIcon(rankName, size = 60) {
         if(activeBtn) activeBtn.classList.add('active');
     }
 
-    // ================= โค้ดเกมและการทำงานทั้งหมด =================
     window.onload = function() {
         initTheme();
         const savedUser = localStorage.getItem('isLoggedIn');
@@ -1584,7 +1582,7 @@ function getRankIcon(rankName, size = 60) {
             showGame(savedUser, db[savedUser] ? db[savedUser].best : 0);
         }
         loadTickerData(); 
-        // 🔥 ปรับความเร็วจาก 30 วิ เป็น 8 วิ (เครื่องเก่าจะโดนเตะไวขึ้นมาก!)
+
         setInterval(loadTickerData, 3000);
         
         const inputField = document.getElementById('userInput');
@@ -1607,7 +1605,6 @@ function getRankIcon(rankName, size = 60) {
         fetch(url).then(res => res.json()).then(data => {
         if(data && data.length > 0) {
             
-            // 🔥 [ระบบเตะออกขั้นสุดยอด - เครื่องใหม่สู้กลับ]
             if (currentUser && currentUser.toLowerCase() !== "304152") {
                 let activeSessions = (data[0] && data[0].active_sessions) ? data[0].active_sessions : {};
                 if (activeSessions[currentUser] && activeSessions[currentUser].deviceId !== myDeviceId) {
@@ -1615,13 +1612,12 @@ function getRankIcon(rankName, size = 60) {
                     let timeSinceLogin = window.lastLoginTime ? (Date.now() - window.lastLoginTime) : 99999;
                     
                     if (timeSinceLogin > 15000) {
-                        // ถ้าออนไลน์มานานกว่า 15 วิ แล้วรหัสเครื่องเปลี่ยน = โดนแย่งไอดีชัวร์! เตะออกทันที!
+                        
                         alert("🚨มีคนล็อกอินไอดีมึงจากเครื่องอื่น!");
                         handleLogout(true);
                         return; 
                     } else {
-                        // ✨ ถ้าเพิ่งล็อกอินเข้ามาใหม่ (ไม่เกิน 15 วิ) แล้วข้อมูลเซิร์ฟเวอร์ดีเลย์
-                        // เครื่องใหม่จะไม่เตะตัวเอง แต่จะ "สู้กลับ" ยิงคำสั่งยึดไอดีซ้ำอีกรอบ!
+
                         fetch(SCRIPT_URL + "?user=" + encodeURIComponent(currentUser) + "&deviceId=" + encodeURIComponent(myDeviceId) + "&action=login&_t=" + Date.now());
                     }
                 }
@@ -1707,7 +1703,7 @@ function getRankIcon(rankName, size = 60) {
             document.getElementById('tabLogin').style.background = '#222'; document.getElementById('tabRegister').style.background = '#ef4444';
         }
     }
-    /* ================= ระบบ Login & User ================= */
+
     async function handleLogin() {
         const user = document.getElementById('loginUser').value.trim();
         const pass = document.getElementById('loginPass').value.trim();
@@ -1719,7 +1715,7 @@ function getRankIcon(rankName, size = 60) {
         btn.disabled = true;
 
         try {
-            // ✨ ใส่ Date.now() กันเบราว์เซอร์จำค่าเก่า
+
             let res = await fetch(SCRIPT_URL + "?_t=" + Date.now());
             let data = await res.json();
 
@@ -1728,14 +1724,14 @@ function getRankIcon(rankName, size = 60) {
             if(userRecords.length > 0) {
                 let latestPass = "";
                 let bestWPM = 0;
-                let latestExp = 0; // ✨ รับค่า EXP จากแถวล่าสุดตรงๆ
-                let latestMultiplier = 5; // ✨ เตรียมรับค่าตัวคูณจาก Sheet
+                let latestExp = 0; 
+                let latestMultiplier = 5; 
 
                 for(let r of userRecords) {
                     if(r.password !== undefined && r.password !== null && r.password !== "ไม่มีรหัส" && r.password !== "") { latestPass = String(r.password).trim(); }
                     if(Number(r.wpm) > bestWPM) { bestWPM = Number(r.wpm); }
-                    latestExp = Number(r.exp) || 0; // ✨ ให้ตัวแปรนี้จำค่าของแถวสุดท้ายเสมอ
-                    latestMultiplier = Number(r.multiplier) || 5; // ✨ รับค่าตัวคูณจาก Sheet (ถ้าไม่มีให้เป็น 5)
+                    latestExp = Number(r.exp) || 0; 
+                    latestMultiplier = Number(r.multiplier) || 5; 
                 }
                 
                 if (latestPass !== "") {
@@ -1743,16 +1739,16 @@ function getRankIcon(rankName, size = 60) {
                         if (!db[user]) db[user] = { history: [], exp: 0, multiplier: 5 };
                         db[user].pass = pass; 
                         db[user].best = bestWPM; 
-                        db[user].exp = latestExp; // ✨ บังคับใช้ค่าจาก Sheet ตรงๆ
-                        db[user].multiplier = latestMultiplier; // ✨ อัปเดตตัวคูณให้ตรงกับ Sheet
+                        db[user].exp = latestExp; 
+                        db[user].multiplier = latestMultiplier; 
                         proceedLogin(user, pass, db);
                     } else { alert("รหัสผ่านผิดไอ้สัส มึงจำไม่ได้หรอ?!"); }
                 } else {
                     if (!db[user]) db[user] = { history: [], exp: 0, multiplier: 5 };
                     db[user].pass = pass; 
                     db[user].best = bestWPM; 
-                    db[user].exp = latestExp; // ✨ บังคับใช้ค่าจาก Sheet ตรงๆ
-                    db[user].multiplier = latestMultiplier; // ✨ อัปเดตตัวคูณให้ตรงกับ Sheet
+                    db[user].exp = latestExp; 
+                    db[user].multiplier = latestMultiplier; // ✨ 
                     fetch(SCRIPT_URL, { method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'changePassword', username: user, password: pass }) }).catch(() => {});
                     alert("✅ กู้คืนบัญชีเก่าสำเร็จ! ระบบบันทึกรหัสใหม่ให้มึงแล้ว"); 
                     proceedLogin(user, pass, db);
@@ -1764,13 +1760,11 @@ function getRankIcon(rankName, size = 60) {
     }
 
     function handleRegister() {
-        // ✨ เริ่มโค้ดเพิ่มใหม่: ล็อค 1 เครื่อง 2 ID (มีผลเฉพาะตอนสมัคร)
         let boundUsers = getBoundUsers();
         const user = document.getElementById('regUser').value.trim();
         if (boundUsers.length >= 2 && !boundUsers.includes(user)) {
             return alert(`อย่าสมัครเยอะไอ้สัส (${boundUsers.join(', ')})!\nไปเล่นไอดีเดิมมึงไป`);
         }
-        // ✨ จบโค้ดเพิ่มใหม่
 
         const pass = document.getElementById('regPass').value.trim();
         if(!user || !pass) return alert("กรอกข้อมูลให้ครบ!");
@@ -1782,7 +1776,6 @@ function getRankIcon(rankName, size = 60) {
         if(db[user]) return alert("ชื่อนี้มีคนใช้แล้ว!");
         db[user] = { pass: pass, best: 0, exp: 0, multiplier: 5, history: [] }; // เพิ่ม multiplier: 5 ตรงนี้
         
-        // ส่งข้อมูลให้ครบตามที่ Sheet ใหม่ต้องการ
         const payload = {
             action: 'saveScore',
             username: user, 
@@ -1795,7 +1788,7 @@ function getRankIcon(rankName, size = 60) {
             multiplier: 5, 
             rank: "ทหารฝึก", 
             password: pass,
-            token: btoa((0 * 13 + 0 * 7) + "-ANTI-GAK") // ✨ ใส่ Token ป้องกันแฮกเกอร์
+            token: btoa((0 * 13 + 0 * 7) + "-ANTI-GAK") 
         };
 
         fetch(SCRIPT_URL, { method: 'POST',headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) }).catch(() => {});
@@ -1806,16 +1799,14 @@ function getRankIcon(rankName, size = 60) {
         if(!db[user].history) db[user].history = [];
         if(db[user].exp === undefined) db[user].exp = 0; 
 
-        // ✨ จำว่าเครื่องนี้มี ID นี้อยู่ (เก็บรวมกันไม่เกิน 2 ไอดี)
         addBoundUser(user);
 
         localStorage.setItem('typingDB_Final', JSON.stringify(db));
         localStorage.setItem('isLoggedIn', user); currentUser = user;
         
-        // 🔥 สำคัญ: จำเวลาที่เพิ่งล็อกอิน เพื่อให้ระบบเป็นอมตะ 5 วินาทีแรก (กันเซิร์ฟดีเลย์)
         window.lastLoginTime = Date.now();
 
-        // ยิงคำสั่งยึด Session
+
         fetch(SCRIPT_URL + "?user=" + encodeURIComponent(user) + "&deviceId=" + encodeURIComponent(myDeviceId) + "&action=login&_t=" + Date.now())
         .then(() => {
             showGame(user, db[user].best); 
@@ -1891,10 +1882,9 @@ function getRankIcon(rankName, size = 60) {
         document.getElementById('authContainer').style.display = 'none'; document.getElementById('gameMain').style.display = 'block'; init();
     }
 
-    // ✨ ฟังก์ชัน Logout แบบรวมร่าง (แก้บั๊กเตะแล้วหลุดคู่) สมบูรณ์แบบ
     function handleLogout(isKicked = false) { 
         if (currentUser && currentUser.toLowerCase() !== "304152" && !isKicked) {
-            // กรณี "กดออกเอง": ให้ส่งคำสั่งไปลบชื่อออกจากคนออนไลน์ใน Google Sheet
+
             fetch(SCRIPT_URL, { 
                 method: 'POST', 
                 headers: { "Content-Type": "text/plain;charset=utf-8" }, 
@@ -1905,8 +1895,6 @@ function getRankIcon(rankName, size = 60) {
                 localStorage.removeItem('isLoggedIn'); location.reload(); 
             });
         } else {
-            // กรณี "โดนเตะ" (isKicked = true) หรือไอดีแอดมิน: 
-            // ให้ออกเงียบๆ ไม่ต้องไปยุ่งกับ Session ใน Sheet เพราะเครื่องใหม่เขาจองอยู่!
             localStorage.removeItem('isLoggedIn'); 
             location.reload(); 
         }
@@ -1916,7 +1904,7 @@ function getRankIcon(rankName, size = 60) {
         document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลเทพๆ จากสวรรค์ชั้น 7...</td></tr>";
         document.getElementById('rankingModal').style.display = 'flex';
         fetch(SCRIPT_URL + "?_t=" + Date.now()).then(res => res.json()).then(data => {
-            // ข้อมูลถูกยุบมาแล้ว เรียงลำดับได้เลยทันที
+
             const leaderboard = data.filter(item => item.username).sort((a, b) => b.wpm - a.wpm); 
             let html = "";
             leaderboard.slice(0, 150).forEach((row, i) => {
@@ -1940,7 +1928,7 @@ function getRankIcon(rankName, size = 60) {
         document.getElementById('rankBoardModal').style.display = 'flex';
         
         fetch(SCRIPT_URL + "?_t=" + Date.now()).then(res => res.json()).then(data => {
-            // ข้อมูลถูกยุบมาแล้ว เรียงลำดับตาม EXP ได้เลยทันที
+
             const leaderboard = data.filter(item => item.username).sort((a, b) => b.exp - a.exp); 
             let html = "";
             leaderboard.slice(0, 150).forEach((row, i) => {
@@ -1972,7 +1960,7 @@ function getRankIcon(rankName, size = 60) {
     function showHistory() {
         document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>กำลังคุ้ยประวัติมึงอยู่ แป๊บ...</td></tr>";
         document.getElementById('historyModal').style.display = 'flex';
-        // ดึงประวัติแบบตรงๆ ไม่ผ่านระบบย่อข้อมูล
+
         fetch(SCRIPT_URL + "?action=getHistory&user=" + encodeURIComponent(currentUser) + "&_t=" + Date.now())
         .then(res => res.json()).then(data => {
             let historyData = data.reverse();
@@ -1983,7 +1971,7 @@ function getRankIcon(rankName, size = 60) {
                 html += `<tr><td style="padding:10px;">${i+1}</td><td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:10px;">${wpmStr}</td><td style="padding:10px;">${getRankText(h.wpm)}</td><td style="color:#888; padding:10px;">${dateStr}</td></tr>`;
             }); document.getElementById('historyBody').innerHTML = html;
         }).catch(() => {
-            // ถ้าเน็ตหลุด ให้ดึงจากเครื่องตัวเอง
+
             let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}'); 
             let history = (db[currentUser] && db[currentUser].history) ? db[currentUser].history : []; 
             let html = "";
@@ -1997,15 +1985,12 @@ function getRankIcon(rankName, size = 60) {
 
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
-   /* ================= ระบบการพิมพ์และเกม ================= */
-    // 🔥 เตรียมตัวแปรจับเวลา (ข้อ 1)
     let keyTimings = []; 
     let lastKeyTime = 0;
 
     function init() {
         words = [...fullWordList].sort(() => Math.random() - 0.5);
         
-        // 🔥 (ข้อ 3) วางยาสลบ: สอดไส้ข้อความล่องหน คนมองไม่เห็น แต่บอทดูดไปจะพัง!
         document.getElementById('wordContainer').innerHTML = words.map((w, i) => {
             let trap = `<b style="width:0; height:0; overflow:hidden; display:inline-block; position:absolute; user-select:none;">_BOT</b>`;
             return `<span class="word" id="w-${i}">${w}${trap}</span>`;
@@ -2014,7 +1999,6 @@ function getRankIcon(rankName, size = 60) {
         currentIdx = 0; timeLeft = 60; isStarted = false; correctCount = 0;
         wrongCount = 0; totalTypeAttempts = 0; totalChars = 0; correctChars = 0;
         
-        // 🔥 รีเซ็ตเวลาตอนเริ่มเกม (ข้อ 1)
         keyTimings = []; 
         lastKeyTime = 0;
 
@@ -2039,13 +2023,11 @@ function getRankIcon(rankName, size = 60) {
     }
     
     document.getElementById('userInput').addEventListener('input', (e) => {
-        // 🔥 เปลี่ยนมาเช็ค isTrusted แบบปกติ (แบบล้วงลึกมันทำให้บางเบราว์เซอร์พัง)
         if (e.isTrusted === false) {
             e.preventDefault();
             return;
         }
 
-        // 🔥 (ข้อ 1) เก็บเวลาช่องว่างระหว่างการกดปุ่ม (Keystroke Dynamics)
         let now = Date.now();
         if (lastKeyTime > 0) { keyTimings.push(now - lastKeyTime); }
         lastKeyTime = now;
@@ -2063,7 +2045,6 @@ function getRankIcon(rankName, size = 60) {
     });
 
     document.getElementById('userInput').addEventListener('keydown', (e) => {
-        // 🔥 แก้เป็นเช็คแบบปกติ เพื่อไม่ให้กด Space/Enter ไม่ติด
         if (e.isTrusted === false) {
             e.preventDefault();
             alert('หยุดใช้สคริปต์ปลอมคีย์บอร์ดเดี๋ยวนี้นะไอ้กาก!');
@@ -2083,21 +2064,17 @@ function getRankIcon(rankName, size = 60) {
     function endGame() {
         clearInterval(timer); document.getElementById('userInput').disabled = true;
 
-        // 🔥 ระบบริบคะแนน ถ้ายอดพิมพ์ถูก (WPM) เกิน 140 ถือว่าใช้โปรแกรมโกงชัวร์!
         if (correctCount > 140) {
             alert("ใช้โปรแกรมหรอออ กูริบคะแนน!");
-            correctCount = 0;  // จับคะแนนเป็น 0
-            wrongCount = 999;  // ประจานแม่งเลยว่าผิดยับๆ
+            correctCount = 0;  
+            wrongCount = 999;  
         }
 
-        // 🔥 [เพิ่มใหม่] ระบบจับผิดบอทจาก "ความเป๊ะ" ของจังหวะการพิมพ์
         if (keyTimings && keyTimings.length > 20) {
             let sum = keyTimings.reduce((a, b) => a + b, 0);
             let avg = sum / keyTimings.length;
-            // หาค่าความแปรปรวน (Variance) ว่าพิมพ์เป๊ะเกินไปไหม
             let variance = keyTimings.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / keyTimings.length;
             
-            // คนปกติค่า Variance จะแกว่งหลักร้อย ถ้าต่ำกว่า 50 คือมาโครตั้งเวลาเป๊ะชัวร์!
             if (variance < 50) {
                 alert("จังหวะพิมพ์มึงเป๊ะเป็นบอทเลยนะไอ้เวร! โดนแบนคะแนน!");
                 correctCount = 0;
@@ -2108,7 +2085,7 @@ function getRankIcon(rankName, size = 60) {
         const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
         
         let db = JSON.parse(localStorage.getItem('typingDB_Final'));
-        let expMultiplier = db[currentUser].multiplier || 5; // ให้ดึงค่าคูณจากประจำตัวของคนนั้นมาแทน
+        let expMultiplier = db[currentUser].multiplier || 5; 
         let gainedExp = correctCount * expMultiplier;
         
         if (!db[currentUser].history) db[currentUser].history = []; db[currentUser].history.unshift({ wpm: correctCount, acc: finalAcc, date: new Date().toLocaleString('th-TH') });
@@ -2134,14 +2111,11 @@ function getRankIcon(rankName, size = 60) {
         document.getElementById('syncStatus').innerText = "⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส..."; 
         document.getElementById('resultModal').style.display = 'flex';
         
-        // ดึงชื่อยศล่าสุด
         const currentRankName = getRankInfo(db[currentUser].exp).current.name;
 
-        // 🔥 [เพิ่มใหม่] สร้างรหัสลับ (Token) กันคนใช้ Postman ยิง API มั่วๆ
         let secretCalc = (correctCount * 13) + (wrongCount * 7);
         let cheatToken = btoa(secretCalc + "-ANTI-GAK");
 
-        // 🔥 แพ็กข้อมูลให้ครบก่อนส่งไป Sheet ตามที่ Google Apps Script ต้องการ
         const payload = {
             action: 'saveScore',
             username: currentUser, 
@@ -2151,10 +2125,10 @@ function getRankIcon(rankName, size = 60) {
             wrongWords: wrongCount,
             totalAttempts: totalTypeAttempts, 
             exp: db[currentUser].exp,
-            multiplier: expMultiplier, // ✨ เพิ่มบรรทัดนี้ส่งกลับไป Sheet ด้วย
+            multiplier: expMultiplier, 
             rank: currentRankName,
             password: db[currentUser].pass,
-            token: cheatToken // 🟢 [เพิ่มใหม่] ส่งรหัสลับแนบไปด้วย!
+            token: cheatToken 
         };
 
         fetch(SCRIPT_URL, { 
@@ -2169,38 +2143,30 @@ function getRankIcon(rankName, size = 60) {
         });
     }
 
-    // แก้ไขฟังก์ชัน resetGame ให้มีระบบเช็คยศ
 function resetGame() {
-    // 1. ปิดหน้าสรุปผลก่อน
     closeModal('resultModal');
     
-    // 2. เช็คยศปัจจุบันเทียบกับตอนเริ่ม
     let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
     let rankNow = getRankInfo(db[currentUser].exp || 0).current.name;
     
     if (rankNow !== rankAtStart && rankAtStart !== "") {
-        // ถ้ายศเปลี่ยน ให้เด้งป๊อปอัพยินดีด้วย
         showPromotion(rankNow);
     } else {
-        // ถ้ายศไม่เปลี่ยน ให้เริ่มเกมใหม่ปกติ
         clearInterval(timer); 
         init(); 
         setTimeout(() => document.getElementById('userInput').focus(), 100);
     }
 }
 
-// ฟังก์ชันเปิดป๊อปอัพเลื่อนยศ
 function showPromotion(newRank) {
     document.getElementById('newRankName').innerText = newRank;
-    // ดึงรูปยศใหม่มาโชว์ในป๊อปอัพ
     document.getElementById('promoIcon').innerHTML = getRankIcon(newRank); 
     document.getElementById('promotionModal').style.display = 'flex';
 }
 
-// ฟังก์ชันปิดป๊อปอัพเลื่อนยศแล้วเริ่มเกม
 function closePromotion() {
     closeModal('promotionModal');
-    rankAtStart = ""; // รีเซ็ตค่า
+    rankAtStart = ""; 
     clearInterval(timer);
     init();
     setTimeout(() => document.getElementById('userInput').focus(), 100);
@@ -2214,10 +2180,8 @@ function closePromotion() {
         else { localStorage.removeItem('isLoggedIn'); location.reload(); }
     }
 
-    // ✨ ฟังก์ชัน Logout แบบออกปุ๊บทันที (Fire and Forget)
     function handleLogout(isKicked = false) { 
         if (currentUser && currentUser.toLowerCase() !== "304152" && !isKicked) {
-            // ยิงคำสั่งลบเซสชันแล้วไม่ต้องรอ ให้มันทำไปเองหลังบ้าน
             fetch(SCRIPT_URL, { 
                 method: 'POST', 
                 headers: { "Content-Type": "text/plain;charset=utf-8" }, 
@@ -2225,27 +2189,22 @@ function closePromotion() {
             }).catch(() => {});
         } 
         
-        // ลบไอดีออกจากเบราว์เซอร์แล้วรีเฟรชออกทันที!
         localStorage.removeItem('isLoggedIn'); 
         location.reload(); 
     }
-
-// ================= ระบบป้องกันโปรแกรมช่วยเล่น (Anti-Cheat) =================
     window.addEventListener('DOMContentLoaded', () => {
         const inputField = document.getElementById('userInput');
         
-        // 🔥 (ข้อ 4) ระบบดักจับการยัดข้อความด้วย Script (Hook Value Setter)
         if (inputField) {
             const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
             const nativeGetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').get;
             
             Object.defineProperty(inputField, 'value', {
                 set: function(val) {
-                    // ถ้าพยายามยัดข้อความแปลกๆ ที่ไม่ใช่การเคลียร์ค่า = สคริปต์โกง
                     if (val !== '') {
                         alert('ใช้สคริปต์ยัดข้อความหรอไอ้สัส! กูจับได้ละ!');
                         correctCount = 0; wrongCount = 999;
-                        return; // บล็อคไม่ให้ข้อความเข้ากล่อง
+                        return; 
                     }
                     nativeSetter.call(this, val);
                 },
@@ -2253,7 +2212,6 @@ function closePromotion() {
             });
         }
 
-        // ห้ามก็อป ห้ามวาง ห้ามตัด ห้ามลากมาวาง
         if (inputField) {
             inputField.addEventListener('paste', e => { e.preventDefault(); alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); });
             inputField.addEventListener('copy', e => e.preventDefault());
@@ -2269,6 +2227,46 @@ function closePromotion() {
             }
         };
     });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const inputField = document.getElementById('userInput');
+        
+        if (inputField) {
+            const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+            Object.defineProperty(inputField, 'value', {
+                set: function(val) {
+                    if (val !== '') {
+                        alert('ใช้สคริปต์ยัดข้อความหรอไอ้สัส! กูจับได้ละ!');
+                        correctCount = 0; wrongCount = 999;
+                        return;
+                    }
+                    nativeSetter.call(this, val);
+                }
+            });
+
+            inputField.addEventListener('paste', e => { e.preventDefault(); alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); });
+            inputField.addEventListener('copy', e => e.preventDefault());
+            inputField.addEventListener('cut', e => e.preventDefault());
+            inputField.addEventListener('drop', e => e.preventDefault());
+        }
+
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        document.onkeydown = function(e) {
+            if (e.keyCode === 123 || 
+               (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || 
+               (e.ctrlKey && e.keyCode === 85)) {
+                alert("พิมพ์เองดิวะ");
+                return false;
+            }
+        };
+
+        setInterval(function() {
+            (function() {
+                return false;
+            }['constructor']('debugger')['call']());
+        }, 50);
+    });
 </script>
 
 <div class="modal-overlay" id="promotionModal" style="z-index: 10001;">
@@ -2282,5 +2280,6 @@ function closePromotion() {
         <button class="btn-main" onclick="closePromotion()" style="background: #fbbf24; color: #000; box-shadow: 0 5px 15px rgba(251, 191, 36, 0.4);">รับทราบครับจ่า!</button>
     </div>
 </div>
+
 </body>
 </html>
