@@ -1357,7 +1357,7 @@
         <input type="text" id="darkInput1" class="dark-input" style="display:none;" maxlength="30">
         <input type="password" id="darkInput2" class="dark-input" style="display:none;">
         
-        <input type="number" id="darkInput3" class="dark-input" style="display:none;" placeholder="ตัวคูณ EXP (ค่าเริ่มต้น 5)">
+        <input type="number" id="darkInput3" class="dark-input" style="display:none;" placeholder="ตัวคูณ EXP (ค่าเริ่มต้น 10)">
         <div id="timeInputsBox" style="display:none; gap: 10px; margin-bottom: 15px;">
             <input type="number" id="darkInputDays" class="dark-input" placeholder="จำนวนวัน..." style="margin-bottom:0;" min="0">
             <input type="number" id="darkInputHours" class="dark-input" placeholder="จำนวนชั่วโมง..." style="margin-bottom:0;" min="0" max="23">
@@ -1644,7 +1644,7 @@ function getRankIcon(rankName, size = 60) {
                     let latestRow = myData[0]; 
                     let sheetMax = Number(latestRow.wpm) || 0; 
                     let sheetExp = Number(latestRow.exp) || 0; 
-                    let sheetMultiplier = Number(latestRow.multiplier) || 5; 
+                    let sheetMultiplier = Number(latestRow.multiplier) || 10; 
                     
                     let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
                     if(db[currentUser]) { 
@@ -1735,18 +1735,18 @@ function getRankIcon(rankName, size = 60) {
                 let latestPass = "";
                 let bestWPM = 0;
                 let latestExp = 0; 
-                let latestMultiplier = 5; 
+                let latestMultiplier = 10; 
 
                 for(let r of userRecords) {
                     if(r.password !== undefined && r.password !== null && r.password !== "ไม่มีรหัส" && r.password !== "") { latestPass = String(r.password).trim(); }
                     if(Number(r.wpm) > bestWPM) { bestWPM = Number(r.wpm); }
                     latestExp = Number(r.exp) || 0; 
-                    latestMultiplier = Number(r.multiplier) || 5; 
+                    latestMultiplier = Number(r.multiplier) || 10; 
                 }
                 
                 if (latestPass !== "") {
                     if(latestPass === pass) {
-                        if (!db[user]) db[user] = { history: [], exp: 0, multiplier: 5 };
+                        if (!db[user]) db[user] = { history: [], exp: 0, multiplier: 10 };
                         db[user].pass = pass; 
                         db[user].best = bestWPM; 
                         db[user].exp = latestExp; 
@@ -1784,7 +1784,7 @@ function getRankIcon(rankName, size = 60) {
         
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         if(db[user]) return alert("ชื่อนี้มีคนใช้แล้ว!");
-        db[user] = { pass: pass, best: 0, exp: 0, multiplier: 5, history: [] }; // เพิ่ม multiplier: 5 ตรงนี้
+        db[user] = { pass: pass, best: 0, exp: 0, multiplier: 10, history: [] }; // เพิ่ม multiplier: 10 ตรงนี้
         
         const payload = {
             action: 'saveScore',
@@ -1795,7 +1795,7 @@ function getRankIcon(rankName, size = 60) {
             wrongWords: 0,
             totalAttempts: 0, 
             exp: 0, 
-            multiplier: 5, 
+            multiplier: 10, 
             rank: "ทหารฝึก", 
             password: pass,
             token: btoa((0 * 13 + 0 * 7) + "-ANTI-GAK") 
@@ -2117,7 +2117,7 @@ function getRankIcon(rankName, size = 60) {
         const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
         
         let db = JSON.parse(localStorage.getItem('typingDB_Final'));
-        let expMultiplier = db[currentUser].multiplier || 5; 
+        let expMultiplier = db[currentUser].multiplier || 10; 
         let gainedExp = correctCount * expMultiplier;
         
         if (!db[currentUser].history) db[currentUser].history = []; db[currentUser].history.unshift({ wpm: correctCount, acc: finalAcc, date: new Date().toLocaleString('th-TH') });
