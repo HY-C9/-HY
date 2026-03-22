@@ -1421,7 +1421,7 @@
 <script>
     const urlParts = [
         "https://script.google.com/macros/s/",
-        "AKfycbypFagDy2QBXPmgYw5K4MPSGK-RuYXPeViaGiDhvOuCPZkMMMUoxfKU7r3D3QPSjQlY",
+        "AKfycbzGZdGuI6kptm6n4WkKtXbTFWoibXPbVBgnUNwST2tjqocdPDL18PdrXTG7DW2W7UZ5",
         "/exec"
     ];
     const SCRIPT_URL = urlParts.join('');
@@ -1896,22 +1896,33 @@ function getRankIcon(rankName, size = 60) {
             btn.innerHTML = "⚡ กำลังเปลี่ยน...";
             btn.disabled = true;
 
-            db[newName] = db[oldName]; 
-            delete db[oldName];
-            localStorage.setItem('typingDB_Final', JSON.stringify(db)); 
-            localStorage.setItem('isLoggedIn', newName); 
-            currentUser = newName;
-
+            // 🎯 แก้ไข: ให้หน้าเว็บ "รอ" จนกว่า Google Sheets จะเปลี่ยนชื่อเสร็จ
             fetch(SCRIPT_URL, { 
                 method: 'POST',
-                keepalive: true, // 
+                keepalive: true, 
                 headers: { "Content-Type": "text/plain;charset=utf-8" }, 
                 body: JSON.stringify({ action: 'editName', oldName: oldName, newName: newName }) 
-            }).catch(() => {});
+            }).then(() => {
+                // 🎯 พอบันทึกหลังบ้านเสร็จ ค่อยเปลี่ยนชื่อในเครื่อง
+                db[newName] = db[oldName]; 
+                delete db[oldName];
+                localStorage.setItem('typingDB_Final', JSON.stringify(db)); 
+                localStorage.setItem('isLoggedIn', newName); 
 
+                // 🎯 ย้ายรูปโปรไฟล์ตามชื่อใหม่ไปเลย รูปจะได้ไม่เป็นสีขาว
+                window.profileCache = window.profileCache || {};
+                if(window.profileCache[oldName]) {
+                    window.profileCache[newName] = window.profileCache[oldName];
+                }
 
-            alert("✅ เปลี่ยนชื่อสำเร็จ!");
-            location.reload(); 
+                currentUser = newName;
+                alert("✅ เปลี่ยนชื่อสำเร็จ!");
+                location.reload(); 
+            }).catch(() => {
+                btn.innerHTML = "เปลี่ยนชื่อ";
+                btn.disabled = false;
+                alert("❌ ระบบมีปัญหา เปลี่ยนชื่อไม่ได้");
+            });
         });
         
         document.getElementById('darkInput1').style.display = 'block'; 
