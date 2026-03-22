@@ -11,6 +11,29 @@
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700;800&family=Chakra+Petch:wght@400;700&family=Press+Start+2P&family=VT323&family=Teko:wght@500;600;700&family=Mali:wght@500;700&display=swap" rel="stylesheet">
     
     <style>
+  /* ==================================================
+   ระบบตกแต่งรูปโปรไฟล์ (สไตล์ Facebook)
+   ================================================== */
+.profile-pic-wrapper {
+    position: relative;
+    width: 85px; /* ขยายรูป */
+    height: 85px;
+    cursor: pointer;
+    border-radius: 50%;
+    display: inline-block;
+    transition: transform 0.2s;
+}
+.profile-pic-wrapper:hover {
+    transform: scale(1.05); /* เอาเมาส์ชี้แล้วรูปขยายขึ้นนิดนึง */
+}
+.profile-pic-wrapper img {
+    width: 100%; 
+    height: 100%;
+    border-radius: 50%; 
+    object-fit: cover; 
+    border: 3px solid var(--primary); 
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+}
         /* ==================================================
            1. BASE THEME (โหมดมืด ออริจินัล) และ CSS โครงสร้างหลัก
            ================================================== */
@@ -1131,6 +1154,8 @@
                 <span style="font-size: 10px; animation: pulse 1.5s infinite;">🟢</span> ออนไลน์: <span id="onlineCount" style="color: #fff; font-size: 16px;">1</span> คน
             </div>
 
+
+            
             <style>
             @keyframes pulse {
                 0% { opacity: 1; }
@@ -1142,7 +1167,8 @@
             <div class="menu-container">
                 <button class="hamburger-btn" onclick="toggleActionMenu(event)">☰</button>
                 <div class="dropdown-menu" id="actionMenu">
-                    <button class="dropdown-item" onclick="closeActionMenu(); showEditName();">✏️ เปลี่ยนชื่อ(รวมเข้าระบบด้วย)</button>
+    <button class="dropdown-item" onclick="closeActionMenu(); showEditName();">✏️ เปลี่ยนชื่อ(รวมเข้าระบบด้วย)</button>
+    <button class="dropdown-item" onclick="closeActionMenu(); document.getElementById('profilePicInput').click();">🖼️ เปลี่ยนรูปโปรไฟล์ใหม่</button>
                     <button class="dropdown-item" onclick="closeActionMenu(); showChangePassword();">🔑 เปลี่ยนรหัสผ่าน</button>
                     <button class="dropdown-item" style="color:#38bdf8;" onclick="closeActionMenu(); showHistory();">📜 ประวัติการพิมพ์กากๆ</button>
                     <button class="dropdown-item" onclick="closeActionMenu(); showLogoutConfirm();">🚪 ออกจากระบบ</button>
@@ -1152,35 +1178,38 @@
     </div>
     
     <div class="user-profile-card">
-        <div class="profile-left">
-            <div class="rank-icon-large" id="rankIconDisplay">🪖</div>
-            <div class="exp-wrapper">
-    <div class="user-name-rank">
-        <span class="name-text" id="displayUser">Unknown</span>
-        <span class="rank-text" id="rankTextDisplay">ทหารฝึก</span>
-    </div>
-    
-    <div style="display: flex; align-items: center; gap: 10px;">
-        <div class="exp-bar-bg" style="flex: 1;">
-            <div class="exp-bar-fill" id="expBarFill"></div>
-            <div class="exp-numbers" id="expNumbersDisplay">0 / 3500 EXP</div>
+    <div class="profile-left">
+        <div class="profile-pic-wrapper" onclick="openImageViewer(document.getElementById('userProfilePic').src)">
+            <img id="userProfilePic" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png">
         </div>
         
-        <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); min-width: max-content;">
-            <div id="nextRankIconDisplay" style="display: flex; align-items: center;"></div>
-            <div style="display: flex; flex-direction: column; line-height: 1.2; text-align: left;">
-                <span style="font-size: 9px; color: #94a3b8;">ยศถัดไป</span>
-                <span id="nextRankTextDisplay" style="font-size: 11px; font-weight: bold; color: #cbd5e1;">พลทหาร</span>
+        <div class="exp-wrapper">
+            <div class="user-name-rank" style="display: flex; justify-content: flex-start; align-items: center; gap: 10px; margin-bottom: 5px;">
+                <span class="name-text" id="displayUser">Unknown</span>
+                <span id="rankIconSmallDisplay"></span>
+                <span class="rank-text" id="rankTextDisplay">ทหารฝึก</span>
+            </div>
+            
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <div class="exp-bar-bg" style="flex: 1;">
+                    <div class="exp-bar-fill" id="expBarFill"></div>
+                    <div class="exp-numbers" id="expNumbersDisplay">0 / 3500 EXP</div>
+                </div>
+                
+                <div style="display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.05); padding: 2px 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); min-width: max-content;">
+                    <div id="nextRankIconDisplay" style="display: flex; align-items: center;"></div>
+                    <div style="display: flex; flex-direction: column; line-height: 1.2; text-align: left;">
+                        <span style="font-size: 9px; color: #94a3b8;">ยศถัดไป</span>
+                        <span id="nextRankTextDisplay" style="font-size: 11px; font-weight: bold; color: #cbd5e1;">พลทหาร</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-</div>
-</div>
-<div style="text-align: right; min-width: 150px;">
-    <span style="font-size: 12px; color: #94a3b8; display: block;">สถิติสูงสุดของมึง</span>
-    <span style="font-size: 26px; font-weight: bold; color: var(--highlight);"><b id="bestWPM">0</b> <span style="font-size:14px; color:#fff;">WPM</span></span>
-</div>
+    <div style="text-align: right; min-width: 150px;">
+        <span style="font-size: 12px; color: #94a3b8; display: block;">สถิติสูงสุดของมึง</span>
+        <span style="font-size: 26px; font-weight: bold; color: var(--highlight);"><b id="bestWPM">0</b> <span style="font-size:14px; color:#fff;">WPM</span></span>
+    </div>
 </div>
 
     <h2 style="font-size: 16px; color: #475569; letter-spacing: 0px; margin-bottom: 15px;">HYแผนก2</h2>
@@ -1382,16 +1411,23 @@
     </div>
 </div>
 
+<div class="modal-overlay" id="imageViewerModal" style="z-index: 10005;" onclick="closeModal('imageViewerModal')">
+    <div class="modal-card" style="background: transparent; border: none; box-shadow: none; padding: 0; max-width: 400px; text-align: center;">
+        <img id="largeProfilePic" src="" style="width: 100%; max-width: 400px; height: auto; border-radius: 50%; border: 4px solid var(--primary); box-shadow: 0 0 30px rgba(0,0,0,0.8); object-fit: cover; aspect-ratio: 1/1;">
+        <p style="color: white; margin-top: 15px; font-weight: bold; text-shadow: 0 2px 5px #000; font-family: 'Sarabun';">คลิกที่ใดก็ได้เพื่อปิด</p>
+    </div>
+</div>
+
 <script>
     const _0xUrlData = [
         'aHR0cHM6Ly9zY3JpcHQu',
         'Z29vZ2xlLmNvbS9tYWNy',
-        'b3Mvcy9BS2Z5Y2J4bmxQ',
-        'RjRfaTdTcGh6MmwxbTd2',
-        'aVB4ZHZmeG9EWG0yUEJw',
-        'R003RjlJS0ZtRXZDd3Iy',
-        'YkFEcnhoWWRNOG5ZOFVs',
-        'Y2svZXhlYw=='
+        'b3Mvcy9BS2Z5Y2J3eWxa',
+        'MWFBUFNnUW5ZcmhpcVg0',
+        'aDBEN3JtY0VRc2dvdWVR',
+        'QXplX01NckU0SjBmcFVM',
+        'N0JrbjBjaEk5WkJLOEFu',
+        'ZEIvZXhlYw=='
     ];
     const SCRIPT_URL = atob(_0xUrlData.join(''));
     window.adminUsersList = {};
@@ -1528,7 +1564,7 @@ const rankIconUrls = {
 
 function getRankIcon(rankName, size = 60) {
 
-    const defaultIcon = "https://img5.pic.in.th/file/secure-sv1/image4b12c85f3302454a.png"; 
+    const defaultIcon = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"; 
     
 
     const imageUrl = rankIconUrls[rankName] || defaultIcon;
@@ -1541,8 +1577,7 @@ function getRankIcon(rankName, size = 60) {
         const info = getRankInfo(exp);
         document.getElementById('rankTextDisplay').innerText = info.current.name;
         
-
-        document.getElementById('rankIconDisplay').innerHTML = getRankIcon(info.current.name);
+        document.getElementById('rankIconSmallDisplay').innerHTML = getRankIcon(info.current.name, 50);
         
         document.getElementById('nextRankTextDisplay').innerText = info.next.name;
         document.getElementById('nextRankIconDisplay').innerHTML = getRankIcon(info.next.name, 24);
@@ -1607,57 +1642,36 @@ function getRankIcon(rankName, size = 60) {
     });
 
     function loadTickerData() {
-        let url = SCRIPT_URL;
-        if (currentUser) {
-            url += "?user=" + encodeURIComponent(currentUser) + "&deviceId=" + encodeURIComponent(myDeviceId) + "&action=ping&_t=" + Date.now();
-        } else { url += "?_t=" + Date.now(); }
+    let url = SCRIPT_URL;
+    if (currentUser) {
+        url += "?user=" + encodeURIComponent(currentUser) + "&deviceId=" + encodeURIComponent(myDeviceId) + "&action=ping&_t=" + Date.now();
+    } else { url += "?_t=" + Date.now(); }
 
-        fetch(url).then(res => res.json()).then(data => {
+    fetch(url).then(res => res.json()).then(data => {
         if(data && data.length > 0) {
             
-            if (currentUser && currentUser.toLowerCase() !== "") {
-                let activeSessions = (data[0] && data[0].active_sessions) ? data[0].active_sessions : {};
-                if (activeSessions[currentUser] && activeSessions[currentUser].deviceId !== myDeviceId) {
-                    
-                    let timeSinceLogin = window.lastLoginTime ? (Date.now() - window.lastLoginTime) : 99999;
-                    
-                    if (timeSinceLogin > 15000) {
-                        
-                        alert("🚨มีคนล็อกอินไอดีมึงจากเครื่องอื่น!");
-                        handleLogout(true);
-                        return; 
-                    } else {
-
-                        fetch(SCRIPT_URL + "?user=" + encodeURIComponent(currentUser) + "&deviceId=" + encodeURIComponent(myDeviceId) + "&action=login&_t=" + Date.now());
-                    }
-                }
-            }
-
+            // 1. อัปเดตตัวเลขคนออนไลน์
             if (data[0] && data[0].online_count !== undefined) {
                 let badge = document.getElementById('onlineCount');
                 if (badge) badge.innerText = data[0].online_count;
             }
 
-            if(currentUser) {
-                let myData = data.filter(item => item.username === currentUser);
-                if (myData.length > 0) {
-                    let latestRow = myData[0]; 
-                    let sheetMax = Number(latestRow.wpm) || 0; 
-                    let sheetExp = Number(latestRow.exp) || 0; 
-                    let sheetMultiplier = Number(latestRow.multiplier) || 10; 
-                    
-                    let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-                    if(db[currentUser]) { 
-                        db[currentUser].best = sheetMax;
-                        db[currentUser].exp = sheetExp;
-                        db[currentUser].multiplier = sheetMultiplier; 
-                        if (typeof updateExpUI === "function") updateExpUI(sheetExp);
-                        localStorage.setItem('typingDB_Final', JSON.stringify(db));
-                    } 
-                    document.getElementById('bestWPM').innerText = sheetMax;
+            // 2. ตรวจสอบการล็อกอินซ้อน
+            if (currentUser && currentUser.toLowerCase() !== "") {
+                let activeSessions = (data[0] && data[0].active_sessions) ? data[0].active_sessions : {};
+                if (activeSessions[currentUser] && activeSessions[currentUser].deviceId !== myDeviceId) {
+                    let timeSinceLogin = window.lastLoginTime ? (Date.now() - window.lastLoginTime) : 99999;
+                    if (timeSinceLogin > 15000) {
+                        alert("🚨มีคนล็อกอินไอดีมึงจากเครื่องอื่น!");
+                        handleLogout(true);
+                        return; 
+                    } else {
+                        fetch(SCRIPT_URL + "?user=" + encodeURIComponent(currentUser) + "&deviceId=" + encodeURIComponent(myDeviceId) + "&action=login&_t=" + Date.now());
+                    }
                 }
             }
-            
+
+            // 3. จัดการข้อมูลสำหรับแถบเลื่อน (Ticker)
             let tickerPayload = data.find(d => d.__TICKER_DATA__);
             let validData = tickerPayload ? tickerPayload.__TICKER_DATA__ : [];
             let uniqueLatest = []; let seenNames = new Set();
@@ -1672,21 +1686,42 @@ function getRankIcon(rankName, size = 60) {
             if (uniqueLatest.length > 0) {
                 let tickerHtml = uniqueLatest.map(item => {
                     let actualRank = getRankInfo(item.exp || 0).current.name;
-                    let iconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
+                    
+                    // 🔥 [จุดที่เพิ่ม] ประกาศตัวแปรยศ เพื่อใช้ในหน้าเว็บ
+                    let rankIconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
+                    
+                    let userProfilePic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";                    
+                    if (item.username === currentUser) {
+                        let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+                        if (db[currentUser] && db[currentUser].profilePic) {
+                            userProfilePic = db[currentUser].profilePic;
+                        }
+                    } else {
+                        let userFullData = data.find(u => u.username === item.username);
+                        if (userFullData && userFullData.profilePic && userFullData.profilePic !== "") {
+                            userProfilePic = userFullData.profilePic;
+                        }
+                    }
+
+                    // สร้าง HTML สำหรับแต่ละรายการที่เลื่อน
                     return `<span style="display: inline-flex; align-items: center; background: linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.8) 100%); padding: 6px 16px; border-radius: 30px; border: 1px solid #334155; margin-right: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                        <img src="${iconUrl}" style="height: 32px; width: 32px; border-radius: 6px; margin-right: 12px; box-shadow: 0 0 8px rgba(251, 191, 36, 0.4); border: 1px solid #475569; object-fit: cover;">
+                        <img src="${userProfilePic}" onclick="openImageViewer('${userProfilePic}')" style="cursor:pointer; height: 32px; width: 32px; border-radius: 50%; margin-right: 12px; border: 2px solid var(--primary); object-fit: cover;">
                         <span style="color: #f8fafc; font-weight: bold; margin-right: 10px; font-size: 15px; letter-spacing: 0.5px;">${item.username}</span> 
                         <span style="color: #64748b; font-size: 13px; margin-right: 10px;">ซัดไป</span>
                         <span style="color: #38bdf8; font-weight: 900; font-size: 18px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);">${item.wpm}</span> <span style="color: #38bdf8; font-size: 12px; margin-right: 12px; margin-left: 3px;">WPM</span>
-                        <span style="color: #fbbf24; font-size: 12px; font-weight: bold; background: rgba(251, 191, 36, 0.15); padding: 3px 10px; border-radius: 12px; border: 1px solid rgba(251, 191, 36, 0.3);">🎖️ ${actualRank}</span>
+                        <img src="${rankIconUrl}" style="height: 24px; width: 24px; border-radius: 4px; object-fit: cover; box-shadow: 0 0 8px rgba(251, 191, 36, 0.4);">
                     </span>`;
                 }).join('');
+
                 document.getElementById('tickerContent').innerHTML = `<span style="display:inline-flex; align-items:center; color: #ef4444; font-weight: 800; margin-right: 20px; font-size: 16px; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);"><span style="font-size: 20px; margin-right: 5px;">🔥</span> อัปเดตล่าสุด:</span> ${tickerHtml}`;
             } else { 
                 document.getElementById('tickerContent').innerHTML = `<span style="color: #94a3b8; font-style: italic;">📢 ยังไม่มีใครพิมพ์ได้คะแนนเลยว่ะ รอคนเปิดอยู่...</span>`; 
             }
         }
-    }).catch(() => { document.getElementById('tickerContent').innerHTML = "📢 โหลดไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน"; });
+    }).catch((err) => { 
+        console.error("Ticker Error:", err);
+        document.getElementById('tickerContent').innerHTML = "📢 โหลดไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน"; 
+    });
 }
 
     function getRankText(wpm) {
@@ -1907,11 +1942,18 @@ function getRankIcon(rankName, size = 60) {
     }
 
     function showGame(user, best) {
-        document.getElementById('displayUser').innerText = user; document.getElementById('bestWPM').innerText = best;
+        document.getElementById('displayUser').innerText = user;
+        document.getElementById('bestWPM').innerText = best;
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         if (db[user].exp === undefined) db[user].exp = 0;
+        
+        // --- ดึงรูปโปรไฟล์มาแสดง ---
+        let profilePicUrl = db[user].profilePic || "https://img5.pic.in.th/file/secure-sv1/image4b12c85f3302454a.png";
+        document.getElementById('userProfilePic').src = profilePicUrl;
+
         updateExpUI(db[user].exp);
-        document.getElementById('authContainer').style.display = 'none'; document.getElementById('gameMain').style.display = 'block'; init();
+        document.getElementById('authContainer').style.display = 'none';
+        document.getElementById('gameMain').style.display = 'block'; init();
     }
 
     function handleLogout(isKicked = false) { 
@@ -1945,11 +1987,29 @@ function getRankIcon(rankName, size = 60) {
                 else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
                 else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
                 if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
+                
+                let userProfilePic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+                if (row.username === currentUser) {
+                    let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+                    if (db[currentUser] && db[currentUser].profilePic) {
+                        userProfilePic = db[currentUser].profilePic;
+                    }
+                } else if (row.profilePic && row.profilePic !== "") {
+                    userProfilePic = row.profilePic;
+                }
+                let actualRankName = getRankInfo(row.exp || 0).current.name;
+                let rankIconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
+
                 html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
                     <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px;">${row.username}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px; display: flex; align-items: center; gap: 10px;">
+                        <img src="${userProfilePic}" onclick="openImageViewer('${userProfilePic}')" style="cursor:pointer; width: 30px; height: 30px; border-radius: 50%; object-fit: cover;"> ${row.username}
+                    </td>
                     <td style="padding: 12px 15px; font-weight: bold; color: var(--primary); font-size: 17px;">${row.wpm}</td>
-                    <td style="padding: 12px 15px;">${getRankText(row.wpm)}</td></tr>`;
+                    <td style="padding: 12px 15px; display: flex; align-items: center; gap: 8px;">
+                        <img src="${rankIconUrl}" style="height: 26px; width: 26px; border-radius: 4px;">
+                        <span style="font-size: 12px; color: #94a3b8;">${getRankText(row.wpm)}</span>
+                    </td></tr>`;
             });
             document.getElementById('lbBody').innerHTML = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนกากคนไหนมาพิมพ์</td></tr>";
         }).catch(() => { document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตด่วน!</td></tr>"; });
@@ -1973,15 +2033,25 @@ function getRankIcon(rankName, size = 60) {
                 let actualRankName = "ทหารฝึก";
                 if (typeof getRankInfo === "function") { actualRankName = getRankInfo(row.exp || 0).current.name; } 
                 else { actualRankName = row.rank || "ทหารฝึก"; }
-                
                 let iconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
+
+                let userProfilePic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+                if (row.username === currentUser) {
+                    let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+                    if (db[currentUser] && db[currentUser].profilePic) {
+                        userProfilePic = db[currentUser].profilePic;
+                    }
+                } else if (row.profilePic && row.profilePic !== "") {
+                    userProfilePic = row.profilePic;
+                }
                 
                 html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
                     <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px;">${row.username}</td>
+                    <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px; display: flex; align-items: center; gap: 10px;">
+                        <img src="${userProfilePic}" onclick="openImageViewer('${userProfilePic}')" style="cursor:pointer; width: 30px; height: 30px; border-radius: 50%; object-fit: cover;"> ${row.username}
+                    </td>
                     <td style="padding: 12px 15px; font-weight: bold; color: #fbbf24; font-size: 14px;">
                         <img src="${iconUrl}" width="30" height="30" style="vertical-align: middle; border-radius: 4px; margin-right: 8px;"> 
-                        ${actualRankName}
                     </td>
                     <td style="padding: 12px 15px; font-weight: bold; color: #a855f7; font-size: 16px;">${Number(row.exp || 0).toLocaleString()}</td>
                 </tr>`;
@@ -2203,7 +2273,10 @@ function closePromotion() {
     init();
     setTimeout(() => document.getElementById('userInput').focus(), 100);
 }
-    
+    function openImageViewer(src) {
+    document.getElementById('largeProfilePic').src = src;
+    document.getElementById('imageViewerModal').style.display = 'flex';
+}
     function showLogoutConfirm() { const modal = document.getElementById('logoutModal'); if (modal) { modal.style.display = 'flex'; } }
     
     function confirmLogout() { 
@@ -2299,6 +2372,72 @@ function closePromotion() {
             }['constructor']('debugger')['call']());
         }, 50);
     });
+
+// ==========================================
+// ระบบอัปโหลดรูปโปรไฟล์
+// ==========================================
+
+const fileInputHTML = '<input type="file" id="profilePicInput" accept="image/*" style="display: none;">';
+document.body.insertAdjacentHTML('beforeend', fileInputHTML);
+
+document.getElementById('profilePicInput').addEventListener('change', function(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+        alert('กรุณาเลือกไฟล์รูปภาพเท่านั้น!');
+        return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 150;
+            const MAX_HEIGHT = 150;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height) {
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+            } else {
+                if (height > MAX_HEIGHT) {
+                    width *= MAX_HEIGHT / height;
+                    height = MAX_HEIGHT;
+                }
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+
+            const base64Image = canvas.toDataURL('image/jpeg', 0.8);
+
+            document.getElementById('userProfilePic').src = base64Image;
+
+            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+            db[currentUser].profilePic = base64Image;
+            localStorage.setItem('typingDB_Final', JSON.stringify(db));
+
+            fetch(SCRIPT_URL, { 
+                method: 'POST',
+                headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+                body: JSON.stringify({ action: 'updateProfilePic', username: currentUser, profilePic: base64Image }) 
+            }).then(() => {
+                alert("✅ เปลี่ยนรูปโปรไฟล์เรียบร้อย!");
+            }).catch(() => {
+            });
+        }
+        img.src = e.target.result;
+    }
+    reader.readAsDataURL(file);
+});
+
 </script>
 
 <div class="modal-overlay" id="promotionModal" style="z-index: 10001;">
