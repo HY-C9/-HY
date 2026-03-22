@@ -1957,7 +1957,7 @@ function getRankIcon(rankName, size = 60) {
         if (db[user].exp === undefined) db[user].exp = 0;
         
         // --- ดึงรูปโปรไฟล์มาแสดง ---
-        let profilePicUrl = db[user].profilePic || "https://img5.pic.in.th/file/secure-sv1/image4b12c85f3302454a.png";
+        let profilePicUrl = db[user].profilePic || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
         document.getElementById('userProfilePic').src = profilePicUrl;
 
         updateExpUI(db[user].exp);
@@ -2404,8 +2404,8 @@ document.getElementById('profilePicInput').addEventListener('change', function(e
         img.onload = function() {
 
             const canvas = document.createElement('canvas');
-            const MAX_WIDTH = 250;
-            const MAX_HEIGHT = 250;
+            const MAX_WIDTH = 230;
+            const MAX_HEIGHT = 230;
             let width = img.width;
             let height = img.height;
 
