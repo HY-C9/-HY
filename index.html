@@ -1577,7 +1577,7 @@ function getRankIcon(rankName, size = 60) {
         const info = getRankInfo(exp);
         document.getElementById('rankTextDisplay').innerText = info.current.name;
         
-        document.getElementById('rankIconSmallDisplay').innerHTML = getRankIcon(info.current.name, 50);
+        document.getElementById('rankIconSmallDisplay').innerHTML = getRankIcon(info.current.name, 40);
         
         document.getElementById('nextRankTextDisplay').innerText = info.next.name;
         document.getElementById('nextRankIconDisplay').innerHTML = getRankIcon(info.next.name, 24);
@@ -1690,16 +1690,28 @@ function getRankIcon(rankName, size = 60) {
                     // 🔥 [จุดที่เพิ่ม] ประกาศตัวแปรยศ เพื่อใช้ในหน้าเว็บ
                     let rankIconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
                     
+                    // 🎯 สร้างระบบ Cache จดจำรูปโปรไฟล์ ให้เสถียรและไม่กระพริบ
+                    window.profileCache = window.profileCache || {};
                     let userProfilePic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";                    
+                    
                     if (item.username === currentUser) {
                         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
                         if (db[currentUser] && db[currentUser].profilePic) {
                             userProfilePic = db[currentUser].profilePic;
+                            window.profileCache[currentUser] = userProfilePic; // จำรูปตัวเอง
                         }
                     } else {
+                        // ค้นหาข้อมูลจากเซิร์ฟเวอร์
                         let userFullData = data.find(u => u.username === item.username);
                         if (userFullData && userFullData.profilePic && userFullData.profilePic !== "") {
                             userProfilePic = userFullData.profilePic;
+                            window.profileCache[item.username] = userProfilePic; // อัปเดตความจำ
+                        } else if (item.profilePic && item.profilePic !== "") {
+                            userProfilePic = item.profilePic;
+                            window.profileCache[item.username] = userProfilePic; // เผื่อข้อมูลส่งมาใน Ticker
+                        } else if (window.profileCache[item.username]) {
+                            // 🌟 ถ้ารอบนี้เซิร์ฟเวอร์ส่งข้อมูลมาไม่ทัน ให้ดึงจากความจำ (Cache) มาโชว์เลย!
+                            userProfilePic = window.profileCache[item.username]; 
                         }
                     }
 
