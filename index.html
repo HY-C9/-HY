@@ -1650,13 +1650,11 @@ function getRankIcon(rankName, size = 60) {
     fetch(url).then(res => res.json()).then(data => {
         if(data && data.length > 0) {
             
-            // 1. อัปเดตตัวเลขคนออนไลน์
             if (data[0] && data[0].online_count !== undefined) {
                 let badge = document.getElementById('onlineCount');
                 if (badge) badge.innerText = data[0].online_count;
             }
 
-            // 2. ตรวจสอบการล็อกอินซ้อน
             if (currentUser && currentUser.toLowerCase() !== "") {
                 let activeSessions = (data[0] && data[0].active_sessions) ? data[0].active_sessions : {};
                 if (activeSessions[currentUser] && activeSessions[currentUser].deviceId !== myDeviceId) {
@@ -1671,7 +1669,6 @@ function getRankIcon(rankName, size = 60) {
                 }
             }
 
-            // 3. จัดการข้อมูลสำหรับแถบเลื่อน (Ticker)
             let tickerPayload = data.find(d => d.__TICKER_DATA__);
             let validData = tickerPayload ? tickerPayload.__TICKER_DATA__ : [];
             let uniqueLatest = []; let seenNames = new Set();
@@ -1687,10 +1684,10 @@ function getRankIcon(rankName, size = 60) {
                 let tickerHtml = uniqueLatest.map(item => {
                     let actualRank = getRankInfo(item.exp || 0).current.name;
                     
-                    // 🔥 [จุดที่เพิ่ม] ประกาศตัวแปรยศ เพื่อใช้ในหน้าเว็บ
+                    
                     let rankIconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
                     
-                    // 🎯 สร้างระบบ Cache จดจำรูปโปรไฟล์ ให้เสถียรและไม่กระพริบ
+                    
                     window.profileCache = window.profileCache || {};
                     let userProfilePic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";                    
                     
@@ -1698,24 +1695,24 @@ function getRankIcon(rankName, size = 60) {
                         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
                         if (db[currentUser] && db[currentUser].profilePic) {
                             userProfilePic = db[currentUser].profilePic;
-                            window.profileCache[currentUser] = userProfilePic; // จำรูปตัวเอง
+                            window.profileCache[currentUser] = userProfilePic; 
                         }
                     } else {
-                        // ค้นหาข้อมูลจากเซิร์ฟเวอร์
+                        
                         let userFullData = data.find(u => u.username === item.username);
                         if (userFullData && userFullData.profilePic && userFullData.profilePic !== "") {
                             userProfilePic = userFullData.profilePic;
-                            window.profileCache[item.username] = userProfilePic; // อัปเดตความจำ
+                            window.profileCache[item.username] = userProfilePic; // 
                         } else if (item.profilePic && item.profilePic !== "") {
                             userProfilePic = item.profilePic;
-                            window.profileCache[item.username] = userProfilePic; // เผื่อข้อมูลส่งมาใน Ticker
+                            window.profileCache[item.username] = userProfilePic; 
                         } else if (window.profileCache[item.username]) {
-                            // 🌟 ถ้ารอบนี้เซิร์ฟเวอร์ส่งข้อมูลมาไม่ทัน ให้ดึงจากความจำ (Cache) มาโชว์เลย!
+                           
                             userProfilePic = window.profileCache[item.username]; 
                         }
                     }
 
-                    // สร้าง HTML สำหรับแต่ละรายการที่เลื่อน
+                    
                     return `<span style="display: inline-flex; align-items: center; background: linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.8) 100%); padding: 6px 16px; border-radius: 30px; border: 1px solid #334155; margin-right: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
                         <img src="${userProfilePic}" onclick="openImageViewer('${userProfilePic}')" style="cursor:pointer; height: 32px; width: 32px; border-radius: 50%; margin-right: 12px; border: 2px solid var(--primary); object-fit: cover;">
                         <span style="color: #f8fafc; font-weight: bold; margin-right: 10px; font-size: 15px; letter-spacing: 0.5px;">${item.username}</span> 
