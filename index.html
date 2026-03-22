@@ -1419,17 +1419,12 @@
 </div>
 
 <script>
-    const _0xUrlData = [
-        'aHR0cHM6Ly9zY3JpcHQu',
-        'Z29vZ2xlLmNvbS9tYWNy',
-        'b3Mvcy9BS2Z5Y2J3eWxa',
-        'MWFBUFNnUW5ZcmhpcVg0',
-        'aDBEN3JtY0VRc2dvdWVR',
-        'QXplX01NckU0SjBmcFVM',
-        'N0JrbjBjaEk5WkJLOEFu',
-        'ZEIvZXhlYw=='
+    const urlParts = [
+        "https://script.google.com/macros/s/",
+        "AKfycbypFagDy2QBXPmgYw5K4MPSGK-RuYXPeViaGiDhvOuCPZkMMMUoxfKU7r3D3QPSjQlY",
+        "/exec"
     ];
-    const SCRIPT_URL = atob(_0xUrlData.join(''));
+    const SCRIPT_URL = urlParts.join('');
     window.adminUsersList = {};
 
 
@@ -1628,7 +1623,7 @@ function getRankIcon(rankName, size = 60) {
         }
         loadTickerData(); 
 
-        setInterval(loadTickerData, 3000);
+        setInterval(loadTickerData, 10000);
         
         const inputField = document.getElementById('userInput');
         if (inputField) { inputField.focus(); setTimeout(() => inputField.focus(), 100); }
@@ -1688,27 +1683,25 @@ function getRankIcon(rankName, size = 60) {
                     let rankIconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
                     
                     
+                   // 🎯 ดึงรูปจาก Cache ก่อนเป็นอันดับแรก เพื่อไม่ให้รูปหายหรือกระพริบ และเปลี่ยนรูปตั้งต้นเป็นวงกลมสีขาว
                     window.profileCache = window.profileCache || {};
-                    let userProfilePic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";                    
-                    
+                    let defaultSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iIzk0YTNiOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE3IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTIwIDEwMCBDMjAgNjUgMzAgNTUgNTAgNTUgQzcwIDU1IDgwIDY1IDgwIDEwMCBaIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+";
+                    let userProfilePic = window.profileCache[item.username] || defaultSVG;
+
                     if (item.username === currentUser) {
                         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
                         if (db[currentUser] && db[currentUser].profilePic) {
                             userProfilePic = db[currentUser].profilePic;
-                            window.profileCache[currentUser] = userProfilePic; 
+                            window.profileCache[currentUser] = userProfilePic;
                         }
                     } else {
-                        
                         let userFullData = data.find(u => u.username === item.username);
                         if (userFullData && userFullData.profilePic && userFullData.profilePic !== "") {
                             userProfilePic = userFullData.profilePic;
-                            window.profileCache[item.username] = userProfilePic; // 
+                            window.profileCache[item.username] = userProfilePic; 
                         } else if (item.profilePic && item.profilePic !== "") {
                             userProfilePic = item.profilePic;
                             window.profileCache[item.username] = userProfilePic; 
-                        } else if (window.profileCache[item.username]) {
-                           
-                            userProfilePic = window.profileCache[item.username]; 
                         }
                     }
 
@@ -1957,7 +1950,9 @@ function getRankIcon(rankName, size = 60) {
         if (db[user].exp === undefined) db[user].exp = 0;
         
         // --- ดึงรูปโปรไฟล์มาแสดง ---
-        let profilePicUrl = db[user].profilePic || "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+        window.profileCache = window.profileCache || {};
+        let defaultSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iIzk0YTNiOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE3IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTIwIDEwMCBDMjAgNjUgMzAgNTUgNTAgNTUgQzcwIDU1IDgwIDY1IDgwIDEwMCBaIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+";
+        let profilePicUrl = db[user].profilePic || window.profileCache[user] || defaultSVG;
         document.getElementById('userProfilePic').src = profilePicUrl;
 
         updateExpUI(db[user].exp);
@@ -1997,14 +1992,16 @@ function getRankIcon(rankName, size = 60) {
                 else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
                 if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
                 
-                let userProfilePic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+                let defaultSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iIzk0YTNiOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE3IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTIwIDEwMCBDMjAgNjUgMzAgNTUgNTAgNTUgQzcwIDU1IDgwIDY1IDgwIDEwMCBaIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+";
+                window.profileCache = window.profileCache || {};
+                let userProfilePic = window.profileCache[row.username] || defaultSVG;
+
                 if (row.username === currentUser) {
                     let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
                     if (db[currentUser] && db[currentUser].profilePic) {
                         userProfilePic = db[currentUser].profilePic;
+                        window.profileCache[currentUser] = userProfilePic;
                     }
-                } else if (row.profilePic && row.profilePic !== "") {
-                    userProfilePic = row.profilePic;
                 }
                 let actualRankName = getRankInfo(row.exp || 0).current.name;
                 let rankIconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
@@ -2044,14 +2041,16 @@ function getRankIcon(rankName, size = 60) {
                 else { actualRankName = row.rank || "ทหารฝึก"; }
                 let iconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
 
-                let userProfilePic = "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png";
+                let defaultSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iIzk0YTNiOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE3IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTIwIDEwMCBDMjAgNjUgMzAgNTUgNTAgNTUgQzcwIDU1IDgwIDY1IDgwIDEwMCBaIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+";
+                window.profileCache = window.profileCache || {};
+                let userProfilePic = window.profileCache[row.username] || defaultSVG;
+
                 if (row.username === currentUser) {
                     let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
                     if (db[currentUser] && db[currentUser].profilePic) {
                         userProfilePic = db[currentUser].profilePic;
+                        window.profileCache[currentUser] = userProfilePic;
                     }
-                } else if (row.profilePic && row.profilePic !== "") {
-                    userProfilePic = row.profilePic;
                 }
                 
                 html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
@@ -2433,7 +2432,10 @@ document.getElementById('profilePicInput').addEventListener('change', function(e
             db[currentUser].profilePic = base64Image;
             localStorage.setItem('typingDB_Final', JSON.stringify(db));
 
-            fetch(SCRIPT_URL, { 
+            window.profileCache = window.profileCache || {};
+            window.profileCache[currentUser] = base64Image;
+
+fetch(SCRIPT_URL, { 
                 method: 'POST',
                 headers: { "Content-Type": "text/plain;charset=utf-8" }, 
                 body: JSON.stringify({ action: 'updateProfilePic', username: currentUser, profilePic: base64Image }) 
@@ -2446,6 +2448,23 @@ document.getElementById('profilePicInput').addEventListener('change', function(e
     }
     reader.readAsDataURL(file);
 });
+
+// ==========================================
+// 🔥 ระบบโหลดรูปโปรไฟล์เพื่อนๆ แบบแยกท่อ
+// ==========================================
+function loadAllProfilePics() {
+    fetch(SCRIPT_URL + "?action=getProfiles&_t=" + Date.now())
+    .then(res => res.json())
+    .then(data => {
+        window.profileCache = window.profileCache || {};
+        for (let user in data) {
+            window.profileCache[user] = data[user]; 
+        }
+        console.log("✅ โหลดรูปโปรไฟล์เข้า Cache สำเร็จ!");
+    }).catch(err => console.log("โหลดรูปล้มเหลว:", err));
+}
+setTimeout(loadAllProfilePics, 1000); // สั่งโหลดหลังเปิดเว็บ 1 วิ
+setInterval(loadAllProfilePics, 250000); // สั่งแอบอัปเดตรูปใหม่ทุกๆ 250 วิ (ประมาณ 4 นาที)
 
 </script>
 
