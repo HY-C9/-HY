@@ -1059,6 +1059,270 @@
         color: #fff; padding-left: 25px; }
 
         /* ==================================================
+           15. SONGKRAN THEME (ธีมสงกรานต์ สาดน้ำสดใส)
+           ================================================== */
+        body.theme-songkran { --bg: #00bfff;
+            --card: rgba(0, 105, 148, 0.85); --primary: #ffff00; --primary1: #ff00ff; --text-dark: #fff; --text-light: #fff; --highlight: #ff1493; --correct-live: #00ff00; --wrong-live: #ff4500;
+            --font-head: 'Mali', sans-serif; --font-main: 'Sarabun', sans-serif; --border-rad: 24px; --border-btn: 12px;
+        }
+        body.theme-songkran::before { content: ""; position: fixed; top: 0; left: 0; right: 0;
+            bottom: 0; background-image: linear-gradient(rgba(0, 191, 255, 0.6), rgba(0, 105, 148, 0.8)), url('https://i.ibb.co/5W9jTgNN/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none;
+        }
+        body.theme-songkran h1 { color: #ffff00; text-shadow: 2px 2px 0px #ff00ff, 4px 4px 0px #00bfff; font-weight: 800; }
+        body.theme-songkran h2 { color: #fff; text-shadow: 2px 2px 0px #ff1493; }
+        body.theme-songkran .typing-card, body.theme-songkran .modal-card, body.theme-songkran #authContainer { background: var(--card); border: 4px dashed #ffff00; box-shadow: 0 10px 30px rgba(0,191,255,0.6); backdrop-filter: blur(5px); }
+        body.theme-songkran .word.current { background: #ff1493; color: #fff; box-shadow: 0 0 15px #ff1493; border-radius: 8px; }
+        body.theme-songkran #userInput { background: rgba(255,255,255,0.8); color: #000; border: 3px solid #00bfff; border-radius: 12px; font-weight: bold; }
+        body.theme-songkran #userInput:focus { border-color: #ff00ff; box-shadow: 0 0 15px #ff00ff; }
+        body.theme-songkran .btn-main, body.theme-songkran .btn-top { background: linear-gradient(45deg, #00bfff, #ff00ff, #ffff00); color: #000; font-weight: 800; border: 2px solid #fff; box-shadow: 0 4px 15px rgba(255,0,255,0.5); }
+        body.theme-songkran .btn-main:hover, body.theme-songkran .btn-top:hover { transform: scale(1.05); }
+
+        /* ==================================================
+           16. CHINESE NEW YEAR (ธีมตรุษจีน เฮงๆ รวยๆ)
+           ================================================== */
+        body.theme-cny { --bg: #8b0000;
+            --card: rgba(139, 0, 0, 0.9); --primary: #ffd700; --primary1: #ff4500; --text-dark: #fff; --text-light: #fff; --highlight: #ff0000; --correct-live: #ffd700; --wrong-live: #ff0000;
+            --font-head: 'Sarabun', serif; --font-main: 'Sarabun', sans-serif; --border-rad: 8px; --border-btn: 4px;
+        }
+        body.theme-cny::before { content: ""; position: fixed; top: 0; left: 0; right: 0;
+            bottom: 0; background-image: linear-gradient(rgba(139, 0, 0, 0.7), rgba(0, 0, 0, 0.9)), url('https://i.ibb.co/JFFqpn7j/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none;
+        }
+        body.theme-cny h1, body.theme-cny h2 { color: var(--primary); text-shadow: 2px 2px 5px rgba(0,0,0,0.8); }
+        body.theme-cny .typing-card, body.theme-cny .modal-card, body.theme-cny #authContainer { background: var(--card); border: 2px solid var(--primary); box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.2), 0 10px 30px rgba(0,0,0,0.9); }
+        body.theme-cny .word { color: #ffb6c1; font-weight: bold; }
+        body.theme-cny .word.current { background: rgba(255,215,0,0.2); color: var(--primary); border-bottom: 2px solid var(--primary); border-radius: 0; }
+        body.theme-cny #userInput { background: rgba(0,0,0,0.5); color: var(--primary); border: 2px solid var(--primary); }
+        body.theme-cny .btn-main, body.theme-cny .btn-top { background: linear-gradient(180deg, #ffd700, #daa520); color: #8b0000; font-weight: bold; border: 2px solid #fff; }
+
+        /* ==================================================
+           17. VALENTINE THEME (ธีมวาเลนไทน์ หวานเจี๊ยบ)
+           ================================================== */
+        body.theme-valen { --bg: #ffb6c1;
+            --card: rgba(255, 182, 193, 0.85); --primary: #ff1493; --primary1: #c71585; --text-dark: #8b0045; --text-light: #8b0045; --highlight: #ff69b4; --correct-live: #ff1493; --wrong-live: #ff0000;
+            --font-head: 'Mali', cursive; --font-main: 'Sarabun', sans-serif; --border-rad: 30px; --border-btn: 20px;
+        }
+        body.theme-valen::before { content: ""; position: fixed; top: 0; left: 0; right: 0;
+            bottom: 0; background-image: linear-gradient(rgba(255, 240, 245, 0.5), rgba(255, 182, 193, 0.8)), url('https://i.ibb.co/RpcV4GkN/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none;
+        }
+        body.theme-valen h1, body.theme-valen h2 { color: var(--primary); text-shadow: 2px 2px 0px #fff; }
+        body.theme-valen .typing-card, body.theme-valen .modal-card, body.theme-valen #authContainer { background: rgba(255,255,255,0.85); border: 3px solid var(--highlight); box-shadow: 0 10px 30px rgba(255,20,147,0.3); }
+        body.theme-valen .word { color: #db7093; font-weight: bold; }
+        body.theme-valen .word.current { background: var(--primary); color: #fff; box-shadow: 0 4px 10px rgba(255,20,147,0.4); border-radius: 10px; }
+        body.theme-valen #userInput { background: #fff0f5; color: var(--text-dark); border: 2px solid var(--highlight); border-radius: 20px; }
+        body.theme-valen #userInput:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(255,20,147,0.3); }
+        body.theme-valen .btn-main, body.theme-valen .btn-top { background: var(--primary); color: #fff; border-radius: 20px; }
+
+        /* ==================================================
+           18. HELL INFERNO (ธีมนรกอเวจี หัวร้อนทะลุปรอท)
+           ================================================== */
+        body.theme-hell { --bg: #1a0000;
+            --card: rgba(20, 0, 0, 0.9); --primary: #ff4500; --primary1: #ff0000; --text-dark: #fff; --text-light: #fff; --highlight: #ff8c00; --correct-live: #ff4500; --wrong-live: #8b0000;
+            --font-head: 'Chakra Petch', sans-serif; --font-main: 'Chakra Petch', sans-serif; --border-rad: 0px; --border-btn: 0px;
+        }
+        body.theme-hell::before { content: ""; position: fixed; top: 0; left: 0; right: 0;
+            bottom: 0; background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url('https://i.ibb.co/Y7XT26vR/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none;
+        }
+        body.theme-hell h1 { color: #ff0000; text-shadow: 0 0 10px #ff4500, 0 0 20px #ff0000; text-transform: uppercase; letter-spacing: 2px; }
+        body.theme-hell .typing-card, body.theme-hell .modal-card, body.theme-hell #authContainer { background: var(--card); border: 2px solid #ff0000; box-shadow: 0 0 30px rgba(255,0,0,0.5); }
+        body.theme-hell .word { color: #888; font-weight: bold; }
+        body.theme-hell .word.current { background: #ff0000; color: #fff; text-shadow: 0 0 5px #fff; box-shadow: 0 0 15px #ff4500; }
+        body.theme-hell #userInput { background: rgba(0,0,0,0.8); color: #ff4500; border: 2px solid #ff0000; font-weight: bold; }
+        body.theme-hell .btn-main, body.theme-hell .btn-top { background: linear-gradient(180deg, #ff0000, #8b0000); color: #fff; border: 1px solid #ff4500; box-shadow: 0 0 15px rgba(255,0,0,0.6); text-transform: uppercase; }
+
+        /* ==================================================
+           19. GALAXY SPACE (ธีมทะลุจักรวาล ลอยๆ เพลินๆ)
+           ================================================== */
+        body.theme-space { --bg: #09001a;
+            --card: rgba(10, 0, 30, 0.85); --primary: #00ffff; --primary1: #ff00ff; --text-dark: #fff; --text-light: #e0e0ff; --highlight: #bf00ff; --correct-live: #00ffff; --wrong-live: #ff0055;
+            --font-head: 'Teko', sans-serif; --font-main: 'Chakra Petch', sans-serif; --border-rad: 15px; --border-btn: 8px;
+        }
+        body.theme-space::before { content: ""; position: fixed; top: 0; left: 0; right: 0;
+            bottom: 0; background-image: linear-gradient(rgba(9, 0, 26, 0.8), rgba(0, 0, 0, 0.95)), url('https://i.ibb.co/chxmr3kg/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none;
+        }
+        body.theme-space h1, body.theme-space h2 { color: var(--primary); text-shadow: 0 0 15px var(--primary); letter-spacing: 2px; }
+        body.theme-space .typing-card, body.theme-space .modal-card, body.theme-space #authContainer { background: var(--card); border: 1px solid var(--primary1); box-shadow: 0 0 25px rgba(191, 0, 255, 0.3), inset 0 0 15px rgba(0, 255, 255, 0.1); backdrop-filter: blur(8px); }
+        body.theme-space .word { color: #6b4c9a; font-weight: bold; }
+        body.theme-space .word.current { background: rgba(0,255,255,0.2); color: var(--primary); box-shadow: 0 0 15px var(--primary); border-radius: 5px; }
+        body.theme-space #userInput { background: rgba(0,0,0,0.6); color: var(--primary); border: 1px solid var(--primary); box-shadow: inset 0 0 10px rgba(0,255,255,0.3); }
+        body.theme-space #userInput:focus { box-shadow: 0 0 20px var(--primary); }
+        body.theme-space .btn-main, body.theme-space .btn-top { background: rgba(0,0,0,0.5); color: var(--primary); border: 1px solid var(--primary); box-shadow: 0 0 10px var(--primary); transition: 0.3s; }
+        body.theme-space .btn-main:hover, body.theme-space .btn-top:hover { background: var(--primary); color: #000; box-shadow: 0 0 25px var(--primary); }
+
+        /* ==================================================
+           20. HALLOWEEN THEME (ธีมฮาโลวีน หลอนๆ)
+           ================================================== */
+        body.theme-halloween { --bg: #1a002a;
+            --card: rgba(26, 0, 42, 0.85); --primary: #ff7518; --primary1: #9400d3; --text-dark: #fff; --text-light: #ff7518; --highlight: #ff0000; --correct-live: #ff7518; --wrong-live: #9400d3;
+            --font-head: 'Mali', cursive; --font-main: 'Sarabun', sans-serif; --border-rad: 15px; --border-btn: 8px;
+        }
+        body.theme-halloween::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(26, 0, 42, 0.8), rgba(0, 0, 0, 0.95)), url('https://i.ibb.co/rRd70cpT/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-halloween h1, body.theme-halloween h2 { color: var(--primary); text-shadow: 2px 2px 5px rgba(255,117,24,0.5); }
+        body.theme-halloween .typing-card, body.theme-halloween .modal-card, body.theme-halloween #authContainer { background: var(--card); border: 2px dashed var(--primary); box-shadow: 0 0 30px rgba(255,117,24,0.2); backdrop-filter: blur(5px); }
+        body.theme-halloween .word.current { background: var(--primary1); color: #fff; box-shadow: 0 0 15px var(--primary1); border-radius: 8px; }
+        body.theme-halloween #userInput { background: rgba(0,0,0,0.6); color: var(--primary); border: 2px solid var(--primary); }
+        body.theme-halloween .btn-main, body.theme-halloween .btn-top { background: linear-gradient(45deg, #ff7518, #9400d3); color: #fff; border: 1px solid #fff; }
+
+        /* ==================================================
+           21. LIVERPOOL FC THEME (ธีมหงส์แดง ดุดัน)
+           ================================================== */
+        body.theme-liv { --bg: #2b0000;
+            --card: rgba(43, 0, 0, 0.9); --primary: #c8102e; --primary1: #f6eb61; --text-dark: #fff; --text-light: #fff; --highlight: #f6eb61; --correct-live: #00ff88; --wrong-live: #ff4444;
+            --font-head: 'Teko', sans-serif; --font-main: 'Chakra Petch', sans-serif; --border-rad: 8px; --border-btn: 4px;
+        }
+        body.theme-liv::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(200, 16, 46, 0.7), rgba(0, 0, 0, 0.9)), url('https://i.ibb.co/3YdG2npN/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-liv h1 { color: #fff; text-shadow: 3px 3px 0px var(--primary), -1px -1px 0px var(--primary1); text-transform: uppercase; font-size: 40px;}
+        body.theme-liv h2 { color: var(--primary1); text-shadow: 2px 2px 0px #000; }
+        body.theme-liv .typing-card, body.theme-liv .modal-card, body.theme-liv #authContainer { background: var(--card); border: 3px solid var(--primary); border-top: 5px solid var(--primary1); box-shadow: 0 10px 40px rgba(200,16,46,0.5); backdrop-filter: blur(5px); }
+        body.theme-liv .word { color: #ffb3b3; font-weight: bold; }
+        body.theme-liv .word.current { background: var(--primary); color: #fff; box-shadow: 0 0 15px var(--primary); border-bottom: 2px solid var(--primary1); border-radius: 4px; }
+        body.theme-liv #userInput { background: rgba(0,0,0,0.7); color: var(--primary1); border: 2px solid var(--primary); text-transform: uppercase; font-weight: bold; }
+        body.theme-liv .btn-main, body.theme-liv .btn-top { background: var(--primary); color: #fff; border: 2px solid var(--primary1); font-weight: 800; text-transform: uppercase; box-shadow: 0 4px 15px rgba(200,16,46,0.6); }
+        body.theme-liv .btn-main:hover, body.theme-liv .btn-top:hover { background: var(--primary1); color: var(--primary); }
+
+        /* ==================================================
+           22. MANCHESTER UNITED THEME (ธีมปีศาจแดง)
+           ================================================== */
+        body.theme-manu { --bg: #1a0000;
+            --card: rgba(26, 0, 0, 0.9); --primary: #da291c; --primary1: #fbe122; --text-dark: #fff; --text-light: #fff; --highlight: #fbe122; --correct-live: #da291c; --wrong-live: #555555;
+            --font-head: 'Chakra Petch', sans-serif; --font-main: 'Sarabun', sans-serif; --border-rad: 0px; --border-btn: 0px;
+        }
+        body.theme-manu::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(218, 41, 28, 0.4), rgba(0, 0, 0, 0.95)), url('https://i.ibb.co/zh3SC4Gz/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-manu h1 { color: var(--primary); text-shadow: 2px 2px 0px var(--primary1); text-transform: uppercase;}
+        body.theme-manu .typing-card, body.theme-manu .modal-card, body.theme-manu #authContainer { background: var(--card); border: 2px solid var(--primary); border-left: 8px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.9); }
+        body.theme-manu .word.current { background: var(--primary); color: #fff; border-radius: 0; box-shadow: 4px 4px 0px rgba(251, 225, 34, 0.8); }
+        body.theme-manu #userInput { background: #000; color: #fff; border: 2px solid var(--primary); }
+        body.theme-manu .btn-main, body.theme-manu .btn-top { background: #000; color: var(--primary); border: 2px solid var(--primary); box-shadow: 4px 4px 0px var(--primary1); font-weight: bold; transition: 0.1s;}
+        body.theme-manu .btn-main:active { transform: translate(4px, 4px); box-shadow: none; }
+        body.theme-manu .name-text { color: var(--primary1); text-shadow: 2px 2px 0px var(--primary); font-size: 22px; font-weight: 900; }
+        body.theme-manu #bestWPM { color: var(--primary1); text-shadow: 2px 2px 0px var(--primary); }
+
+        /* ==================================================
+           23. MANCHESTER CITY THEME (ธีมเรือใบสีฟ้า)
+           ================================================== */
+        body.theme-mancity { --bg: #001838;
+            --card: rgba(0, 24, 56, 0.85); --primary: #6cabdd; --primary1: #1c2c5b; --text-dark: #fff; --text-light: #fff; --highlight: #6cabdd; --correct-live: #6cabdd; --wrong-live: #ff0000;
+            --font-head: 'Sarabun', sans-serif; --font-main: 'Sarabun', sans-serif; --border-rad: 20px; --border-btn: 10px;
+        }
+        body.theme-mancity::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(108, 171, 221, 0.5), rgba(0, 24, 56, 0.9)), url('https://i.ibb.co/B5g7kcrY/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-mancity h1, body.theme-mancity h2 { color: #fff; text-shadow: 0 0 10px var(--primary); }
+        body.theme-mancity .typing-card, body.theme-mancity .modal-card, body.theme-mancity #authContainer { background: var(--card); border: 2px solid var(--primary); box-shadow: 0 15px 35px rgba(108, 171, 221, 0.2); backdrop-filter: blur(8px); }
+        body.theme-mancity .word.current { background: rgba(108, 171, 221, 0.2); color: var(--primary); border-bottom: 3px solid var(--primary); border-radius: 5px; }
+        body.theme-mancity #userInput { background: rgba(255,255,255,0.9); color: var(--primary1); border: 2px solid var(--primary); font-weight: bold; }
+        body.theme-mancity .btn-main, body.theme-mancity .btn-top { background: var(--primary); color: #fff; border: none; font-weight: bold; box-shadow: 0 5px 15px rgba(108, 171, 221, 0.5); }
+
+        /* ==================================================
+           24. ARSENAL THEME (ธีมปืนใหญ่)
+           ================================================== */
+        body.theme-arsenal { --bg: #0a0a0a;
+            --card: rgba(15, 15, 15, 0.9); --primary: #ef0107; --primary1: #9c824a; --text-dark: #fff; --text-light: #fff; --highlight: #9c824a; --correct-live: #ef0107; --wrong-live: #555555;
+            --font-head: 'Teko', sans-serif; --font-main: 'Chakra Petch', sans-serif; --border-rad: 4px; --border-btn: 4px;
+        }
+        body.theme-arsenal::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(239, 1, 7, 0.3), rgba(0, 0, 0, 0.9)), url('https://i.ibb.co/cKHXhskF/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-arsenal h1 { color: #fff; border-left: 5px solid var(--primary); padding-left: 10px; margin-left: -10px; }
+        body.theme-arsenal .typing-card, body.theme-arsenal .modal-card, body.theme-arsenal #authContainer { background: var(--card); border: 1px solid #333; border-top: 4px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        body.theme-arsenal .word.current { background: rgba(239, 1, 7, 0.15); color: #fff; border: 1px solid var(--primary); box-shadow: inset 0 0 10px rgba(239, 1, 7, 0.2); }
+        body.theme-arsenal #userInput { background: rgba(0,0,0,0.8); color: #fff; border: 1px solid var(--primary1); }
+        body.theme-arsenal .btn-main, body.theme-arsenal .btn-top { background: var(--primary); color: #fff; border: 1px solid var(--primary1); font-weight: bold; text-transform: uppercase; }
+
+        /* ==================================================
+           25. CHELSEA THEME (ธีมสิงห์บลูส์)
+           ================================================== */
+        body.theme-chelsea { --bg: #034694;
+            --card: rgba(3, 70, 148, 0.85); --primary: #dba111; --primary1: #ffffff; --text-dark: #fff; --text-light: #fff; --highlight: #dba111; --correct-live: #00ff88; --wrong-live: #ff4444;
+            --font-head: 'Sarabun', sans-serif; --font-main: 'Sarabun', sans-serif; --border-rad: 12px; --border-btn: 6px;
+        }
+        body.theme-chelsea::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(3, 70, 148, 0.6), rgba(0, 0, 0, 0.9)), url('https://i.ibb.co/0R7BZXHc/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-chelsea h1 { color: #fff; text-shadow: 2px 2px 0px var(--primary); }
+        body.theme-chelsea .typing-card, body.theme-chelsea .modal-card, body.theme-chelsea #authContainer { background: var(--card); border: 2px solid var(--primary1); box-shadow: 0 10px 40px rgba(0,0,0,0.6); backdrop-filter: blur(5px); }
+        body.theme-chelsea .word.current { background: var(--primary); color: #000; box-shadow: 0 4px 10px rgba(219, 161, 17, 0.4); border-radius: 6px; }
+        body.theme-chelsea #userInput { background: rgba(255,255,255,0.9); color: #034694; border: 2px solid var(--primary); font-weight: bold; }
+        body.theme-chelsea .btn-main, body.theme-chelsea .btn-top { background: var(--primary1); color: #034694; border: 2px solid var(--primary); font-weight: bold; }
+
+        /* ==================================================
+           26. REAL MADRID THEME (ราชันชุดขาว หรูหรา)
+           ================================================== */
+        body.theme-rmadrid { --bg: #f8f9fa;
+            --card: rgba(255, 255, 255, 0.95); --primary: #00529F; --primary1: #FEBE10; --text-dark: #000; --text-light: #00529F; --highlight: #FEBE10; --correct-live: #00529F; --wrong-live: #ff0000;
+            --font-head: 'Chakra Petch', sans-serif; --font-main: 'Sarabun', sans-serif; --border-rad: 10px; --border-btn: 5px;
+        }
+        body.theme-rmadrid::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(255, 255, 255, 0.8), rgba(240, 240, 240, 0.95)), url('https://i.ibb.co/Q3h7WxTv/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-rmadrid h1 { color: var(--primary); text-shadow: 2px 2px 0px var(--primary1); text-transform: uppercase; }
+        body.theme-rmadrid .typing-card, body.theme-rmadrid .modal-card, body.theme-rmadrid #authContainer { background: var(--card); border: 2px solid var(--primary); border-top: 5px solid var(--primary1); box-shadow: 0 10px 30px rgba(0, 82, 159, 0.2); }
+        body.theme-rmadrid .word { color: #888; font-weight: bold; }
+        body.theme-rmadrid .word.current { background: var(--primary); color: #fff; border-radius: 4px; box-shadow: 0 4px 10px rgba(0, 82, 159, 0.3); }
+        body.theme-rmadrid #userInput { background: #fff; color: var(--primary); border: 2px solid var(--primary1); font-weight: bold;}
+        body.theme-rmadrid .btn-main, body.theme-rmadrid .btn-top { background: var(--primary); color: #fff; border: 2px solid var(--primary1); font-weight: bold; }
+
+        /* ==================================================
+           27. BARCELONA THEME (เจ้าบุญทุ่ม เลือดหมู-น้ำเงิน)
+           ================================================== */
+        body.theme-barca { --bg: #004D98;
+            --card: rgba(0, 77, 152, 0.9); --primary: #A50044; --primary1: #EDBB00; --text-dark: #fff; --text-light: #fff; --highlight: #EDBB00; --correct-live: #00ff88; --wrong-live: #ff4444;
+            --font-head: 'Chakra Petch', sans-serif; --font-main: 'Sarabun', sans-serif; --border-rad: 8px; --border-btn: 4px;
+        }
+        body.theme-barca::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(0, 77, 152, 0.7), rgba(165, 0, 68, 0.8)), url('https://i.ibb.co/tpF65TXN/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-barca h1 { color: var(--primary1); text-shadow: 2px 2px 0px #000; text-transform: uppercase; }
+        body.theme-barca .typing-card, body.theme-barca .modal-card, body.theme-barca #authContainer { background: var(--card); border: 3px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.8); }
+        body.theme-barca .word.current { background: var(--primary); color: #fff; border-bottom: 3px solid var(--primary1); border-radius: 4px; }
+        body.theme-barca #userInput { background: rgba(0,0,0,0.5); color: var(--primary1); border: 2px solid var(--primary1); font-weight: bold; text-transform: uppercase;}
+        body.theme-barca .btn-main, body.theme-barca .btn-top { background: var(--primary); color: var(--primary1); border: 2px solid var(--primary1); font-weight: bold; }
+
+        /* ==================================================
+           28. BAYERN MUNICH THEME (เสือใต้ ดุดัน สีตามโลโก้เป๊ะๆ)
+           ================================================== */
+        body.theme-bayern { --bg: #DC052D;
+            --card: rgba(220, 5, 45, 0.85); --primary: #ffffff; --primary1: #0066B2; --text-dark: #DC052D; --text-light: #fff; --highlight: #0066B2; --correct-live: #00ff88; --wrong-live: #000000;
+            --font-head: 'Teko', sans-serif; --font-main: 'Chakra Petch', sans-serif; --border-rad: 8px; --border-btn: 6px;
+        }
+        body.theme-bayern::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(220, 5, 45, 0.7), rgba(0, 0, 0, 0.9)), url('https://i.ibb.co/tTkR2G40/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-bayern h1 { color: #fff; text-shadow: 3px 3px 0px var(--primary1), -1px -1px 0px #000; text-transform: uppercase; }
+        body.theme-bayern .typing-card, body.theme-bayern .modal-card, body.theme-bayern #authContainer { background: var(--card); border: 3px solid #fff; border-bottom: 8px solid var(--primary1); box-shadow: 0 10px 30px rgba(0,0,0,0.8); backdrop-filter: blur(5px); }
+        body.theme-bayern .word { color: rgba(255, 255, 255, 0.5); font-weight: bold; }
+        body.theme-bayern .word.correct { color: #fff; text-shadow: 1px 1px 2px #000; }
+        body.theme-bayern .word.current { background: var(--primary1); color: #fff; border-radius: 4px; box-shadow: 0 4px 10px rgba(0, 102, 178, 0.6); }
+        body.theme-bayern #userInput { background: rgba(255, 255, 255, 0.95); color: var(--bg); border: 3px solid var(--primary1); font-weight: bold; }
+        body.theme-bayern .btn-main, body.theme-bayern .btn-top { background: var(--primary1); color: #fff; border: 2px solid #fff; text-transform: uppercase; font-weight: bold; transition: 0.2s;}
+        body.theme-bayern .btn-main:hover, body.theme-bayern .btn-top:hover { background: #fff; color: var(--primary1); border-color: var(--primary1); }
+        body.theme-bayern .timer-badge { background: var(--primary1); color: #fff; border: 2px solid #fff; box-shadow: 0 0 10px rgba(0, 102, 178, 0.5); }
+        body.theme-bayern .btn-refresh { background: var(--primary1); color: #fff; border: 2px solid #fff; transition: 0.3s; }
+        body.theme-bayern .btn-refresh:hover { background: #fff; color: var(--primary1); border-color: var(--primary1); transform: scale(1.05); }
+        body.theme-bayern .name-text { color: #fff; text-shadow: 2px 2px 0px var(--primary1); font-size: 22px; font-weight: 900; }
+        body.theme-bayern #bestWPM { color: #fff; text-shadow: 2px 2px 0px var(--primary1); }
+        body.theme-bayern .stat-box { background: rgba(0, 102, 178, 0.2); border: 1px solid #fff; }
+        body.theme-bayern .stat-box.highlight { background: rgba(0, 102, 178, 0.6); border-color: var(--primary1); box-shadow: 0 0 10px rgba(0, 102, 178, 0.4); }
+
+        /* ==================================================
+           29. JUVENTUS THEME (ม้าลาย คลาสสิค)
+           ================================================== */
+        body.theme-juve { --bg: #000000;
+            --card: rgba(15, 15, 15, 0.85); --primary: #ffffff; --primary1: #FFD700; --text-dark: #fff; --text-light: #fff; --highlight: #FFD700; --correct-live: #00ff88; --wrong-live: #ff4444;
+            --font-head: 'Chakra Petch', sans-serif; --font-main: 'Sarabun', sans-serif; --border-rad: 8px; --border-btn: 4px;
+        }
+        body.theme-juve::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.9)), url('https://i.ibb.co/ymvtNTNk/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-juve h1 { color: #fff; text-transform: uppercase; letter-spacing: 2px; border-bottom: 2px solid var(--primary1); display: inline-block;}
+        body.theme-juve .typing-card, body.theme-juve .modal-card, body.theme-juve #authContainer { background: var(--card); border: 2px solid #fff; box-shadow: 0 10px 30px rgba(255,255,255,0.1); backdrop-filter: blur(5px); }
+        body.theme-juve .word.current { background: #fff; color: #000; font-weight: bold; border-radius: 4px; box-shadow: 0 0 10px rgba(255,255,255,0.5); }
+        body.theme-juve #userInput { background: rgba(0,0,0,0.8); color: var(--primary1); border: 2px solid #fff; font-weight: bold;}
+        body.theme-juve .btn-main, body.theme-juve .btn-top { background: #fff; color: #000; border: 2px solid var(--primary1); font-weight: 800; text-transform: uppercase; }
+        body.theme-juve .timer-badge { background: #000; color: var(--primary1); border: 2px solid #fff; box-shadow: 0 0 10px rgba(255,215,0,0.3); }
+        body.theme-juve .btn-refresh { background: #000; color: #fff; border: 2px solid #fff; }
+        body.theme-juve .btn-refresh:hover { background: #222; color: var(--primary1); border-color: var(--primary1); }
+
+        /* ==================================================
+           30. PSG THEME (เปแอสเช เศรษฐีปารีส)
+           ================================================== */
+        body.theme-psg { --bg: #004170;
+            --card: rgba(0, 65, 112, 0.9); --primary: #DA291C; --primary1: #ffffff; --text-dark: #fff; --text-light: #fff; --highlight: #ffffff; --correct-live: #00ff88; --wrong-live: #DA291C;
+            --font-head: 'Teko', sans-serif; --font-main: 'Sarabun', sans-serif; --border-rad: 12px; --border-btn: 6px;
+        }
+        body.theme-psg::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(0, 65, 112, 0.8), rgba(0, 0, 0, 0.9)), url('https://i.ibb.co/fY0LDr5Z/image.png'); background-size: cover; background-position: center; z-index: -1; pointer-events: none; }
+        body.theme-psg h1 { color: #fff; text-shadow: 2px 2px 0px var(--primary); text-transform: uppercase; }
+        body.theme-psg .typing-card, body.theme-psg .modal-card, body.theme-psg #authContainer { background: var(--card); border: 2px solid var(--primary); box-shadow: 0 10px 30px rgba(0,0,0,0.7); border-top: 5px solid var(--primary1); }
+        body.theme-psg .word.current { background: var(--primary); color: #fff; border-radius: 6px; box-shadow: 0 4px 10px rgba(218, 41, 28, 0.4); }
+        body.theme-psg #userInput { background: rgba(255,255,255,0.1); color: #fff; border: 2px solid var(--primary1); font-weight: bold;}
+        body.theme-psg .btn-main, body.theme-psg .btn-top { background: var(--primary1); color: #004170; border: 2px solid var(--primary); font-weight: bold; }
+
+        /* ==================================================
            📱 MOBILE RESPONSIVE
            ================================================== */
         @media (max-width: 768px) {
@@ -1110,7 +1374,7 @@
 </head>
 <body>
 
-<button id="btnOpenTheme" onclick="openThemeModal()">ถ้าธีมนี้มันกาก กดตรงนี้</button>
+<button id="btnOpenTheme" onclick="openThemeModal()">เปลี่ยนธีม (NEW)</button>
 
 <div class="ticker-wrap" id="tickerWrap">
     <div class="ticker-content" id="tickerContent">📢 แป๊บไอ้สัสนรก</div>
@@ -1240,14 +1504,59 @@
         <p style="margin-top: 0; margin-bottom: 20px;">สลับโหมดตามอารมณ์ความเดือดได้เลย!</p>
         
         <div class="theme-selector-grid">
-            <button class="theme-option-btn" id="btn-theme-valo" onclick="selectTheme('theme-valo')">
-                <span class="theme-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/1280px-Valorant_logo_-_pink_color_version.svg.png" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ff4655">Valorant</span>
-            </button>
             <button class="theme-option-btn" id="btn-theme-sf" onclick="selectTheme('theme-sf')">
                 <span class="theme-icon"><img src="https://play-lh.googleusercontent.com/NytYEXtRpDKvuebqOe8SxqrnFvBqJzgcCykgr6DzGFaOEPbCPpSca-8xPdVU0YSP08I" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ffcc00">SF (ทหาร)</span>
             </button>
             <button class="theme-option-btn" id="btn-theme-pb" onclick="selectTheme('theme-pb')">
                 <span class="theme-icon"><img src="https://play-lh.googleusercontent.com/IGOlY-TMU0cGW_I8EFKBkLACxPLu1TQqbqaqx7NUsGMyjNWIO1NdhwdBrq-71pUAHw" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#00aaff">PB</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-songkran" onclick="selectTheme('theme-songkran')">
+                <span class="theme-icon"><img src="https://i.ibb.co/BVBN0Mvw/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#00bfff">สงกรานต์</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-cny" onclick="selectTheme('theme-cny')">
+                <span class="theme-icon"><img src="https://i.ibb.co/j93YBRj6/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ffd700">ตรุษจีน</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-valen" onclick="selectTheme('theme-valen')">
+                <span class="theme-icon"><img src="https://i.ibb.co/wFJ7gZY0/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ff1493">วาเลนไทน์</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-hell" onclick="selectTheme('theme-hell')">
+                <span class="theme-icon"><img src="https://i.ibb.co/HL0FMrSq/image.png" style="width: 80px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ff4500">นรกเดือด</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-space" onclick="selectTheme('theme-space')">
+                <span class="theme-icon"><img src="https://i.ibb.co/HTZgBTKX/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#00ffff">จักรวาล</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-halloween" onclick="selectTheme('theme-halloween')">
+                <span class="theme-icon"><img src="https://i.ibb.co/KzrVDdXc/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ff7518">ฮาโลวีน</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-liv" onclick="selectTheme('theme-liv')">
+                <span class="theme-icon"><img src="https://i.ibb.co/0V9gZwh4/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#c8102e">LIVERPOOL</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-manu" onclick="selectTheme('theme-manu')">
+                <span class="theme-icon"><img src="https://i.ibb.co/1J0yzxkK/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#da291c">MAN UTD</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-mancity" onclick="selectTheme('theme-mancity')">
+                <span class="theme-icon"><img src="https://i.ibb.co/prXXgXTD/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#6cabdd">MAN CITY</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-arsenal" onclick="selectTheme('theme-arsenal')">
+                <span class="theme-icon"><img src="https://i.ibb.co/BH4ZcTfX/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ef0107">ARSENAL</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-chelsea" onclick="selectTheme('theme-chelsea')">
+                <span class="theme-icon"><img src="https://i.ibb.co/7JV4hftp/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#034694">CHELSEA</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-rmadrid" onclick="selectTheme('theme-rmadrid')">
+                <span class="theme-icon"><img src="https://i.ibb.co/8gnV3p97/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#FEBE10">R.MADRID</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-barca" onclick="selectTheme('theme-barca')">
+                <span class="theme-icon"><img src="https://i.ibb.co/RGmYTx6G/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#EDBB00">BARCELONA</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-bayern" onclick="selectTheme('theme-bayern')">
+                <span class="theme-icon"><img src="https://i.ibb.co/1G314xZm/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#DC052D">BAYERN</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-juve" onclick="selectTheme('theme-juve')">
+                <span class="theme-icon"><img src="https://i.ibb.co/1JMvmdsW/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ffffff">JUVENTUS</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-psg" onclick="selectTheme('theme-psg')">
+                <span class="theme-icon"><img src="https://i.ibb.co/27SYjNhH/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#004170">PSG</span>
             </button>
             <button class="theme-option-btn" id="btn-theme-arcade" onclick="selectTheme('theme-arcade')">
                 <span class="theme-icon"><img src="https://i.ibb.co/0Rx2F5Mm/image.png" style="width: 100px; height: 50px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ff3300">8-BIT</span>
@@ -1275,6 +1584,9 @@
             </button>
             <button class="theme-option-btn" id="btn-theme-gold" onclick="selectTheme('theme-gold')">
                 <span class="theme-icon"><img src="https://i.ibb.co/V8NYPY9/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#e5c158">ทองคำไฮโซ</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-valo" onclick="selectTheme('theme-valo')">
+                <span class="theme-icon"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fc/Valorant_logo_-_pink_color_version.svg/1280px-Valorant_logo_-_pink_color_version.svg.png" style="width: 32px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ff4655">Valorant</span>
             </button>
             <button class="theme-option-btn" id="btn-default" onclick="selectTheme('default')">
                 <span class="theme-icon"><img src="https://i.ibb.co/Cpccjsp7/image.png" style="width: 110px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ddd">โหมดมืด</span>
