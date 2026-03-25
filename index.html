@@ -1637,6 +1637,41 @@
         body.theme-solo .stat-box { border-color: var(--primary1); background: rgba(0,0,0,0.6); }
         body.theme-solo .stat-box.highlight { border-color: var(--primary); box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.2); }
 
+        /* 🔴 เอฟเฟกต์คำว่า NEW ให้เด้งสว่างเหมือนข้อความเข้า */
+        .new-blink-text {
+            background: #ff0044;
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 900;
+            box-shadow: 0 0 10px #ff0044;
+            animation: blink-glow-pop 0.8s infinite alternate;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+        @keyframes blink-glow-pop {
+            0% { box-shadow: 0 0 5px #ff0044; transform: scale(1); }
+            100% { box-shadow: 0 0 20px #ff0044, 0 0 30px #ff0044; transform: scale(1.15); }
+        }
+
+        /* 🔴 ป้ายบอกจำนวนคนใช้ธีม (ย้ายขึ้นขวาบน + สีเหลืองทองสว่าง) */
+        .theme-count-badge {
+            position: absolute;
+            top: -8px; 
+            right: -8px; 
+            background: linear-gradient(135deg, #FFFF00 0%, #FFD700 100%); 
+            color: #000; 
+            font-size: 11px;
+            font-weight: 900;
+            padding: 3px 7px; 
+            border-radius: 12px;
+            border: 2px solid #fff; 
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 2px 5px rgba(0,0,0,0.5); 
+            z-index: 10;
+            font-family: 'Sarabun', sans-serif;
+            pointer-events: none; 
+        }
         /* ==================================================
            📱 MOBILE RESPONSIVE
            ================================================== */
@@ -1689,7 +1724,7 @@
 </head>
 <body>
 
-<button id="btnOpenTheme" onclick="openThemeModal()">เปลี่ยนธีม (NEW)</button>
+<button id="btnOpenTheme" onclick="openThemeModal()">เปลี่ยนธีม <span class="new-blink-text">NEW</span></button>
 
 <div class="ticker-wrap" id="tickerWrap">
     <div class="ticker-content" id="tickerContent">📢 แป๊บไอ้สัสนรก</div>
@@ -2102,7 +2137,7 @@
 <script>
     const urlParts = [
         "https://script.google.com/macros/s/",
-        "AKfycbw02fq5Wnzfm5bg7ILL0YXH76ITbShmgDHktBoid15lOFM3tb4KK7Kbucb1-wd5s0mS",
+        "AKfycbxsjQoX9VEoB5kzysUYoNVp7u_bO_cYfsJ09THmxdf6ffKwL1NVL1Cllf3ukLL8Ut_q",
         "/exec"
     ];
     const SCRIPT_URL = urlParts.join('');
@@ -2190,7 +2225,7 @@
         { exp: 256650, name: "พันตรี ชั้น 1" }, { exp: 298994, name: "พันตรี ชั้น 2" }, { exp: 321806, name: "พันตรี ชั้น 3" }, { exp: 357181, name: "พันตรี ชั้น 4" }, { exp: 387631, name: "พันตรี ชั้น 5" },
         { exp: 426170, name: "พันโท ชั้น 1" }, { exp: 466418, name: "พันโท ชั้น 2" }, { exp: 513715, name: "พันโท ชั้น 3" }, { exp: 555272, name: "พันโท ชั้น 4" }, { exp: 595640, name: "พันโท ชั้น 5" },
         { exp: 635421, name: "พันเอก ชั้น 1" }, { exp: 689519, name: "พันเอก ชั้น 2" }, { exp: 728437, name: "พันเอก ชั้น 3" }, { exp: 748138, name: "พันเอก ชั้น 4" }, { exp: 790179, name: "พันเอก ชั้น 5" },
-        { exp: 847229, name: "พลจัตวา ชั้น 1" }, { exp: 900000, name: "พลจัตวา ชั้น 2" }, { exp: 951439, name: "พลจัตวา ชั้น 3" }, { exp: 1000000, name: "พลจัตวา ชั้น 4" }, { exp: 1066302, name: "พลจัตวา ชั้น 5" },
+        { exp: 847229, name: "พลจัตวา ชั้น 1" }, { exp: 899688, name: "พลจัตวา ชั้น 2" }, { exp: 941439, name: "พลจัตวา ชั้น 3" }, { exp: 992740, name: "พลจัตวา ชั้น 4" }, { exp: 1066302, name: "พลจัตวา ชั้น 5" },
         { exp: 1120576, name: "พลตรี ชั้น 1" }, { exp: 1175305, name: "พลตรี ชั้น 2" }, { exp: 1233380, name: "พลตรี ชั้น 3" }, { exp: 1293069, name: "พลตรี ชั้น 4" }, { exp: 1350697, name: "พลตรี ชั้น 5" },
         { exp: 1421850, name: "พลโท ชั้น 1" }, { exp: 1505233, name: "พลโท ชั้น 2" }, { exp: 1577293, name: "พลโท ชั้น 3" }, { exp: 1647766, name: "พลโท ชั้น 4" }, { exp: 1716332, name: "พลโท ชั้น 5" },
         { exp: 1790612, name: "พลเอก ชั้น 1" }, { exp: 1885748, name: "พลเอก ชั้น 2" }, { exp: 1963398, name: "พลเอก ชั้น 3" }, { exp: 2027813, name: "พลเอก ชั้น 4" }, { exp: 2105669, name: "พลเอก ชั้น 5" },
@@ -2271,7 +2306,47 @@ function getRankIcon(rankName, size = 60) {
         document.getElementById('expBarFill').style.width = `${progress}%`;
     }
 
+// 🔥 เสกป้ายตัวเลข 0 ไปแปะไว้บนทุกปุ่มธีมที่มีในเว็บอัตโนมัติ
+        window.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.theme-option-btn').forEach(btn => {
+                let onclickCode = btn.getAttribute('onclick');
+                if (onclickCode) {
+                    let themeIdMatch = onclickCode.match(/'([^']+)'/);
+                    if (themeIdMatch) {
+                        let themeId = themeIdMatch[1];
+                        let badge = document.createElement('span');
+                        badge.className = 'theme-count-badge';
+                        badge.id = 'count-' + themeId;
+                        badge.innerText = '0'; 
+                        badge.style.display = 'none'; // 🔥 ซ่อนป้ายไว้ก่อนถ้ายังไม่มีคนใช้
+                        btn.style.position = 'relative'; 
+                        btn.appendChild(badge);
+                    }
+                }
+            });
+        });
 
+// 🔥 ฟังก์ชันอัปเดตตัวเลขแบบเรียลไทม์
+        function updateThemeCounts(dataArray) {
+            dataArray.forEach(item => {
+                if (item.__THEME_COUNTS__) {
+                    let counts = item.__THEME_COUNTS__;
+                    // เคลียร์เลขและซ่อนป้ายทั้งหมดก่อน
+                    document.querySelectorAll('.theme-count-badge').forEach(el => {
+                        el.innerText = "0";
+                        el.style.display = "none"; // ซ่อนป้ายไว้
+                    });
+                    // ยัดเลขใหม่ลงไป และแสดงเฉพาะอันที่มีคนใช้ (มากกว่า 0)
+                    for (let theme in counts) {
+                        let badge = document.getElementById("count-" + theme);
+                        if (badge && counts[theme] > 0) { 
+                            badge.innerText = counts[theme];
+                            badge.style.display = "block"; // เปิดให้แสดงป้าย
+                        }
+                    }
+                }
+            });
+        }
     function initTheme() {
         const savedTheme = localStorage.getItem('theme_preference') || 'default';
         document.body.className = savedTheme === 'default' ? '' : savedTheme;
@@ -2283,11 +2358,20 @@ function getRankIcon(rankName, size = 60) {
         updateThemeButtons(currentTheme);
     }
     function selectTheme(themeId) {
-        document.body.className = themeId === 'default' ? '' : themeId;
-        localStorage.setItem('theme_preference', themeId);
-        updateThemeButtons(themeId);
-        setTimeout(() => closeModal('themeModal'), 200);
-    }
+            document.body.className = themeId === 'default' ? '' : themeId;
+            localStorage.setItem('theme_preference', themeId);
+            updateThemeButtons(themeId);
+            setTimeout(() => closeModal('themeModal'), 200);
+
+            // 🔥 ยิงข้อมูลไปบอกหลังบ้านว่า "เปลี่ยนธีมแล้วนะ"
+            if (currentUser && typeof SCRIPT_URL !== 'undefined') {
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify({ action: "updateTheme", username: currentUser, theme: themeId })
+                }).catch(err => console.log("ส่งข้อมูลธีมไม่ผ่าน:", err));
+            }
+        }
     function updateThemeButtons(activeId) {
         document.querySelectorAll('.theme-option-btn').forEach(btn => btn.classList.remove('active'));
         const activeBtn = document.getElementById('btn-' + activeId);
@@ -2324,7 +2408,8 @@ function getRankIcon(rankName, size = 60) {
     } else { url += "?_t=" + Date.now(); }
 
     fetch(url).then(res => res.json()).then(data => {
-        if(data && data.length > 0) {
+            if(data && data.length > 0) {
+                updateThemeCounts(data); // 🔥 วางบรรทัดนี้เพิ่มเข้าไปเพื่ออัปเดตตัวเลข!
             
             if (data[0] && data[0].online_count !== undefined) {
                 let badge = document.getElementById('onlineCount');
