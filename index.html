@@ -2137,7 +2137,7 @@
 <script>
     const urlParts = [
         "https://script.google.com/macros/s/",
-        "AKfycbxsjQoX9VEoB5kzysUYoNVp7u_bO_cYfsJ09THmxdf6ffKwL1NVL1Cllf3ukLL8Ut_q",
+        "AKfycbx2lYOB29_YkE8zbQbPqLLsp-pii37-1pRCLZG27wBHEPElb_AeeByWg2H137xp9Jj4",
         "/exec"
     ];
     const SCRIPT_URL = urlParts.join('');
@@ -2225,7 +2225,7 @@
         { exp: 256650, name: "พันตรี ชั้น 1" }, { exp: 298994, name: "พันตรี ชั้น 2" }, { exp: 321806, name: "พันตรี ชั้น 3" }, { exp: 357181, name: "พันตรี ชั้น 4" }, { exp: 387631, name: "พันตรี ชั้น 5" },
         { exp: 426170, name: "พันโท ชั้น 1" }, { exp: 466418, name: "พันโท ชั้น 2" }, { exp: 513715, name: "พันโท ชั้น 3" }, { exp: 555272, name: "พันโท ชั้น 4" }, { exp: 595640, name: "พันโท ชั้น 5" },
         { exp: 635421, name: "พันเอก ชั้น 1" }, { exp: 689519, name: "พันเอก ชั้น 2" }, { exp: 728437, name: "พันเอก ชั้น 3" }, { exp: 748138, name: "พันเอก ชั้น 4" }, { exp: 790179, name: "พันเอก ชั้น 5" },
-        { exp: 847229, name: "พลจัตวา ชั้น 1" }, { exp: 899688, name: "พลจัตวา ชั้น 2" }, { exp: 941439, name: "พลจัตวา ชั้น 3" }, { exp: 992740, name: "พลจัตวา ชั้น 4" }, { exp: 1066302, name: "พลจัตวา ชั้น 5" },
+        { exp: 847229, name: "พลจัตวา ชั้น 1" }, { exp: 900000, name: "พลจัตวา ชั้น 2" }, { exp: 965005, name: "พลจัตวา ชั้น 3" }, { exp: 1120000, name: "พลจัตวา ชั้น 4" }, { exp: 1069302, name: "พลจัตวา ชั้น 5" },
         { exp: 1120576, name: "พลตรี ชั้น 1" }, { exp: 1175305, name: "พลตรี ชั้น 2" }, { exp: 1233380, name: "พลตรี ชั้น 3" }, { exp: 1293069, name: "พลตรี ชั้น 4" }, { exp: 1350697, name: "พลตรี ชั้น 5" },
         { exp: 1421850, name: "พลโท ชั้น 1" }, { exp: 1505233, name: "พลโท ชั้น 2" }, { exp: 1577293, name: "พลโท ชั้น 3" }, { exp: 1647766, name: "พลโท ชั้น 4" }, { exp: 1716332, name: "พลโท ชั้น 5" },
         { exp: 1790612, name: "พลเอก ชั้น 1" }, { exp: 1885748, name: "พลเอก ชั้น 2" }, { exp: 1963398, name: "พลเอก ชั้น 3" }, { exp: 2027813, name: "พลเอก ชั้น 4" }, { exp: 2105669, name: "พลเอก ชั้น 5" },
@@ -2328,24 +2328,25 @@ function getRankIcon(rankName, size = 60) {
 
 // 🔥 ฟังก์ชันอัปเดตตัวเลขแบบเรียลไทม์
         function updateThemeCounts(dataArray) {
-            dataArray.forEach(item => {
-                if (item.__THEME_COUNTS__) {
-                    let counts = item.__THEME_COUNTS__;
-                    // เคลียร์เลขและซ่อนป้ายทั้งหมดก่อน
-                    document.querySelectorAll('.theme-count-badge').forEach(el => {
-                        el.innerText = "0";
-                        el.style.display = "none"; // ซ่อนป้ายไว้
-                    });
-                    // ยัดเลขใหม่ลงไป และแสดงเฉพาะอันที่มีคนใช้ (มากกว่า 0)
-                    for (let theme in counts) {
-                        let badge = document.getElementById("count-" + theme);
-                        if (badge && counts[theme] > 0) { 
-                            badge.innerText = counts[theme];
-                            badge.style.display = "block"; // เปิดให้แสดงป้าย
-                        }
+            let counts = null;
+            // หาข้อมูลตัวเลขจาก Data ที่โหลดมา
+            dataArray.forEach(item => { if (item.__THEME_COUNTS__) counts = item.__THEME_COUNTS__; });
+            if (!counts && dataArray.length > 0 && dataArray[0].theme_counts) counts = dataArray[0].theme_counts;
+
+            if (counts) {
+                // เคลียร์ป้ายทั้งหมดก่อน
+                document.querySelectorAll('.theme-count-badge').forEach(el => {
+                    el.innerText = "0"; el.style.display = "none";
+                });
+                // แสดงป้ายเฉพาะธีมที่มีคนออนไลน์อยู่ตอนนี้
+                for (let theme in counts) {
+                    let badge = document.getElementById("count-" + theme);
+                    if (badge && counts[theme] > 0) { 
+                        badge.innerText = counts[theme];
+                        badge.style.display = "block"; 
                     }
                 }
-            });
+            }
         }
     function initTheme() {
         const savedTheme = localStorage.getItem('theme_preference') || 'default';
@@ -2358,13 +2359,33 @@ function getRankIcon(rankName, size = 60) {
         updateThemeButtons(currentTheme);
     }
     function selectTheme(themeId) {
+            let oldTheme = document.body.className; 
+            if (!oldTheme && localStorage.getItem('theme_preference')) { oldTheme = localStorage.getItem('theme_preference'); }
+
             document.body.className = themeId === 'default' ? '' : themeId;
             localStorage.setItem('theme_preference', themeId);
             updateThemeButtons(themeId);
             setTimeout(() => closeModal('themeModal'), 200);
 
-            // 🔥 ยิงข้อมูลไปบอกหลังบ้านว่า "เปลี่ยนธีมแล้วนะ"
-            if (currentUser && typeof SCRIPT_URL !== 'undefined') {
+            // 🔥 ระบบหลอกตา: กดปุ๊บ สั่งลบเลขธีมเก่า +1 ธีมใหม่หน้าเว็บทันที ไม่ต้องรอหลังบ้าน!
+            if (oldTheme && oldTheme !== 'default' && oldTheme !== themeId) {
+                let oldBadge = document.getElementById("count-" + oldTheme);
+                if (oldBadge && parseInt(oldBadge.innerText) > 0) {
+                    let newVal = parseInt(oldBadge.innerText) - 1;
+                    oldBadge.innerText = newVal;
+                    if(newVal <= 0) oldBadge.style.display = 'none';
+                }
+            }
+            if (themeId && themeId !== 'default') {
+                let newBadge = document.getElementById("count-" + themeId);
+                if (newBadge) {
+                    newBadge.innerText = parseInt(newBadge.innerText || 0) + 1;
+                    newBadge.style.display = 'block';
+                }
+            }
+
+            // ยิงไปหลังบ้านแบบเงียบๆ
+            if (typeof currentUser !== 'undefined' && currentUser && typeof SCRIPT_URL !== 'undefined') {
                 fetch(SCRIPT_URL, {
                     method: 'POST',
                     headers: { "Content-Type": "text/plain;charset=utf-8" },
