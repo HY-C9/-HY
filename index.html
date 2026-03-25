@@ -2137,7 +2137,7 @@
 <script>
     const urlParts = [
         "https://script.google.com/macros/s/",
-        "AKfycbybE3uO02Vcs-4Ete_dH2QYjd7K8XhK9Bw-EbozbaG6Vq4RM4FSMlZUADh9b1GH4CI4",
+        "AKfycbw9dBRag2PvrE02N5Aro3S0mYB22N0flT0K7NxRwpjzGuBCO4WSBBGiGNwlabMN4D4n",
         "/exec"
     ];
     const SCRIPT_URL = urlParts.join('');
@@ -3000,14 +3000,19 @@ function getRankIcon(rankName, size = 60) {
         if (db[currentUser].history.length > 1000) db[currentUser].history.pop();
         
         if (db[currentUser].exp === undefined) db[currentUser].exp = 0;
-        db[currentUser].exp += gainedExp;
+        
+        // 🔥 1. ปิดการบวก EXP ทันทีในเครื่องผู้เล่น เพื่อรอข้อมูลจริงจากเซิร์ฟเวอร์
+        // db[currentUser].exp += gainedExp;
+        
         if(correctCount > db[currentUser].best) { db[currentUser].best = correctCount; }
         
         let currentPersonalBest = parseInt(document.getElementById('bestWPM').innerText) || 0;
         if(correctCount > currentPersonalBest) { document.getElementById('bestWPM').innerText = correctCount; }
         
         localStorage.setItem('typingDB_Final', JSON.stringify(db));
-        updateExpUI(db[currentUser].exp);
+        
+        // 🔥 2. ปิดการอัปเดตหลอด EXP หลอกตา รอให้ดึงข้อมูลจริงจาก Sheet มาแสดงทีเดียวจบ
+        // updateExpUI(db[currentUser].exp);
 
         document.getElementById('resWpm').innerText = correctCount;
         document.getElementById('resExp').innerText = "+" + gainedExp.toLocaleString();
@@ -3045,7 +3050,7 @@ function getRankIcon(rankName, size = 60) {
             body: JSON.stringify(payload) 
         }).then(() => { 
             document.getElementById('syncStatus').innerText = "✅ ..เรียบร้อยแล้วเว้ย.."; 
-            loadTickerData(); 
+            loadTickerData(); // 🔥 พอมันเซฟเสร็จ คำสั่งนี้จะดึงข้อมูลที่ซิงค์แล้วจากหลังบ้านมาอัปเดต EXP ที่หน้าเว็บให้เอง
         }).catch(() => { 
             document.getElementById('syncStatus').innerText = "❌ เซฟไม่ได้ว่ะ ช่างแม่งไปก่อน"; 
         });
