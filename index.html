@@ -2982,38 +2982,36 @@ function getRankIcon(rankName, size = 60) {
             let sum = keyTimings.reduce((a, b) => a + b, 0);
             let avg = sum / keyTimings.length;
             let variance = keyTimings.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / keyTimings.length;
-            
             if (variance < 50) {
                 alert("จังหวะพิมพ์มึงเป๊ะเป็นบอทเลยนะไอ้เวร! โดนแบนคะแนน!");
-                correctCount = 0;
-                wrongCount = 999;
+                correctCount = 0; wrongCount = 999;
             }
         }
 
         const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
         
-        let db = JSON.parse(localStorage.getItem('typingDB_Final'));
-        let expMultiplier = db[currentUser].multiplier || 10; 
+        let db = JSON.parse(localStorage.getItem('typingDB_Final')) || {};
+        if (!db[currentUser]) db[currentUser] = { best: 0, exp: 0, history: [] };
+        
+        let expMultiplier = Number(db[currentUser].multiplier) || 10; 
         let gainedExp = correctCount * expMultiplier;
         
         if (!db[currentUser].history) db[currentUser].history = []; 
         db[currentUser].history.unshift({ wpm: correctCount, acc: finalAcc, date: new Date().toLocaleString('th-TH') });
         if (db[currentUser].history.length > 1000) db[currentUser].history.pop();
         
-        if (db[currentUser].exp === undefined) db[currentUser].exp = 0;
-        
-        // 🔥 เปิดระบบบวก EXP ทันที! (เพราะตอนนี้เซิร์ฟเวอร์เราเสถียรและเร็วแล้ว)
-        db[currentUser].exp += gainedExp;
+        // 🔥 1. คำนวณ EXP (คำที่พิมพ์ได้ x ตัวคูณ) แล้วสั่งหลอดให้ "เด้งขึ้นทันที!" ไม่ต้องรอเซิร์ฟเวอร์
+        let optimisticExp = Number(db[currentUser].exp || 0) + gainedExp;
+        db[currentUser].exp = optimisticExp; 
         
         if(correctCount > db[currentUser].best) { db[currentUser].best = correctCount; }
-        
         let currentPersonalBest = parseInt(document.getElementById('bestWPM').innerText) || 0;
         if(correctCount > currentPersonalBest) { document.getElementById('bestWPM').innerText = correctCount; }
         
         localStorage.setItem('typingDB_Final', JSON.stringify(db));
         
-        // 🔥 เปิดคำสั่งอัปเดตหลอด EXP และยศ ให้เด้งโชว์หน้าเว็บทันที!
-        updateExpUI(db[currentUser].exp);
+        // สั่งอัปเดตหน้าตาหลอดและยศทันที!
+        updateExpUI(optimisticExp);
 
         document.getElementById('resWpm').innerText = correctCount;
         document.getElementById('resExp').innerText = "+" + gainedExp.toLocaleString();
@@ -3022,39 +3020,75 @@ function getRankIcon(rankName, size = 60) {
         document.getElementById('resWrong').innerText = wrongCount; 
         document.getElementById('resAttempts').innerText = totalTypeAttempts; 
         
-        document.getElementById('syncStatus').innerText = "⏳ กำลังส่งข้อมูลไปบันทึกนะไอ้สัส..."; 
+        document.getElementById('syncStatus').innerText = "⏳ กำลังซิงค์ข้อมูลกับ Sheet5..."; 
         document.getElementById('resultModal').style.display = 'flex';
         
-        // อัปเดตยศให้ตรงกับ EXP ปัจจุบันเป๊ะๆ
-        const currentRankName = getRankInfo(db[currentUser].exp).current.name;
+        // 🔥 แอบนับรอบการเล่น + ดักจับตอนผู้เล่นกดปิดหน้าต่างคะแนน
+        window.sessionPlayCount = (window.sessionPlayCount || 0) + 1;
+        if (!window.isReloadHooked) {
+            let resModal = document.getElementById('resultModal');
+            let closeBtns = resModal.querySelectorAll('button'); 
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (window.sessionPlayCount >= 10) { window.location.reload(); } // ครบ 10 รีหน้าทันที
+                });
+            });
+            window.isReloadHooked = true;
+        }
 
+        const currentRankName = getRankInfo(optimisticExp).current.name;
         let secretCalc = (correctCount * 13) + (wrongCount * 7);
         let cheatToken = btoa(secretCalc + "-ANTI-GAK");
 
         const payload = {
             action: 'saveScore',
-            username: currentUser, 
-            wpm: correctCount, 
-            accuracy: finalAcc, 
-            correctWords: correctCount,
-            wrongWords: wrongCount,
-            totalAttempts: totalTypeAttempts, 
-            exp: db[currentUser].exp,
-            multiplier: expMultiplier, 
-            rank: currentRankName,
-            password: db[currentUser].pass,
-            token: cheatToken 
+            username: currentUser, wpm: correctCount, accuracy: finalAcc, 
+            correctWords: correctCount, wrongWords: wrongCount, totalAttempts: totalTypeAttempts, 
+            exp: optimisticExp, multiplier: expMultiplier, rank: currentRankName,
+            password: db[currentUser].pass, token: cheatToken 
         };
 
+        // 🔥 2. ส่งข้อมูลไปเซฟที่ Sheet5
         fetch(SCRIPT_URL, { 
-            method: 'POST', 
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify(payload) 
-        }).then(() => { 
-            document.getElementById('syncStatus').innerText = "✅ ..เรียบร้อยแล้วเว้ย.."; 
-            loadTickerData(); 
-        }).catch(() => { 
-            document.getElementById('syncStatus').innerText = "❌ เซฟไม่ได้ว่ะ ช่างแม่งไปก่อน"; 
+        })
+        .then(res => res.json())
+        .then(data => { 
+            if(data.status === "error") {
+                document.getElementById('syncStatus').innerText = "❌ " + data.message;
+            } else {
+                document.getElementById('syncStatus').innerText = "✅ ยืนยันข้อมูลตรงกับ Sheet5 100%!"; 
+                
+                // สั่งรีเฟรชตารางจัดอันดับคนอื่น
+                if(typeof fetchLeaderboard === 'function') fetchLeaderboard(); 
+                if(typeof loadTickerData === 'function') loadTickerData(); 
+
+                // 🔥 3. ไม้ตาย! แอบดึงยอด EXP ที่แท้จริงจาก Sheet5 มาแก้ไขหลอดให้ตรงเป๊ะ 100%
+                fetch(SCRIPT_URL + "?action=ping&user=" + encodeURIComponent(currentUser))
+                .then(r => r.json())
+                .then(serverData => {
+                    if(serverData && serverData.length > 0) {
+                        // ค้นหาข้อมูลตัวเองจากเซิร์ฟเวอร์
+                        let myRealData = serverData.find(u => u.username === currentUser);
+                        if(myRealData && myRealData.exp !== undefined) {
+                            // ดึงฐานข้อมูลในเครื่องมาแก้ให้ตรงกับ Sheet5
+                            let freshDb = JSON.parse(localStorage.getItem('typingDB_Final')) || {};
+                            if(freshDb[currentUser]) {
+                                freshDb[currentUser].exp = myRealData.exp;
+                                freshDb[currentUser].multiplier = myRealData.multiplier; // แอบอัปเดตตัวคูณด้วย
+                                localStorage.setItem('typingDB_Final', JSON.stringify(freshDb));
+                                
+                                // บังคับให้หลอด EXP เปลี่ยนไปใช้ยอดของ Sheet5
+                                updateExpUI(myRealData.exp); 
+                            }
+                        }
+                    }
+                }).catch(e => console.log("Silent Sync Error:", e));
+            }
+        }).catch(err => { 
+            document.getElementById('syncStatus').innerText = "❌ เซิร์ฟเวอร์ไม่ตอบสนอง"; 
+            console.error(err);
         });
     }
 
