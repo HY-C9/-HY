@@ -3020,7 +3020,7 @@ function getRankIcon(rankName, size = 60) {
         document.getElementById('resWrong').innerText = wrongCount; 
         document.getElementById('resAttempts').innerText = totalTypeAttempts; 
         
-        document.getElementById('syncStatus').innerText = "⏳ กำลังซิงค์ข้อมูลกับ Sheet5..."; 
+        document.getElementById('syncStatus').innerText = "⏳ กำลังบันทึกอยู่ รอแปป...."; 
         document.getElementById('resultModal').style.display = 'flex';
         
         // 🔥 แอบนับรอบการเล่น + ดักจับตอนผู้เล่นกดปิดหน้าต่างคะแนน
@@ -3048,7 +3048,7 @@ function getRankIcon(rankName, size = 60) {
             password: db[currentUser].pass, token: cheatToken 
         };
 
-        // 🔥 2. ส่งข้อมูลไปเซฟที่ Sheet5
+        // 🔥 2. ส่งข้อมูลไปเซฟที่ Sheet
         fetch(SCRIPT_URL, { 
             method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" },
             body: JSON.stringify(payload) 
@@ -3058,13 +3058,13 @@ function getRankIcon(rankName, size = 60) {
             if(data.status === "error") {
                 document.getElementById('syncStatus').innerText = "❌ " + data.message;
             } else {
-                document.getElementById('syncStatus').innerText = "✅ ยืนยันข้อมูลตรงกับ Sheet5 100%!"; 
+                document.getElementById('syncStatus').innerText = "✅ ยืนยันข้อมูลตรงกับ Sheet 100%!"; 
                 
                 // สั่งรีเฟรชตารางจัดอันดับคนอื่น
                 if(typeof fetchLeaderboard === 'function') fetchLeaderboard(); 
                 if(typeof loadTickerData === 'function') loadTickerData(); 
 
-                // 🔥 3. ไม้ตาย! แอบดึงยอด EXP ที่แท้จริงจาก Sheet5 มาแก้ไขหลอดให้ตรงเป๊ะ 100%
+                // 🔥 3. ไม้ตาย! แอบดึงยอด EXP ที่แท้จริงจาก มาแก้ไขหลอดให้ตรงเป๊ะ 100%
                 fetch(SCRIPT_URL + "?action=ping&user=" + encodeURIComponent(currentUser))
                 .then(r => r.json())
                 .then(serverData => {
@@ -3072,14 +3072,14 @@ function getRankIcon(rankName, size = 60) {
                         // ค้นหาข้อมูลตัวเองจากเซิร์ฟเวอร์
                         let myRealData = serverData.find(u => u.username === currentUser);
                         if(myRealData && myRealData.exp !== undefined) {
-                            // ดึงฐานข้อมูลในเครื่องมาแก้ให้ตรงกับ Sheet5
+                            // ดึงฐานข้อมูลในเครื่องมาแก้ให้ตรงกับ 
                             let freshDb = JSON.parse(localStorage.getItem('typingDB_Final')) || {};
                             if(freshDb[currentUser]) {
                                 freshDb[currentUser].exp = myRealData.exp;
                                 freshDb[currentUser].multiplier = myRealData.multiplier; // แอบอัปเดตตัวคูณด้วย
                                 localStorage.setItem('typingDB_Final', JSON.stringify(freshDb));
                                 
-                                // บังคับให้หลอด EXP เปลี่ยนไปใช้ยอดของ Sheet5
+                                // บังคับให้หลอด EXP เปลี่ยนไปใช้ยอดของ 
                                 updateExpUI(myRealData.exp); 
                             }
                         }
