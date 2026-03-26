@@ -3058,7 +3058,7 @@ function getRankIcon(rankName, size = 60) {
             if(data.status === "error") {
                 document.getElementById('syncStatus').innerText = "❌ " + data.message;
             } else {
-                document.getElementById('syncStatus').innerText = "✅ ยืนยันข้อมูลตรงกับ Sheet 100%!"; 
+                document.getElementById('syncStatus').innerText = "✅ บันทึกเสร็จละๆ ไปๆเริ่มใหม่"; 
                 
                 // สั่งรีเฟรชตารางจัดอันดับคนอื่น
                 if(typeof fetchLeaderboard === 'function') fetchLeaderboard(); 
