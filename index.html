@@ -2777,119 +2777,115 @@ function getRankIcon(rankName, size = 60) {
     }
 
     function showRanking() {
+    if (window.cachedRankingHtml) {
+        document.getElementById('lbBody').innerHTML = window.cachedRankingHtml;
+    } else {
         document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลเทพๆ จากสวรรค์ชั้น 7...</td></tr>";
-        document.getElementById('rankingModal').style.display = 'flex';
-        fetch(SCRIPT_URL + "?_t=" + Date.now()).then(res => res.json()).then(data => {
-
-            const leaderboard = data.filter(item => item.username).sort((a, b) => b.wpm - a.wpm); 
-            let html = "";
-            leaderboard.slice(0, 150).forEach((row, i) => {
-                let rankColor = "#64748b"; let rankTrophy = i + 1; let bgStyle = "transparent";
-                if (i === 0) { rankColor = "#fbbf24"; rankTrophy = "🥇 1"; bgStyle = "rgba(251, 191, 36, 0.05)"; }
-                else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
-                else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
-                if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
-                
-                let defaultSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iIzk0YTNiOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE3IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTIwIDEwMCBDMjAgNjUgMzAgNTUgNTAgNTUgQzcwIDU1IDgwIDY1IDgwIDEwMCBaIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+";
-                window.profileCache = window.profileCache || {};
-                let userProfilePic = window.profileCache[row.username] || defaultSVG;
-
-                if (row.username === currentUser) {
-                    let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-                    if (db[currentUser] && db[currentUser].profilePic) {
-                        userProfilePic = db[currentUser].profilePic;
-                        window.profileCache[currentUser] = userProfilePic;
-                    }
-                }
-                let actualRankName = getRankInfo(row.exp || 0).current.name;
-                let rankIconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
-
-                html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
-                    <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px; display: flex; align-items: center; gap: 10px;">
-                        <img src="${userProfilePic}" onclick="openImageViewer('${userProfilePic}')" style="cursor:pointer; width: 30px; height: 30px; border-radius: 50%; object-fit: cover;"> ${row.username}
-                    </td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: var(--primary); font-size: 17px;">${row.wpm}</td>
-                    <td style="padding: 12px 15px; display: flex; align-items: center; gap: 8px;">
-                        <img src="${rankIconUrl}" style="height: 26px; width: 26px; border-radius: 4px;">
-                        <span style="font-size: 12px; color: #94a3b8;">${getRankText(row.wpm)}</span>
-                    </td></tr>`;
-            });
-            document.getElementById('lbBody').innerHTML = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนกากคนไหนมาพิมพ์</td></tr>";
-        }).catch(() => { document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตด่วน!</td></tr>"; });
     }
+    document.getElementById('rankingModal').style.display = 'flex';
+    fetch(SCRIPT_URL + "?_t=" + Date.now()).then(res => res.json()).then(data => {
+        const leaderboard = data.filter(item => item.username).sort((a, b) => b.wpm - a.wpm); 
+        let html = "";
+        leaderboard.slice(0, 150).forEach((row, i) => {
+            let rankColor = "#64748b"; let rankTrophy = i + 1; let bgStyle = "transparent";
+            if (i === 0) { rankColor = "#fbbf24"; rankTrophy = "🥇 1"; bgStyle = "rgba(251, 191, 36, 0.05)"; }
+            else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
+            else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
+            if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
+            let defaultSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iIzk0YTNiOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE3IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTIwIDEwMCBDMjAgNjUgMzAgNTUgNTAgNTUgQzcwIDU1IDgwIDY1IDgwIDEwMCBaIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+";
+            window.profileCache = window.profileCache || {};
+            let userProfilePic = window.profileCache[row.username] || defaultSVG;
+            if (row.username === currentUser) {
+                let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+                if (db[currentUser] && db[currentUser].profilePic) {
+                    userProfilePic = db[currentUser].profilePic;
+                    window.profileCache[currentUser] = userProfilePic;
+                }
+            }
+            let actualRankName = getRankInfo(row.exp || 0).current.name;
+            let rankIconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
+            html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
+                <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
+                <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px; display: flex; align-items: center; gap: 10px;">
+                    <img src="${userProfilePic}" onclick="openImageViewer('${userProfilePic}')" style="cursor:pointer; width: 30px; height: 30px; border-radius: 50%; object-fit: cover;"> ${row.username}
+                </td>
+                <td style="padding: 12px 15px; font-weight: bold; color: var(--primary); font-size: 17px;">${row.wpm}</td>
+                <td style="padding: 12px 15px; display: flex; align-items: center; gap: 8px;">
+                    <img src="${rankIconUrl}" style="height: 26px; width: 26px; border-radius: 4px;">
+                    <span style="font-size: 12px; color: #94a3b8;">${getRankText(row.wpm)}</span>
+                </td></tr>`;
+        });
+        
+        let finalHtml = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนกากคนไหนมาพิมพ์</td></tr>";
+        
+        document.getElementById('lbBody').innerHTML = finalHtml;
+        window.cachedRankingHtml = finalHtml; 
+
+    }).catch(() => { 
+        if (!window.cachedRankingHtml) {
+            document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตด่วน!</td></tr>"; 
+        }
+    });
+}
 
     function showRankBoard() {
+    if (window.cachedRankBoardHtml) {
+        document.getElementById('rankBoardBody').innerHTML = window.cachedRankBoardHtml;
+    } else {
         document.getElementById('rankBoardBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลทำเนียบยศ... แป๊บนึง</td></tr>";
-        document.getElementById('rankBoardModal').style.display = 'flex';
-        
-        fetch(SCRIPT_URL + "?_t=" + Date.now()).then(res => res.json()).then(data => {
+    }
+    document.getElementById('rankBoardModal').style.display = 'flex';
+    fetch(SCRIPT_URL + "?_t=" + Date.now()).then(res => res.json()).then(data => {
 
-            const leaderboard = data.filter(item => item.username).sort((a, b) => b.exp - a.exp); 
-            let html = "";
-            leaderboard.slice(0, 150).forEach((row, i) => {
-                let rankColor = "#64748b"; let rankTrophy = i + 1; let bgStyle = "transparent";
-                if (i === 0) { rankColor = "#fbbf24"; rankTrophy = "🏆 1"; bgStyle = "rgba(251, 191, 36, 0.05)"; }
-                else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
-                else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
-                if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
-                
-                let actualRankName = "ทหารฝึก";
-                if (typeof getRankInfo === "function") { actualRankName = getRankInfo(row.exp || 0).current.name; } 
-                else { actualRankName = row.rank || "ทหารฝึก"; }
-                let iconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
+        const leaderboard = data.filter(item => item.username).sort((a, b) => b.exp - a.exp); 
+        let html = "";
+        leaderboard.slice(0, 150).forEach((row, i) => {
+            let rankColor = "#64748b"; let rankTrophy = i + 1; let bgStyle = "transparent";
+            if (i === 0) { rankColor = "#fbbf24"; rankTrophy = "🏆 1"; bgStyle = "rgba(251, 191, 36, 0.05)"; }
+            else if (i === 1) { rankColor = "#94a3b8"; rankTrophy = "🥈 2"; bgStyle = "rgba(148, 163, 184, 0.05)"; }
+            else if (i === 2) { rankColor = "#b45309"; rankTrophy = "🥉 3"; bgStyle = "rgba(180, 83, 9, 0.05)"; }
+            if (row.username === currentUser) { bgStyle = "rgba(56, 189, 248, 0.1)"; rankColor = "#38bdf8"; }
+            
+            let actualRankName = "ทหารฝึก";
+            if (typeof getRankInfo === "function") { actualRankName = getRankInfo(row.exp || 0).current.name; } 
+            else { actualRankName = row.rank || "ทหารฝึก"; }
+            let iconUrl = rankIconUrls[actualRankName] || rankIconUrls["ทหารฝึก"];
 
-                let defaultSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iIzk0YTNiOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE3IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTIwIDEwMCBDMjAgNjUgMzAgNTUgNTAgNTUgQzcwIDU1IDgwIDY1IDgwIDEwMCBaIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+";
-                window.profileCache = window.profileCache || {};
-                let userProfilePic = window.profileCache[row.username] || defaultSVG;
+            let defaultSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iIzk0YTNiOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE3IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTIwIDEwMCBDMjAgNjUgMzAgNTUgNTAgNTUgQzcwIDU1IDgwIDY1IDgwIDEwMCBaIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+";
+            window.profileCache = window.profileCache || {};
+            let userProfilePic = window.profileCache[row.username] || defaultSVG;
 
-                if (row.username === currentUser) {
-                    let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-                    if (db[currentUser] && db[currentUser].profilePic) {
-                        userProfilePic = db[currentUser].profilePic;
-                        window.profileCache[currentUser] = userProfilePic;
-                    }
+            if (row.username === currentUser) {
+                let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
+                if (db[currentUser] && db[currentUser].profilePic) {
+                    userProfilePic = db[currentUser].profilePic;
+                    window.profileCache[currentUser] = userProfilePic;
                 }
-                
-                html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
-                    <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px; display: flex; align-items: center; gap: 10px;">
-                        <img src="${userProfilePic}" onclick="openImageViewer('${userProfilePic}')" style="cursor:pointer; width: 30px; height: 30px; border-radius: 50%; object-fit: cover;"> ${row.username}
-                    </td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #fbbf24; font-size: 14px;">
-                        <img src="${iconUrl}" width="30" height="30" style="vertical-align: middle; border-radius: 4px; margin-right: 8px;"> 
-                    </td>
-                    <td style="padding: 12px 15px; font-weight: bold; color: #a855f7; font-size: 16px;">${Number(row.exp || 0).toLocaleString()}</td>
-                </tr>`;
-            });
-            document.getElementById('rankBoardBody').innerHTML = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนเล่นเลยว่ะ</td></tr>";
-        }).catch(() => { document.getElementById('rankBoardBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตดูนะ!</td></tr>"; });
-    }
-    function showHistory() {
-        document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>กำลังคุ้ยประวัติมึงอยู่ แป๊บ...</td></tr>";
-        document.getElementById('historyModal').style.display = 'flex';
-
-        fetch(SCRIPT_URL + "?action=getHistory&user=" + encodeURIComponent(currentUser) + "&_t=" + Date.now())
-        .then(res => res.json()).then(data => {
-            let historyData = data.reverse();
-            if (historyData.length === 0) { document.getElementById('historyBody').innerHTML = "<tr><td colspan='4' style='text-align:center'>มึงยังไม่เคยพิมพ์เลยไอ้กาก ไปพิมพ์ก่อน!</td></tr>"; return; }
-            let html = "";
-            historyData.slice(0, 1000).forEach((h, i) => {
-                let wpmStr = h.wpm; let dateStr = h.timestamp ? new Date(h.timestamp).toLocaleString('th-TH') : "ดึงจากระบบ Sheet"; 
-                html += `<tr><td style="padding:10px;">${i+1}</td><td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:10px;">${wpmStr}</td><td style="padding:10px;">${getRankText(h.wpm)}</td><td style="color:#888; padding:10px;">${dateStr}</td></tr>`;
-            }); document.getElementById('historyBody').innerHTML = html;
-        }).catch(() => {
-
-            let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}'); 
-            let history = (db[currentUser] && db[currentUser].history) ? db[currentUser].history : []; 
-            let html = "";
-            if(history.length === 0) { html = "<tr><td colspan='4' style='text-align:center'>โหลด Sheet ไม่ติด และไม่มีข้อมูลในเครื่องมึงว่ะ ไปพิมพ์ก่อน!</td></tr>"; } 
-            else {
-                history.slice(0, 1000).forEach((h, i) => { html += `<tr><td style="padding:10px;">${i+1}</td><td style="color:var(--primary); font-weight:bold; font-size:1.1rem; padding:10px;">${h.wpm}</td><td style="padding:10px;">${getRankText(h.wpm)}</td><td style="color:#888; padding:10px;">${h.date || "เซฟในเครื่องมึง"}</td></tr>`; });
-            } 
-            document.getElementById('historyBody').innerHTML = html;
+            }
+            
+            html += `<tr style="border-bottom: 1px solid #333; background: ${bgStyle}; transition: 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.05)'" onmouseout="this.style.background='${bgStyle}'">
+                <td style="padding: 12px 15px; font-weight: bold; color: ${rankColor}; font-size: 16px;">${rankTrophy}</td>
+                <td style="padding: 12px 15px; font-weight: bold; color: #fff; font-size: 15px; display: flex; align-items: center; gap: 10px;">
+                    <img src="${userProfilePic}" onclick="openImageViewer('${userProfilePic}')" style="cursor:pointer; width: 30px; height: 30px; border-radius: 50%; object-fit: cover;"> ${row.username}
+                </td>
+                <td style="padding: 12px 15px; font-weight: bold; color: #fbbf24; font-size: 14px;">
+                    <img src="${iconUrl}" width="30" height="30" style="vertical-align: middle; border-radius: 4px; margin-right: 8px;"> 
+                </td>
+                <td style="padding: 12px 15px; font-weight: bold; color: #a855f7; font-size: 16px;">${Number(row.exp || 0).toLocaleString()}</td>
+            </tr>`;
         });
-    }
+        
+        let finalHtml = html || "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีคนเล่นเลยว่ะ</td></tr>";
+        
+        document.getElementById('rankBoardBody').innerHTML = finalHtml;
+        window.cachedRankBoardHtml = finalHtml; 
+
+    }).catch(() => { 
+        if (!window.cachedRankBoardHtml) {
+            document.getElementById('rankBoardBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#ef4444;'>โหลดข้อมูลไม่สำเร็จ เช็คเน็ตดูนะ!</td></tr>"; 
+        }
+    });
+}
 
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
