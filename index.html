@@ -1637,7 +1637,43 @@
         body.theme-solo .stat-box { border-color: var(--primary1); background: rgba(0,0,0,0.6); }
         body.theme-solo .stat-box.highlight { border-color: var(--primary); box-shadow: inset 0 0 15px rgba(0, 229, 255, 0.2); }
 
-        /* 🔴 เอฟเฟกต์คำว่า NEW ให้เด้งสว่างเหมือนข้อความเข้า */
+        /* ==================================================
+           47. CUTE GIRL THEME (น้องฮาย น่ารัก สดใส - สบายตา)
+           ================================================== */
+        body.theme-cutegirl { --bg:#fff0f5; --card:rgba(255,255,255,0.95); --primary:#ff8fa3; --primary1:#ffb3c6; --text-dark:#5c4b51; --text-light:#5c4b51; --highlight:#ffccd5; --correct-live:#ff748c; --wrong-live:#9d8189; --font-head:'Mali',sans-serif; --font-main:'Sarabun',sans-serif; --border-rad:24px; --border-btn:0px; }
+        body.theme-cutegirl::before { content:""; position:fixed; top:0; left:0; right:0; bottom:0; background:linear-gradient(135deg,rgba(255,230,234,0.3) 0%,rgba(253,251,251,0.3) 100%),url('https://i.ibb.co/Rk0kXkbQ/image.png') center/cover; z-index:-1; }
+        body.theme-cutegirl h1 { color:var(--primary); text-shadow:2px 2px 0px #ffe6ea; text-transform:none; letter-spacing:1px; font-weight:700; }
+        body.theme-cutegirl .typing-card, body.theme-cutegirl .modal-card { background:var(--card); border:2px dashed var(--primary1); border-bottom:2px dashed var(--primary1); box-shadow:0 15px 35px rgba(255,143,163,0.15); }
+        body.theme-cutegirl .display-window { background:rgba(255,240,245,0.6); border:none; box-shadow:inset 0 4px 10px rgba(0,0,0,0.03); }
+        body.theme-cutegirl .word { color:#000000; font-weight:600; } body.theme-cutegirl .word.current { background:var(--highlight); color:var(--text-dark); border-radius:8px; box-shadow:0 4px 10px rgba(255,143,163,0.2); text-shadow:none; }
+        body.theme-cutegirl .word.correct { color:var(--correct-live); text-shadow:none; font-weight:bold; } body.theme-cutegirl .word.wrong { color:var(--wrong-live); text-decoration:underline wavy var(--wrong-live); }
+        body.theme-cutegirl #userInput { background:#fff; color:var(--primary); border:2px solid var(--highlight); font-weight:600; box-shadow:0 4px 15px rgba(255,179,198,0.2); border-radius:20px; }
+        body.theme-cutegirl #userInput:focus { border-color:var(--primary); box-shadow:0 4px 20px rgba(255,143,163,0.4); outline:none; }
+        body.theme-cutegirl .btn-main, body.theme-cutegirl .btn-top { background:var(--primary); color:#fff; border:none; font-weight:700; box-shadow:0 4px 15px rgba(255,143,163,0.4); border-radius:20px; text-transform:none;}
+        body.theme-cutegirl .btn-main:hover, body.theme-cutegirl .btn-top:hover { background:var(--primary1); color:#fff; box-shadow:0 6px 20px rgba(255,143,163,0.6); transform:scale(1.05); }
+        body.theme-cutegirl .timer-badge, body.theme-cutegirl .btn-refresh { background:#fff; color:var(--primary); border:2px solid var(--highlight); box-shadow:0 4px 10px rgba(255,179,198,0.3); border-radius:50%; }
+        body.theme-cutegirl .name-text, body.theme-cutegirl #bestWPM { color:var(--primary); text-shadow:none; font-weight:bold; }
+        body.theme-cutegirl .stat-box { border:none; background:#fff0f5; box-shadow:0 4px 10px rgba(255,143,163,0.1); border-radius:16px; } body.theme-cutegirl .stat-box.highlight { background:var(--highlight); color:var(--text-dark); transform:scale(1.05); }
+
+        /* ==================================================
+           48. SAITAMA THEME (เทพเจ้าหมัดเดียว - พลังทำลายล้าง)
+           ================================================== */
+        body.theme-saitama { --bg:#111; --card:rgba(15,15,15,0.95); --primary:#facc15; --primary1:#dc2626; --text-dark:#fff; --text-light:#fff; --highlight:#facc15; --correct-live:#facc15; --wrong-live:#dc2626; --font-head:'Teko',sans-serif; --font-main:'Chakra Petch',sans-serif; --border-rad:0px; --border-btn:3px; }
+        body.theme-saitama::before { content:""; position:fixed; top:0; left:0; right:0; bottom:0; background:radial-gradient(circle at center,rgba(220,38,38,0.3) 0%,rgba(17,17,17,0.5) 70%),url('https://i.ibb.co/cX6p6grf/image.png') top center/cover; z-index:-1; }
+        body.theme-saitama h1 { color:#fff; text-shadow:3px 3px 0px var(--primary1),-2px -2px 10px var(--primary); text-transform:uppercase; letter-spacing:5px; transform:skewX(-10deg); }
+        body.theme-saitama .typing-card, body.theme-saitama .modal-card { background:var(--card); border:4px solid var(--primary); border-bottom:8px solid var(--primary1); box-shadow:15px 15px 0px rgba(220,38,38,0.3); border-radius:0; }
+        body.theme-saitama .display-window { background:#000; border:2px solid #333; border-left:5px solid var(--primary); box-shadow:inset 0 0 20px rgba(250,204,21,0.1); }
+        body.theme-saitama .word { color:#555; font-weight:900; text-transform:uppercase; } body.theme-saitama .word.current { background:var(--primary1); color:#fff; border-radius:0; box-shadow:0 0 10px var(--primary1); text-shadow:1px 1px 0px #000; transform:scale(1.1); display:inline-block; }
+        body.theme-saitama .word.correct { color:var(--correct-live); text-shadow:0 0 8px rgba(250,204,21,0.6); } body.theme-saitama .word.wrong { color:var(--wrong-live); text-shadow:0 0 10px rgba(220,38,38,0.8),2px 2px 0px #000; }
+        body.theme-saitama #userInput { background:#000; color:var(--primary); border:3px solid var(--primary1); font-weight:900; box-shadow:5px 5px 0px rgba(250,204,21,0.3); border-radius:0; text-transform:uppercase; }
+        body.theme-saitama #userInput:focus { border-color:var(--primary); box-shadow:8px 8px 0px rgba(220,38,38,0.5); outline:none; transform:translate(-2px,-2px); }
+        body.theme-saitama .btn-main, body.theme-saitama .btn-top { background:var(--primary1); color:#fff; border:2px solid var(--primary); font-weight:900; text-transform:uppercase; box-shadow:none; border-radius:0; transition:0.1s; }
+        body.theme-saitama .btn-main:hover, body.theme-saitama .btn-top:hover { background:var(--primary); color:#000; border-color:var(--primary1); box-shadow:5px 5px 0px var(--primary1); transform:scale(1.05) rotate(-2deg); }
+        body.theme-saitama .timer-badge, body.theme-saitama .btn-refresh { background:#000; color:var(--primary1); border:3px solid var(--primary); box-shadow:none; border-radius:0; }
+        body.theme-saitama .name-text, body.theme-saitama #bestWPM { color:var(--primary); text-shadow:2px 2px 0px var(--primary1); text-transform:uppercase; }
+        body.theme-saitama .stat-box { border:2px solid #333; background:#000; border-radius:0; } body.theme-saitama .stat-box.highlight { border-color:var(--primary); box-shadow:5px 5px 0px var(--primary1); transform:translateY(-5px); background:#111; }
+
+        /* 🔴 เอฟเฟกต์คำว่า NEW */
         .new-blink-text {
             background: #ff0044;
             color: #fff;
@@ -1655,7 +1691,7 @@
             100% { box-shadow: 0 0 20px #ff0044, 0 0 30px #ff0044; transform: scale(1.15); }
         }
 
-        /* 🔴 ป้ายบอกจำนวนคนใช้ธีม (ย้ายขึ้นขวาบน + สีเหลืองทองสว่าง) */
+        /* 🔴 ป้ายบอกจำนวนคนใช้ธีม */
         .theme-count-badge {
             position: absolute;
             top: -8px; 
@@ -1949,6 +1985,12 @@
             </button>
             <button class="theme-option-btn" id="btn-theme-psg" onclick="selectTheme('theme-psg')">
                 <span class="theme-icon"><img src="https://i.ibb.co/27SYjNhH/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#004170">PSG</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-cutegirl" onclick="selectTheme('theme-cutegirl')">
+                <span class="theme-icon"><img src="https://i.ibb.co/jvG6YGxL/image.png" style="width: 250px; height: 35px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#ff8fa3">น้องฮาย</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-saitama" onclick="selectTheme('theme-saitama')">
+                <span class="theme-icon"><img src="https://i.ibb.co/pv9bXrdx/image.png" style="width: 120px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#facc15">SAITAMA</span>
             </button>
             <button class="theme-option-btn" id="btn-theme-ben10" onclick="selectTheme('theme-ben10')">
                 <span class="theme-icon"><img src="https://i.ibb.co/F4nSr01n/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#00dc82">Ben 10</span>
