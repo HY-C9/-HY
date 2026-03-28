@@ -3473,6 +3473,23 @@ function showHistory() {
     });
 }
 
+// ==========================================
+// 🚨 ระบบป้องกันปุ่มลัด Ctrl+S, Ctrl+D, Alt+D 
+// ==========================================
+document.addEventListener('keydown', function(e) {
+    const isS = (e.code === 'KeyS' || e.keyCode === 83);
+    const isD = (e.code === 'KeyD' || e.keyCode === 68);
+    // บล็อก Ctrl + S (บันทึกหน้าเว็บ)
+    if ((e.ctrlKey || e.metaKey) && isS) {e.preventDefault(); 
+    }
+    // บล็อก Ctrl + D (บุ๊กมาร์ก)
+    if ((e.ctrlKey || e.metaKey) && isD) {e.preventDefault();
+    }
+    // บล็อก Alt + D (โฟกัสช่อง URL)
+    if (e.altKey && isD) {e.preventDefault();
+    }
+});
+
 </script>
 
 <div class="modal-overlay" id="promotionModal" style="z-index: 10001;">
