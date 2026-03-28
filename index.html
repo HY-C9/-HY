@@ -2219,12 +2219,36 @@
 </div>
 
 <script>
-    const urlParts = [
-        "https://script.google.com/macros/s/",
-        "AKfycbw9dBRag2PvrE02N5Aro3S0mYB22N0flT0K7NxRwpjzGuBCO4WSBBGiGNwlabMN4D4n",
-        "/exec"
-    ];
-    const SCRIPT_URL = urlParts.join('');
+// ==========================================
+// 🚨 ระบบป้องกันการเปิดหลายแท็บ 
+// ==========================================
+const MY_TAB_ID = Math.random().toString(36).substring(2);
+localStorage.setItem('ACTIVE_TYPING_TAB', MY_TAB_ID);
+setInterval(() => {
+    if (localStorage.getItem('ACTIVE_TYPING_TAB') !== MY_TAB_ID) {
+        document.body.innerHTML = `
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; background: #0a0a0a; color: white; text-align: center; padding: 20px; font-family: 'Sarabun', sans-serif;">
+                <span style="font-size: 100px; margin-bottom: 20px; animation: popIn 0.5s ease;">🚨</span>
+                <h1 style="color: #ef4444; font-size: 45px; margin-bottom: 10px; text-shadow: 0 0 20px rgba(239, 68, 68, 0.8);">แบนคนโกง! เปิดหลายจอหรอไอ้เวร!</h1>
+                <p style="font-size: 22px; color: #cbd5e1; margin-bottom: 10px;">ระบบตรวจพบว่ามึงเปิดหน้าต่างซ้อนกัน</p>
+                <p style="font-size: 18px; color: #fbbf24; margin-bottom: 30px;">เล่นได้แค่ <b>หน้าต่างเดียว</b> เท่านั้น!</p>
+                <button onclick="localStorage.setItem('ACTIVE_TYPING_TAB', '${MY_TAB_ID}'); location.reload();" 
+                        style="padding: 15px 30px; font-size: 20px; cursor: pointer; background: #ef4444; color: white; border: none; border-radius: 8px; font-weight: bold; box-shadow: 0 0 15px rgba(239,68,68,0.5);">
+                    👉 คลิกเพื่อดึงสิทธิ์กลับมาเล่นจอนี้ 👈
+                </button>
+            </div>
+        `;
+    }
+}, 500);
+document.addEventListener('keydown', () => localStorage.setItem('ACTIVE_TYPING_TAB', MY_TAB_ID));
+document.addEventListener('mousedown', () => localStorage.setItem('ACTIVE_TYPING_TAB', MY_TAB_ID));
+
+const urlParts = [
+    "https://script.google.com/macros/s/",
+    "AKfycbw9dBRag2PvrE02N5Aro3S0mYB22N0flT0K7NxRwpjzGuBCO4WSBBGiGNwlabMN4D4n",
+    "/exec"
+];
+const SCRIPT_URL = urlParts.join('');
     window.adminUsersList = {};
 
 
@@ -2312,8 +2336,8 @@
         { exp: 847229, name: "พลจัตวา ชั้น 1" }, { exp: 900000, name: "พลจัตวา ชั้น 2" }, { exp: 960005, name: "พลจัตวา ชั้น 3" }, { exp: 1020000, name: "พลจัตวา ชั้น 4" }, { exp: 1076545, name: "พลจัตวา ชั้น 5" },
         { exp: 1150000, name: "พลตรี ชั้น 1" }, { exp: 1210000, name: "พลตรี ชั้น 2" }, { exp: 1280000, name: "พลตรี ชั้น 3" }, { exp: 1360000, name: "พลตรี ชั้น 4" }, { exp: 1420000, name: "พลตรี ชั้น 5" },
         { exp: 1485000, name: "พลโท ชั้น 1" }, { exp: 1565233, name: "พลโท ชั้น 2" }, { exp: 1647293, name: "พลโท ชั้น 3" }, { exp: 1720060, name: "พลโท ชั้น 4" }, { exp: 1800050, name: "พลโท ชั้น 5" },
-        { exp: 1880000, name: "พลเอก ชั้น 1" }, { exp: 1970000, name: "พลเอก ชั้น 2" }, { exp: 2060000, name: "พลเอก ชั้น 3" }, { exp: 2150000, name: "พลเอก ชั้น 4" }, { exp: 2240000, name: "พลเอก ชั้น 5" },
-        { exp: 2330000, name: "จอมพล ชั้น 1" }, { exp: 2450000, name: "จอมพล ชั้น 2" }, { exp: 2570000, name: "จอมพล ชั้น 3" }, { exp: 2700000, name: "จอมพล ชั้น 4" }, { exp: 2855555, name: "จอมพล ชั้น 5" }
+        { exp: 1890612, name: "พลเอก ชั้น 1" }, { exp: 1985748, name: "พลเอก ชั้น 2" }, { exp: 2063398, name: "พลเอก ชั้น 3" }, { exp: 2099815, name: "พลเอก ชั้น 4" }, { exp: 2185665, name: "พลเอก ชั้น 5" },
+        { exp: 2299999, name: "จอมพล ชั้น 1" }, { exp: 2399999, name: "จอมพล ชั้น 2" }, { exp: 2499999, name: "จอมพล ชั้น 3" }, { exp: 2599999, name: "จอมพล ชั้น 4" }, { exp: 2799999, name: "จอมพล ชั้น 5" }
     ];
 
 function getRankInfo(exp) {
