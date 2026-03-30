@@ -1673,6 +1673,32 @@
         body.theme-saitama .name-text, body.theme-saitama #bestWPM { color:var(--primary); text-shadow:2px 2px 0px var(--primary1); text-transform:uppercase; }
         body.theme-saitama .stat-box { border:2px solid #333; background:#000; border-radius:0; } body.theme-saitama .stat-box.highlight { border-color:var(--primary); box-shadow:5px 5px 0px var(--primary1); transform:translateY(-5px); background:#111; }
 
+        /* ==================================================
+           49. NURA: RISE OF THE YOKAI CLAN (นูระ หลานจอมปีศาจ)
+           ================================================== */
+        body.theme-nura { --bg: #080a11; --card: rgba(10, 14, 25, 0.9); --primary: #90caf9; --primary1: #e53935; --text-dark: #fff; --text-light: #e3f2fd; --highlight: #c5cae9; --correct-live: #90caf9; --wrong-live: #e53935; --font-head: 'Sarabun', sans-serif; --font-main: 'Sarabun', sans-serif; --border-rad: 6px; --border-btn: 4px; }
+        body.theme-nura::before { content: ""; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(135deg, rgba(8,10,17,0.3) 0%, rgba(0,0,0,0.5) 100%), url('https://img2.pic.in.th/image9816a7c3d08abdd3.png'); background-size: cover; background-position: center; z-index: -1; }
+        body.theme-nura h1 { color: #fff; text-shadow: 2px 2px 0px var(--primary1), 0 0 20px rgba(144, 202, 249, 0.6); text-transform: uppercase; letter-spacing: 3px; border-bottom: 2px solid var(--primary); display: inline-block; padding-bottom: 5px; }
+        body.theme-nura h2 { color: var(--primary); text-shadow: 0 0 10px rgba(144, 202, 249, 0.5); }
+        body.theme-nura .typing-card, body.theme-nura .modal-card, body.theme-nura #authContainer { background: var(--card); border: 1px solid #1a233a; border-left: 4px solid var(--primary); border-right: 4px solid var(--primary1); box-shadow: 0 15px 50px rgba(0,0,0,0.9), inset 0 0 20px rgba(144, 202, 249, 0.05); backdrop-filter: blur(5px); }
+        body.theme-nura .display-window { background: rgba(0,0,0,0.6); border: 1px solid #1a233a; box-shadow: inset 0 0 20px rgba(0,0,0,0.8); }
+        body.theme-nura .word { color: #5c6bc0; font-weight: bold; }
+        body.theme-nura .word.current { background: rgba(144, 202, 249, 0.1); color: #fff; border-bottom: 2px solid var(--primary); border-radius: 0; box-shadow: 0 4px 15px rgba(144, 202, 249, 0.2); text-shadow: 0 0 8px var(--primary); }
+        body.theme-nura .word.correct { color: var(--primary); text-shadow: 0 0 5px rgba(144, 202, 249, 0.4); }
+        body.theme-nura .word.wrong { color: var(--primary1); text-shadow: 0 0 5px rgba(229, 57, 53, 0.6); text-decoration: line-through; }
+        body.theme-nura #userInput { background: rgba(0,0,0,0.8); color: #fff; border: 1px solid #1a233a; border-bottom: 2px solid var(--primary1); font-weight: bold; box-shadow: inset 0 0 10px rgba(0,0,0,0.6); }
+        body.theme-nura #userInput:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(144, 202, 249, 0.3), inset 0 0 10px rgba(144, 202, 249, 0.1); outline: none; }
+        body.theme-nura .btn-main, body.theme-nura .btn-top, body.theme-nura .btn-refresh, body.theme-nura .hamburger-btn, body.theme-nura .dark-btn { background: linear-gradient(135deg, #0a0e17, #111827); color: var(--primary); border: 1px solid var(--primary); font-weight: bold; text-transform: uppercase; box-shadow: 0 4px 10px rgba(144, 202, 249, 0.2); transition: 0.3s; }
+        body.theme-nura .btn-main:hover, body.theme-nura .btn-top:hover, body.theme-nura .btn-refresh:hover, body.theme-nura .hamburger-btn:hover, body.theme-nura .dark-btn:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px rgba(144, 202, 249, 0.5); transform: translateY(-2px); }
+        body.theme-nura .timer-badge { background: rgba(0,0,0,0.8); color: var(--primary1); border: 1px solid var(--primary1); box-shadow: 0 0 10px rgba(229, 57, 53, 0.3); }
+        body.theme-nura .name-text, body.theme-nura #bestWPM { color: var(--primary); text-shadow: 0 0 10px rgba(144, 202, 249, 0.4); }
+        body.theme-nura .stat-box { border: 1px solid #1a233a; background: rgba(0,0,0,0.6); border-left: 3px solid var(--primary1); }
+        body.theme-nura .stat-box.highlight { border-color: var(--primary); border-left: 3px solid var(--primary); box-shadow: inset 0 0 15px rgba(144, 202, 249, 0.1); background: rgba(144, 202, 249, 0.05); }
+        body.theme-nura .rank-table th { background: rgba(10, 14, 25, 0.9); border-bottom: 2px solid var(--primary) !important; color: var(--primary); }
+        body.theme-nura .rank-table td { border-bottom: 1px solid #1a233a; color: #e3f2fd; }
+        body.theme-nura .dropdown-item { border-bottom: 1px solid #1a233a; color: #e3f2fd; background: transparent; }
+        body.theme-nura .dropdown-item:hover { background: rgba(144, 202, 249, 0.1); color: var(--primary); border-left: 3px solid var(--primary); padding-left: 22px; }
+        
         /* 🔴 เอฟเฟกต์คำว่า NEW */
         .new-blink-text {
             background: #ff0044;
@@ -1991,6 +2017,9 @@
             </button>
             <button class="theme-option-btn" id="btn-theme-saitama" onclick="selectTheme('theme-saitama')">
                 <span class="theme-icon"><img src="https://i.ibb.co/pv9bXrdx/image.png" style="width: 120px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#facc15">SAITAMA</span>
+            </button>
+            <button class="theme-option-btn" id="btn-theme-nura" onclick="selectTheme('theme-nura')">
+                <span class="theme-icon"><img src="https://img2.pic.in.th/image6ff1c0981c6d4b4a.md.png" style="width: 155px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#90caf9">นูระ หลานปีศาจ</span>
             </button>
             <button class="theme-option-btn" id="btn-theme-ben10" onclick="selectTheme('theme-ben10')">
                 <span class="theme-icon"><img src="https://i.ibb.co/F4nSr01n/image.png" style="width: 45px; height: 32px; object-fit: contain; vertical-align: middle;"></span> <span style="color:#00dc82">Ben 10</span>
@@ -2633,6 +2662,7 @@ function getRankIcon(rankName, size = 60) {
         if (wpm <= 105) return `โคตรพ่อโคตรแม่ไวจัด`;
         if (wpm <= 116) return `พิมพ์ก็ไว เสร็จก็ไวไอ้สัส`;
         if (wpm <= 129) return `เร็วสัส ใครจะสู้ได้วะแม่เย็ด`;
+        if (wpm <= 131) return `เกือบจะตึงหนึ่งเดียวในบริษัทแล้ว`;        
         return `ตัวตึงหนึ่งเดียวในบริษัท`;
     }
 
