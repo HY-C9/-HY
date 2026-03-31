@@ -1904,7 +1904,7 @@
     <div class="user-profile-card">
     <div class="profile-left">
         <div class="profile-pic-wrapper" onclick="openImageViewer(document.getElementById('userProfilePic').src)">
-            <img id="userProfilePic" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png" onerror="this.onerror=null; this.src='https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png';">
+            <img id="userProfilePic" src="https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png">
         </div>
         
         <div class="exp-wrapper">
@@ -2274,7 +2274,7 @@ document.addEventListener('mousedown', () => localStorage.setItem('ACTIVE_TYPING
 
 const urlParts = [
     "https://script.google.com/macros/s/",
-    "AKfycbyvL_zTrerPV3-TgypnG1XiqijXrmJQo_BilnXuLsjKELqoFQj4RvtWK-t5Edyk1qU",
+    "AKfycbw9dBRag2PvrE02N5Aro3S0mYB22N0flT0K7NxRwpjzGuBCO4WSBBGiGNwlabMN4D4n",
     "/exec"
 ];
 const SCRIPT_URL = urlParts.join('');
@@ -2565,18 +2565,9 @@ function getRankIcon(rankName, size = 60) {
         url += "?user=" + encodeURIComponent(currentUser) + "&deviceId=" + encodeURIComponent(myDeviceId) + "&action=ping&_t=" + Date.now();
     } else { url += "?_t=" + Date.now(); }
 
-    // 🌟 1. ดึงของเก่าจากความจำเครื่องมาโชว์ทันทีก่อนเลย (เพื่อความลื่นไหล ไม่ต้องรอโหลด)
-    let cachedTickerHTML = localStorage.getItem('mySavedTickerHTML');
-    if (cachedTickerHTML) {
-        document.getElementById('tickerContent').innerHTML = cachedTickerHTML;
-    } else {
-        document.getElementById('tickerContent').innerHTML = `<span style="color: #94a3b8; font-style: italic;">...........................................................</span>`;
-    }
-
-    // 🌟 2. แอบส่ง Request ไปหลังบ้านเพื่อดึงข้อมูลใหม่ล่าสุด
     fetch(url).then(res => res.json()).then(data => {
             if(data && data.length > 0) {
-                updateThemeCounts(data); 
+                updateThemeCounts(data); // 🔥 วางบรรทัดนี้เพิ่มเข้าไปเพื่ออัปเดตตัวเลข!
             
             if (data[0] && data[0].online_count !== undefined) {
                 let badge = document.getElementById('onlineCount');
@@ -2611,9 +2602,12 @@ function getRankIcon(rankName, size = 60) {
             if (uniqueLatest.length > 0) {
                 let tickerHtml = uniqueLatest.map(item => {
                     let actualRank = getRankInfo(item.exp || 0).current.name;
+                    
+                    
                     let rankIconUrl = rankIconUrls[actualRank] || rankIconUrls["ทหารฝึก"];
                     
-                   // 🎯 ดึงรูปจาก Cache ก่อนเป็นอันดับแรก 
+                    
+                   // 🎯 ดึงรูปจาก Cache ก่อนเป็นอันดับแรก เพื่อไม่ให้รูปหายหรือกระพริบ และเปลี่ยนรูปตั้งต้นเป็นวงกลมสีขาว
                     window.profileCache = window.profileCache || {};
                     let defaultSVG = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48Y2lyY2xlIGN4PSI1MCIgY3k9IjUwIiByPSI1MCIgZmlsbD0iIzk0YTNiOCIvPjxjaXJjbGUgY3g9IjUwIiBjeT0iMzUiIHI9IjE3IiBmaWxsPSIjZmZmZmZmIi8+PHBhdGggZD0iTTIwIDEwMCBDMjAgNjUgMzAgNTUgNTAgNTUgQzcwIDU1IDgwIDY1IDgwIDEwMCBaIiBmaWxsPSIjZmZmZmZmIi8+PC9zdmc+";
                     let userProfilePic = window.profileCache[item.username] || defaultSVG;
@@ -2635,9 +2629,9 @@ function getRankIcon(rankName, size = 60) {
                         }
                     }
 
-                    // สร้างหน้าตา HTML ของแต่ละกล่องคะแนน
+                    
                     return `<span style="display: inline-flex; align-items: center; background: linear-gradient(90deg, rgba(30,41,59,0.8) 0%, rgba(15,23,42,0.8) 100%); padding: 6px 16px; border-radius: 30px; border: 1px solid #334155; margin-right: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
-                        <img src="${userProfilePic}" onerror="this.onerror=null; this.src='${defaultSVG}';" onclick="openImageViewer('${userProfilePic}')" style="cursor:pointer; height: 32px; width: 32px; border-radius: 50%; margin-right: 12px; border: 2px solid var(--primary); object-fit: cover;">
+                        <img src="${userProfilePic}" onclick="openImageViewer('${userProfilePic}')" style="cursor:pointer; height: 32px; width: 32px; border-radius: 50%; margin-right: 12px; border: 2px solid var(--primary); object-fit: cover;">
                         <span style="color: #f8fafc; font-weight: bold; margin-right: 10px; font-size: 15px; letter-spacing: 0.5px;">${item.username}</span> 
                         <span style="color: #64748b; font-size: 13px; margin-right: 10px;">ซัดไป</span>
                         <span style="color: #38bdf8; font-weight: 900; font-size: 18px; text-shadow: 0 0 10px rgba(56, 189, 248, 0.6);">${item.wpm}</span> <span style="color: #38bdf8; font-size: 12px; margin-right: 12px; margin-left: 3px;">WPM</span>
@@ -2645,21 +2639,14 @@ function getRankIcon(rankName, size = 60) {
                     </span>`;
                 }).join('');
 
-                let finalHTML = `<span style="display:inline-flex; align-items:center; color: #ef4444; font-weight: 800; margin-right: 20px; font-size: 16px; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);"><span style="font-size: 20px; margin-right: 5px;">🔥</span> อัปเดตล่าสุด:</span> ${tickerHtml}`;
-                
-                // 🌟 3. อัปเดตข้อมูลใหม่ล่าสุดขึ้นจอ และเซฟลงเครื่องไว้ใช้รอบหน้า
-                document.getElementById('tickerContent').innerHTML = finalHTML;
-                localStorage.setItem('mySavedTickerHTML', finalHTML);
-                
+                document.getElementById('tickerContent').innerHTML = `<span style="display:inline-flex; align-items:center; color: #ef4444; font-weight: 800; margin-right: 20px; font-size: 16px; text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);"><span style="font-size: 20px; margin-right: 5px;">🔥</span> อัปเดตล่าสุด:</span> ${tickerHtml}`;
             } else { 
-                let emptyHTML = `<span style="color: #94a3b8; font-style: italic;">📢 ยังไม่มีใครพิมพ์ได้คะแนนเลยว่ะ รอคนเปิดอยู่...</span>`;
-                document.getElementById('tickerContent').innerHTML = emptyHTML; 
-                localStorage.setItem('mySavedTickerHTML', emptyHTML);
+                document.getElementById('tickerContent').innerHTML = `<span style="color: #94a3b8; font-style: italic;">📢 ยังไม่มีใครพิมพ์ได้คะแนนเลยว่ะ รอคนเปิดอยู่...</span>`; 
             }
         }
     }).catch((err) => { 
         console.error("Ticker Error:", err);
-        // ถ้าเน็ตหลุดโหลดไม่ขึ้น ก็ไม่เป็นไร เพราะบนหน้าจอโชว์ของเก่าที่จำไว้แล้ว
+        document.getElementById('tickerContent').innerHTML = "📢 โหลดไม่สำเร็จว่ะ ช่างแม่งไปก่อนละกัน"; 
     });
 }
 
@@ -3129,119 +3116,133 @@ function getRankIcon(rankName, size = 60) {
     });
 
     function endGame() {
-    clearInterval(timer); 
-    document.getElementById('userInput').disabled = true;
+        clearInterval(timer); document.getElementById('userInput').disabled = true;
 
-    // ระบบจับโปรแกรมโกงความเร็ว
-    if (correctCount > 140) {
-        alert("ใช้โปรแกรมหรอออ กูริบคะแนน!");
-        correctCount = 0;  
-        wrongCount = 999;  
-    }
-
-    // ระบบจับบอทพิมพ์จังหวะเป๊ะเกินไป
-    if (keyTimings && keyTimings.length > 20) {
-        let sum = keyTimings.reduce((a, b) => a + b, 0);
-        let avg = sum / keyTimings.length;
-        let variance = keyTimings.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / keyTimings.length;
-        if (variance < 50) {
-            alert("จังหวะพิมพ์มึงเป๊ะเป็นบอทเลยนะไอ้เวร! โดนแบนคะแนน!");
-            correctCount = 0; wrongCount = 999;
+        if (correctCount > 140) {
+            alert("ใช้โปรแกรมหรอออ กูริบคะแนน!");
+            correctCount = 0;  
+            wrongCount = 999;  
         }
-    }
 
-    const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
-    
-    let db = JSON.parse(localStorage.getItem('typingDB_Final')) || {};
-    if (!db[currentUser]) db[currentUser] = { best: 0, exp: 0, history: [] };
-    
-    let expMultiplier = Number(db[currentUser].multiplier) || 10; 
-    let gainedExp = correctCount * expMultiplier;
-    
-    if (!db[currentUser].history) db[currentUser].history = []; 
-    db[currentUser].history.unshift({ wpm: correctCount, acc: finalAcc, date: new Date().toLocaleString('th-TH') });
-    if (db[currentUser].history.length > 1000) db[currentUser].history.pop();
-    
-    // 🔥 1. Optimistic UI: บวกคะแนน EXP และโชว์หน้าจอ "ทันที" ไม่ต้องรอหมุนติ้วๆ
-    let optimisticExp = Number(db[currentUser].exp || 0) + gainedExp;
-    db[currentUser].exp = optimisticExp; 
-    
-    if(correctCount > db[currentUser].best) { db[currentUser].best = correctCount; }
-    let currentPersonalBest = parseInt(document.getElementById('bestWPM').innerText) || 0;
-    if(correctCount > currentPersonalBest) { document.getElementById('bestWPM').innerText = correctCount; }
-    
-    localStorage.setItem('typingDB_Final', JSON.stringify(db));
-    
-    // ⚡ อัปเดตหลอด EXP เด้งปั๊บทันที ผู้เล่นฟินแน่นอน
-    if (typeof updateExpUI === 'function') {
+        if (keyTimings && keyTimings.length > 20) {
+            let sum = keyTimings.reduce((a, b) => a + b, 0);
+            let avg = sum / keyTimings.length;
+            let variance = keyTimings.reduce((a, b) => a + Math.pow(b - avg, 2), 0) / keyTimings.length;
+            if (variance < 50) {
+                alert("จังหวะพิมพ์มึงเป๊ะเป็นบอทเลยนะไอ้เวร! โดนแบนคะแนน!");
+                correctCount = 0; wrongCount = 999;
+            }
+        }
+
+        const finalAcc = totalChars > 0 ? Math.round((correctChars/totalChars)*100) : 0; 
+        
+        let db = JSON.parse(localStorage.getItem('typingDB_Final')) || {};
+        if (!db[currentUser]) db[currentUser] = { best: 0, exp: 0, history: [] };
+        
+        let expMultiplier = Number(db[currentUser].multiplier) || 10; 
+        let gainedExp = correctCount * expMultiplier;
+        
+        if (!db[currentUser].history) db[currentUser].history = []; 
+        db[currentUser].history.unshift({ wpm: correctCount, acc: finalAcc, date: new Date().toLocaleString('th-TH') });
+        if (db[currentUser].history.length > 1000) db[currentUser].history.pop();
+        
+        // 🔥 1. คำนวณ EXP (คำที่พิมพ์ได้ x ตัวคูณ) แล้วสั่งหลอดให้ "เด้งขึ้นทันที!" ไม่ต้องรอเซิร์ฟเวอร์
+        let optimisticExp = Number(db[currentUser].exp || 0) + gainedExp;
+        db[currentUser].exp = optimisticExp; 
+        
+        if(correctCount > db[currentUser].best) { db[currentUser].best = correctCount; }
+        let currentPersonalBest = parseInt(document.getElementById('bestWPM').innerText) || 0;
+        if(correctCount > currentPersonalBest) { document.getElementById('bestWPM').innerText = correctCount; }
+        
+        localStorage.setItem('typingDB_Final', JSON.stringify(db));
+        
+        // สั่งอัปเดตหน้าตาหลอดและยศทันที!
         updateExpUI(optimisticExp);
-    }
 
-    // อัปเดตตัวเลขหน้าสรุปผล
-    document.getElementById('resWpm').innerText = correctCount;
-    document.getElementById('resExp').innerText = "+" + gainedExp.toLocaleString();
-    document.getElementById('resAcc').innerText = finalAcc + "%"; 
-    document.getElementById('resCorrect').innerText = correctCount; 
-    document.getElementById('resWrong').innerText = wrongCount; 
-    document.getElementById('resAttempts').innerText = totalTypeAttempts; 
-    
-    document.getElementById('syncStatus').innerText = "✅ บันทึกเสร็จเรียบร้อย!"; // เปลี่ยนให้ดูเหมือนเซฟเสร็จแล้วตั้งแต่แรก
-    document.getElementById('resultModal').style.display = 'flex';
-    
-    // นับรอบการเล่น ครบ 10 รอบให้รีเฟรช 1 ทีกันแรมเครื่องเต็ม
-    window.sessionPlayCount = (window.sessionPlayCount || 0) + 1;
-    if (!window.isReloadHooked) {
-        let resModal = document.getElementById('resultModal');
-        let closeBtns = resModal.querySelectorAll('button'); 
-        closeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                if (window.sessionPlayCount >= 10) { window.location.reload(); }
+        document.getElementById('resWpm').innerText = correctCount;
+        document.getElementById('resExp').innerText = "+" + gainedExp.toLocaleString();
+        document.getElementById('resAcc').innerText = finalAcc + "%"; 
+        document.getElementById('resCorrect').innerText = correctCount; 
+        document.getElementById('resWrong').innerText = wrongCount; 
+        document.getElementById('resAttempts').innerText = totalTypeAttempts; 
+        
+        document.getElementById('syncStatus').innerText = "⏳ กำลังบันทึกอยู่ รอแปป...."; 
+        document.getElementById('resultModal').style.display = 'flex';
+        
+        // 🔥 แอบนับรอบการเล่น + ดักจับตอนผู้เล่นกดปิดหน้าต่างคะแนน
+        window.sessionPlayCount = (window.sessionPlayCount || 0) + 1;
+        if (!window.isReloadHooked) {
+            let resModal = document.getElementById('resultModal');
+            let closeBtns = resModal.querySelectorAll('button'); 
+            closeBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (window.sessionPlayCount >= 10) { window.location.reload(); } // ครบ 10 รีหน้าทันที
+                });
             });
-        });
-        window.isReloadHooked = true;
-    }
-
-    const currentRankName = getRankInfo(optimisticExp).current.name;
-    let secretCalc = (correctCount * 13) + (wrongCount * 7);
-    let cheatToken = btoa(secretCalc + "-ANTI-GAK");
-
-    const payload = {
-        action: 'saveScore',
-        username: currentUser, wpm: correctCount, accuracy: finalAcc, 
-        correctWords: correctCount, wrongWords: wrongCount, totalAttempts: totalTypeAttempts, 
-        exp: optimisticExp, multiplier: expMultiplier, rank: currentRankName,
-        password: db[currentUser].pass, token: cheatToken 
-    };
-
-    // 🔥 2. แอบส่งคะแนนไปเซฟที่หลังบ้านแบบเงียบๆ
-    fetch(SCRIPT_URL, { 
-        method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify(payload) 
-    })
-    .then(res => res.json())
-    .then(data => { 
-        if(data.status === "error") {
-            // ถ้าหลังบ้านจับได้ว่าคะแนนมีปัญหา ค่อยแจ้งเตือน
-            document.getElementById('syncStatus').innerText = "❌ " + data.message;
-        } else {
-            // เซฟสำเร็จ สั่งรีเฟรชตารางโชว์ชาวบ้านได้เลย
-            if(typeof fetchLeaderboard === 'function') fetchLeaderboard(); 
-            if(typeof loadTickerData === 'function') loadTickerData(); 
+            window.isReloadHooked = true;
         }
-    }).catch(err => { 
-        console.error("เซฟเบื้องหลังไม่สำเร็จ แต่ข้อมูลอยู่ในเครื่องแล้ว:", err);
-        // ถึงเน็ตหลุด ไม่ต้องเตือนให้รำคาญ เพราะข้อมูลยังอยู่ใน LocalStorage คราวหน้าเดี๋ยวเซฟทับให้เอง
-    });
-}
 
-// ----------------------------------------------------
-// ฟังก์ชันอื่นๆ ที่จัดระเบียบให้แล้ว
-// ----------------------------------------------------
+        const currentRankName = getRankInfo(optimisticExp).current.name;
+        let secretCalc = (correctCount * 13) + (wrongCount * 7);
+        let cheatToken = btoa(secretCalc + "-ANTI-GAK");
+
+        const payload = {
+            action: 'saveScore',
+            username: currentUser, wpm: correctCount, accuracy: finalAcc, 
+            correctWords: correctCount, wrongWords: wrongCount, totalAttempts: totalTypeAttempts, 
+            exp: optimisticExp, multiplier: expMultiplier, rank: currentRankName,
+            password: db[currentUser].pass, token: cheatToken 
+        };
+
+        // 🔥 2. ส่งข้อมูลไปเซฟที่ Sheet
+        fetch(SCRIPT_URL, { 
+            method: 'POST', headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify(payload) 
+        })
+        .then(res => res.json())
+        .then(data => { 
+            if(data.status === "error") {
+                document.getElementById('syncStatus').innerText = "❌ " + data.message;
+            } else {
+                document.getElementById('syncStatus').innerText = "✅ บันทึกเสร็จละๆ ไปๆเริ่มใหม่"; 
+                
+                // สั่งรีเฟรชตารางจัดอันดับคนอื่น
+                if(typeof fetchLeaderboard === 'function') fetchLeaderboard(); 
+                if(typeof loadTickerData === 'function') loadTickerData(); 
+
+                // 🔥 3. ไม้ตาย! แอบดึงยอด EXP ที่แท้จริงจาก มาแก้ไขหลอดให้ตรงเป๊ะ 100%
+                fetch(SCRIPT_URL + "?action=ping&user=" + encodeURIComponent(currentUser))
+                .then(r => r.json())
+                .then(serverData => {
+                    if(serverData && serverData.length > 0) {
+                        // ค้นหาข้อมูลตัวเองจากเซิร์ฟเวอร์
+                        let myRealData = serverData.find(u => u.username === currentUser);
+                        if(myRealData && myRealData.exp !== undefined) {
+                            // ดึงฐานข้อมูลในเครื่องมาแก้ให้ตรงกับ 
+                            let freshDb = JSON.parse(localStorage.getItem('typingDB_Final')) || {};
+                            if(freshDb[currentUser]) {
+                                freshDb[currentUser].exp = myRealData.exp;
+                                freshDb[currentUser].multiplier = myRealData.multiplier; // แอบอัปเดตตัวคูณด้วย
+                                localStorage.setItem('typingDB_Final', JSON.stringify(freshDb));
+                                
+                                // บังคับให้หลอด EXP เปลี่ยนไปใช้ยอดของ 
+                                updateExpUI(myRealData.exp); 
+                            }
+                        }
+                    }
+                }).catch(e => console.log("Silent Sync Error:", e));
+            }
+        }).catch(err => { 
+            document.getElementById('syncStatus').innerText = "❌ เซิร์ฟเวอร์ไม่ตอบสนอง"; 
+            console.error(err);
+        });
+    }
 
 function resetGame() {
     closeModal('resultModal');
+    
     let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-    let rankNow = getRankInfo(db[currentUser]?.exp || 0).current.name;
+    let rankNow = getRankInfo(db[currentUser].exp || 0).current.name;
     
     if (rankNow !== rankAtStart && rankAtStart !== "") {
         showPromotion(rankNow);
@@ -3265,76 +3266,105 @@ function closePromotion() {
     init();
     setTimeout(() => document.getElementById('userInput').focus(), 100);
 }
-
-function openImageViewer(src) {
+    function openImageViewer(src) {
     document.getElementById('largeProfilePic').src = src;
     document.getElementById('imageViewerModal').style.display = 'flex';
 }
-
-function showLogoutConfirm() { 
-    const modal = document.getElementById('logoutModal'); 
-    if (modal) { modal.style.display = 'flex'; } 
-}
-
-function confirmLogout() { 
-    document.getElementById('logoutModal').style.display = 'none';
-    if (typeof handleLogout === "function") { handleLogout(); } 
-    else { localStorage.removeItem('isLoggedIn'); location.reload(); }
-}
-
-function handleLogout(isKicked = false) { 
-    if (currentUser && currentUser.toLowerCase() !== "" && !isKicked) {
-        fetch(SCRIPT_URL, { 
-            method: 'POST', 
-            headers: { "Content-Type": "text/plain;charset=utf-8" }, 
-            body: JSON.stringify({ action: 'logout', username: currentUser }) 
-        }).catch(() => {});
-    } 
-    localStorage.removeItem('isLoggedIn'); 
-    // ลบรูปโปรไฟล์ที่เซฟไว้ออกด้วยตอนออกระบบ จะได้ไม่ค้าง
-    localStorage.removeItem("mySavedProfilePic"); 
-    location.reload(); 
-}
-
-// ----------------------------------------------------
-// ระบบป้องกันการโกง (Anti-Cheat & Anti-Paste) แบบปลอดภัย
-// ----------------------------------------------------
-window.addEventListener('DOMContentLoaded', () => {
-    const inputField = document.getElementById('userInput');
+    function showLogoutConfirm() { const modal = document.getElementById('logoutModal'); if (modal) { modal.style.display = 'flex'; } }
     
-    if (inputField) {
-        // บล็อกคลิกขวา ก็อปวางแบบปลอดภัย ไม่ทำเกมพัง
-        inputField.addEventListener('paste', e => { e.preventDefault(); alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); });
-        inputField.addEventListener('copy', e => e.preventDefault());
-        inputField.addEventListener('cut', e => e.preventDefault());
-        inputField.addEventListener('drop', e => e.preventDefault());
+    function confirmLogout() { 
+        document.getElementById('logoutModal').style.display = 'none';
+        if (typeof handleLogout === "function") { handleLogout(); } 
+        else { localStorage.removeItem('isLoggedIn'); location.reload(); }
     }
 
-    // บล็อกการคลิกขวา (Inspect Element)
-    document.addEventListener('contextmenu', event => event.preventDefault());
-});
-
-// ==========================================
-// 🛡️ ระบบป้องกันการกด F12 และ Inspect (เงียบสนิท กดยังไงก็ไม่ทะลุ)
-// ==========================================
-window.addEventListener('keydown', function(e) {
-    // ดักจับ F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+Shift+C, Ctrl+U
-    if (e.key === 'F12' || e.keyCode === 123 || 
-       (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || 
-       (e.ctrlKey && (e.key === 'U' || e.keyCode === 85))) {
+    function handleLogout(isKicked = false) { 
+        if (currentUser && currentUser.toLowerCase() !== "" && !isKicked) {
+            fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                headers: { "Content-Type": "text/plain;charset=utf-8" }, 
+                body: JSON.stringify({ action: 'logout', username: currentUser }) 
+            }).catch(() => {});
+        } 
         
-        e.preventDefault(); 
-        e.stopPropagation(); 
-        return false; 
+        localStorage.removeItem('isLoggedIn'); 
+        location.reload(); 
     }
-}, true); 
+    window.addEventListener('DOMContentLoaded', () => {
+        const inputField = document.getElementById('userInput');
+        
+        if (inputField) {
+            const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+            const nativeGetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').get;
+            
+            Object.defineProperty(inputField, 'value', {
+                set: function(val) {
+                    if (val !== '') {
+                        alert('ใช้สคริปต์ยัดข้อความหรอไอ้สัส! กูจับได้ละ!');
+                        correctCount = 0; wrongCount = 999;
+                        return; 
+                    }
+                    nativeSetter.call(this, val);
+                },
+                get: function() { return nativeGetter.call(this); }
+            });
+        }
 
-document.addEventListener('contextmenu', event => event.preventDefault());
-const inputField = document.getElementById('userInput');
-if (inputField) {
-    inputField.addEventListener('paste', e => e.preventDefault());
-    inputField.addEventListener('drop', e => e.preventDefault());
-}
+        if (inputField) {
+            inputField.addEventListener('paste', e => { e.preventDefault(); alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); });
+            inputField.addEventListener('copy', e => e.preventDefault());
+            inputField.addEventListener('cut', e => e.preventDefault());
+            inputField.addEventListener('drop', e => e.preventDefault());
+        }
+
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        document.onkeydown = function(e) {
+            if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && (e.keyCode === 'I'.charCodeAt(0) || e.keyCode === 'J'.charCodeAt(0))) || (e.ctrlKey && e.keyCode === 'U'.charCodeAt(0))) {
+                return false;
+            }
+        };
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const inputField = document.getElementById('userInput');
+        
+        if (inputField) {
+            const nativeSetter = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value').set;
+            Object.defineProperty(inputField, 'value', {
+                set: function(val) {
+                    if (val !== '') {
+                        alert('ใช้สคริปต์ยัดข้อความหรอไอ้สัส! กูจับได้ละ!');
+                        correctCount = 0; wrongCount = 999;
+                        return;
+                    }
+                    nativeSetter.call(this, val);
+                }
+            });
+
+            inputField.addEventListener('paste', e => { e.preventDefault(); alert('จะก็อปวางหรอไอ้สัส พิมพ์เองดิวะ!'); });
+            inputField.addEventListener('copy', e => e.preventDefault());
+            inputField.addEventListener('cut', e => e.preventDefault());
+            inputField.addEventListener('drop', e => e.preventDefault());
+        }
+
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
+        document.onkeydown = function(e) {
+            if (e.keyCode === 123 || 
+               (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74)) || 
+               (e.ctrlKey && e.keyCode === 85)) {
+                alert("พิมพ์เองดิวะ");
+                return false;
+            }
+        };
+
+        setInterval(function() {
+            (function() {
+                return false;
+            }['constructor']('debugger')['call']());
+        }, 50);
+    });
 
 // ==========================================
 // ระบบอัปโหลดรูปโปรไฟล์
@@ -3351,10 +3381,6 @@ document.getElementById('profilePicInput').addEventListener('change', function(e
         alert('กรุณาเลือกไฟล์รูปภาพเท่านั้น!');
         return;
     }
-
-    // แสดงสถานะว่ากำลังโหลด
-    let originalAlert = alert;
-    // alert("⏳ กำลังประมวลผลรูปภาพ กรุณารอสักครู่...");
 
     const reader = new FileReader();
     reader.onload = function(e) {
@@ -3385,54 +3411,26 @@ document.getElementById('profilePicInput').addEventListener('change', function(e
 
             const base64Image = canvas.toDataURL('image/jpeg', 0.8);
 
-            // 🌟 1. Optimistic UI: เปลี่ยนรูปบนหน้าจอ
             document.getElementById('userProfilePic').src = base64Image;
 
-            // 🌟 2. เซฟลงเครื่องตัวเอง 
             let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
-            if(!db[currentUser]) db[currentUser] = {};
             db[currentUser].profilePic = base64Image;
             localStorage.setItem('typingDB_Final', JSON.stringify(db));
 
-            // เซฟลงความจำพิเศษ
-            localStorage.setItem("mySavedProfilePic", base64Image);
-
-            // 🌟 3. อัปเดต
             window.profileCache = window.profileCache || {};
             window.profileCache[currentUser] = base64Image;
 
-            // 🌟 4. รีเฟรชตารางคะแนนทันที
-            if (typeof renderLeaderboard === "function") {
-                renderLeaderboard(); 
-            } else if (typeof fetchLeaderboard === "function") {
-                fetchLeaderboard(); 
-            }
-
-            // 🌟 5. ส่งข้อมูลรูป
-            fetch(SCRIPT_URL, { 
+fetch(SCRIPT_URL, { 
                 method: 'POST',
                 headers: { "Content-Type": "text/plain;charset=utf-8" }, 
                 body: JSON.stringify({ action: 'updateProfilePic', username: currentUser, profilePic: base64Image }) 
-            })
-            .then(res => res.json())
-            .then(data => {
-                if(data.status === "success"){
-                    alert("✅ เปลี่ยนรูปโปรไฟล์เรียบร้อย!");
-                    // แอบสั่งโหลด Cache รูปเพื่อนๆ ใหม่ทั้งระบบ เพื่อความชัวร์
-                    loadAllProfilePics(); 
-                } else {
-                    alert("❌ เปลี่ยนรูปไม่สำเร็จ: " + data.message);
-                }
-            }).catch(err => {
-                console.error("เซฟรูปเบื้องหลังขัดข้อง:", err);
-                // ข้อมูลอยู่ในเครื่องแล้ว ช่างมัน
+            }).then(() => {
+                alert("✅ เปลี่ยนรูปโปรไฟล์เรียบร้อย!");
+            }).catch(() => {
             });
-            
-            // รีเซ็ตค่า input ป้องกันบั๊กเวลาอัปรูปเดิมซ้ำ
-            document.getElementById('profilePicInput').value = ""; 
-        };
+        }
         img.src = e.target.result;
-    };
+    }
     reader.readAsDataURL(file);
 });
 
@@ -3447,11 +3445,8 @@ function loadAllProfilePics() {
         for (let user in data) {
             window.profileCache[user] = data[user]; 
         }
-        console.log("✅ เรียบร้อย!");
-        
-        if (typeof renderLeaderboard === "function") renderLeaderboard();
-        
-    }).catch(err => console.log("เกิดข้อผิดพลาด:", err));
+        console.log("✅ โหลดรูปโปรไฟล์เข้า Cache สำเร็จ!");
+    }).catch(err => console.log("โหลดรูปล้มเหลว:", err));
 }
 setTimeout(loadAllProfilePics, 1000); 
 setInterval(loadAllProfilePics, 250000); 
@@ -3459,10 +3454,10 @@ setInterval(loadAllProfilePics, 250000);
 function showHistory() {
     let cachedHtml = localStorage.getItem('cachedHistoryHtml');
     
-    // โชว์ของเก่าในเครื่องก่อนทันที ไม่ต้องรอเซิร์ฟเวอร์
     if (cachedHtml) {
         document.getElementById('historyBody').innerHTML = cachedHtml;
     } else {
+
         let db = JSON.parse(localStorage.getItem('typingDB_Final')) || {};
         let myHistory = db[currentUser] ? db[currentUser].history : [];
         if (myHistory && myHistory.length > 0) {
@@ -3477,13 +3472,10 @@ function showHistory() {
             });
             document.getElementById('historyBody').innerHTML = tempHtml;
         } else {
-            document.getElementById('historyBody').innerHTML = "<tr><td colspan='3' style='text-align:center; padding:30px; color:#94a3b8;'>⏳ รอสักครู่...</td></tr>";
+            document.getElementById('historyBody').innerHTML = "<tr><td colspan='3' style='text-align:center; padding:30px; color:#94a3b8;'>⏳ กำลังดึงประวัติ...</td></tr>";
         }
     }
-    
     document.getElementById('historyModal').style.display = 'flex';
-    
-    // วิ่งไปถามเซิร์ฟเวอร์หลังบ้านแบบเงียบๆ
     fetch(SCRIPT_URL + "?action=getHistory&user=" + encodeURIComponent(currentUser) + "&_t=" + Date.now())
     .then(res => res.json())
     .then(data => {
@@ -3499,7 +3491,7 @@ function showHistory() {
                 </tr>`;
             });
             document.getElementById('historyBody').innerHTML = serverHtml;
-            localStorage.setItem('cachedHistoryHtml', serverHtml); // จำไว้โชว์รอบหน้าจะได้เร็ว
+            localStorage.setItem('cachedHistoryHtml', serverHtml);
         } else {
             let emptyHtml = "<tr><td colspan='3' style='text-align:center; padding:30px; color:#94a3b8;'>ยังไม่มีประวัติการพิมพ์เลย รีบไปพิมพ์ซะ!</td></tr>";
             document.getElementById('historyBody').innerHTML = emptyHtml;
