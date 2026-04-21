@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ - ฝึกพิมพ์คนกากๆ</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/RkGB4YsP/image.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body { 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            min-height: 100vh; 
+            margin: 0; 
+            font-family: 'Sarabun', sans-serif; 
+            background-color: #0b0f19; 
+            color: #f8fafc;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bg-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: -1;
+            animation: floatOrb 12s infinite ease-in-out alternate;
+            opacity: 0.6;
+        }
+        .orb-blue {
+            width: 400px; height: 400px;
+            background: #49536d;
+            top: -5%; left: 15%;
+            animation-delay: 0s;
+        }
+        .orb-red {
+            width: 500px; height: 500px;
+            background: #33373f;
+            bottom: -10%; right: 10%;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translateY(0px) scale(1) translateX(0px); }
+            100% { transform: translateY(80px) scale(1.2) translateX(40px); }
+        }
+
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        #authContainer { 
+            width: 100%; 
+            max-width: 420px; 
+            /* เอฟเฟกต์กระจก (Glassmorphism) สวยๆ */
+            background: rgba(15, 23, 42, 0.5); 
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px 30px; 
+            border-radius: 24px; 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), inset 0 0 0 1px rgba(255,255,255,0.1); 
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
+            z-index: 10;
+        }
+
+        .game-title {
+            font-family: 'Chakra Petch', sans-serif;
+            text-align: center;
+            color: #cbd5e1;
+            font-size: 15px;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        #authTabs {
+            display: flex; 
+            margin-bottom: 25px; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,255,0.05);
+            padding: 5px;
+        }
+
+        #authTabs button {
+            flex: 1; 
+            padding: 12px; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-family: 'Sarabun', sans-serif;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 15px;
+        }
+
+        .tab-active-blue { background: #0ea5e9 !important; color: #fff !important; box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4); }
+        .tab-active-red { background: #e11d48 !important; color: #fff !important; box-shadow: 0 4px 15px rgba(225, 29, 72, 0.4); }
+        .tab-inactive { background: transparent !important; color: #94a3b8 !important; }
+
+        .auth-input { 
+            width: 100%; 
+            padding: 16px; 
+            margin-bottom: 18px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.1); 
+            background: rgba(0, 0, 0, 0.3); 
+            color: white; 
+            font-size: 15px;
+            font-family: 'Sarabun', sans-serif;
+            transition: 0.3s ease;
+        }
+
+        .auth-input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-main { 
+            width: 100%; 
+            padding: 16px; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 16px;
+            font-family: 'Sarabun', sans-serif;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-login {
+            background: linear-gradient(135deg, #0284c7, #38bdf8); 
+            color: #fff; 
+            box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+        }
+
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(14, 165, 233, 0.5); }
+
+        .btn-register {
+            background: linear-gradient(135deg, #be123c, #f43f5e); 
+            color: #fff; 
+            box-shadow: 0 8px 20px rgba(225, 29, 72, 0.3);
+        }
+
+        .btn-register:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(225, 29, 72, 0.5); }
+
+        h2 { font-family: 'Sarabun', sans-serif; letter-spacing: 1px; }
+
+        .forgot-link {
+            color: #64748b; 
+            text-decoration: none; 
+            transition: 0.2s;
+            font-size: 13px;
+        }
+        .forgot-link:hover { color: #38bdf8; text-shadow: 0 0 8px rgba(56, 189, 248, 0.5); }
+
+    </style>
+</head>
+<body>
+
+<div class="bg-orb orb-blue"></div>
+<div class="bg-orb orb-red"></div>
+
+<div id="authContainer">
+    <div class="game-title">เว็บฝึกพิมพ์ สำหรับคนกากๆ</div>
+
+    <div id="authTabs">
+        <button onclick="switchAuth('login')" id="tabLogin" class="tab-active-blue">เข้าสู่ระบบ</button>
+        <button onclick="switchAuth('register')" id="tabRegister" class="tab-inactive">สมัครสมาชิก</button>
+    </div>
+    
+    <div id="loginForm">
+        <h2 style="color:#38bdf8; font-size: 24px; margin-top:0; text-align: center; text-shadow: 0 0 10px rgba(56,189,248,0.4);">
+            🔑 เ ข้ า สู่ ร ะ บ บ
+        </h2>
+        <input type="text" id="loginUser" class="auth-input" placeholder="ชื่อของมึง" maxlength="30">
+        <input type="password" id="loginPass" class="auth-input" placeholder="รหัสผ่านของมึง">
+        <button class="btn-main btn-login" onclick="handleLogin()">ล็อกอินเลยไอ้สัส</button>
+        
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="https://t.me/x_Haoyun66" target="_blank" class="forgot-link">❓ ลืมรหัสผ่านกดตรงนี้</a>
+        </div>
+    </div>
+
+    <div id="registerForm" style="display:none;">
+        <h2 style="color:#f43f5e; font-size: 22px; margin-top:0; text-align: center; text-shadow: 0 0 10px rgba(244,63,94,0.4);">
+            <img src="https://i.ibb.co/RkGB4YsP/image.png" style="width: 35px; vertical-align: bottom; margin-right: 5px;"> ส มั ค ร ส ม า ชิ ก ใ ห ม่
+        </h2>
+        <input type="text" id="regUser" class="auth-input" placeholder="ใส่ชื่อของมึง (ห้ามใส่จุดหรืออักขระพิเศษ)" maxlength="30">
+        <input type="password" id="regPass" class="auth-input" placeholder="ตั้งรหัสผ่าน 4 ตัวขึ้นไป (ช่องล่าง)">
+        
+        <div style="background: rgba(244, 63, 94, 0.1); border-left: 3px solid #f43f5e; padding: 12px; margin-bottom: 18px; border-radius: 6px;">
+            <p style="font-size: 12px; color: #fda4af; margin: 0; line-height: 1.6;">
+                🚨 <b>ข้อห้ามเด็ดขาด:</b><br>
+                - ชื่อไอดีห้ามมีเว้นวรรค หรือ ตัวอักษรพิเศษ (!@#$./)<br>
+                - ชื่อกับรหัสห้ามเหมือนกันนะไอ้เวร!
+            </p>
+        </div>
+
+        <button class="btn-main btn-register" onclick="handleRegister()">สมัครแล้วไปพิมพ์ซะ</button>
+    </div>
+</div>
+
+<script type="module">
+    if (localStorage.getItem('currentUser')) {
+        window.location.href = "index.html";
+    }
+
+    import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const fbConfig = { 
+        apiKey: "AIzaSyBq9ecmKEuBPOgnfWKDFlo3h4QnAEohmmw", 
+        authDomain: "pimthai-e16c3.firebaseapp.com", 
+        projectId: "pimthai-e16c3", 
+        storageBucket: "pimthai-e16c3.firebasestorage.app", 
+        messagingSenderId: "955936818307", 
+        appId: "1:955936818307:web:273fa00d07f36894d207b6" 
+    };
+    const app = !getApps().length ? initializeApp(fbConfig) : getApp();
+    const db = getFirestore(app);
+
+    document.getElementById("loginPass").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") handleLogin();
+    });
+    document.getElementById("regPass").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") handleRegister();
+    });
+
+    window.handleLogin = async function() {
+        const btn = document.querySelector('.btn-login');
+        const user = document.getElementById('loginUser').value.trim();
+        const pass = document.getElementById('loginPass').value.trim();
+        
+        if (!user || !pass) return alert("ใส่ให้ครบดิโว้ย!");
+
+        btn.innerText = "รอแป๊บไอ้สัส...";
+        btn.style.opacity = "0.7";
+
+        try {
+            const userSnap = await getDoc(doc(db, "users", user));
+            if (userSnap.exists() && String(userSnap.data().password) === String(pass)) {
+                localStorage.setItem('currentUser', user); 
+                window.location.href = "index.html"; 
+            } else {
+                alert("❌ ชื่อหรือรหัสผิด ไปนึกมาใหม่!");
+                btn.innerText = "ล็อกอินเลยไอ้สัส";
+                btn.style.opacity = "1";
+            }
+        } catch (err) { 
+            alert("❌ ระบบพัง: " + err.message); 
+            btn.innerText = "ล็อกอินเลยไอ้สัส";
+            btn.style.opacity = "1";
+        }
+    };
+
+    window.handleRegister = async function() {
+        const btn = document.querySelector('.btn-register');
+        const user = document.getElementById('regUser').value.trim();
+        const pass = document.getElementById('regPass').value.trim();
+        
+        const regex = /^[a-zA-Z0-9ก-๙]+$/;
+        
+        if (!user || pass.length < 4) return alert("ชื่อห้ามว่าง และรหัสต้อง 4 ตัวขึ้นไป!");
+        if (user === pass) return alert("บอกแล้วไงว่าชื่อกับรหัสห้ามเหมือนกัน อ่านบ้างดิ!");
+        
+        if (!regex.test(user)) {
+            return alert("❌ หยุดเลย! ชื่อไอดีห้ามเว้นวรรค ห้ามใส่จุด (.) หรือตัวอักษรแปลกๆ ใช้ได้แค่ตัวอักษรกับตัวเลขเว้ย!");
+        }
+
+        btn.innerText = "กำลังจดชื่อลงบัญชีดำ...";
+        btn.style.opacity = "0.7";
+
+        try {
+            const userRef = doc(db, "users", user);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                alert("❌ ชื่อนี้มีคนเอาไปแล้ว! คิดชื่ออื่นมา");
+                btn.innerText = "สมัครแล้วไปพิมพ์ซะ";
+                btn.style.opacity = "1";
+                return;
+            }
+
+            await setDoc(userRef, { username: user, password: pass, wpm: 0, exp: 0, multiplier: 10, last_played: Date.now(), rank: "ทหารฝึก" });
+            localStorage.setItem('currentUser', user);
+            window.location.href = "index.html"; 
+        } catch (err) { 
+            alert("❌ สมัครไม่ได้: " + err.message); 
+            btn.innerText = "สมัครแล้วไปพิมพ์ซะ";
+            btn.style.opacity = "1";
+        }
+    };
+
+    window.switchAuth = function(type) {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const tabLogin = document.getElementById('tabLogin');
+        const tabRegister = document.getElementById('tabRegister');
+
+        if(type === 'login') {
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            tabLogin.className = 'tab-active-blue';
+            tabRegister.className = 'tab-inactive';
+        } else {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            tabLogin.className = 'tab-inactive';
+            tabRegister.className = 'tab-active-red';
+        }
+    };
+</script>
+</body>
+</html>
