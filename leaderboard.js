@@ -23,10 +23,11 @@ window.loadTickerData = async function() {
     localStorage.removeItem('mySavedTickerHTML');
     document.getElementById('tickerContent').innerHTML = `<span style="color: #fbbf24; font-weight: bold;">⏳ กำลังเชื่อมต่อฐานข้อมูล...</span>`;
 
+    // 🔥 แก้ปัญหาที่ 1: อัปเดตสถานะออนไลน์โดยใช้ 'last_online' จะได้ไม่ไปทับบอร์ดเลื่อน (last_played)
     if (window.currentUser && window.db) {
         import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js").then(({ doc, setDoc }) => {
             const uRef = doc(window.db, "users", window.currentUser);
-            setDoc(uRef, { last_played: Date.now(), username: window.currentUser }, { merge: true }).catch(()=>{});
+            setDoc(uRef, { last_online: Date.now(), username: window.currentUser }, { merge: true }).catch(()=>{});
         });
     }
 
@@ -59,7 +60,7 @@ window.loadTickerData = async function() {
         const { collection, getDocs, query, orderBy, limit, where, getCountFromServer } = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js");
         const usersRef = collection(dbInstance, "users");
         
-        // 🎯 ดึงบอร์ดเลื่อน (Ticker)
+        // 🎯 ดึงบอร์ดเลื่อน (Ticker) - ดึงคนที่ 'last_played' ล่าสุด (เพิ่งพิมพ์เสร็จ)
         try {
             const qTicker = query(usersRef, orderBy("last_played", "desc"), limit(10));
             const snapTicker = await getDocs(qTicker);
@@ -105,8 +106,9 @@ window.loadTickerData = async function() {
         } catch(err1) { console.error("เกิดข้อผิดพลาดตอนดึงบอร์ดเลื่อน:", err1); }
 
         try {
+            // 🎯 ดึงคนออนไลน์ 15 นาทีล่าสุด เปลี่ยนมานับจาก last_online แทน last_played
             const fifteenMinsAgo = Date.now() - (15 * 60 * 1000);
-            const qOnline = query(usersRef, where("last_played", ">", fifteenMinsAgo));
+            const qOnline = query(usersRef, where("last_online", ">", fifteenMinsAgo));
             const snapshotCount = await getCountFromServer(qOnline);
             let badge = document.getElementById('onlineCount');
             if (badge) badge.innerText = snapshotCount.data().count || 1; 
@@ -123,7 +125,7 @@ window.showRanking = async function() {
     if (cachedHtml) {
         document.getElementById('lbBody').innerHTML = cachedHtml;
     } else {
-        document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูลจาก Firebase โคตรไว...</td></tr>";
+        document.getElementById('lbBody').innerHTML = "<tr><td colspan='4' style='text-align:center; padding:30px; color:#94a3b8;'>กำลังดึงข้อมูล...</td></tr>";
     }
     
     document.getElementById('rankingModal').style.display = 'flex';
