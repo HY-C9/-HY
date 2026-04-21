@@ -141,7 +141,8 @@ window.handleRegister = async function() {
         if (window.db) {
             const { doc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js");
             const userRef = doc(window.db, "users", user);
-            await setDoc(userRef, { username: user, wpm: 0, exp: 0, rank: "ทหารฝึก", profilePic: "" }, { merge: true });
+            // 🔥 เปลี่ยน last_played เป็น last_online
+            await setDoc(userRef, { username: user, password: pass, wpm: 0, exp: 0, rank: "ทหารฝึก", profilePic: "", multiplier: 10, last_online: Date.now() }, { merge: true });
         }
 
         let response = await fetch(window.SCRIPT_URL, { 
@@ -168,6 +169,25 @@ window.proceedLogin = function(user, pass, db) {
     localStorage.setItem('isLoggedIn', user); 
     window.currentUser = user;
     window.lastLoginTime = Date.now();
+
+    // 🔥 Auto-Sync 
+    if (window.db) {
+        import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js").then(({ doc, setDoc }) => {
+            const userRef = doc(window.db, "users", user);
+            const syncData = { 
+                username: user, 
+                password: pass,
+                wpm: db[user].best || 0,
+                exp: db[user].exp || 0,
+                multiplier: db[user].multiplier || 10,
+                last_online: Date.now() // 🔥 เปลี่ยนตรงนี้เป็น last_online
+            };
+            if (db[user].profilePic) {
+                syncData.profilePic = db[user].profilePic;
+            }
+            setDoc(userRef, syncData, { merge: true }).catch(() => {});
+        });
+    }
 
     fetch(window.SCRIPT_URL + "?user=" + encodeURIComponent(user) + "&deviceId=" + encodeURIComponent(window.myDeviceId) + "&action=login&_t=" + Date.now())
     .then(() => {
@@ -289,6 +309,14 @@ window.showChangePassword = function() {
         db[window.currentUser].pass = newPass; localStorage.setItem('typingDB_Final', JSON.stringify(db)); window.closeModal('darkActionModal');
         window.setupDarkModal("✅ เปลี่ยนแล้ว", "รหัสของมึงเปลี่ยนใหม่แล้ว", "ปิด", () => window.closeModal('darkActionModal'));
         document.getElementById('darkCancelBtn').style.display = "none";
+        
+        if (window.db) {
+            import("https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js").then(({ doc, setDoc }) => {
+                const userRef = doc(window.db, "users", window.currentUser);
+                setDoc(userRef, { password: newPass }, { merge: true }).catch(()=>{});
+            });
+        }
+        
         fetch(window.SCRIPT_URL, { method: 'POST',headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ action: 'changePassword', username: window.currentUser, password: newPass }) }).catch(() => {});
     });
     document.getElementById('darkInput1').style.display = 'block'; document.getElementById('darkInput1').type = 'password'; document.getElementById('darkInput1').placeholder = "รหัสเก่า...";
@@ -419,14 +447,12 @@ window.updateThemeCounts = function(dataArray) {
 // ==========================================
 
 window.addEventListener('DOMContentLoaded', () => {
-    // 1. โหลดธีมและเช็กล็อกอินทันที (รอให้ระบบเกมโหลดเสร็จก่อน)
     window.initTheme();
     const savedUser = localStorage.getItem('isLoggedIn');
     if (savedUser) {
         window.currentUser = savedUser;
         let db = JSON.parse(localStorage.getItem('typingDB_Final') || '{}');
         
-        // ถ้าระบบเกมพร้อมแล้ว สั่งโชว์เกมเลย!
         if (typeof window.showGame === 'function') {
             window.showGame(savedUser, db[savedUser] ? db[savedUser].best : 0);
         } else {
@@ -434,7 +460,6 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // 2. ระบบอัปโหลดรูปภาพผ่าน ImgBB
     let picInput = document.getElementById('profilePicInput');
     if (!picInput) {
         const fileInputHTML = '<input type="file" id="profilePicInput" accept="image/*" style="display: none;">';
@@ -449,8 +474,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
             if (!file.type.startsWith('image/')) { alert('กรุณาเลือกไฟล์รูปภาพเท่านั้น!'); return; }
 
-            if (window.IMGBB_API_KEY === "ใส่_API_KEY_ของมึงตรงนี้" || window.IMGBB_API_KEY === "") {
-                alert("❌ มึงยังไม่ได้ใส่ IMGBB API KEY ในโค้ดเลย ไปใส่ก่อน!"); return;
+            if (window.IMGBB_API_KEY === "69dc1d1d5c746220fd5d13c2f66613b0" || window.IMGBB_API_KEY === "") {
+                alert("❌"); return;
             }
 
             alert("⏳ กำลังดำเนินการ โปรดรอสักครู่...");
@@ -501,7 +526,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.error("ImgBB Upload Error:", error);
-                alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อกับ ImgBB");
+                alert("❌ เกิดข้อผิดพลาดในการเชื่อมต่อกับเซิร์ฟเวอร์อัปโหลด"); // 🔥 แก้คำเตือนให้เต็ม
             } finally {
                 document.getElementById('profilePicInput').value = ""; 
             }
