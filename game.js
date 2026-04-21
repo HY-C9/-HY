@@ -241,13 +241,14 @@ window.endGame = async function() {
             latest_wpm: correctCount,
             exp: optimisticExp, 
             last_played: Date.now(),
+            last_online: Date.now(), // 🔥 เพิ่มให้ระบบรู้ว่าพิมพ์เสร็จก็ยังออนไลน์อยู่
             rank: currentRankName
         }, { merge: true });
 
             updateEl('syncStatus', "✅ ดำเนินการเรียบร้อย!");
 
             if (typeof window.loadTickerData === 'function') {
-                console.log("🔄 กำลังอัปเดตโประดรอสักครู่...");
+                console.log("🔄 กำลังอัปเดตโปรดรอสักครู่...");
                 window.loadTickerData(); 
             }
         } catch(err) {
@@ -314,11 +315,15 @@ window.showHistory = function() {
     if(hm) hm.style.display = 'flex';
 }
 
-// 🛡️ ป้องกันกดปุ่มมั่ว F12 แบบเด็ดขาด
+document.addEventListener('contextmenu', event => event.preventDefault()); // 🔥 กันคลิกขวา
+
 window.addEventListener('keydown', function(e) {
     if (e.key === 'F12' || e.keyCode === 123 || 
        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C' || e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || 
-       (e.ctrlKey && (e.key === 'U' || e.keyCode === 85))) {
-        e.preventDefault(); e.stopPropagation(); return false; 
+       (e.ctrlKey && (e.key === 'U' || e.keyCode === 85)) ||
+       (e.ctrlKey && (e.key === 's' || e.key === 'S' || e.keyCode === 83))) { // 🔥 เพิ่มดักจับ Ctrl+S ตรงนี้
+        e.preventDefault(); 
+        e.stopPropagation(); 
+        return false; 
     }
 }, true);
